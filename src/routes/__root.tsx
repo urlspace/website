@@ -8,6 +8,8 @@ import Header from "../components/Header";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
+  shellComponent: RootDocument,
+  notFoundComponent: NotFound,
   head: () => ({
     meta: [
       {
@@ -28,8 +30,16 @@ export const Route = createRootRoute({
       },
     ],
   }),
-  shellComponent: RootDocument,
 });
+
+function NotFound() {
+  return (
+    <main>
+      <h1>404</h1>
+      <p>Page not found</p>
+    </main>
+  );
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
