@@ -3,5 +3,13 @@
   "name": "urlspace-website",
   "compatibility_date": "2026-04-20",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry"
+  "main": "@tanstack/react-start/server-entry",
+  "kv_namespaces": [
+    {
+      "binding": "EMAILS",
+      "id": "017a94aa83d5409c85086f7725025896",
+      "remote": true
+    }
+  ]
 }
+

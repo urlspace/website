@@ -1,11 +1,15 @@
+import { useState } from "react";
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
-import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { TanStackDevtools } from "@tanstack/react-devtools";
-import { AuthProvider } from "../components/AuthContext";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-
+import { createServerFn } from "@tanstack/react-start";
+import { env } from "cloudflare:workers";
 import appCss from "../styles.css?url";
+
+const subscribeEmail = createServerFn({ method: "POST" })
+	.inputValidator((data: { email: string }) => data)
+	.handler(async ({ data }) => {
+		await env.EMAILS.put(data.email, new Date().toISOString());
+		return { success: true };
+	});
 
 export const Route = createRootRoute({
   shellComponent: RootDocument,
@@ -28,9 +32,57 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "icon",
+        href: "/favicon.ico",
+        sizes: "32x32",
+      },
+      {
+        rel: "icon",
+        href: "/favicon.svg",
+        type: "image/svg+xml",
+      },
+      {
+        rel: "apple-touch-icon",
+        href: "/apple-touch-icon.png",
+      },
     ],
   }),
 });
+
+function EmailForm() {
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+  return status === "success" ? (
+    <p className="form__message">Thanks for signing up!</p>
+  ) : (
+    <form
+      className="form"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+        const email = formData.get("email") as string;
+        try {
+          await subscribeEmail({ data: { email } });
+          form.reset();
+          setStatus("success");
+        } catch {
+          setStatus("error");
+        }
+      }}
+    >
+      <label htmlFor="join" className="label">
+        Email address
+      </label>
+      <input type="email" id="join" name="email" className="input" required />
+      <button>Join when it is ready</button>
+      {status === "error" && (
+        <p className="form__error">Something went wrong. Please try again.</p>
+      )}
+    </form>
+  );
+}
 
 function NotFound() {
   return (
@@ -41,29 +93,35 @@ function NotFound() {
   );
 }
 
-function RootDocument({ children }: { children: React.ReactNode }) {
+function RootDocument() {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-[rgba(79,184,178,0.24)]">
-        <AuthProvider>
-          <Header />
-          {children}
-          <Footer />
-        </AuthProvider>
-        <TanStackDevtools
-          config={{
-            position: "bottom-right",
-          }}
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
+        <div className="app">
+          <div className="app__cell"></div>
+          <div className="app__cell"></div>
+          <div className="app__cell"></div>
+          <div className="app__cell"></div>
+          <div className="app__cell">
+            <div className="app__content">
+              <h1>url.space</h1>
+              <p>
+                Keep, categorise, tag and share websites you care about. We need
+                that before they all disappear in the maze of AI-generated
+                nonsense. No ads, no tracking, no AI, just a space for your
+                URLs.
+              </p>
+              <EmailForm />
+            </div>
+          </div>
+          <div className="app__cell"></div>
+          <div className="app__cell"></div>
+          <div className="app__cell"></div>
+          <div className="app__cell"></div>
+        </div>
         <Scripts />
       </body>
     </html>
