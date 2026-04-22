@@ -27,6 +27,10 @@ export const Route = createRootRoute({
         title: "url.space",
       },
       {
+        description:
+          "Keep, organise and share websites you like. Open source, no ads, no tracking, no AI, just a space for your URLs.",
+      },
+      {
         property: "og:image",
         content: "/og.jpg",
       },

@@ -35,11 +35,15 @@ body {
 }
 
 .app__content {
-  padding: 3rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   position: relative;
+
+  @media (min-width: 640px) {
+    padding: 3rem;
+  }
 
   &::before,
   &::after {
@@ -48,7 +52,7 @@ body {
     width: 9px;
     height: 9px;
     background-color: red;
-    background-color: oklch(98.5% 0 0);
+    background-color: white;
     border: 1px solid oklch(92.2% 0.005 325.62);
   }
 
@@ -90,6 +94,7 @@ h1 {
   max-width: 400px;
   border: 1px solid oklch(92.2% 0.005 325.62);
   border-radius: none;
+  background-color: white;
 
   &:focus {
     outline: 1px solid oklch(54.2% 0.034 322.5);
