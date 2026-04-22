@@ -26,6 +26,10 @@ export const Route = createRootRoute({
       {
         title: "url.space",
       },
+      {
+        property: "og:image",
+        content: "/og.jpg",
+      },
     ],
     links: [
       {
