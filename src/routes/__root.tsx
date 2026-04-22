@@ -5,11 +5,11 @@ import { env } from "cloudflare:workers";
 import appCss from "../styles.css?url";
 
 const subscribeEmail = createServerFn({ method: "POST" })
-	.inputValidator((data: { email: string }) => data)
-	.handler(async ({ data }) => {
-		await env.EMAILS.put(data.email, new Date().toISOString());
-		return { success: true };
-	});
+  .inputValidator((data: { email: string }) => data)
+  .handler(async ({ data }) => {
+    await env.EMAILS.put(data.email, new Date().toISOString());
+    return { success: true };
+  });
 
 export const Route = createRootRoute({
   shellComponent: RootDocument,
@@ -75,8 +75,15 @@ function EmailForm() {
       <label htmlFor="join" className="label">
         Email address
       </label>
-      <input type="email" id="join" name="email" className="input" required />
-      <button>Join when it is ready</button>
+      <input
+        type="email"
+        id="join"
+        name="email"
+        className="input"
+        required
+        placeholder="jackie@chan.com"
+      />
+      <button>Join the waitlist</button>
       {status === "error" && (
         <p className="form__error">Something went wrong. Please try again.</p>
       )}
@@ -109,10 +116,9 @@ function RootDocument() {
             <div className="app__content">
               <h1>url.space</h1>
               <p>
-                Keep, categorise, tag and share websites you care about. We need
-                that before they all disappear in the maze of AI-generated
-                nonsense. No ads, no tracking, no AI, just a space for your
-                URLs.
+                Keep, organise and share websites you like. Open source, no ads,
+                no tracking, no AI, just a space for your URLs. Free for
+                everyday use with power user features for a tiny fee.
               </p>
               <EmailForm />
             </div>

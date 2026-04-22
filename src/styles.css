@@ -20,7 +20,7 @@ body {
 
 .app {
   display: grid;
-  grid-template-columns: minmax(1.5rem, 1fr) minmax(auto, 634px) minmax(
+  grid-template-columns: minmax(1.5rem, 1fr) minmax(auto, 720px) minmax(
       1.5rem,
       1fr
     );
@@ -85,7 +85,7 @@ h1 {
 
 .input {
   font: inherit;
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 0.75rem;
   width: 100%;
   max-width: 400px;
   border: 1px solid oklch(92.2% 0.005 325.62);
@@ -110,7 +110,8 @@ button {
 
   &:focus,
   &:hover {
-    outline: 1px solid oklch(54.2% 0.034 322.5);
+    background-color: oklch(43.5% 0.029 321.78);
+    outline: 1px solid oklch(43.5% 0.029 321.78);
     outline-offset: 1px;
   }
 }
