@@ -135,18 +135,16 @@ export default function Header() {
 						</>
 					)}
 					{hasSession && (
-						<>
-							<li>
-								<Link
-									to="/{-$locale}/dashboard"
-									params={{ locale }}
-									className="link"
-									activeProps={{ className: "nav-link is-active" }}
-								>
-									{t.dashboard}
-								</Link>
-							</li>
-						</>
+						<li>
+							<Link
+								to="/{-$locale}/dashboard"
+								params={{ locale }}
+								className="link"
+								activeProps={{ className: "nav-link is-active" }}
+							>
+								{t.dashboard}
+							</Link>
+						</li>
 					)}
 				</ul>
 			</nav>
