@@ -1,69 +1,8 @@
-import {
-  Link,
-  useParams,
-  useRouteContext,
-  useRouter,
-} from "@tanstack/react-router";
+import { Link, useRouteContext } from "@tanstack/react-router";
 import "./Header.css";
 
-type Locale = "en" | "pl";
-
-function isLocale(value?: string): value is Locale {
-  return ["en", "pl"].includes(value as Locale);
-}
-
-const content: Record<string, Record<Locale, string>> = {
-  features: {
-    en: "Features",
-    pl: "Funkcje",
-  },
-  blog: {
-    en: "Blog",
-    pl: "Blog",
-  },
-  docs: {
-    en: "Docs",
-    pl: "Dokumentacja",
-  },
-  pricing: {
-    en: "Pricing",
-    pl: "Cennik",
-  },
-  signIn: {
-    en: "Sign in",
-    pl: "Zaloguj się",
-  },
-  signUp: {
-    en: "Sign up",
-    pl: "Zarejestruj się",
-  },
-  dashboard: {
-    en: "Dashboard",
-    pl: "Panel",
-  },
-  signOut: {
-    en: "Sign out",
-    pl: "Wyloguj się",
-  },
-};
-
 export default function Header() {
-  const { user } = useRouteContext({ from: "__root__" });
-  const { locale } = useParams({ strict: false });
-  const currentLocale = isLocale(locale) ? locale : "en";
-  const router = useRouter();
-
-  async function handleSignOut() {
-    const res = await fetch("http://localhost:3000/v1/auth/signout", {
-      method: "POST",
-      credentials: "include",
-    });
-
-    if (res.ok) {
-      await router.invalidate();
-      router.navigate({ to: "/{-$locale}", params: { locale } });
-    }
-  }
+  const { hasSession } = useRouteContext({ from: "__root__" });
 
   const getEmoji = () => {
     const emojis = ["😀", "😎", "🤩", "🥳", "🤗", "🤔", "🙃", "😇", "😜", "🤪"];
@@ -76,8 +15,7 @@ export default function Header() {
         <ul>
           <li>
             <Link
-              to="/{-$locale}"
-              params={{ locale }}
+              to="/"
               className="logo"
               activeProps={{ className: "nav-link is-active" }}
             >
@@ -87,85 +25,73 @@ export default function Header() {
 
           <li>
             <Link
-              to="/{-$locale}/auth/signin"
-              params={{ locale }}
+              to="/"
               className="link"
               activeProps={{ className: "link--active" }}
             >
-              {content.features[currentLocale]}
+              Features
             </Link>
           </li>
           <li>
             <Link
-              to="/{-$locale}/auth/signin"
-              params={{ locale }}
+              to="/"
               className="link"
               activeProps={{ className: "link--active" }}
             >
-              {content.blog[currentLocale]}
+              Blog
             </Link>
           </li>
           <li>
             <Link
-              to="/{-$locale}/auth/signin"
-              params={{ locale }}
+              to="/"
               className="link"
               activeProps={{ className: "link--active" }}
             >
-              {content.docs[currentLocale]}
+              Docs
             </Link>
           </li>
-          <li>
+          <li className="d">
             <Link
-              to="/{-$locale}/auth/signin"
-              params={{ locale }}
+              to="/"
               className="link"
               activeProps={{ className: "link--active" }}
             >
-              {content.pricing[currentLocale]}
+              Pricing
             </Link>
           </li>
 
-          {!user && (
+          {!hasSession && (
             <>
               <li>
                 <Link
-                  to="/{-$locale}/auth/signin"
-                  params={{ locale }}
+                  to="/auth/signin"
                   className="link"
                   activeProps={{ className: "link--active" }}
                 >
-                  {content.signIn[currentLocale]}
+                  Sign in
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/{-$locale}/auth/signup"
-                  params={{ locale }}
+                  to="/auth/signup"
                   className="link"
                   activeProps={{ className: "link--active" }}
                 >
-                  {content.signUp[currentLocale]}
+                  Sign up
                 </Link>
               </li>
             </>
           )}
-          {user && (
+          {hasSession && (
             <>
               <li>
                 <Link
-                  to="/{-$locale}/dashboard"
-                  params={{ locale }}
+                  to="/dashboard"
                   className="link"
                   activeProps={{ className: "nav-link is-active" }}
                 >
-                  {content.dashboard[currentLocale]}
+                  Dashboard
                 </Link>
-              </li>
-              <li>
-                <button type="button" onClick={handleSignOut}>
-                  {content.signOut[currentLocale]}
-                </button>
               </li>
             </>
           )}
