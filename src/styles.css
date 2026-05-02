@@ -91,6 +91,7 @@ main {
   padding-block: 1px;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
+  scrollbar-width: none;
 
   @media (min-width: 600px) {
     grid-auto-columns: 44%;

@@ -22,7 +22,8 @@
     margin-right: auto;
   }
 
-  li.d {
+  li:nth-of-type(5),
+  li:nth-of-type(7) {
     border-right: 1px solid var(--color-border);
   }
   li a {
