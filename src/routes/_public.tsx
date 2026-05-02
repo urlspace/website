@@ -9,16 +9,15 @@ export const Route = createFileRoute("/_public")({
 function RouteComponent() {
   return (
     <>
-      <Header />
-      <div className="app">
-        <div className="app__header"></div>
-        <div className="app__main">
-          <Outlet />
-        </div>
-        <div className="app__footer">
-          <Footer />
-        </div>
-      </div>
+      <header>
+        <Header />
+      </header>
+      <main>
+        <Outlet />
+      </main>
+      <footer>
+        <Footer />
+      </footer>
     </>
   );
 }

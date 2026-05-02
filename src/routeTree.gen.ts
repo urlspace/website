@@ -12,6 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteImport } from './routes/_public'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicPricingRouteImport } from './routes/_public/pricing'
+import { Route as PublicFeaturesRouteImport } from './routes/_public/features'
+import { Route as PublicDocsRouteImport } from './routes/_public/docs'
+import { Route as PublicBlogRouteImport } from './routes/_public/blog'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as PublicAuthVerifyRouteImport } from './routes/_public/auth/verify'
 import { Route as PublicAuthSignupRouteImport } from './routes/_public/auth/signup'
@@ -29,6 +33,26 @@ const ProtectedRoute = ProtectedRouteImport.update({
 const PublicIndexRoute = PublicIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicPricingRoute = PublicPricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicFeaturesRoute = PublicFeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicDocsRoute = PublicDocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicBlogRoute = PublicBlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => PublicRoute,
 } as any)
 const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
@@ -61,6 +85,10 @@ const PublicAuthResendVerificationRoute =
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/dashboard': typeof ProtectedDashboardRoute
+  '/blog': typeof PublicBlogRoute
+  '/docs': typeof PublicDocsRoute
+  '/features': typeof PublicFeaturesRoute
+  '/pricing': typeof PublicPricingRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/auth/signin': typeof PublicAuthSigninRoute
   '/auth/signup': typeof PublicAuthSignupRoute
@@ -69,6 +97,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
   '/dashboard': typeof ProtectedDashboardRoute
+  '/blog': typeof PublicBlogRoute
+  '/docs': typeof PublicDocsRoute
+  '/features': typeof PublicFeaturesRoute
+  '/pricing': typeof PublicPricingRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/auth/signin': typeof PublicAuthSigninRoute
   '/auth/signup': typeof PublicAuthSignupRoute
@@ -79,6 +111,10 @@ export interface FileRoutesById {
   '/_protected': typeof ProtectedRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
   '/_protected/dashboard': typeof ProtectedDashboardRoute
+  '/_public/blog': typeof PublicBlogRoute
+  '/_public/docs': typeof PublicDocsRoute
+  '/_public/features': typeof PublicFeaturesRoute
+  '/_public/pricing': typeof PublicPricingRoute
   '/_public/': typeof PublicIndexRoute
   '/_public/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/_public/auth/signin': typeof PublicAuthSigninRoute
@@ -90,6 +126,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/blog'
+    | '/docs'
+    | '/features'
+    | '/pricing'
     | '/auth/resend-verification'
     | '/auth/signin'
     | '/auth/signup'
@@ -98,6 +138,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/blog'
+    | '/docs'
+    | '/features'
+    | '/pricing'
     | '/auth/resend-verification'
     | '/auth/signin'
     | '/auth/signup'
@@ -107,6 +151,10 @@ export interface FileRouteTypes {
     | '/_protected'
     | '/_public'
     | '/_protected/dashboard'
+    | '/_public/blog'
+    | '/_public/docs'
+    | '/_public/features'
+    | '/_public/pricing'
     | '/_public/'
     | '/_public/auth/resend-verification'
     | '/_public/auth/signin'
@@ -140,6 +188,34 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/pricing': {
+      id: '/_public/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PublicPricingRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/features': {
+      id: '/_public/features'
+      path: '/features'
+      fullPath: '/features'
+      preLoaderRoute: typeof PublicFeaturesRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/docs': {
+      id: '/_public/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof PublicDocsRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/blog': {
+      id: '/_public/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof PublicBlogRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_protected/dashboard': {
@@ -193,6 +269,10 @@ const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
 )
 
 interface PublicRouteChildren {
+  PublicBlogRoute: typeof PublicBlogRoute
+  PublicDocsRoute: typeof PublicDocsRoute
+  PublicFeaturesRoute: typeof PublicFeaturesRoute
+  PublicPricingRoute: typeof PublicPricingRoute
   PublicIndexRoute: typeof PublicIndexRoute
   PublicAuthResendVerificationRoute: typeof PublicAuthResendVerificationRoute
   PublicAuthSigninRoute: typeof PublicAuthSigninRoute
@@ -201,6 +281,10 @@ interface PublicRouteChildren {
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
+  PublicBlogRoute: PublicBlogRoute,
+  PublicDocsRoute: PublicDocsRoute,
+  PublicFeaturesRoute: PublicFeaturesRoute,
+  PublicPricingRoute: PublicPricingRoute,
   PublicIndexRoute: PublicIndexRoute,
   PublicAuthResendVerificationRoute: PublicAuthResendVerificationRoute,
   PublicAuthSigninRoute: PublicAuthSigninRoute,

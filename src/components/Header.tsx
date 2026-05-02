@@ -10,7 +10,7 @@ export default function Header() {
   };
 
   return (
-    <header className="header">
+    <div className="header">
       <nav>
         <ul>
           <li>
@@ -25,7 +25,7 @@ export default function Header() {
 
           <li>
             <Link
-              to="/"
+              to="/features"
               className="link"
               activeProps={{ className: "link--active" }}
             >
@@ -34,7 +34,7 @@ export default function Header() {
           </li>
           <li>
             <Link
-              to="/"
+              to="/blog"
               className="link"
               activeProps={{ className: "link--active" }}
             >
@@ -43,7 +43,7 @@ export default function Header() {
           </li>
           <li>
             <Link
-              to="/"
+              to="/docs"
               className="link"
               activeProps={{ className: "link--active" }}
             >
@@ -52,7 +52,7 @@ export default function Header() {
           </li>
           <li className="d">
             <Link
-              to="/"
+              to="/pricing"
               className="link"
               activeProps={{ className: "link--active" }}
             >
@@ -97,6 +97,6 @@ export default function Header() {
           )}
         </ul>
       </nav>
-    </header>
+    </div>
   );
 }
