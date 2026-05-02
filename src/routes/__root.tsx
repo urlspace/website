@@ -6,40 +6,19 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
-import { getRequest } from "@tanstack/react-start/server";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import { getCookie } from "@tanstack/react-start/server";
 
 import appCss from "../styles.css?url";
 
-export type User = {
-	id: string;
-	email: string;
-	username: string;
-	displayName: string;
-	isAdmin: boolean;
-	isPro: boolean;
-	createdAt: string;
-	updatedAt: string;
-};
+const checkSession = createServerFn().handler(() => ({
+	hasSession: getCookie("session_id") !== undefined,
+}));
 
-const getUser = createServerFn({ method: "GET" }).handler(async () => {
-	const cookie = getRequest().headers.get("cookie") ?? "";
-	const res = await fetch("http://localhost:3000/v1/me", {
-		headers: { cookie },
-	});
-	if (!res.ok) return null;
-	const json = (await res.json()) as { data: User };
-	return json.data;
-});
-
-export const Route = createRootRouteWithContext<{ user: User | null }>()({
-	beforeLoad: async () => {
-		const user = await getUser();
-		return { user };
-	},
+export const Route = createRootRouteWithContext<{ hasSession: boolean }>()({
+	beforeLoad: () => checkSession(),
 	shellComponent: RootDocument,
 	notFoundComponent: NotFound,
+	errorComponent: GenericError,
 	head: () => ({
 		meta: [
 			{
@@ -71,22 +50,23 @@ function NotFound() {
 	);
 }
 
+function GenericError() {
+	return (
+		<main>
+			<h1>Something went wrong</h1>
+			<p>Please try again in a moment.</p>
+		</main>
+	);
+}
+
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>
-			<body className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-[rgba(79,184,178,0.24)]">
-				<div className="app">
-					<div className="app__header">
-						<Header />
-					</div>
-					<div className="app__main">{children}</div>
-					<div className="app__footer">
-						<Footer />
-					</div>
-				</div>
+			<body>
+				{children}
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
-export const Route = createFileRoute("/{-$locale}/auth/resend-verification")({
+export const Route = createFileRoute("/_public/auth/resend-verification")({
 	component: ResendVerification,
 });
 

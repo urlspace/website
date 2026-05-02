@@ -1,7 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
-/* .jetbrains-mono-<uniquifier> { */
-/*   font-family: "JetBrains Mono", monospace; */
+/* // <weight>: Use a value from 100 to 900 */
+/* // <uniquifier>: Use a unique and descriptive class name */
+/**/
+/* .inter-<uniquifier> { */
+/*   font-family: "Inter", sans-serif; */
 /*   font-optical-sizing: auto; */
 /*   font-weight: <weight>; */
 /*   font-style: normal; */
@@ -13,7 +16,7 @@
   --color-border: light-dark(oklch(92% 0.004 286.32), oklch(37% 0.013 285.805));
   --color-link: light-dark(
     oklch(50% 0.134 242.749),
-    oklch(78.5% 0.115 274.713)
+    oklch(80.9% 0.105 251.813)
   );
 
   --size-container-max: 1300px;
@@ -27,22 +30,21 @@
 
 html {
   color-scheme: light dark;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: none;
+  /* -webkit-font-smoothing: antialiased; */
+  /* -webkit-text-size-adjust: none; */
   text-size-adjust: none;
   hanging-punctuation: first allow-end last;
 }
 
 body {
-  font-family: "JetBrains Mono", monospace;
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+
+  font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  color: var(--color-fg);
-  background-color: var(--color-bg);
-  /* font-family: system-ui; */
-  font-weight: 400;
-  font-style: normal;
+  line-height: 150%;
 }
 
 h1 {
@@ -51,13 +53,17 @@ h1 {
 
 a {
   color: var(--color-link);
-  font-weight: 700;
+  font-weight: 500;
+  /* text-decoration-color: pink; */
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
 
 .app {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  min-height: 100dvh;
+  min-height: calc(100dvh - 3lh);
   max-width: var(--size-container-max);
   margin: 0 auto;
   border: 1px solid var(--color-border);
@@ -65,9 +71,17 @@ a {
   border-bottom: none;
 }
 
-.app__header,
-.app__main,
+.app__main {
+}
+
+main {
+  padding: 3lh;
+  display: flex;
+  flex-direction: column;
+  gap: 1lh;
+  max-width: 70ch;
+}
+
 .app__footer {
-  padding: 1rem;
-  box-shadow: inset 0 -1px 0 0 var(--color-border);
+  padding: 1lh;
 }
