@@ -9,323 +9,295 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as Char123LocaleChar125PublicRouteImport } from './routes/{-$locale}/_public'
-import { Route as Char123LocaleChar125ProtectedRouteImport } from './routes/{-$locale}/_protected'
-import { Route as Char123LocaleChar125PublicIndexRouteImport } from './routes/{-$locale}/_public/index'
-import { Route as Char123LocaleChar125PublicPricingRouteImport } from './routes/{-$locale}/_public/pricing'
-import { Route as Char123LocaleChar125PublicFeaturesRouteImport } from './routes/{-$locale}/_public/features'
-import { Route as Char123LocaleChar125PublicDocsRouteImport } from './routes/{-$locale}/_public/docs'
-import { Route as Char123LocaleChar125PublicBlogRouteImport } from './routes/{-$locale}/_public/blog'
-import { Route as Char123LocaleChar125ProtectedDashboardRouteImport } from './routes/{-$locale}/_protected/dashboard'
-import { Route as Char123LocaleChar125PublicAuthVerifyRouteImport } from './routes/{-$locale}/_public/auth/verify'
-import { Route as Char123LocaleChar125PublicAuthSignupRouteImport } from './routes/{-$locale}/_public/auth/signup'
-import { Route as Char123LocaleChar125PublicAuthSigninRouteImport } from './routes/{-$locale}/_public/auth/signin'
-import { Route as Char123LocaleChar125PublicAuthResendVerificationRouteImport } from './routes/{-$locale}/_public/auth/resend-verification'
+import { Route as PublicRouteImport } from './routes/_public'
+import { Route as ProtectedRouteImport } from './routes/_protected'
+import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicPricingRouteImport } from './routes/_public/pricing'
+import { Route as PublicFeaturesRouteImport } from './routes/_public/features'
+import { Route as PublicDocsRouteImport } from './routes/_public/docs'
+import { Route as PublicBlogRouteImport } from './routes/_public/blog'
+import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
+import { Route as PublicAuthVerifyRouteImport } from './routes/_public/auth/verify'
+import { Route as PublicAuthSignupRouteImport } from './routes/_public/auth/signup'
+import { Route as PublicAuthSigninRouteImport } from './routes/_public/auth/signin'
+import { Route as PublicAuthResendVerificationRouteImport } from './routes/_public/auth/resend-verification'
 
-const Char123LocaleChar125PublicRoute =
-  Char123LocaleChar125PublicRouteImport.update({
-    id: '/{-$locale}/_public',
-    path: '/{-$locale}',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char123LocaleChar125ProtectedRoute =
-  Char123LocaleChar125ProtectedRouteImport.update({
-    id: '/{-$locale}/_protected',
-    path: '/{-$locale}',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const Char123LocaleChar125PublicIndexRoute =
-  Char123LocaleChar125PublicIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => Char123LocaleChar125PublicRoute,
-  } as any)
-const Char123LocaleChar125PublicPricingRoute =
-  Char123LocaleChar125PublicPricingRouteImport.update({
-    id: '/pricing',
-    path: '/pricing',
-    getParentRoute: () => Char123LocaleChar125PublicRoute,
-  } as any)
-const Char123LocaleChar125PublicFeaturesRoute =
-  Char123LocaleChar125PublicFeaturesRouteImport.update({
-    id: '/features',
-    path: '/features',
-    getParentRoute: () => Char123LocaleChar125PublicRoute,
-  } as any)
-const Char123LocaleChar125PublicDocsRoute =
-  Char123LocaleChar125PublicDocsRouteImport.update({
-    id: '/docs',
-    path: '/docs',
-    getParentRoute: () => Char123LocaleChar125PublicRoute,
-  } as any)
-const Char123LocaleChar125PublicBlogRoute =
-  Char123LocaleChar125PublicBlogRouteImport.update({
-    id: '/blog',
-    path: '/blog',
-    getParentRoute: () => Char123LocaleChar125PublicRoute,
-  } as any)
-const Char123LocaleChar125ProtectedDashboardRoute =
-  Char123LocaleChar125ProtectedDashboardRouteImport.update({
-    id: '/dashboard',
-    path: '/dashboard',
-    getParentRoute: () => Char123LocaleChar125ProtectedRoute,
-  } as any)
-const Char123LocaleChar125PublicAuthVerifyRoute =
-  Char123LocaleChar125PublicAuthVerifyRouteImport.update({
-    id: '/auth/verify',
-    path: '/auth/verify',
-    getParentRoute: () => Char123LocaleChar125PublicRoute,
-  } as any)
-const Char123LocaleChar125PublicAuthSignupRoute =
-  Char123LocaleChar125PublicAuthSignupRouteImport.update({
-    id: '/auth/signup',
-    path: '/auth/signup',
-    getParentRoute: () => Char123LocaleChar125PublicRoute,
-  } as any)
-const Char123LocaleChar125PublicAuthSigninRoute =
-  Char123LocaleChar125PublicAuthSigninRouteImport.update({
-    id: '/auth/signin',
-    path: '/auth/signin',
-    getParentRoute: () => Char123LocaleChar125PublicRoute,
-  } as any)
-const Char123LocaleChar125PublicAuthResendVerificationRoute =
-  Char123LocaleChar125PublicAuthResendVerificationRouteImport.update({
+const PublicRoute = PublicRouteImport.update({
+  id: '/_public',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProtectedRoute = ProtectedRouteImport.update({
+  id: '/_protected',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicPricingRoute = PublicPricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicFeaturesRoute = PublicFeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicDocsRoute = PublicDocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicBlogRoute = PublicBlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => PublicRoute,
+} as any)
+const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const PublicAuthVerifyRoute = PublicAuthVerifyRouteImport.update({
+  id: '/auth/verify',
+  path: '/auth/verify',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicAuthSignupRoute = PublicAuthSignupRouteImport.update({
+  id: '/auth/signup',
+  path: '/auth/signup',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicAuthSigninRoute = PublicAuthSigninRouteImport.update({
+  id: '/auth/signin',
+  path: '/auth/signin',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicAuthResendVerificationRoute =
+  PublicAuthResendVerificationRouteImport.update({
     id: '/auth/resend-verification',
     path: '/auth/resend-verification',
-    getParentRoute: () => Char123LocaleChar125PublicRoute,
+    getParentRoute: () => PublicRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/{-$locale}': typeof Char123LocaleChar125PublicRouteWithChildren
-  '/{-$locale}/dashboard': typeof Char123LocaleChar125ProtectedDashboardRoute
-  '/{-$locale}/blog': typeof Char123LocaleChar125PublicBlogRoute
-  '/{-$locale}/docs': typeof Char123LocaleChar125PublicDocsRoute
-  '/{-$locale}/features': typeof Char123LocaleChar125PublicFeaturesRoute
-  '/{-$locale}/pricing': typeof Char123LocaleChar125PublicPricingRoute
-  '/{-$locale}/': typeof Char123LocaleChar125PublicIndexRoute
-  '/{-$locale}/auth/resend-verification': typeof Char123LocaleChar125PublicAuthResendVerificationRoute
-  '/{-$locale}/auth/signin': typeof Char123LocaleChar125PublicAuthSigninRoute
-  '/{-$locale}/auth/signup': typeof Char123LocaleChar125PublicAuthSignupRoute
-  '/{-$locale}/auth/verify': typeof Char123LocaleChar125PublicAuthVerifyRoute
+  '/': typeof PublicIndexRoute
+  '/dashboard': typeof ProtectedDashboardRoute
+  '/blog': typeof PublicBlogRoute
+  '/docs': typeof PublicDocsRoute
+  '/features': typeof PublicFeaturesRoute
+  '/pricing': typeof PublicPricingRoute
+  '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
+  '/auth/signin': typeof PublicAuthSigninRoute
+  '/auth/signup': typeof PublicAuthSignupRoute
+  '/auth/verify': typeof PublicAuthVerifyRoute
 }
 export interface FileRoutesByTo {
-  '/{-$locale}': typeof Char123LocaleChar125PublicIndexRoute
-  '/{-$locale}/dashboard': typeof Char123LocaleChar125ProtectedDashboardRoute
-  '/{-$locale}/blog': typeof Char123LocaleChar125PublicBlogRoute
-  '/{-$locale}/docs': typeof Char123LocaleChar125PublicDocsRoute
-  '/{-$locale}/features': typeof Char123LocaleChar125PublicFeaturesRoute
-  '/{-$locale}/pricing': typeof Char123LocaleChar125PublicPricingRoute
-  '/{-$locale}/auth/resend-verification': typeof Char123LocaleChar125PublicAuthResendVerificationRoute
-  '/{-$locale}/auth/signin': typeof Char123LocaleChar125PublicAuthSigninRoute
-  '/{-$locale}/auth/signup': typeof Char123LocaleChar125PublicAuthSignupRoute
-  '/{-$locale}/auth/verify': typeof Char123LocaleChar125PublicAuthVerifyRoute
+  '/': typeof PublicIndexRoute
+  '/dashboard': typeof ProtectedDashboardRoute
+  '/blog': typeof PublicBlogRoute
+  '/docs': typeof PublicDocsRoute
+  '/features': typeof PublicFeaturesRoute
+  '/pricing': typeof PublicPricingRoute
+  '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
+  '/auth/signin': typeof PublicAuthSigninRoute
+  '/auth/signup': typeof PublicAuthSignupRoute
+  '/auth/verify': typeof PublicAuthVerifyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/{-$locale}/_protected': typeof Char123LocaleChar125ProtectedRouteWithChildren
-  '/{-$locale}/_public': typeof Char123LocaleChar125PublicRouteWithChildren
-  '/{-$locale}/_protected/dashboard': typeof Char123LocaleChar125ProtectedDashboardRoute
-  '/{-$locale}/_public/blog': typeof Char123LocaleChar125PublicBlogRoute
-  '/{-$locale}/_public/docs': typeof Char123LocaleChar125PublicDocsRoute
-  '/{-$locale}/_public/features': typeof Char123LocaleChar125PublicFeaturesRoute
-  '/{-$locale}/_public/pricing': typeof Char123LocaleChar125PublicPricingRoute
-  '/{-$locale}/_public/': typeof Char123LocaleChar125PublicIndexRoute
-  '/{-$locale}/_public/auth/resend-verification': typeof Char123LocaleChar125PublicAuthResendVerificationRoute
-  '/{-$locale}/_public/auth/signin': typeof Char123LocaleChar125PublicAuthSigninRoute
-  '/{-$locale}/_public/auth/signup': typeof Char123LocaleChar125PublicAuthSignupRoute
-  '/{-$locale}/_public/auth/verify': typeof Char123LocaleChar125PublicAuthVerifyRoute
+  '/_protected': typeof ProtectedRouteWithChildren
+  '/_public': typeof PublicRouteWithChildren
+  '/_protected/dashboard': typeof ProtectedDashboardRoute
+  '/_public/blog': typeof PublicBlogRoute
+  '/_public/docs': typeof PublicDocsRoute
+  '/_public/features': typeof PublicFeaturesRoute
+  '/_public/pricing': typeof PublicPricingRoute
+  '/_public/': typeof PublicIndexRoute
+  '/_public/auth/resend-verification': typeof PublicAuthResendVerificationRoute
+  '/_public/auth/signin': typeof PublicAuthSigninRoute
+  '/_public/auth/signup': typeof PublicAuthSignupRoute
+  '/_public/auth/verify': typeof PublicAuthVerifyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/{-$locale}'
-    | '/{-$locale}/dashboard'
-    | '/{-$locale}/blog'
-    | '/{-$locale}/docs'
-    | '/{-$locale}/features'
-    | '/{-$locale}/pricing'
-    | '/{-$locale}/'
-    | '/{-$locale}/auth/resend-verification'
-    | '/{-$locale}/auth/signin'
-    | '/{-$locale}/auth/signup'
-    | '/{-$locale}/auth/verify'
+    | '/'
+    | '/dashboard'
+    | '/blog'
+    | '/docs'
+    | '/features'
+    | '/pricing'
+    | '/auth/resend-verification'
+    | '/auth/signin'
+    | '/auth/signup'
+    | '/auth/verify'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/{-$locale}'
-    | '/{-$locale}/dashboard'
-    | '/{-$locale}/blog'
-    | '/{-$locale}/docs'
-    | '/{-$locale}/features'
-    | '/{-$locale}/pricing'
-    | '/{-$locale}/auth/resend-verification'
-    | '/{-$locale}/auth/signin'
-    | '/{-$locale}/auth/signup'
-    | '/{-$locale}/auth/verify'
+    | '/'
+    | '/dashboard'
+    | '/blog'
+    | '/docs'
+    | '/features'
+    | '/pricing'
+    | '/auth/resend-verification'
+    | '/auth/signin'
+    | '/auth/signup'
+    | '/auth/verify'
   id:
     | '__root__'
-    | '/{-$locale}/_protected'
-    | '/{-$locale}/_public'
-    | '/{-$locale}/_protected/dashboard'
-    | '/{-$locale}/_public/blog'
-    | '/{-$locale}/_public/docs'
-    | '/{-$locale}/_public/features'
-    | '/{-$locale}/_public/pricing'
-    | '/{-$locale}/_public/'
-    | '/{-$locale}/_public/auth/resend-verification'
-    | '/{-$locale}/_public/auth/signin'
-    | '/{-$locale}/_public/auth/signup'
-    | '/{-$locale}/_public/auth/verify'
+    | '/_protected'
+    | '/_public'
+    | '/_protected/dashboard'
+    | '/_public/blog'
+    | '/_public/docs'
+    | '/_public/features'
+    | '/_public/pricing'
+    | '/_public/'
+    | '/_public/auth/resend-verification'
+    | '/_public/auth/signin'
+    | '/_public/auth/signup'
+    | '/_public/auth/verify'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  Char123LocaleChar125ProtectedRoute: typeof Char123LocaleChar125ProtectedRouteWithChildren
-  Char123LocaleChar125PublicRoute: typeof Char123LocaleChar125PublicRouteWithChildren
+  ProtectedRoute: typeof ProtectedRouteWithChildren
+  PublicRoute: typeof PublicRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/{-$locale}/_public': {
-      id: '/{-$locale}/_public'
-      path: '/{-$locale}'
-      fullPath: '/{-$locale}'
-      preLoaderRoute: typeof Char123LocaleChar125PublicRouteImport
+    '/_public': {
+      id: '/_public'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/{-$locale}/_protected': {
-      id: '/{-$locale}/_protected'
-      path: '/{-$locale}'
-      fullPath: '/{-$locale}'
-      preLoaderRoute: typeof Char123LocaleChar125ProtectedRouteImport
+    '/_protected': {
+      id: '/_protected'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ProtectedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/{-$locale}/_public/': {
-      id: '/{-$locale}/_public/'
+    '/_public/': {
+      id: '/_public/'
       path: '/'
-      fullPath: '/{-$locale}/'
-      preLoaderRoute: typeof Char123LocaleChar125PublicIndexRouteImport
-      parentRoute: typeof Char123LocaleChar125PublicRoute
+      fullPath: '/'
+      preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRoute
     }
-    '/{-$locale}/_public/pricing': {
-      id: '/{-$locale}/_public/pricing'
+    '/_public/pricing': {
+      id: '/_public/pricing'
       path: '/pricing'
-      fullPath: '/{-$locale}/pricing'
-      preLoaderRoute: typeof Char123LocaleChar125PublicPricingRouteImport
-      parentRoute: typeof Char123LocaleChar125PublicRoute
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PublicPricingRouteImport
+      parentRoute: typeof PublicRoute
     }
-    '/{-$locale}/_public/features': {
-      id: '/{-$locale}/_public/features'
+    '/_public/features': {
+      id: '/_public/features'
       path: '/features'
-      fullPath: '/{-$locale}/features'
-      preLoaderRoute: typeof Char123LocaleChar125PublicFeaturesRouteImport
-      parentRoute: typeof Char123LocaleChar125PublicRoute
+      fullPath: '/features'
+      preLoaderRoute: typeof PublicFeaturesRouteImport
+      parentRoute: typeof PublicRoute
     }
-    '/{-$locale}/_public/docs': {
-      id: '/{-$locale}/_public/docs'
+    '/_public/docs': {
+      id: '/_public/docs'
       path: '/docs'
-      fullPath: '/{-$locale}/docs'
-      preLoaderRoute: typeof Char123LocaleChar125PublicDocsRouteImport
-      parentRoute: typeof Char123LocaleChar125PublicRoute
+      fullPath: '/docs'
+      preLoaderRoute: typeof PublicDocsRouteImport
+      parentRoute: typeof PublicRoute
     }
-    '/{-$locale}/_public/blog': {
-      id: '/{-$locale}/_public/blog'
+    '/_public/blog': {
+      id: '/_public/blog'
       path: '/blog'
-      fullPath: '/{-$locale}/blog'
-      preLoaderRoute: typeof Char123LocaleChar125PublicBlogRouteImport
-      parentRoute: typeof Char123LocaleChar125PublicRoute
+      fullPath: '/blog'
+      preLoaderRoute: typeof PublicBlogRouteImport
+      parentRoute: typeof PublicRoute
     }
-    '/{-$locale}/_protected/dashboard': {
-      id: '/{-$locale}/_protected/dashboard'
+    '/_protected/dashboard': {
+      id: '/_protected/dashboard'
       path: '/dashboard'
-      fullPath: '/{-$locale}/dashboard'
-      preLoaderRoute: typeof Char123LocaleChar125ProtectedDashboardRouteImport
-      parentRoute: typeof Char123LocaleChar125ProtectedRoute
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof ProtectedDashboardRouteImport
+      parentRoute: typeof ProtectedRoute
     }
-    '/{-$locale}/_public/auth/verify': {
-      id: '/{-$locale}/_public/auth/verify'
+    '/_public/auth/verify': {
+      id: '/_public/auth/verify'
       path: '/auth/verify'
-      fullPath: '/{-$locale}/auth/verify'
-      preLoaderRoute: typeof Char123LocaleChar125PublicAuthVerifyRouteImport
-      parentRoute: typeof Char123LocaleChar125PublicRoute
+      fullPath: '/auth/verify'
+      preLoaderRoute: typeof PublicAuthVerifyRouteImport
+      parentRoute: typeof PublicRoute
     }
-    '/{-$locale}/_public/auth/signup': {
-      id: '/{-$locale}/_public/auth/signup'
+    '/_public/auth/signup': {
+      id: '/_public/auth/signup'
       path: '/auth/signup'
-      fullPath: '/{-$locale}/auth/signup'
-      preLoaderRoute: typeof Char123LocaleChar125PublicAuthSignupRouteImport
-      parentRoute: typeof Char123LocaleChar125PublicRoute
+      fullPath: '/auth/signup'
+      preLoaderRoute: typeof PublicAuthSignupRouteImport
+      parentRoute: typeof PublicRoute
     }
-    '/{-$locale}/_public/auth/signin': {
-      id: '/{-$locale}/_public/auth/signin'
+    '/_public/auth/signin': {
+      id: '/_public/auth/signin'
       path: '/auth/signin'
-      fullPath: '/{-$locale}/auth/signin'
-      preLoaderRoute: typeof Char123LocaleChar125PublicAuthSigninRouteImport
-      parentRoute: typeof Char123LocaleChar125PublicRoute
+      fullPath: '/auth/signin'
+      preLoaderRoute: typeof PublicAuthSigninRouteImport
+      parentRoute: typeof PublicRoute
     }
-    '/{-$locale}/_public/auth/resend-verification': {
-      id: '/{-$locale}/_public/auth/resend-verification'
+    '/_public/auth/resend-verification': {
+      id: '/_public/auth/resend-verification'
       path: '/auth/resend-verification'
-      fullPath: '/{-$locale}/auth/resend-verification'
-      preLoaderRoute: typeof Char123LocaleChar125PublicAuthResendVerificationRouteImport
-      parentRoute: typeof Char123LocaleChar125PublicRoute
+      fullPath: '/auth/resend-verification'
+      preLoaderRoute: typeof PublicAuthResendVerificationRouteImport
+      parentRoute: typeof PublicRoute
     }
   }
 }
 
-interface Char123LocaleChar125ProtectedRouteChildren {
-  Char123LocaleChar125ProtectedDashboardRoute: typeof Char123LocaleChar125ProtectedDashboardRoute
+interface ProtectedRouteChildren {
+  ProtectedDashboardRoute: typeof ProtectedDashboardRoute
 }
 
-const Char123LocaleChar125ProtectedRouteChildren: Char123LocaleChar125ProtectedRouteChildren =
-  {
-    Char123LocaleChar125ProtectedDashboardRoute:
-      Char123LocaleChar125ProtectedDashboardRoute,
-  }
-
-const Char123LocaleChar125ProtectedRouteWithChildren =
-  Char123LocaleChar125ProtectedRoute._addFileChildren(
-    Char123LocaleChar125ProtectedRouteChildren,
-  )
-
-interface Char123LocaleChar125PublicRouteChildren {
-  Char123LocaleChar125PublicBlogRoute: typeof Char123LocaleChar125PublicBlogRoute
-  Char123LocaleChar125PublicDocsRoute: typeof Char123LocaleChar125PublicDocsRoute
-  Char123LocaleChar125PublicFeaturesRoute: typeof Char123LocaleChar125PublicFeaturesRoute
-  Char123LocaleChar125PublicPricingRoute: typeof Char123LocaleChar125PublicPricingRoute
-  Char123LocaleChar125PublicIndexRoute: typeof Char123LocaleChar125PublicIndexRoute
-  Char123LocaleChar125PublicAuthResendVerificationRoute: typeof Char123LocaleChar125PublicAuthResendVerificationRoute
-  Char123LocaleChar125PublicAuthSigninRoute: typeof Char123LocaleChar125PublicAuthSigninRoute
-  Char123LocaleChar125PublicAuthSignupRoute: typeof Char123LocaleChar125PublicAuthSignupRoute
-  Char123LocaleChar125PublicAuthVerifyRoute: typeof Char123LocaleChar125PublicAuthVerifyRoute
+const ProtectedRouteChildren: ProtectedRouteChildren = {
+  ProtectedDashboardRoute: ProtectedDashboardRoute,
 }
 
-const Char123LocaleChar125PublicRouteChildren: Char123LocaleChar125PublicRouteChildren =
-  {
-    Char123LocaleChar125PublicBlogRoute: Char123LocaleChar125PublicBlogRoute,
-    Char123LocaleChar125PublicDocsRoute: Char123LocaleChar125PublicDocsRoute,
-    Char123LocaleChar125PublicFeaturesRoute:
-      Char123LocaleChar125PublicFeaturesRoute,
-    Char123LocaleChar125PublicPricingRoute:
-      Char123LocaleChar125PublicPricingRoute,
-    Char123LocaleChar125PublicIndexRoute: Char123LocaleChar125PublicIndexRoute,
-    Char123LocaleChar125PublicAuthResendVerificationRoute:
-      Char123LocaleChar125PublicAuthResendVerificationRoute,
-    Char123LocaleChar125PublicAuthSigninRoute:
-      Char123LocaleChar125PublicAuthSigninRoute,
-    Char123LocaleChar125PublicAuthSignupRoute:
-      Char123LocaleChar125PublicAuthSignupRoute,
-    Char123LocaleChar125PublicAuthVerifyRoute:
-      Char123LocaleChar125PublicAuthVerifyRoute,
-  }
+const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
+  ProtectedRouteChildren,
+)
 
-const Char123LocaleChar125PublicRouteWithChildren =
-  Char123LocaleChar125PublicRoute._addFileChildren(
-    Char123LocaleChar125PublicRouteChildren,
-  )
+interface PublicRouteChildren {
+  PublicBlogRoute: typeof PublicBlogRoute
+  PublicDocsRoute: typeof PublicDocsRoute
+  PublicFeaturesRoute: typeof PublicFeaturesRoute
+  PublicPricingRoute: typeof PublicPricingRoute
+  PublicIndexRoute: typeof PublicIndexRoute
+  PublicAuthResendVerificationRoute: typeof PublicAuthResendVerificationRoute
+  PublicAuthSigninRoute: typeof PublicAuthSigninRoute
+  PublicAuthSignupRoute: typeof PublicAuthSignupRoute
+  PublicAuthVerifyRoute: typeof PublicAuthVerifyRoute
+}
+
+const PublicRouteChildren: PublicRouteChildren = {
+  PublicBlogRoute: PublicBlogRoute,
+  PublicDocsRoute: PublicDocsRoute,
+  PublicFeaturesRoute: PublicFeaturesRoute,
+  PublicPricingRoute: PublicPricingRoute,
+  PublicIndexRoute: PublicIndexRoute,
+  PublicAuthResendVerificationRoute: PublicAuthResendVerificationRoute,
+  PublicAuthSigninRoute: PublicAuthSigninRoute,
+  PublicAuthSignupRoute: PublicAuthSignupRoute,
+  PublicAuthVerifyRoute: PublicAuthVerifyRoute,
+}
+
+const PublicRouteWithChildren =
+  PublicRoute._addFileChildren(PublicRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
-  Char123LocaleChar125ProtectedRoute:
-    Char123LocaleChar125ProtectedRouteWithChildren,
-  Char123LocaleChar125PublicRoute: Char123LocaleChar125PublicRouteWithChildren,
+  ProtectedRoute: ProtectedRouteWithChildren,
+  PublicRoute: PublicRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
