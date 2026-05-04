@@ -33,6 +33,7 @@ function App() {
           </article>
         ))}
       </section>
+      <h2>Features</h2>
     </>
   );
 }

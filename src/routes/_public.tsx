@@ -1,6 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import Footer from "../components/Footer.tsx";
-import Header from "../components/Header.tsx";
+import { App, Header, Footer } from "../components";
 
 export const Route = createFileRoute("/_public")({
   component: RouteComponent,
@@ -8,16 +7,16 @@ export const Route = createFileRoute("/_public")({
 
 function RouteComponent() {
   return (
-    <>
-      <header>
+    <App>
+      <App.Header>
         <Header />
-      </header>
-      <main>
+      </App.Header>
+      <App.Main>
         <Outlet />
-      </main>
-      <footer>
+      </App.Main>
+      <App.Footer>
         <Footer />
-      </footer>
-    </>
+      </App.Footer>
+    </App>
   );
 }

@@ -1,5 +1,6 @@
 import {
   createFileRoute,
+  Link,
   useLoaderData,
   useRouter,
 } from "@tanstack/react-router";
@@ -73,7 +74,8 @@ function Dashboard() {
   }
 
   return (
-    <main>
+    <div>
+      <Link to="/">🥑 Go home bro</Link>
       <button type="button" onClick={handleSignOut}>
         Sign out
       </button>
@@ -120,6 +122,6 @@ function Dashboard() {
           ))}
         </ul>
       </section>
-    </main>
+    </div>
   );
 }

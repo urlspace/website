@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { deleteCookie, getRequest } from "@tanstack/react-start/server";
+import { App } from "../components";
 
 export type User = {
   id: string;
@@ -53,17 +54,19 @@ export const Route = createFileRoute("/_protected")({
 
 function RouteComponent() {
   return (
-    <div>
-      <Outlet />
-    </div>
+    <App>
+      <App.Main>
+        <Outlet />
+      </App.Main>
+    </App>
   );
 }
 
 function GenericError() {
   return (
-    <main>
+    <App.Main>
       <h1>Error protected</h1>
       <p>Generic error</p>
-    </main>
+    </App.Main>
   );
 }
