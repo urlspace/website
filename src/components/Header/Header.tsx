@@ -13,6 +13,7 @@ export default function Header() {
               to="/"
               className="logo"
               activeProps={{ className: "nav-link is-active" }}
+              aria-label="Home"
             >
               🥑
             </Link>
