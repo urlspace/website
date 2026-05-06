@@ -1,4 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { ButtonLink } from "#/components";
+import { Intro } from "#/sections";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_public/")({
   component: App,
@@ -7,15 +9,9 @@ export const Route = createFileRoute("/_public/")({
 function App() {
   return (
     <>
-      <section className="banner">
-        <h1>url.space</h1>
-        <p>
-          Keep, organise and share websites you like. Open source, no ads, no
-          tracking, no AI, just a space for your URLs. Free for everyday use
-          with power user features for a tiny fee.
-        </p>
-        <Link to="/auth/signup">Sign up</Link>
-      </section>
+      <Intro />
+
+      <h2 className="section__title">What people say</h2>
       <section className="feedback">
         {Array.from({ length: 6 }).map((_, i) => (
           // biome-ignore lint/suspicious/noArrayIndexKey: static placeholder list
@@ -33,7 +29,6 @@ function App() {
           </article>
         ))}
       </section>
-      <h2>Features</h2>
     </>
   );
 }

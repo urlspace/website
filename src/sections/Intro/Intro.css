@@ -1,0 +1,114 @@
+.intro {
+  --gap: 1px;
+
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  background-color: var(--color-border);
+  padding: 0 var(--gap) var(--gap) var(--gap);
+  gap: var(--gap);
+  max-width: var(--size-container-max);
+  margin-inline: auto;
+}
+
+.intro__banner {
+  --padding-block: 2lh;
+  --padding-inline: 1lh;
+
+  grid-area: auto / span 6;
+  background-color: var(--color-bg);
+  padding-block-start: var(--padding-block);
+  padding-block-end: calc(var(--padding-block) - var(--gap));
+  padding-inline: var(--padding-inline);
+
+  @media (min-width: 600px) {
+    --padding-block: 4lh;
+    --padding-inline: 2lh;
+  }
+
+  @media (min-width: 1000px) {
+    --padding-block: 6lh;
+
+    background-image: linear-gradient(
+      to right,
+      var(--color-bg) 0,
+      var(--color-bg) 50%,
+      color-mix(in srgb, var(--color-link) 10%, transparent) 50%,
+      color-mix(in srgb, var(--color-link) 10%, transparent) 100%
+    );
+  }
+}
+
+.intro__feature {
+  --padding-block: 2.5lh;
+  --padding-inline: 1lh;
+
+  grid-area: auto / span 6;
+  background-color: var(--color-bg);
+  padding-inline: var(--padding-inline);
+  padding-block-start: var(--padding-block);
+  padding-block-end: calc(var(--padding-block) - var(--gap));
+  display: flex;
+  flex-direction: column;
+  gap: 1lh;
+
+  @media (min-width: 600px) {
+    --padding-inline: 2lh;
+  }
+
+  @media (min-width: 900px) {
+    --padding-block: 3lh;
+
+    grid-area: auto / span 2;
+  }
+}
+
+.intro__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1lh;
+
+  @media (min-width: 1000px) {
+    width: calc(50% - 4lh);
+  }
+}
+
+.intro__description {
+  max-width: 50ch;
+}
+
+.intro__title {
+  --bg-color: transparent;
+  --bg-s-size: 2px;
+  --bg-s-color: var(--color-border);
+  --bg-size: 0.5lh;
+
+  flex-grow: 1;
+  background-color: var(--bg-color);
+  background-image: conic-gradient(
+    at var(--bg-s-size) var(--bg-s-size),
+    #0000 75%,
+    var(--bg-s-color) 0
+  );
+  background-size: var(--bg-size) var(--bg-size);
+  background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
+}
+
+.intro__heading {
+  background-color: var(--color-bg);
+  width: max-content;
+  box-shadow: 1rlh 0 0 0 var(--color-bg);
+}
+
+.intro__more {
+  align-self: flex-start;
+  padding-inline-end: 0.5lh;
+
+  &::after {
+    content: " »";
+  }
+
+  &:focus-visible {
+    outline: 4px dotted var(--color-link);
+    outline-offset: 4px;
+  }
+}
