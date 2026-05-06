@@ -13,7 +13,7 @@
   --bg-color: transparent;
   --bg-s-size: 2px;
   --bg-s-color: var(--color-border);
-  --bg-size: 0.5lh;
+  --bg-size: 0.5rlh;
 
   flex-grow: 1;
   background-color: var(--bg-color);
@@ -23,7 +23,7 @@
     var(--bg-s-color) 0
   );
   background-size: var(--bg-size) var(--bg-size);
-  background-position: center calc(var(--bg-size) / 2);
+  background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
 }
 
 .app__footer {
