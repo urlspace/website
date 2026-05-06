@@ -1,0 +1,34 @@
+.button {
+  background-color: var(--color-link);
+  color: var(--color-bg);
+  align-self: flex-start;
+  padding: 0.5lh 1.5lh;
+  text-decoration: none;
+  font: inherit;
+  border: none;
+  display: inline-block;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+
+  &:focus-visible {
+    outline: 4px dotted var(--color-link);
+    outline-offset: 4px;
+  }
+
+  &:active {
+    color: color-mix(in srgb, var(--color-bg) 50%, transparent);
+  }
+
+  &:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
