@@ -52,7 +52,7 @@ function SignUp() {
   return (
     <main>
       <section>
-        <h1>"Signup"</h1>
+        <h1>Signup</h1>
         {error && <p>{error}</p>}
         <form onSubmit={handleSubmit}>
           <label>
