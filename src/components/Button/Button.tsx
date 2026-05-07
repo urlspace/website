@@ -1,9 +1,24 @@
 import { Link } from "@tanstack/react-router";
 import "./Button.css";
 
-function Button({ text, onClick }: { text: string; onClick: () => void }) {
+function Button({
+  text,
+  onClick,
+  type,
+  disabled,
+}: {
+  text: string;
+  onClick?: () => void;
+  type?: "button" | "submit";
+  disabled: boolean;
+}) {
   return (
-    <button className="button" onClick={onClick}>
+    <button
+      className="button"
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+    >
       {text}
     </button>
   );
