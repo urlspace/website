@@ -14,10 +14,8 @@ function Footer({ children }: { children: React.ReactNode }) {
   return <footer className="app__footer">{children}</footer>;
 }
 
-Object.assign(App, {
-  Header,
-  Main,
-  Footer,
-});
+App.Header = Header;
+App.Main = Main;
+App.Footer = Footer;
 
 export default App;
