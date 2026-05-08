@@ -1,19 +1,27 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
+import { Heading, Form, Button, Stack, Page } from "#/components";
 
 export const Route = createFileRoute("/_public/auth/resend-verification")({
+  beforeLoad: ({ context }) => {
+    if (context.hasSession)
+      throw redirect({
+        to: "/dashboard",
+      });
+  },
   component: ResendVerification,
 });
 
 function ResendVerification() {
+  const [sent, setSent] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
-
-    const form = new FormData(e.currentTarget);
+    setIsLoading(true);
 
     try {
       const res = await fetch(
@@ -21,36 +29,64 @@ function ResendVerification() {
         {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ email: form.get("email") }),
+          body: JSON.stringify({
+            email,
+          }),
         },
       );
 
       if (!res.ok) {
-        setError("Failed: " + res.status);
+        switch (res.status) {
+          case 400:
+            setError("Invalid email.");
+            break;
+          case 429:
+            setError("Too many attempts. Try again in a moment.");
+            break;
+          default:
+            setError("Something went wrong. Try again in a moment.");
+        }
         return;
       }
 
-      setSuccess(true);
+      setSent(true);
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      setError("Something went wrong. Try again in a moment.");
+    } finally {
+      setIsLoading(false);
     }
   }
 
-  if (success) return <p>Success</p>;
-
   return (
-    <main>
-      <section>
-        <h1>Resned verification</h1>
-        {error && <p>{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <label>
-            Email
-            <input name="email" type="email" required />
-          </label>
-          <button type="submit">Submit</button>
-        </form>
-      </section>
-    </main>
+    <Page>
+      <Stack gap={2}>
+        <Heading level={1} text="Resend verification" />
+        {sent ? (
+          <p>
+            Sent! Check your inbox and confirm your email address within the
+            next 24 hours.
+          </p>
+        ) : (
+          <Form onSubmit={handleSubmit}>
+            <Form.Error errorMessage={error} />
+            <Form.Input
+              autoComplete="username"
+              label="Email"
+              name="email"
+              value={email}
+              onChange={setEmail}
+              type="email"
+              placeholder="sylvester@stallone.com"
+              required
+            />
+            <Button
+              type="submit"
+              text={isLoading ? "Sending..." : "Send verification link"}
+              disabled={isLoading}
+            />
+          </Form>
+        )}
+      </Stack>
+    </Page>
   );
 }
