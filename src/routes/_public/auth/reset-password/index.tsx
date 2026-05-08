@@ -28,7 +28,6 @@ function ResetPassword() {
         "http://localhost:3000/v1/auth/reset-password-request",
         {
           method: "POST",
-          credentials: "include",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
             email,
@@ -77,7 +76,7 @@ function ResetPassword() {
               value={email}
               onChange={setEmail}
               type="email"
-              placeholder="harry@potter.com"
+              placeholder="sylvester@stallone.com"
               required
             />
             <Button

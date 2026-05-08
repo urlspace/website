@@ -36,7 +36,6 @@ function ResetPasswordConfirm() {
         "http://localhost:3000/v1/auth/reset-password-confirm",
         {
           method: "POST",
-          credentials: "include",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
             token,
