@@ -1,7 +1,6 @@
 .app {
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
 }
 
 .app__header {
@@ -15,7 +14,6 @@
   --bg-s-color: var(--color-border);
   --bg-size: 0.5rlh;
 
-  flex-grow: 1;
   background-color: var(--bg-color);
   background-image: conic-gradient(
     at var(--bg-s-size) var(--bg-s-size),
