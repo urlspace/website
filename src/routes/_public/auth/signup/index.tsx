@@ -114,8 +114,10 @@ function SignUp() {
             <p>
               Already have an account? <Link to="/auth/signin">Sign in</Link>.
               If you have any troubles with creating an account, email me at{" "}
-              <a href="mailto:mail@url.space">mail@url.space</a>. By signing up,
-              you agree to our{" "}
+              <a href="mailto:mail@url.space">mail@url.space</a>.
+            </p>
+            <p>
+              By signing up, you agree to our{" "}
               <Link to="/terms-of-service">Terms of Service</Link> and{" "}
               <Link to="/privacy-policy">Privacy Policy</Link>.
             </p>

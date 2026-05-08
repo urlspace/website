@@ -87,8 +87,7 @@ function ResetPasswordConfirm() {
             <Form.Error errorMessage={error} />
             <Form.Input
               autoComplete="new-password"
-              // TODO: implement dynamic message
-              description="Here is the generated password descriptino that we are going to implementa as part of the fututre work on the signup form refactor. For now this is only a todo item."
+              description="Use a strong password that is a minimum of 12 characters long. Please do not include parts of your email address or username in your password."
               label="New password"
               name="password"
               value={password}
