@@ -47,9 +47,6 @@
   padding-inline: var(--padding-inline);
   padding-block-start: var(--padding-block);
   padding-block-end: calc(var(--padding-block) - var(--gap));
-  display: flex;
-  flex-direction: column;
-  gap: 1lh;
 
   @media (min-width: 600px) {
     --padding-inline: 2lh;
@@ -63,10 +60,6 @@
 }
 
 .intro__content {
-  display: flex;
-  flex-direction: column;
-  gap: 1lh;
-
   @media (min-width: 1000px) {
     width: calc(50% - 4lh);
   }
@@ -74,29 +67,6 @@
 
 .intro__description {
   max-width: 50ch;
-}
-
-.intro__title {
-  --bg-color: transparent;
-  --bg-s-size: 2px;
-  --bg-s-color: var(--color-border);
-  --bg-size: 0.5lh;
-
-  flex-grow: 1;
-  background-color: var(--bg-color);
-  background-image: conic-gradient(
-    at var(--bg-s-size) var(--bg-s-size),
-    #0000 75%,
-    var(--bg-s-color) 0
-  );
-  background-size: var(--bg-size) var(--bg-size);
-  background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
-}
-
-.intro__heading {
-  background-color: var(--color-bg);
-  width: max-content;
-  box-shadow: 1rlh 0 0 0 var(--color-bg);
 }
 
 .intro__more {
