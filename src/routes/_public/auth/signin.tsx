@@ -1,5 +1,11 @@
-import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Link,
+  redirect,
+  useRouter,
+} from "@tanstack/react-router";
 import { useState } from "react";
+import { Heading, Form, Button, Stack, Page } from "#/components";
 
 export const Route = createFileRoute("/_public/auth/signin")({
   beforeLoad: ({ context }) => {
@@ -13,59 +19,95 @@ export const Route = createFileRoute("/_public/auth/signin")({
 
 function SignIn() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     setIsLoading(true);
 
-    const form = new FormData(e.currentTarget);
     try {
       const res = await fetch("http://localhost:3000/v1/auth/signin", {
         method: "POST",
         credentials: "include",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          email: form.get("email"),
-          password: form.get("password"),
+          email,
+          password,
         }),
       });
 
       if (!res.ok) {
-        setError("some error");
+        switch (res.status) {
+          case 400:
+          case 401:
+            setError("Invalid email or password.");
+            break;
+          case 403:
+            setError("Your account is not verified. Check your inbox.");
+            break;
+          case 429:
+            setError("Too many attempts. Try again in a moment.");
+            break;
+          default:
+            setError("Something went wrong. Try again in a moment.");
+        }
         return;
       }
 
       await router.invalidate();
       router.navigate({ to: "/dashboard" });
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      setError("Something went wrong. Try again in a moment.");
     } finally {
       setIsLoading(false);
     }
   }
 
   return (
-    <main>
-      <section>
-        <h1>Sign in</h1>
-        {error && <p>{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <label>
-            Email
-            <input name="email" type="email" required />
-          </label>
-          <label>
-            Password
-            <input name="password" type="password" required />
-          </label>
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Submitting" : "Submit"}
-          </button>
-        </form>
-      </section>
-    </main>
+    <Page>
+      <Stack gap={2}>
+        <Heading level={1} text="Sign in" />
+        <Form onSubmit={handleSubmit}>
+          <Form.Error errorMessage={error} />
+          <Form.Input
+            autoComplete="username"
+            label="Email"
+            name="email"
+            value={email}
+            onChange={setEmail}
+            type="email"
+            placeholder="harry@potter.com"
+            required
+          />
+          <Form.Input
+            autoComplete="current-password"
+            label="Password"
+            name="password"
+            value={password}
+            onChange={setPassword}
+            type="password"
+            placeholder="Min 12 characters"
+            required
+            minLength={12}
+            maxLength={128}
+          />
+          <Button
+            type="submit"
+            text={isLoading ? "Signing in..." : "Sign in"}
+            disabled={isLoading}
+          />
+        </Form>
+        <p>
+          If you forgot your password, go to the{" "}
+          <Link to="/auth/reset-password">password reset page</Link>. For other
+          sign-in trouble, email me at{" "}
+          <a href="mailto:mail@url.space">mail@url.space</a>.
+        </p>
+      </Stack>
+    </Page>
   );
 }

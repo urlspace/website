@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
-export const Route = createFileRoute("/_public/auth/verify")({
+export const Route = createFileRoute("/_public/auth/signup/$token")({
   validateSearch: (search: Record<string, unknown>) => ({
     token: search.token as string,
   }),
@@ -9,7 +9,7 @@ export const Route = createFileRoute("/_public/auth/verify")({
 });
 
 function Verify() {
-  const { token } = Route.useSearch();
+  const { token } = Route.useParams();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading",
   );

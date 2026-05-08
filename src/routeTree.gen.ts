@@ -12,15 +12,19 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteImport } from './routes/_public'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicTermsOfServiceRouteImport } from './routes/_public/terms-of-service'
+import { Route as PublicPrivacyPolicyRouteImport } from './routes/_public/privacy-policy'
 import { Route as PublicPricingRouteImport } from './routes/_public/pricing'
 import { Route as PublicFeaturesRouteImport } from './routes/_public/features'
 import { Route as PublicDocsRouteImport } from './routes/_public/docs'
 import { Route as PublicBlogRouteImport } from './routes/_public/blog'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
-import { Route as PublicAuthVerifyRouteImport } from './routes/_public/auth/verify'
-import { Route as PublicAuthSignupRouteImport } from './routes/_public/auth/signup'
 import { Route as PublicAuthSigninRouteImport } from './routes/_public/auth/signin'
 import { Route as PublicAuthResendVerificationRouteImport } from './routes/_public/auth/resend-verification'
+import { Route as PublicAuthSignupIndexRouteImport } from './routes/_public/auth/signup/index'
+import { Route as PublicAuthResetPasswordIndexRouteImport } from './routes/_public/auth/reset-password/index'
+import { Route as PublicAuthSignupTokenRouteImport } from './routes/_public/auth/signup/$token'
+import { Route as PublicAuthResetPasswordTokenRouteImport } from './routes/_public/auth/reset-password/$token'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -33,6 +37,16 @@ const ProtectedRoute = ProtectedRouteImport.update({
 const PublicIndexRoute = PublicIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicTermsOfServiceRoute = PublicTermsOfServiceRouteImport.update({
+  id: '/terms-of-service',
+  path: '/terms-of-service',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicPrivacyPolicyRoute = PublicPrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicPricingRoute = PublicPricingRouteImport.update({
@@ -60,16 +74,6 @@ const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => ProtectedRoute,
 } as any)
-const PublicAuthVerifyRoute = PublicAuthVerifyRouteImport.update({
-  id: '/auth/verify',
-  path: '/auth/verify',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicAuthSignupRoute = PublicAuthSignupRouteImport.update({
-  id: '/auth/signup',
-  path: '/auth/signup',
-  getParentRoute: () => PublicRoute,
-} as any)
 const PublicAuthSigninRoute = PublicAuthSigninRouteImport.update({
   id: '/auth/signin',
   path: '/auth/signin',
@@ -81,6 +85,28 @@ const PublicAuthResendVerificationRoute =
     path: '/auth/resend-verification',
     getParentRoute: () => PublicRoute,
   } as any)
+const PublicAuthSignupIndexRoute = PublicAuthSignupIndexRouteImport.update({
+  id: '/auth/signup/',
+  path: '/auth/signup/',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicAuthResetPasswordIndexRoute =
+  PublicAuthResetPasswordIndexRouteImport.update({
+    id: '/auth/reset-password/',
+    path: '/auth/reset-password/',
+    getParentRoute: () => PublicRoute,
+  } as any)
+const PublicAuthSignupTokenRoute = PublicAuthSignupTokenRouteImport.update({
+  id: '/auth/signup/$token',
+  path: '/auth/signup/$token',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicAuthResetPasswordTokenRoute =
+  PublicAuthResetPasswordTokenRouteImport.update({
+    id: '/auth/reset-password/$token',
+    path: '/auth/reset-password/$token',
+    getParentRoute: () => PublicRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
@@ -89,10 +115,14 @@ export interface FileRoutesByFullPath {
   '/docs': typeof PublicDocsRoute
   '/features': typeof PublicFeaturesRoute
   '/pricing': typeof PublicPricingRoute
+  '/privacy-policy': typeof PublicPrivacyPolicyRoute
+  '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/auth/signin': typeof PublicAuthSigninRoute
-  '/auth/signup': typeof PublicAuthSignupRoute
-  '/auth/verify': typeof PublicAuthVerifyRoute
+  '/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
+  '/auth/signup/$token': typeof PublicAuthSignupTokenRoute
+  '/auth/reset-password/': typeof PublicAuthResetPasswordIndexRoute
+  '/auth/signup/': typeof PublicAuthSignupIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
@@ -101,10 +131,14 @@ export interface FileRoutesByTo {
   '/docs': typeof PublicDocsRoute
   '/features': typeof PublicFeaturesRoute
   '/pricing': typeof PublicPricingRoute
+  '/privacy-policy': typeof PublicPrivacyPolicyRoute
+  '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/auth/signin': typeof PublicAuthSigninRoute
-  '/auth/signup': typeof PublicAuthSignupRoute
-  '/auth/verify': typeof PublicAuthVerifyRoute
+  '/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
+  '/auth/signup/$token': typeof PublicAuthSignupTokenRoute
+  '/auth/reset-password': typeof PublicAuthResetPasswordIndexRoute
+  '/auth/signup': typeof PublicAuthSignupIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -115,11 +149,15 @@ export interface FileRoutesById {
   '/_public/docs': typeof PublicDocsRoute
   '/_public/features': typeof PublicFeaturesRoute
   '/_public/pricing': typeof PublicPricingRoute
+  '/_public/privacy-policy': typeof PublicPrivacyPolicyRoute
+  '/_public/terms-of-service': typeof PublicTermsOfServiceRoute
   '/_public/': typeof PublicIndexRoute
   '/_public/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/_public/auth/signin': typeof PublicAuthSigninRoute
-  '/_public/auth/signup': typeof PublicAuthSignupRoute
-  '/_public/auth/verify': typeof PublicAuthVerifyRoute
+  '/_public/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
+  '/_public/auth/signup/$token': typeof PublicAuthSignupTokenRoute
+  '/_public/auth/reset-password/': typeof PublicAuthResetPasswordIndexRoute
+  '/_public/auth/signup/': typeof PublicAuthSignupIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -130,10 +168,14 @@ export interface FileRouteTypes {
     | '/docs'
     | '/features'
     | '/pricing'
+    | '/privacy-policy'
+    | '/terms-of-service'
     | '/auth/resend-verification'
     | '/auth/signin'
-    | '/auth/signup'
-    | '/auth/verify'
+    | '/auth/reset-password/$token'
+    | '/auth/signup/$token'
+    | '/auth/reset-password/'
+    | '/auth/signup/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -142,10 +184,14 @@ export interface FileRouteTypes {
     | '/docs'
     | '/features'
     | '/pricing'
+    | '/privacy-policy'
+    | '/terms-of-service'
     | '/auth/resend-verification'
     | '/auth/signin'
+    | '/auth/reset-password/$token'
+    | '/auth/signup/$token'
+    | '/auth/reset-password'
     | '/auth/signup'
-    | '/auth/verify'
   id:
     | '__root__'
     | '/_protected'
@@ -155,11 +201,15 @@ export interface FileRouteTypes {
     | '/_public/docs'
     | '/_public/features'
     | '/_public/pricing'
+    | '/_public/privacy-policy'
+    | '/_public/terms-of-service'
     | '/_public/'
     | '/_public/auth/resend-verification'
     | '/_public/auth/signin'
-    | '/_public/auth/signup'
-    | '/_public/auth/verify'
+    | '/_public/auth/reset-password/$token'
+    | '/_public/auth/signup/$token'
+    | '/_public/auth/reset-password/'
+    | '/_public/auth/signup/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -188,6 +238,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/terms-of-service': {
+      id: '/_public/terms-of-service'
+      path: '/terms-of-service'
+      fullPath: '/terms-of-service'
+      preLoaderRoute: typeof PublicTermsOfServiceRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/privacy-policy': {
+      id: '/_public/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PublicPrivacyPolicyRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/pricing': {
@@ -225,20 +289,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedDashboardRouteImport
       parentRoute: typeof ProtectedRoute
     }
-    '/_public/auth/verify': {
-      id: '/_public/auth/verify'
-      path: '/auth/verify'
-      fullPath: '/auth/verify'
-      preLoaderRoute: typeof PublicAuthVerifyRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/auth/signup': {
-      id: '/_public/auth/signup'
-      path: '/auth/signup'
-      fullPath: '/auth/signup'
-      preLoaderRoute: typeof PublicAuthSignupRouteImport
-      parentRoute: typeof PublicRoute
-    }
     '/_public/auth/signin': {
       id: '/_public/auth/signin'
       path: '/auth/signin'
@@ -251,6 +301,34 @@ declare module '@tanstack/react-router' {
       path: '/auth/resend-verification'
       fullPath: '/auth/resend-verification'
       preLoaderRoute: typeof PublicAuthResendVerificationRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/auth/signup/': {
+      id: '/_public/auth/signup/'
+      path: '/auth/signup'
+      fullPath: '/auth/signup/'
+      preLoaderRoute: typeof PublicAuthSignupIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/auth/reset-password/': {
+      id: '/_public/auth/reset-password/'
+      path: '/auth/reset-password'
+      fullPath: '/auth/reset-password/'
+      preLoaderRoute: typeof PublicAuthResetPasswordIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/auth/signup/$token': {
+      id: '/_public/auth/signup/$token'
+      path: '/auth/signup/$token'
+      fullPath: '/auth/signup/$token'
+      preLoaderRoute: typeof PublicAuthSignupTokenRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/auth/reset-password/$token': {
+      id: '/_public/auth/reset-password/$token'
+      path: '/auth/reset-password/$token'
+      fullPath: '/auth/reset-password/$token'
+      preLoaderRoute: typeof PublicAuthResetPasswordTokenRouteImport
       parentRoute: typeof PublicRoute
     }
   }
@@ -273,11 +351,15 @@ interface PublicRouteChildren {
   PublicDocsRoute: typeof PublicDocsRoute
   PublicFeaturesRoute: typeof PublicFeaturesRoute
   PublicPricingRoute: typeof PublicPricingRoute
+  PublicPrivacyPolicyRoute: typeof PublicPrivacyPolicyRoute
+  PublicTermsOfServiceRoute: typeof PublicTermsOfServiceRoute
   PublicIndexRoute: typeof PublicIndexRoute
   PublicAuthResendVerificationRoute: typeof PublicAuthResendVerificationRoute
   PublicAuthSigninRoute: typeof PublicAuthSigninRoute
-  PublicAuthSignupRoute: typeof PublicAuthSignupRoute
-  PublicAuthVerifyRoute: typeof PublicAuthVerifyRoute
+  PublicAuthResetPasswordTokenRoute: typeof PublicAuthResetPasswordTokenRoute
+  PublicAuthSignupTokenRoute: typeof PublicAuthSignupTokenRoute
+  PublicAuthResetPasswordIndexRoute: typeof PublicAuthResetPasswordIndexRoute
+  PublicAuthSignupIndexRoute: typeof PublicAuthSignupIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
@@ -285,11 +367,15 @@ const PublicRouteChildren: PublicRouteChildren = {
   PublicDocsRoute: PublicDocsRoute,
   PublicFeaturesRoute: PublicFeaturesRoute,
   PublicPricingRoute: PublicPricingRoute,
+  PublicPrivacyPolicyRoute: PublicPrivacyPolicyRoute,
+  PublicTermsOfServiceRoute: PublicTermsOfServiceRoute,
   PublicIndexRoute: PublicIndexRoute,
   PublicAuthResendVerificationRoute: PublicAuthResendVerificationRoute,
   PublicAuthSigninRoute: PublicAuthSigninRoute,
-  PublicAuthSignupRoute: PublicAuthSignupRoute,
-  PublicAuthVerifyRoute: PublicAuthVerifyRoute,
+  PublicAuthResetPasswordTokenRoute: PublicAuthResetPasswordTokenRoute,
+  PublicAuthSignupTokenRoute: PublicAuthSignupTokenRoute,
+  PublicAuthResetPasswordIndexRoute: PublicAuthResetPasswordIndexRoute,
+  PublicAuthSignupIndexRoute: PublicAuthSignupIndexRoute,
 }
 
 const PublicRouteWithChildren =

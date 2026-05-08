@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 
-export const Route = createFileRoute("/_public/auth/signup")({
+export const Route = createFileRoute("/_public/auth/signup/")({
   beforeLoad: ({ context }) => {
     if (context.hasSession)
       throw redirect({
