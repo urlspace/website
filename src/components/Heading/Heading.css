@@ -1,0 +1,57 @@
+.heading {
+  --bg-color: transparent;
+  --bg-s-size: 2px;
+  --bg-s-color: var(--color-border);
+  --bg-size: 0.5lh;
+
+  background-color: var(--bg-color);
+  background-image: conic-gradient(
+    at var(--bg-s-size) var(--bg-s-size),
+    #0000 75%,
+    var(--bg-s-color) 0
+  );
+  background-size: var(--bg-size) var(--bg-size);
+  background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
+}
+
+.heading__inner {
+  background-color: var(--color-bg);
+  display: inline;
+  box-shadow: 1rlh 0 0 0 var(--color-bg);
+}
+
+.heading__inner--h1 {
+  font-weight: 800;
+  font-size: 1.5lh;
+  line-height: 2lh;
+}
+
+.heading__inner--h2 {
+  font-weight: 800;
+  font-size: 1.125lh;
+  line-height: 1.5lh;
+}
+
+.heading__inner--h3 {
+  font-weight: 800;
+  font-size: 1lh;
+  line-height: 1.5lh;
+}
+
+.heading__inner--h4 {
+  font-weight: 500;
+  font-size: 1lh;
+  line-height: 1.5lh;
+}
+
+.heading__inner--h5 {
+  font-weight: 500;
+  font-size: 0.75lh;
+  line-height: 1lh;
+}
+
+.heading__inner--h6 {
+  font-weight: 500;
+  font-size: 0.625lh;
+  line-height: 1lh;
+}

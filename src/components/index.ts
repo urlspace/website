@@ -2,5 +2,9 @@ import App from "./App/App.tsx";
 import Header from "./Header/Header.tsx";
 import Footer from "./Footer/Footer.tsx";
 import { Button, ButtonLink } from "./Button/Button.tsx";
+import Heading from "./Heading/Heading.tsx";
+import Form from "./Form/Form.tsx";
+import Stack from "./Stack/Stack.tsx";
+import Page from "./Page/Page.tsx";
 
-export { App, Header, Footer, Button, ButtonLink };
+export { App, Header, Footer, Button, ButtonLink, Heading, Form, Stack, Page };
