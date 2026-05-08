@@ -80,7 +80,7 @@ function SignIn() {
             value={email}
             onChange={setEmail}
             type="email"
-            placeholder="harry@potter.com"
+            placeholder="sylvester@stallone.com"
             required
           />
           <Form.Input
