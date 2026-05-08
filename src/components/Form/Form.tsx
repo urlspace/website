@@ -15,6 +15,7 @@ function Form({
 }
 
 function Input({
+  autoComplete,
   description,
   label,
   maxLength,
@@ -26,6 +27,7 @@ function Input({
   type,
   value,
 }: {
+  autoComplete?: string;
   description?: string;
   label: string;
   maxLength?: number;
@@ -55,20 +57,19 @@ function Input({
         required={required}
         minLength={minLength}
         maxLength={maxLength}
+        autoComplete={autoComplete}
       />
-      {description ? (
-        <p className="form__description">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio
-          dignissimos aut cupiditate voluptate. Eveniet esse illum, rerum iste
-          ut commodi.
-        </p>
-      ) : null}
+      {description ? <p className="form__description">{description}</p> : null}
     </div>
   );
 }
 
 function Error({ errorMessage }: { errorMessage: string | null }) {
-  return errorMessage ? <p className="form__error">{errorMessage}</p> : null;
+  return errorMessage ? (
+    <p className="form__error" role="alert">
+      {errorMessage}
+    </p>
+  ) : null;
 }
 
 Form.Input = Input;
