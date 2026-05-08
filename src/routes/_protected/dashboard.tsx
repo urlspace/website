@@ -67,6 +67,11 @@ function Dashboard() {
       credentials: "include",
     });
 
+    // TODO: bug, what if the authentication fails on the sighout click,
+    // user should still be moved away from the dashboard, anc cookie should be cleard
+    // somethign similar that we do on the _protected file with clearing cookies,
+    //  maybe this should run on server, i dont know
+
     if (res.ok) {
       await router.invalidate();
       router.navigate({ to: "/auth/signin" });
