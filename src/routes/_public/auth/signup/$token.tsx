@@ -1,36 +1,84 @@
+import { Page, Stack, Heading } from "#/components";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { createServerFn } from "@tanstack/react-start";
+
+const verify = createServerFn({ method: "POST" })
+  .inputValidator((token: string) => token)
+  .handler(async ({ data: token }) => {
+    try {
+      const res = await fetch("http://localhost:3000/v1/auth/verify", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ token }),
+      });
+      return { status: res.status };
+    } catch {
+      return { status: 500 };
+    }
+  });
 
 export const Route = createFileRoute("/_public/auth/signup/$token")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    token: search.token as string,
-  }),
+  loader: ({ params }) => verify({ data: params.token }),
   component: Verify,
 });
 
 function Verify() {
-  const { token } = Route.useParams();
-  const [status, setStatus] = useState<"loading" | "success" | "error">(
-    "loading",
-  );
+  const { status } = Route.useLoaderData();
 
-  useEffect(() => {
-    fetch("http://localhost:3000/v1/auth/verify", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ token }),
-    })
-      .then((res) => setStatus(res.ok ? "success" : "error"))
-      .catch(() => setStatus("error"));
-  }, [token]);
-
-  if (status === "loading") return <p>Verifying</p>;
-  if (status === "error")
+  if (status === 200) {
     return (
-      <p>
-        Failed
-        <Link to="/auth/resend-verification">"Resend verification email"</Link>
-      </p>
+      <Page>
+        <Stack gap={2}>
+          <Heading level={1} text="Your account has been verified" />
+          <p>
+            Your account is now active. Go to{" "}
+            <Link to="/auth/signin">sign in page</Link>.
+          </p>
+        </Stack>
+      </Page>
     );
-  return <p>"Success"</p>;
+  }
+
+  let message: React.ReactNode;
+  switch (status) {
+    case 400:
+      message = (
+        <p>
+          This verification link is invalid. Please check that you copied the
+          full link from your email and try again.
+        </p>
+      );
+      break;
+    case 401:
+      message = (
+        <p>
+          This verification link has expired. Please{" "}
+          <Link to="/auth/resend-verification">
+            request a new verification link
+          </Link>
+          .
+        </p>
+      );
+      break;
+    case 429:
+      message = <p>Too many attempts. Please wait a moment and try again.</p>;
+      break;
+    default:
+      message = (
+        <p>
+          Something went wrong on our end. Please try again in a few minutes, or
+          email me at <a href="mailto:mail@url.space">mail@url.space</a> if the
+          problem persists.
+        </p>
+      );
+  }
+
+  return (
+    <Page>
+      <Stack gap={2}>
+        <Heading level={1} text="Verification of your account failed" />
+        {message}
+      </Stack>
+    </Page>
+  );
 }
