@@ -41,6 +41,9 @@ function SignUp() {
           case 400:
             setError("Please check your input and try again.");
             break;
+          case 409:
+            setError("An account with this username or email already exists.");
+            break;
           case 429:
             setError("Too many attempts. Try again in a moment.");
             break;
