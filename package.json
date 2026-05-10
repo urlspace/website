@@ -11,7 +11,6 @@
     "preview": "vite preview",
     "deploy": "npm run build && wrangler deploy",
     "cf-typegen": "wrangler types",
-    "test": "vitest run",
     "format": "biome format",
     "lint": "biome lint",
     "check": "biome check"
@@ -40,13 +39,5 @@
     "typescript": "^6.0.3",
     "vite": "^8.0.10",
     "wrangler": "^4.87.0"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "lightningcss",
-      "sharp",
-      "workerd"
-    ]
   }
 }

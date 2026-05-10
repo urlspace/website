@@ -11,17 +11,17 @@ url.space website — a React app built with TanStack Start (SSR framework) usin
 - **Styling**: Tailwind CSS (via `@tailwindcss/typography`)
 - **Linting/Formatting**: Biome (tabs, double quotes, recommended rules)
 - **Testing**: Vitest + Testing Library (React, jsdom)
-- **Package manager**: pnpm
+- **Package manager**: npm
 - **React Compiler**: enabled via `babel-plugin-react-compiler`
 
 ## Commands
 
-- `pnpm dev` — start dev server on port 3000
-- `pnpm build` — production build
-- `pnpm test` — run tests (`vitest run`)
-- `pnpm check` — biome check (lint + format)
-- `pnpm lint` — biome lint only
-- `pnpm format` — biome format only
+- `npm run dev` — start dev server on port 3000
+- `npm run build` — production build
+- `npm test` — run tests (`vitest run`)
+- `npm run check` — biome check (lint + format)
+- `npm run lint` — biome lint only
+- `npm run format` — biome format only
 
 ## Code conventions
 
@@ -30,4 +30,4 @@ url.space website — a React app built with TanStack Start (SSR framework) usin
 - Route files live in `src/routes/` following TanStack Router file-based routing
 - `src/routeTree.gen.ts` is auto-generated — do not edit manually
 - `src/styles.css` is excluded from biome checks
-- Run `pnpm check` before committing to ensure code passes lint and format checks
+- Run `npm run check` before committing to ensure code passes lint and format checks

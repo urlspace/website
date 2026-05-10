@@ -1,4 +1,5 @@
 import { ButtonLink, Heading, Stack } from "#/components";
+import { Link } from "@tanstack/react-router";
 import "./Intro.css";
 
 function Intro() {
@@ -25,9 +26,9 @@ function Intro() {
             consectetur, culpa velit consequatur nihil repellat est harum
             possimus nemo fugiat iste perspiciatis sapiente laudantium! Veniam.
           </p>
-          <a href="#" className="intro__more">
+          <Link to="/docs" className="intro__more">
             Organisation with ease
-          </a>
+          </Link>
         </Stack>
       </div>
       <div className="intro__feature">
@@ -38,9 +39,9 @@ function Intro() {
             consectetur, culpa velit consequatur nihil repellat est harum
             possimus nemo fugiat iste perspiciatis sapiente laudantium! Veniam.
           </p>
-          <a href="#" className="intro__more">
+          <Link to="/docs" className="intro__more">
             Lean more about sharing
-          </a>
+          </Link>
         </Stack>
       </div>
       <div className="intro__feature">
@@ -51,9 +52,9 @@ function Intro() {
             consectetur, culpa velit consequatur nihil repellat est harum
             possimus nemo fugiat iste perspiciatis sapiente laudantium! Veniam.
           </p>
-          <a href="#" className="intro__more">
+          <Link to="/docs" className="intro__more">
             Explore integrations
-          </a>
+          </Link>
         </Stack>
       </div>
     </section>

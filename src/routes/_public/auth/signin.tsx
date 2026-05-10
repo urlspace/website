@@ -60,7 +60,7 @@ function SignIn() {
 
       await router.invalidate();
       router.navigate({ to: "/dashboard" });
-    } catch (e) {
+    } catch {
       setError("Something went wrong. Try again in a moment.");
     } finally {
       setIsLoading(false);
@@ -82,6 +82,8 @@ function SignIn() {
             type="email"
             placeholder="sylvester@stallone.com"
             required
+            maxLength={254}
+            pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
           />
           <Form.Input
             autoComplete="current-password"

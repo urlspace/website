@@ -50,7 +50,7 @@ function ResendVerification() {
       }
 
       setSent(true);
-    } catch (e) {
+    } catch {
       setError("Something went wrong. Try again in a moment.");
     } finally {
       setIsLoading(false);
@@ -78,6 +78,8 @@ function ResendVerification() {
               type="email"
               placeholder="sylvester@stallone.com"
               required
+              maxLength={254}
+              pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
             />
             <Button
               type="submit"

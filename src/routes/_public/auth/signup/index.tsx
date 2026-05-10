@@ -54,7 +54,7 @@ function SignUp() {
       }
 
       setSuccess(true);
-    } catch (e) {
+    } catch {
       setError("Something went wrong. Try again in a moment.");
     } finally {
       setIsLoading(false);
@@ -83,6 +83,10 @@ function SignUp() {
                 type="text"
                 placeholder="rocky"
                 required
+                minLength={3}
+                maxLength={32}
+                description="Use 3 to 32 lowercase letters or digits. Hyphens and underscores are also allowed, but not as a prefix or suffix."
+                pattern="[a-z0-9]([a-z0-9_\-]*[a-z0-9])?"
               />
               <Form.Input
                 autoComplete="username"
@@ -93,6 +97,8 @@ function SignUp() {
                 type="email"
                 placeholder="sylvester@stallone.com"
                 required
+                maxLength={254}
+                pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
               />
               <Form.Input
                 autoComplete="new-password"

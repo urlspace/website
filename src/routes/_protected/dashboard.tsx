@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
-type Link = {
+type LinkRow = {
   id: string;
   title: string;
   description: string;
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_protected/dashboard")({
 
 function Dashboard() {
   const { user } = useLoaderData({ from: "/_protected" });
-  const [links, setLinks] = useState<Link[]>([]);
+  const [links, setLinks] = useState<LinkRow[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -29,11 +29,11 @@ function Dashboard() {
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((json) => setLinks((json as { data: Link[] }).data ?? []))
+      .then((json) => setLinks((json as { data: LinkRow[] }).data ?? []))
       .catch(() => setError("Failed"));
   }, []);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
 

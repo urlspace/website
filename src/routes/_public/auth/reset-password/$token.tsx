@@ -65,7 +65,7 @@ function ResetPasswordConfirm() {
       }
 
       setDone(true);
-    } catch (e) {
+    } catch {
       setError("Something went wrong. Try again in a moment.");
     } finally {
       setIsLoading(false);

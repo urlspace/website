@@ -26,6 +26,7 @@ function Input({
   required,
   type,
   value,
+  pattern,
 }: {
   autoComplete?: string;
   description?: string;
@@ -38,6 +39,7 @@ function Input({
   required: boolean;
   type: "text" | "email" | "password";
   value: string;
+  pattern?: string;
 }) {
   return (
     <div className="form__field">
@@ -58,13 +60,14 @@ function Input({
         minLength={minLength}
         maxLength={maxLength}
         autoComplete={autoComplete}
+        pattern={pattern}
       />
       {description ? <p className="form__description">{description}</p> : null}
     </div>
   );
 }
 
-function Error({ errorMessage }: { errorMessage: string | null }) {
+function FormError({ errorMessage }: { errorMessage: string | null }) {
   return errorMessage ? (
     <p className="form__error" role="alert">
       {errorMessage}
@@ -73,6 +76,6 @@ function Error({ errorMessage }: { errorMessage: string | null }) {
 }
 
 Form.Input = Input;
-Form.Error = Error;
+Form.Error = FormError;
 
 export default Form;

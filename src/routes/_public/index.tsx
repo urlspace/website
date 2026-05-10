@@ -1,4 +1,4 @@
-import { ButtonLink, Stack } from "#/components";
+import { Stack } from "#/components";
 import { Intro } from "#/sections";
 import { createFileRoute } from "@tanstack/react-router";
 
