@@ -2,13 +2,20 @@ import "./Form.css";
 
 function Form({
 	onSubmit,
+	isLoading,
 	children,
 }: {
 	onSubmit: React.ComponentProps<"form">["onSubmit"];
+	isLoading?: boolean;
 	children: React.ReactNode;
 }) {
 	return (
-		<form className="form" onSubmit={onSubmit} tabIndex={-1}>
+		<form
+			aria-busy={isLoading}
+			className="form"
+			onSubmit={onSubmit}
+			tabIndex={-1}
+		>
 			{children}
 		</form>
 	);
