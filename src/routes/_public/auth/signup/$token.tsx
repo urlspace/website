@@ -1,83 +1,94 @@
-import { Page, Stack, Heading } from "#/components";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { useState } from "react";
+import { Button, Heading, Page, Stack } from "#/components";
 
-const verify = createServerFn({ method: "POST" })
-  .inputValidator((token: string) => token)
-  .handler(async ({ data: token }) => {
+export const Route = createFileRoute("/_public/auth/signup/$token")({
+  component: Verify,
+});
+
+function Verify() {
+  const router = useRouter();
+  const { token } = Route.useParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorStatus, setErrorStatus] = useState<number | null>(null);
+
+  async function handleActivate() {
+    setErrorStatus(null);
+    setIsLoading(true);
+
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/verify`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ token }),
       });
-      return { status: res.status };
+
+      if (res.ok) {
+        router.navigate({ to: "/auth/signin" });
+        return;
+      }
+
+      setErrorStatus(res.status);
     } catch {
-      return { status: 500 };
+      setErrorStatus(500);
+    } finally {
+      setIsLoading(false);
     }
-  });
+  }
 
-export const Route = createFileRoute("/_public/auth/signup/$token")({
-  loader: ({ params }) => verify({ data: params.token }),
-  component: Verify,
-});
+  if (errorStatus !== null) {
+    let message: React.ReactNode;
+    switch (errorStatus) {
+      case 400:
+        message = <p>This verification link is invalid.</p>;
+        break;
+      case 401:
+        message = (
+          <p>
+            This verification link has expired. Please{" "}
+            <Link to="/auth/resend-verification">
+              request a new verification link
+            </Link>
+            .
+          </p>
+        );
+        break;
+      case 429:
+        message = <p>Too many attempts. Please wait a moment and try again.</p>;
+        break;
+      default:
+        message = (
+          <p>
+            Something went wrong on our end. Please try again in a few minutes,
+            or email me at <a href="mailto:mail@url.space">mail@url.space</a> if
+            the problem persists.
+          </p>
+        );
+    }
 
-function Verify() {
-  const { status } = Route.useLoaderData();
-
-  if (status === 200) {
     return (
       <Page>
         <Stack gap={2}>
-          <Heading level={1} text="Your account has been verified" />
-          <p>
-            Your account is now active. Go to{" "}
-            <Link to="/auth/signin">sign in page</Link>.
-          </p>
+          <Heading level={1} text="Verification of your account failed" />
+          {message}
         </Stack>
       </Page>
     );
   }
 
-  let message: React.ReactNode;
-  switch (status) {
-    case 400:
-      message = (
-        <p>
-          This verification link is invalid. Please check that you copied the
-          full link from your email and try again.
-        </p>
-      );
-      break;
-    case 401:
-      message = (
-        <p>
-          This verification link has expired. Please{" "}
-          <Link to="/auth/resend-verification">
-            request a new verification link
-          </Link>
-          .
-        </p>
-      );
-      break;
-    case 429:
-      message = <p>Too many attempts. Please wait a moment and try again.</p>;
-      break;
-    default:
-      message = (
-        <p>
-          Something went wrong on our end. Please try again in a few minutes, or
-          email me at <a href="mailto:mail@url.space">mail@url.space</a> if the
-          problem persists.
-        </p>
-      );
-  }
-
   return (
     <Page>
       <Stack gap={2}>
-        <Heading level={1} text="Verification of your account failed" />
-        {message}
+        <Heading level={1} text="Welcome to url.space" />
+        <p>Tap the button below to activate your account and sign in.</p>
+        <Button
+          type="button"
+          text={
+            isLoading ? "Activating..." : "Activate account and go to sign in"
+          }
+          disabled={isLoading}
+          onClick={handleActivate}
+        />
       </Stack>
     </Page>
   );
