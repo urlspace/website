@@ -17,29 +17,31 @@ function Form({
 function Input({
   autoComplete,
   description,
+  disabled,
   label,
   maxLength,
   minLength,
   name,
   onChange,
+  pattern,
   placeholder,
   required,
   type,
   value,
-  pattern,
 }: {
   autoComplete?: string;
   description?: string;
+  disabled?: boolean;
   label: string;
   maxLength?: number;
   minLength?: number;
   name: string;
   onChange: (value: string) => void;
+  pattern?: string;
   placeholder: string;
   required: boolean;
   type: "text" | "email" | "password";
   value: string;
-  pattern?: string;
 }) {
   return (
     <div className="form__field">
@@ -49,18 +51,19 @@ function Input({
       </label>
 
       <input
-        name={name}
-        id={name}
-        className="form__input"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        type={type}
-        required={required}
-        minLength={minLength}
-        maxLength={maxLength}
         autoComplete={autoComplete}
+        className="form__input"
+        disabled={disabled}
+        id={name}
+        maxLength={maxLength}
+        minLength={minLength}
+        name={name}
+        onChange={(e) => onChange(e.target.value)}
         pattern={pattern}
+        placeholder={placeholder}
+        required={required}
+        type={type}
+        value={value}
       />
       {description ? <p className="form__description">{description}</p> : null}
     </div>

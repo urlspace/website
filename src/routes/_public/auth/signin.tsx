@@ -75,27 +75,29 @@ function SignIn() {
           <Form.Error errorMessage={error} />
           <Form.Input
             autoComplete="username"
+            disabled={isLoading}
             label="Email"
+            maxLength={254}
             name="email"
-            value={email}
             onChange={setEmail}
-            type="email"
+            pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
             placeholder="sylvester@stallone.com"
             required
-            maxLength={254}
-            pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
+            type="email"
+            value={email}
           />
           <Form.Input
             autoComplete="current-password"
+            disabled={isLoading}
             label="Password"
+            maxLength={128}
+            minLength={12}
             name="password"
-            value={password}
             onChange={setPassword}
-            type="password"
             placeholder="Min 12 characters"
             required
-            minLength={12}
-            maxLength={128}
+            type="password"
+            value={password}
           />
           <Button
             type="submit"

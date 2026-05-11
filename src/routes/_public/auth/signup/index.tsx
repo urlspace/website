@@ -76,47 +76,50 @@ function SignUp() {
               <Form.Error errorMessage={error} />
               <Form.Input
                 autoComplete="nickname"
+                description="Use 3 to 32 lowercase letters or digits. Hyphens and underscores are also allowed, but not as a prefix or suffix."
+                disabled={isLoading}
                 label="Username"
+                maxLength={32}
+                minLength={3}
                 name="username"
-                value={username}
                 onChange={setUsername}
-                type="text"
+                pattern="[a-z0-9]([a-z0-9_\-]*[a-z0-9])?"
                 placeholder="rocky"
                 required
-                minLength={3}
-                maxLength={32}
-                description="Use 3 to 32 lowercase letters or digits. Hyphens and underscores are also allowed, but not as a prefix or suffix."
-                pattern="[a-z0-9]([a-z0-9_\-]*[a-z0-9])?"
+                type="text"
+                value={username}
               />
               <Form.Input
                 autoComplete="username"
+                disabled={isLoading}
                 label="Email"
+                maxLength={254}
                 name="email"
-                value={email}
                 onChange={setEmail}
-                type="email"
+                pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
                 placeholder="sylvester@stallone.com"
                 required
-                maxLength={254}
-                pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
+                type="email"
+                value={email}
               />
               <Form.Input
                 autoComplete="new-password"
                 description="Use a strong password that is a minimum of 12 characters long. Please do not include parts of your email address or username in your password."
+                disabled={isLoading}
                 label="Password"
+                maxLength={128}
+                minLength={12}
                 name="password"
-                value={password}
                 onChange={setPassword}
-                type="password"
                 placeholder="Min 12 characters"
                 required
-                minLength={12}
-                maxLength={128}
+                type="password"
+                value={password}
               />
               <Button
-                type="submit"
-                text={isLoading ? "Signing up..." : "Sign up"}
                 disabled={isLoading}
+                text={isLoading ? "Signing up..." : "Sign up"}
+                type="submit"
               />
             </Form>
 

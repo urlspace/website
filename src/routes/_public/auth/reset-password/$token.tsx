@@ -88,32 +88,34 @@ function ResetPasswordConfirm() {
             <Form.Input
               autoComplete="new-password"
               description="Use a strong password that is a minimum of 12 characters long. Please do not include parts of your email address or username in your password."
+              disabled={isLoading}
               label="New password"
+              maxLength={128}
+              minLength={12}
               name="password"
-              value={password}
               onChange={setPassword}
-              type="password"
               placeholder="Min 12 characters"
               required
-              minLength={12}
-              maxLength={128}
+              type="password"
+              value={password}
             />
             <Form.Input
               autoComplete="new-password"
+              disabled={isLoading}
               label="Repeat new password"
+              maxLength={128}
+              minLength={12}
               name="password-two"
-              value={passwordConfirm}
               onChange={setPasswordConfirm}
-              type="password"
               placeholder="Min 12 characters"
               required
-              minLength={12}
-              maxLength={128}
+              type="password"
+              value={passwordConfirm}
             />
             <Button
-              type="submit"
-              text={isLoading ? "Resetting..." : "Reset password"}
               disabled={isLoading}
+              text={isLoading ? "Resetting..." : "Reset password"}
+              type="submit"
             />
           </Form>
         )}

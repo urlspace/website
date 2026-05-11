@@ -51,6 +51,12 @@
   &:focus {
     --outline-color: var(--color-link);
   }
+
+  &:disabled {
+    --outline-color: transparent;
+    opacity: 0.75;
+    cursor: not-allowed;
+  }
 }
 
 .form__description {

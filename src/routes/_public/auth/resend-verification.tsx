@@ -71,15 +71,16 @@ function ResendVerification() {
             <Form.Error errorMessage={error} />
             <Form.Input
               autoComplete="username"
+              disabled={isLoading}
               label="Email"
+              maxLength={254}
               name="email"
-              value={email}
               onChange={setEmail}
-              type="email"
+              pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
               placeholder="sylvester@stallone.com"
               required
-              maxLength={254}
-              pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
+              type="email"
+              value={email}
             />
             <Button
               type="submit"

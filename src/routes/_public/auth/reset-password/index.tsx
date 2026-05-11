@@ -71,18 +71,19 @@ function ResetPassword() {
             <Form.Error errorMessage={error} />
             <Form.Input
               autoComplete="username"
+              disabled={isLoading}
               label="Email"
               name="email"
-              value={email}
               onChange={setEmail}
-              type="email"
               placeholder="sylvester@stallone.com"
               required
+              type="email"
+              value={email}
             />
             <Button
-              type="submit"
-              text={isLoading ? "Sending..." : "Send reset link"}
               disabled={isLoading}
+              text={isLoading ? "Sending..." : "Send reset link"}
+              type="submit"
             />
           </Form>
         )}
