@@ -30,7 +30,7 @@ function SignIn() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/v1/auth/signin", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signin`, {
         method: "POST",
         credentials: "include",
         headers: { "content-type": "application/json" },

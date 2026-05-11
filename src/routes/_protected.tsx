@@ -16,7 +16,7 @@ export type User = {
 
 const getUser = createServerFn().handler(async () => {
   const cookie = getRequest().headers.get("cookie") ?? "";
-  const res = await fetch("http://localhost:3000/v1/me", {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
     headers: { cookie },
   });
   if (res.status === 401) return null;

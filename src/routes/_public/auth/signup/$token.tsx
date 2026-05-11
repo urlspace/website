@@ -6,7 +6,7 @@ const verify = createServerFn({ method: "POST" })
   .inputValidator((token: string) => token)
   .handler(async ({ data: token }) => {
     try {
-      const res = await fetch("http://localhost:3000/v1/auth/verify", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/verify`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ token }),

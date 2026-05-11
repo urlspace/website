@@ -33,7 +33,7 @@ function ResetPasswordConfirm() {
 
     try {
       const res = await fetch(
-        "http://localhost:3000/v1/auth/reset-password-confirm",
+        `${import.meta.env.VITE_API_URL}/auth/reset-password-confirm`,
         {
           method: "POST",
           headers: { "content-type": "application/json" },

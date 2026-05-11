@@ -25,7 +25,7 @@ function ResendVerification() {
 
     try {
       const res = await fetch(
-        "http://localhost:3000/v1/auth/resend-verification",
+        `${import.meta.env.VITE_API_URL}/auth/resend-verification`,
         {
           method: "POST",
           headers: { "content-type": "application/json" },

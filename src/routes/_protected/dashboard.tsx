@@ -25,7 +25,7 @@ function Dashboard() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/v1/links", {
+    fetch(`${import.meta.env.VITE_API_URL}/links`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -39,7 +39,7 @@ function Dashboard() {
 
     const form = new FormData(e.currentTarget);
 
-    const res = await fetch("http://localhost:3000/v1/links", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/links`, {
       method: "POST",
       credentials: "include",
       headers: { "content-type": "application/json" },
@@ -56,13 +56,13 @@ function Dashboard() {
     }
 
     const json = await res.json();
-    setLinks((json as { data: Link[] }).data ?? []);
+    setLinks((json as { data: LinkRow[] }).data ?? []);
     e.currentTarget.reset();
   }
 
   const router = useRouter();
   async function handleSignOut() {
-    const res = await fetch("http://localhost:3000/v1/auth/signout", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signout`, {
       method: "POST",
       credentials: "include",
     });
