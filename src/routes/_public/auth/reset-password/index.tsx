@@ -83,8 +83,10 @@ function ResetPassword() {
               autoComplete="username"
               disabled={isLoading}
               label="Email"
+              maxLength={254}
               name="email"
               onChange={setEmail}
+              pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
               placeholder="sylvester@stallone.com"
               required
               type="email"
