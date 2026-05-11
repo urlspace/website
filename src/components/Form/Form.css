@@ -3,6 +3,9 @@
   flex-direction: column;
   gap: 1lh;
   align-items: flex-start;
+  /* when error occurs, the form gets focus */
+  /* so to remove the default browser focus ring this outline here is intentional */
+  outline: none;
 }
 
 .form__field {

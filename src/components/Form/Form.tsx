@@ -8,7 +8,7 @@ function Form({
 	children: React.ReactNode;
 }) {
 	return (
-		<form className="form" onSubmit={onSubmit}>
+		<form className="form" onSubmit={onSubmit} tabIndex={-1}>
 			{children}
 		</form>
 	);
