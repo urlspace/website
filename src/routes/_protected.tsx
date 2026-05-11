@@ -50,6 +50,13 @@ export const Route = createFileRoute("/_protected")({
   component: RouteComponent,
   errorComponent: GenericError,
   preload: false,
+  head: () => ({
+    meta: [
+      {
+        title: "Dashboard | url.space",
+      },
+    ],
+  }),
 });
 
 function RouteComponent() {

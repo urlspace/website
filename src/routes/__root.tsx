@@ -29,7 +29,12 @@ export const Route = createRootRouteWithContext<{ hasSession: boolean }>()({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "url.space",
+        title: "url.space | Keep, organise and share websites you like.",
+      },
+      {
+        name: "description",
+        content:
+          "Keep, organise and share websites you like. Open source, no ads, no tracking, no AI, just a space for your URLs. Free for everyday use with power user features for a tiny fee.",
       },
     ],
     links: [
