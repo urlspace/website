@@ -1,8 +1,19 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Link,
+  redirect,
+  useRouter,
+} from "@tanstack/react-router";
 import { useState } from "react";
 import { Button, Heading, Page, Stack } from "#/components";
 
 export const Route = createFileRoute("/_public/auth/signup/$token")({
+  beforeLoad: ({ context }) => {
+    if (context.hasSession)
+      throw redirect({
+        to: "/dashboard",
+      });
+  },
   component: Verify,
 });
 
