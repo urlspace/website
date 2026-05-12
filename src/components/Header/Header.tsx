@@ -18,7 +18,7 @@ export default function Header() {
               activeProps={{ className: "nav-link is-active" }}
               aria-label="Home"
             >
-              🥑
+              url.space
             </Link>
           </li>
 
