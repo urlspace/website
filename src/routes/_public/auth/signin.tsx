@@ -117,9 +117,7 @@ function SignIn() {
         </Form>
         <p>
           If you forgot your password, go to the{" "}
-          <Link to="/auth/reset-password">password reset page</Link>. For other
-          sign-in trouble, email me at{" "}
-          <a href="mailto:mail@url.space">mail@url.space</a>.
+          <Link to="/auth/reset-password">password reset page</Link>.
         </p>
       </Stack>
     </Page>
