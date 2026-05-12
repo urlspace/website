@@ -47,8 +47,8 @@ export const Route = createFileRoute("/_protected")({
     return { user };
   },
   staleTime: 5 * 60 * 1000,
-  component: RouteComponent,
-  errorComponent: GenericError,
+  component: ComponentPage,
+  errorComponent: ComponentError,
   preload: false,
   head: () => ({
     meta: [
@@ -59,7 +59,7 @@ export const Route = createFileRoute("/_protected")({
   }),
 });
 
-function RouteComponent() {
+function ComponentPage() {
   return (
     <App>
       <App.Main>
@@ -69,7 +69,7 @@ function RouteComponent() {
   );
 }
 
-function GenericError() {
+function ComponentError() {
   return (
     <App.Main>
       <h1>Error protected</h1>

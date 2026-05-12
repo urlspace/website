@@ -2,10 +2,10 @@ import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { App, Header, Footer } from "../components";
 
 export const Route = createFileRoute("/_public")({
-  component: RouteComponent,
+  component: ComponentPage,
 });
 
-function RouteComponent() {
+function ComponentPage() {
   return (
     <App>
       <App.Header>
