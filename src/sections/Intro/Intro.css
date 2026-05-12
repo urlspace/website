@@ -76,9 +76,4 @@
   &::after {
     content: " »";
   }
-
-  &:focus-visible {
-    outline: 4px dotted var(--color-link);
-    outline-offset: 4px;
-  }
 }
