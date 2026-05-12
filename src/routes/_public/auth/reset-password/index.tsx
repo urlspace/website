@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_public/auth/reset-password/")({
 });
 
 function ResetPassword() {
-	const [sent, setSent] = useState(false);
+	const [done, setDone] = useState(false);
 	const [email, setEmail] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -58,7 +58,7 @@ function ResetPassword() {
 				return;
 			}
 
-			setSent(true);
+			setDone(true);
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
 			form.focus();
@@ -71,7 +71,7 @@ function ResetPassword() {
 		<Page>
 			<Stack gap={2}>
 				<Heading level={1} text="Request password reset" />
-				{sent ? (
+				{done ? (
 					<p role="status">
 						Sent! Check your inbox and click the link within the next hour to
 						set a new password.

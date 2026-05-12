@@ -25,7 +25,7 @@ function SignUp() {
 	const [password, setPassword] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const [success, setSuccess] = useState(false);
+	const [done, setDone] = useState(false);
 
 	async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -62,7 +62,7 @@ function SignUp() {
 				return;
 			}
 
-			setSuccess(true);
+			setDone(true);
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
 			form.focus();
@@ -75,7 +75,7 @@ function SignUp() {
 		<Page>
 			<Stack gap={2}>
 				<Heading level={1} text="Sign up" />
-				{success ? (
+				{done ? (
 					<p role="status">
 						Check your inbox and confirm your email address within the next 24
 						hours.

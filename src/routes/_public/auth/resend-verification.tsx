@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_public/auth/resend-verification")({
 });
 
 function ResendVerification() {
-	const [sent, setSent] = useState(false);
+	const [done, setDone] = useState(false);
 	const [email, setEmail] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -58,7 +58,7 @@ function ResendVerification() {
 				return;
 			}
 
-			setSent(true);
+			setDone(true);
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
 			form.focus();
@@ -71,7 +71,7 @@ function ResendVerification() {
 		<Page>
 			<Stack gap={2}>
 				<Heading level={1} text="Resend verification" />
-				{sent ? (
+				{done ? (
 					<p role="status">
 						Sent! Check your inbox and confirm your email address within the
 						next 24 hours.
