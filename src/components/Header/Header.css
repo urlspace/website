@@ -55,11 +55,6 @@
 .logo {
   text-decoration: none;
   font-weight: 800;
-
-  &::before {
-    content: "https://";
-    opacity: 0.5;
-  }
 }
 
 .skip-link {
