@@ -12,84 +12,36 @@ export default function Header() {
       <nav>
         <ul>
           <li>
-            <Link
-              to="/"
-              className="logo"
-              activeProps={{ className: "nav-link is-active" }}
-              aria-label="Home"
-            >
+            <Link to="/" aria-label="Home">
               url.space
             </Link>
           </li>
-
           <li>
-            <Link
-              to="/features"
-              className="link"
-              activeProps={{ className: "link--active" }}
-            >
-              Features
-            </Link>
+            <Link to="/features">Features</Link>
           </li>
           <li>
-            <Link
-              to="/blog"
-              className="link"
-              activeProps={{ className: "link--active" }}
-            >
-              Blog
-            </Link>
+            <Link to="/blog">Blog</Link>
           </li>
           <li>
-            <Link
-              to="/docs"
-              className="link"
-              activeProps={{ className: "link--active" }}
-            >
-              Docs
-            </Link>
+            <Link to="/docs">Docs</Link>
           </li>
           <li className="d">
-            <Link
-              to="/pricing"
-              className="link"
-              activeProps={{ className: "link--active" }}
-            >
-              Pricing
-            </Link>
+            <Link to="/pricing">Pricing</Link>
           </li>
 
           {!hasSession && (
             <>
               <li>
-                <Link
-                  to="/auth/signin"
-                  className="link"
-                  activeProps={{ className: "link--active" }}
-                >
-                  Sign in
-                </Link>
+                <Link to="/auth/signin">Sign in</Link>
               </li>
               <li>
-                <Link
-                  to="/auth/signup"
-                  className="link"
-                  activeProps={{ className: "link--active" }}
-                >
-                  Sign up
-                </Link>
+                <Link to="/auth/signup">Sign up</Link>
               </li>
             </>
           )}
           {hasSession && (
             <li>
-              <Link
-                to="/dashboard"
-                className="link"
-                activeProps={{ className: "nav-link is-active" }}
-              >
-                Dashboard
-              </Link>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
           )}
         </ul>
