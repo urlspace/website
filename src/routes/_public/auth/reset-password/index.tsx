@@ -68,7 +68,7 @@ function ResetPassword() {
   }
 
   return (
-    <Page>
+    <Page narrow>
       <Stack gap={2}>
         <Heading level={1} text="Request password reset" />
         {done ? (

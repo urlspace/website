@@ -11,10 +11,14 @@
 
   padding: var(--padding-block) 1lh;
   width: 100%;
-  max-width: 60ch;
+  max-width: 90ch;
   margin-inline: auto;
 
   @media (min-width: 900px) {
     --padding-block: 4lh;
   }
+}
+
+.page__content--narrow {
+  max-width: 60ch;
 }

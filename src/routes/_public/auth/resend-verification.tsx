@@ -68,7 +68,7 @@ function ResendVerification() {
   }
 
   return (
-    <Page>
+    <Page narrow>
       <Stack gap={2}>
         <Heading level={1} text="Resend verification" />
         {done ? (

@@ -1,9 +1,21 @@
 import "./Page.css";
 
-function Page({ children }: { children: React.ReactNode }) {
+function Page({
+  children,
+  narrow,
+}: {
+  children: React.ReactNode;
+  narrow?: boolean;
+}) {
   return (
     <div className="page">
-      <div className="page__content">{children}</div>
+      <div
+        className={
+          narrow ? "page__content page__content--narrow" : "page__content"
+        }
+      >
+        {children}
+      </div>
     </div>
   );
 }

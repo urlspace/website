@@ -85,7 +85,7 @@ function Verify() {
     }
 
     return (
-      <Page>
+      <Page narrow>
         <Stack gap={2}>
           <Heading level={1} text="Verification of your account failed" />
           {message}
@@ -95,7 +95,7 @@ function Verify() {
   }
 
   return (
-    <Page>
+    <Page narrow>
       <Stack gap={2}>
         <Heading level={1} text="Welcome to url.space" />
         <p>Tap the button below to activate your account and sign in.</p>

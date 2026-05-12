@@ -78,7 +78,7 @@ function SignIn() {
   }
 
   return (
-    <Page>
+    <Page narrow>
       <Stack gap={2}>
         <Heading level={1} text="Sign in" />
         <Form onSubmit={handleSubmit} isLoading={isLoading}>
