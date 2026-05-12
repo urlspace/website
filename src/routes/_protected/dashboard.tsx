@@ -74,7 +74,7 @@ function Dashboard() {
 
     if (res.ok) {
       await router.invalidate();
-      router.navigate({ to: "/auth/signin" });
+      await router.navigate({ to: "/auth/signin" });
     }
   }
 
