@@ -55,3 +55,25 @@
 .logo {
   text-decoration: none;
 }
+
+.skip-link {
+  position: absolute;
+  top: 3lh;
+  left: 0.5lh;
+  background-color: var(--color-bg);
+  box-shadow: 0 0 0 1px var(--color-border);
+  padding: 0.25lh 0.5lh;
+  transform: translateX(calc(-100% - 0.5lh));
+  opacity: 0;
+  transition: all var(--transition-duration);
+
+  @media (min-width: 1800px) {
+    top: 3.5lh;
+  }
+}
+.skip-link:focus {
+  outline: 4px dotted var(--color-link);
+  outline-offset: 4px;
+  opacity: 1;
+  transform: translateX(0);
+}

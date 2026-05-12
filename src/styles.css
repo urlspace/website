@@ -41,6 +41,11 @@ html {
   text-size-adjust: none;
   hanging-punctuation: first allow-end last;
   line-height: 150%;
+  scroll-behavior: smooth;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
 }
 
 body {

@@ -6,6 +6,9 @@ export default function Header() {
 
   return (
     <div className="header">
+      <a href="#main" className="skip-link">
+        Skip to main content
+      </a>
       <nav>
         <ul>
           <li>
