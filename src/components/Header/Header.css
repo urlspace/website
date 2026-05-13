@@ -19,9 +19,6 @@
     margin-right: auto;
   }
 
-  li:nth-of-type(5) {
-    box-shadow: inset -1px 0 0 0 var(--color-border);
-  }
   li a {
     display: block;
     padding: 0.75lh;
