@@ -1,3 +1,4 @@
+import { Heading, Page, Stack } from "#/components/index.ts";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_public/privacy-policy")({
@@ -12,5 +13,12 @@ export const Route = createFileRoute("/_public/privacy-policy")({
 });
 
 function App() {
-  return <p>Privacy policy</p>;
+  return (
+    <Page>
+      <Stack>
+        <Heading level={1} text="Privacy policy" />
+        TBC
+      </Stack>
+    </Page>
+  );
 }

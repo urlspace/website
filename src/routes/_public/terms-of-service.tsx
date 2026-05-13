@@ -1,3 +1,4 @@
+import { Heading, Page, Stack } from "#/components";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_public/terms-of-service")({
@@ -12,5 +13,12 @@ export const Route = createFileRoute("/_public/terms-of-service")({
 });
 
 function App() {
-  return <p>Terms of service</p>;
+  return (
+    <Page>
+      <Stack>
+        <Heading level={1} text="Terms of service" />
+        TBC
+      </Stack>
+    </Page>
+  );
 }
