@@ -94,6 +94,10 @@ a {
   }
 }
 
+p {
+  text-wrap-style: balance;
+}
+
 .feedback {
   background-color: var(--color-border);
   display: grid;
