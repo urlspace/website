@@ -94,14 +94,6 @@ a {
   }
 }
 
-.section__title {
-  font-weight: 800;
-  font-size: 1.25lh;
-  line-height: 1.5lh;
-  text-align: center;
-  margin-block: 1.5lh;
-}
-
 .feedback {
   background-color: var(--color-border);
   display: grid;
