@@ -37,7 +37,8 @@ function Dashboard() {
     e.preventDefault();
     setError(null);
 
-    const form = new FormData(e.currentTarget);
+    const formElm = e.currentTarget;
+    const form = new FormData(formElm);
 
     const res = await fetch(`${import.meta.env.VITE_API_URL}/links`, {
       method: "POST",
@@ -56,8 +57,8 @@ function Dashboard() {
     }
 
     const json = await res.json();
-    setLinks((json as { data: LinkRow[] }).data ?? []);
-    e.currentTarget.reset();
+    setLinks([(json as { data: LinkRow }).data, ...links]);
+    formElm.reset();
   }
 
   const router = useRouter();
