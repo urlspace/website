@@ -24,7 +24,7 @@ function ResetPasswordConfirm() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<React.ReactNode>(null);
   const { token } = Route.useParams();
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
@@ -61,7 +61,10 @@ function ResetPasswordConfirm() {
           case 401:
           case 404:
             setError(
-              "This reset link is invalid or has expired. Please request a new one.",
+              <>
+                This reset link is invalid or has expired. Please{" "}
+                <Link to="/auth/reset-password">request a new one</Link>.
+              </>,
             );
             break;
           case 429:
