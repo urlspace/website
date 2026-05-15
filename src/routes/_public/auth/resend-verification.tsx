@@ -48,9 +48,6 @@ function ResendVerification() {
           case 400:
             setError("Invalid email.");
             break;
-          case 429:
-            setError("Too many attempts. Try again in a moment.");
-            break;
           default:
             setError("Something went wrong. Try again in a moment.");
         }
