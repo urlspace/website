@@ -28,6 +28,11 @@
   }
 }
 
+::selection {
+  background-color: var(--color-link);
+  color: var(--color-bg);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
