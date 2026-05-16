@@ -26,7 +26,11 @@ const getUser = createServerFn().handler(async () => {
 });
 
 const clearSession = createServerFn({ method: "POST" }).handler(() => {
-  deleteCookie("session", { path: "/", secure: true, domain: ".url.space" });
+  deleteCookie("session", {
+    path: "/",
+    secure: true,
+    domain: import.meta.env.VITE_API_URL.includes("localhost") ? "" : ".url.space",
+  });
 });
 
 export const Route = createFileRoute("/_protected")({
