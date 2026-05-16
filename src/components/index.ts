@@ -6,5 +6,17 @@ import Heading from "./Heading/Heading.tsx";
 import Form from "./Form/Form.tsx";
 import Stack from "./Stack/Stack.tsx";
 import Page from "./Page/Page.tsx";
+import FormJoin from "./FormJoin/FormJoin.tsx";
 
-export { App, Header, Footer, Button, ButtonLink, Heading, Form, Stack, Page };
+export {
+  App,
+  Header,
+  Footer,
+  Button,
+  ButtonLink,
+  Heading,
+  Form,
+  Stack,
+  Page,
+  FormJoin,
+};
