@@ -31,6 +31,8 @@ function Verify() {
   const [errorStatus, setErrorStatus] = useState<number | null>(null);
 
   async function handleActivate() {
+    if (isLoading) return;
+
     setErrorStatus(null);
     setIsLoading(true);
 
@@ -104,7 +106,7 @@ function Verify() {
           text={
             isLoading ? "Activating..." : "Activate account and go to sign in"
           }
-          disabled={isLoading}
+          ariaDisabled={isLoading}
           onClick={handleActivate}
         />
       </Stack>

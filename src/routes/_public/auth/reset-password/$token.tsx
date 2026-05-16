@@ -28,12 +28,12 @@ function ResetPasswordConfirm() {
   const { token } = Route.useParams();
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    if (isLoading) return;
+
     e.preventDefault();
-    const form = e.currentTarget;
 
     if (password !== passwordConfirm) {
       setError("Passwords do not match.");
-      form.focus();
       return;
     }
 
@@ -73,14 +73,12 @@ function ResetPasswordConfirm() {
           default:
             setError("Something went wrong. Try again in a moment.");
         }
-        form.focus();
         return;
       }
 
       setDone(true);
     } catch {
       setError("Something went wrong. Try again in a moment.");
-      form.focus();
     } finally {
       setIsLoading(false);
     }
@@ -97,7 +95,7 @@ function ResetPasswordConfirm() {
             your new password.
           </p>
         ) : (
-          <Form onSubmit={handleSubmit} isLoading={isLoading}>
+          <Form onSubmit={handleSubmit}>
             <Form.Error errorMessage={error} />
             <Form.Input
               autoComplete="new-password"
@@ -127,7 +125,7 @@ function ResetPasswordConfirm() {
               value={passwordConfirm}
             />
             <Button
-              disabled={isLoading}
+              ariaDisabled={isLoading}
               text={isLoading ? "Resetting..." : "Reset password"}
               type="submit"
             />

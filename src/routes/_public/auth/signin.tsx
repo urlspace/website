@@ -32,8 +32,10 @@ function SignIn() {
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    if (isLoading) return;
+
     e.preventDefault();
-    const form = e.currentTarget;
+
     setError(null);
     setIsLoading(true);
 
@@ -63,7 +65,6 @@ function SignIn() {
           default:
             setError("Something went wrong. Try again in a moment.");
         }
-        form.focus();
         return;
       }
 
@@ -71,7 +72,6 @@ function SignIn() {
       await router.navigate({ to: "/dashboard" });
     } catch {
       setError("Something went wrong. Try again in a moment.");
-      form.focus();
     } finally {
       setIsLoading(false);
     }
@@ -81,7 +81,7 @@ function SignIn() {
     <Page narrow>
       <Stack gap={2}>
         <Heading level={1} text="Sign in" />
-        <Form onSubmit={handleSubmit} isLoading={isLoading}>
+        <Form onSubmit={handleSubmit}>
           <Form.Error errorMessage={error} />
           <Form.Input
             autoComplete="username"
@@ -112,7 +112,7 @@ function SignIn() {
           <Button
             type="submit"
             text={isLoading ? "Signing in..." : "Sign in"}
-            disabled={isLoading}
+            ariaDisabled={isLoading}
           />
         </Form>
         <p>

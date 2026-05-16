@@ -26,8 +26,10 @@ function ResetPassword() {
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    if (isLoading) return;
+
     e.preventDefault();
-    const form = e.currentTarget;
+
     setError(null);
     setIsLoading(true);
 
@@ -51,14 +53,12 @@ function ResetPassword() {
           default:
             setError("Something went wrong. Try again in a moment.");
         }
-        form.focus();
         return;
       }
 
       setDone(true);
     } catch {
       setError("Something went wrong. Try again in a moment.");
-      form.focus();
     } finally {
       setIsLoading(false);
     }
@@ -74,7 +74,7 @@ function ResetPassword() {
             set a new password.
           </p>
         ) : (
-          <Form onSubmit={handleSubmit} isLoading={isLoading}>
+          <Form onSubmit={handleSubmit}>
             <Form.Error errorMessage={error} />
             <Form.Input
               autoComplete="email"
@@ -90,7 +90,7 @@ function ResetPassword() {
               value={email}
             />
             <Button
-              disabled={isLoading}
+              ariaDisabled={isLoading}
               text={isLoading ? "Sending..." : "Send reset link"}
               type="submit"
             />

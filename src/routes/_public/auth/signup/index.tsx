@@ -28,8 +28,10 @@ function SignUp() {
   const [done, setDone] = useState(false);
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    if (isLoading) return;
+
     e.preventDefault();
-    const form = e.currentTarget;
+
     setError(null);
     setIsLoading(true);
 
@@ -58,14 +60,12 @@ function SignUp() {
           default:
             setError("Something went wrong. Try again in a moment.");
         }
-        form.focus();
         return;
       }
 
       setDone(true);
     } catch {
       setError("Something went wrong. Try again in a moment.");
-      form.focus();
     } finally {
       setIsLoading(false);
     }
@@ -82,7 +82,7 @@ function SignUp() {
           </p>
         ) : (
           <>
-            <Form onSubmit={handleSubmit} isLoading={isLoading}>
+            <Form onSubmit={handleSubmit}>
               <Form.Error errorMessage={error} />
               <Form.Input
                 autoComplete="nickname"
@@ -127,7 +127,7 @@ function SignUp() {
                 value={password}
               />
               <Button
-                disabled={isLoading}
+                ariaDisabled={isLoading}
                 text={isLoading ? "Signing up..." : "Sign up"}
                 type="submit"
               />
