@@ -1,6 +1,5 @@
 // import { Heading, Stack } from "#/components";
-import { Stack } from "#/components";
-import { Intro } from "#/sections";
+import { Stack, Intro } from "#/components";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_public/")({

@@ -7,6 +7,7 @@ import Form from "./Form/Form.tsx";
 import Stack from "./Stack/Stack.tsx";
 import Page from "./Page/Page.tsx";
 import FormJoin from "./FormJoin/FormJoin.tsx";
+import Intro from "./Intro/Intro.tsx";
 
 export {
   App,
@@ -19,4 +20,5 @@ export {
   Stack,
   Page,
   FormJoin,
+  Intro,
 };

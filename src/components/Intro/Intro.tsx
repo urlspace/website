@@ -27,9 +27,9 @@ function Intro() {
         <Stack>
           <Heading text="Organise" level={2} />
           <p className="intro__description">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit
-            consectetur, culpa velit consequatur nihil repellat est harum
-            possimus nemo fugiat iste perspiciatis sapiente laudantium! Veniam.
+            Internet is full of nonsense and url.space is here to keep the good
+            parts. Organise links with tags and collections, and find them with
+            powerful search and filters.
           </p>
           <Link to="/docs" className="intro__more">
             Organisation with ease
@@ -40,9 +40,9 @@ function Intro() {
         <Stack>
           <Heading text="Share" level={2} />
           <p className="intro__description">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit
-            consectetur, culpa velit consequatur nihil repellat est harum
-            possimus nemo fugiat iste perspiciatis sapiente laudantium! Veniam.
+            Collection is a curated list of links, and sharing is caring, right?
+            Share them via a public link, subscribe to the changes via RSS, and
+            clone them to your own account.
           </p>
           <Link to="/docs" className="intro__more">
             Lean more about sharing
@@ -53,9 +53,10 @@ function Intro() {
         <Stack>
           <Heading text="Use everywhere" level={2} />
           <p className="intro__description">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit
-            consectetur, culpa velit consequatur nihil repellat est harum
-            possimus nemo fugiat iste perspiciatis sapiente laudantium! Veniam.
+            Use the web app for the most powerful experience, add links using
+            the browser extension or mobile automations. Tons of third-party
+            integrations and if that’s not enough, use the API. Yes, there is a
+            CLI, geeks!
           </p>
           <Link to="/docs" className="intro__more">
             Explore integrations
