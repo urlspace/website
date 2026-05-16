@@ -14,8 +14,6 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicTermsOfServiceRouteImport } from './routes/_public/terms-of-service'
 import { Route as PublicPrivacyPolicyRouteImport } from './routes/_public/privacy-policy'
-import { Route as PublicPricingRouteImport } from './routes/_public/pricing'
-import { Route as PublicFeaturesRouteImport } from './routes/_public/features'
 import { Route as PublicDocsRouteImport } from './routes/_public/docs'
 import { Route as PublicBlogRouteImport } from './routes/_public/blog'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
@@ -47,16 +45,6 @@ const PublicTermsOfServiceRoute = PublicTermsOfServiceRouteImport.update({
 const PublicPrivacyPolicyRoute = PublicPrivacyPolicyRouteImport.update({
   id: '/privacy-policy',
   path: '/privacy-policy',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicPricingRoute = PublicPricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicFeaturesRoute = PublicFeaturesRouteImport.update({
-  id: '/features',
-  path: '/features',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicDocsRoute = PublicDocsRouteImport.update({
@@ -113,8 +101,6 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof ProtectedDashboardRoute
   '/blog': typeof PublicBlogRoute
   '/docs': typeof PublicDocsRoute
-  '/features': typeof PublicFeaturesRoute
-  '/pricing': typeof PublicPricingRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
@@ -129,8 +115,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof ProtectedDashboardRoute
   '/blog': typeof PublicBlogRoute
   '/docs': typeof PublicDocsRoute
-  '/features': typeof PublicFeaturesRoute
-  '/pricing': typeof PublicPricingRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
@@ -147,8 +131,6 @@ export interface FileRoutesById {
   '/_protected/dashboard': typeof ProtectedDashboardRoute
   '/_public/blog': typeof PublicBlogRoute
   '/_public/docs': typeof PublicDocsRoute
-  '/_public/features': typeof PublicFeaturesRoute
-  '/_public/pricing': typeof PublicPricingRoute
   '/_public/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/_public/terms-of-service': typeof PublicTermsOfServiceRoute
   '/_public/': typeof PublicIndexRoute
@@ -166,8 +148,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/blog'
     | '/docs'
-    | '/features'
-    | '/pricing'
     | '/privacy-policy'
     | '/terms-of-service'
     | '/auth/resend-verification'
@@ -182,8 +162,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/blog'
     | '/docs'
-    | '/features'
-    | '/pricing'
     | '/privacy-policy'
     | '/terms-of-service'
     | '/auth/resend-verification'
@@ -199,8 +177,6 @@ export interface FileRouteTypes {
     | '/_protected/dashboard'
     | '/_public/blog'
     | '/_public/docs'
-    | '/_public/features'
-    | '/_public/pricing'
     | '/_public/privacy-policy'
     | '/_public/terms-of-service'
     | '/_public/'
@@ -252,20 +228,6 @@ declare module '@tanstack/react-router' {
       path: '/privacy-policy'
       fullPath: '/privacy-policy'
       preLoaderRoute: typeof PublicPrivacyPolicyRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/pricing': {
-      id: '/_public/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PublicPricingRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/features': {
-      id: '/_public/features'
-      path: '/features'
-      fullPath: '/features'
-      preLoaderRoute: typeof PublicFeaturesRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/docs': {
@@ -349,8 +311,6 @@ const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
 interface PublicRouteChildren {
   PublicBlogRoute: typeof PublicBlogRoute
   PublicDocsRoute: typeof PublicDocsRoute
-  PublicFeaturesRoute: typeof PublicFeaturesRoute
-  PublicPricingRoute: typeof PublicPricingRoute
   PublicPrivacyPolicyRoute: typeof PublicPrivacyPolicyRoute
   PublicTermsOfServiceRoute: typeof PublicTermsOfServiceRoute
   PublicIndexRoute: typeof PublicIndexRoute
@@ -365,8 +325,6 @@ interface PublicRouteChildren {
 const PublicRouteChildren: PublicRouteChildren = {
   PublicBlogRoute: PublicBlogRoute,
   PublicDocsRoute: PublicDocsRoute,
-  PublicFeaturesRoute: PublicFeaturesRoute,
-  PublicPricingRoute: PublicPricingRoute,
   PublicPrivacyPolicyRoute: PublicPrivacyPolicyRoute,
   PublicTermsOfServiceRoute: PublicTermsOfServiceRoute,
   PublicIndexRoute: PublicIndexRoute,

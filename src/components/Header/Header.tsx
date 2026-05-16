@@ -17,19 +17,16 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <Link to="/features">Features</Link>
+            <Link to="/docs">Docs</Link>
           </li>
           <li>
             <Link to="/blog">Blog</Link>
           </li>
-          <li>
-            <Link to="/docs">Docs</Link>
-          </li>
-          <li className="d">
-            <Link to="/pricing">Pricing</Link>
-          </li>
-
-          {!hasSession && (
+          {import.meta.env.VITE_BETA ? null : hasSession ? (
+            <li>
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+          ) : (
             <>
               <li>
                 <Link to="/auth/signin">Sign in</Link>
@@ -38,11 +35,6 @@ export default function Header() {
                 <Link to="/auth/signup">Sign up</Link>
               </li>
             </>
-          )}
-          {hasSession && (
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
           )}
         </ul>
       </nav>
