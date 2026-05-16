@@ -25,7 +25,8 @@
     color: color-mix(in srgb, var(--color-bg) 50%, transparent);
   }
 
-  &:disabled {
+  &:disabled,
+  &[aria-disabled="true"] {
     opacity: 0.75;
     cursor: not-allowed;
 

@@ -6,11 +6,13 @@ function Button({
   onClick,
   type,
   disabled,
+  ariaDisabled,
 }: {
   text: string;
   onClick?: () => void;
   type?: "button" | "submit";
-  disabled: boolean;
+  disabled?: boolean;
+  ariaDisabled?: boolean;
 }) {
   return (
     <button
@@ -18,6 +20,7 @@ function Button({
       onClick={onClick}
       type={type}
       disabled={disabled}
+      aria-disabled={ariaDisabled}
     >
       {text}
     </button>
