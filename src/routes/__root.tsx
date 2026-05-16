@@ -29,6 +29,35 @@ export const Route = createRootRouteWithContext<{ hasSession: boolean }>()({
         content: "width=device-width, initial-scale=1",
       },
       {
+        name: "author",
+        content: "Pawel Grzybek - https://pawelgrzybek.com/",
+      },
+      {
+        name: "color-scheme",
+        content: "light dark",
+      },
+      {
+        property: "og:title",
+        content: "url.space | Keep, organise and share websites you like.",
+      },
+      {
+        property: "og:url",
+        content: "https://url.space",
+      },
+      {
+        property: "og:type",
+        content: "website",
+      },
+      {
+        property: "og:description",
+        content:
+          "Keep, organise and share websites you like. Open source, no ads, no tracking, no AI, just a space for your URLs. Free for everyday use with power user features for a tiny fee.",
+      },
+      {
+        property: "og:image",
+        content: "/og.jpg",
+      },
+      {
         title: "url.space | Keep, organise and share websites you like.",
       },
       {
@@ -36,11 +65,29 @@ export const Route = createRootRouteWithContext<{ hasSession: boolean }>()({
         content:
           "Keep, organise and share websites you like. Open source, no ads, no tracking, no AI, just a space for your URLs. Free for everyday use with power user features for a tiny fee.",
       },
+      {
+        name: "fediverse:creator",
+        content: "@urlspace@mastodon.social",
+      },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
+      },
+      {
+        rel: "icon",
+        href: "/favicon.ico",
+        sizes: "32x32",
+      },
+      {
+        rel: "icon",
+        href: "/favicon.svg",
+        type: "image/svg+xml",
+      },
+      {
+        rel: "apple-touch-icon",
+        href: "/apple-touch-icon.png",
       },
     ],
   }),
