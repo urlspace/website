@@ -11,7 +11,7 @@ import { getCookie } from "@tanstack/react-start/server";
 import appCss from "../styles.css?url";
 
 const checkSession = createServerFn().handler(() => ({
-  hasSession: getCookie("__Host-session_id") !== undefined,
+  hasSession: getCookie("session") !== undefined,
 }));
 
 export const Route = createRootRouteWithContext<{ hasSession: boolean }>()({

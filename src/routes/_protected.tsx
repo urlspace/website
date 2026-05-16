@@ -26,7 +26,7 @@ const getUser = createServerFn().handler(async () => {
 });
 
 const clearSession = createServerFn({ method: "POST" }).handler(() => {
-  deleteCookie("__Host-session_id", { path: "/", secure: true });
+  deleteCookie("session", { path: "/", secure: true });
 });
 
 export const Route = createFileRoute("/_protected")({
