@@ -16,24 +16,28 @@ export default function Header() {
               url.space
             </Link>
           </li>
-          <li>
-            <Link to="/docs">Docs</Link>
-          </li>
-          <li>
-            <Link to="/blog">Blog</Link>
-          </li>
-          {import.meta.env.VITE_BETA ? null : hasSession ? (
-            <li>
-              <Link to="/dashboard">Dashboard</Link>
-            </li>
-          ) : (
+          {import.meta.env.VITE_BETA ? null : (
             <>
               <li>
-                <Link to="/auth/signin">Sign in</Link>
+                <Link to="/docs">Docs</Link>
               </li>
               <li>
-                <Link to="/auth/signup">Sign up</Link>
+                <Link to="/blog">Blog</Link>
               </li>
+              {hasSession ? (
+                <li>
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
+              ) : (
+                <>
+                  <li>
+                    <Link to="/auth/signin">Sign in</Link>
+                  </li>
+                  <li>
+                    <Link to="/auth/signup">Sign up</Link>
+                  </li>
+                </>
+              )}
             </>
           )}
         </ul>
