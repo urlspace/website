@@ -481,7 +481,7 @@ function Dashboard() {
         <p>Email: {user.email}</p>
         <p>Pro: {user.isPro ? "Yes" : "No"}</p>
         <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
-        <p>Member since: {new Date(user.createdAt).toLocaleDateString()}</p>
+        <p>Member since: {user.createdAt.slice(0, 10)}</p>
 
         <h2>Add link</h2>
         <form onSubmit={handleSubmitLink}>
