@@ -39,7 +39,7 @@ function Input({
   onChange: (value: string) => void;
   pattern?: string;
   placeholder: string;
-  required: boolean;
+  required?: boolean;
   type: "text" | "email" | "password";
   value: string;
 }) {

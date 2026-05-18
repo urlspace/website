@@ -219,6 +219,16 @@ p {
 
 .dashbaord__sidebar {
   background-color: var(--color-bg-content);
+  height: 100dvh;
+  position: sticky;
+  top: 0px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+}
+
+.dashboard__search {
+  padding: 1lh;
 }
 .dashbaord__links {
   background-color: var(--color-bg-content);
@@ -262,4 +272,41 @@ p {
   &:hover {
     color: var(--color-fg);
   }
+
+  &[aria-pressed="true"] {
+    color: var(--color-fg);
+  }
+}
+
+.dashboard__link {
+  padding: 1lh;
+  padding-block-end: calc(1lh - 1px);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 1lh;
+
+  &:last-of-type {
+    border-bottom: none;
+    padding-block-end: 1lh;
+  }
+}
+.dashboard__link-a {
+  font-weight: 800;
+  align-self: flex-start;
+}
+.dashboard__link-tags {
+  display: flex;
+  gap: 0.25lh;
+  list-style: none;
+}
+.dashboard__link-tag {
+  &::before {
+    content: "#";
+  }
+}
+
+.dashboard__icon {
+  width: 14px;
+  height: 14px;
 }
