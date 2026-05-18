@@ -248,95 +248,174 @@ function Dashboard() {
           </ul>
         </div>
         <div className="dashboard__section">
-          <div className="dashboard__title">Collections</div>
-          <ul className="dashboard__list">
-            {collections.map((c) => (
-              <li key={c.id}>
-                <button
-                  className="dashboard__list-btn"
-                  onClick={() =>
-                    setSelectedCollection((prev) =>
-                      prev === c.id ? null : c.id,
-                    )
-                  }
-                  aria-pressed={selectedCollection === c.id}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="dashboard__icon"
+          <details className="dashboard__details" open>
+            <summary className="dashboard__summary">
+              <div className="dashboard__title">Collections</div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="dashboard__icon"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </summary>
+            <ul className="dashboard__list">
+              {collections.map((c) => (
+                <li key={c.id}>
+                  <button
+                    className="dashboard__list-btn"
+                    onClick={() =>
+                      setSelectedCollection((prev) =>
+                        prev === c.id ? null : c.id,
+                      )
+                    }
+                    aria-pressed={selectedCollection === c.id}
                   >
-                    <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
-                  </svg>
-                  {c.name}
-                </button>
-              </li>
-            ))}
-          </ul>
-          <button className="dashboard__list-btn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="dashboard__icon"
-            >
-              <path d="M5 12h14" />
-              <path d="M12 5v14" />
-            </svg>
-            Add collection
-          </button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="28"
+                      height="28"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="dashboard__icon"
+                    >
+                      <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
+                    </svg>
+                    {c.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button className="dashboard__list-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="dashboard__icon"
+              >
+                <path d="M5 12h14" />
+                <path d="M12 5v14" />
+              </svg>
+              Add collection
+            </button>
+            <button className="dashboard__list-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="dashboard__icon"
+              >
+                <path d="M14 17H5" />
+                <path d="M19 7h-9" />
+                <circle cx="17" cy="17" r="3" />
+                <circle cx="7" cy="7" r="3" />
+              </svg>
+              Edit collections
+            </button>
+          </details>
         </div>
         <div className="dashboard__section">
-          <div className="dashboard__title">Tags</div>
-          <ul className="dashboard__list">
-            {tags.map((t) => (
-              <li key={t.id}>
-                <button
-                  className="dashboard__list-btn"
-                  onClick={() =>
-                    setSelectedTags((prev) =>
-                      prev.includes(t.id)
-                        ? prev.filter((id) => id !== t.id)
-                        : [...prev, t.id],
-                    )
-                  }
-                  aria-pressed={selectedTags.includes(t.id)}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="dashboard__icon"
+          <details className="dashboard__details" open>
+            <summary className="dashboard__summary">
+              <div className="dashboard__title">Tags</div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="dashboard__icon"
+              >
+                <path d="m7 15 5 5 5-5" />
+                <path d="m7 9 5-5 5 5" />
+              </svg>
+            </summary>
+            <ul className="dashboard__list">
+              {tags.map((t) => (
+                <li key={t.id}>
+                  <button
+                    className="dashboard__list-btn"
+                    onClick={() =>
+                      setSelectedTags((prev) =>
+                        prev.includes(t.id)
+                          ? prev.filter((id) => id !== t.id)
+                          : [...prev, t.id],
+                      )
+                    }
+                    aria-pressed={selectedTags.includes(t.id)}
                   >
-                    <line x1="4" x2="20" y1="9" y2="9" />
-                    <line x1="4" x2="20" y1="15" y2="15" />
-                    <line x1="10" x2="8" y1="3" y2="21" />
-                    <line x1="16" x2="14" y1="3" y2="21" />
-                  </svg>
-                  {t.name}
-                </button>
-              </li>
-            ))}
-          </ul>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="28"
+                      height="28"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="dashboard__icon"
+                    >
+                      <line x1="4" x2="20" y1="9" y2="9" />
+                      <line x1="4" x2="20" y1="15" y2="15" />
+                      <line x1="10" x2="8" y1="3" y2="21" />
+                      <line x1="16" x2="14" y1="3" y2="21" />
+                    </svg>
+                    {t.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            <button className="dashboard__list-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="dashboard__icon"
+              >
+                <path d="M14 17H5" />
+                <path d="M19 7h-9" />
+                <circle cx="17" cy="17" r="3" />
+                <circle cx="7" cy="7" r="3" />
+              </svg>
+              Edit tags
+            </button>
+          </details>
         </div>
       </aside>
       <div className="dashbaord__links">

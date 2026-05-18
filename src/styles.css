@@ -55,6 +55,7 @@ html {
   line-height: 150%;
   scroll-behavior: smooth;
   background-color: var(--color-bg-content);
+  interpolate-size: allow-keywords;
 
   @media (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
@@ -239,14 +240,24 @@ p {
   padding: 1lh;
   padding-block-end: calc(1lh - 1px);
   border-bottom: 1px solid var(--color-border);
-  display: flex;
-  flex-direction: column;
-  gap: 1lh;
 
   &:last-of-type {
     border-bottom: none;
     padding-block-end: 1lh;
   }
+}
+
+.dashboard__details {
+  display: flex;
+  flex-direction: column;
+  transition: height 0.2s ease-in;
+}
+
+.dashboard__summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .dashboard__title {
@@ -257,6 +268,7 @@ p {
 
 .dashboard__list {
   list-style: none;
+  padding-block: 1lh;
 }
 
 .dashboard__list-btn {
