@@ -1,7 +1,7 @@
 .heading {
   --bg-color: transparent;
   --bg-s-size: 2px;
-  --bg-s-color: var(--color-border);
+  --bg-s-color: var(--color-border-contrast);
   --bg-size: 0.5lh;
 
   background-color: var(--bg-color);
@@ -16,9 +16,9 @@
 }
 
 .heading__inner {
-  background-color: var(--color-bg);
+  background-color: var(--color-bg-content);
   display: inline;
-  box-shadow: 1rlh 0 0 0 var(--color-bg);
+  box-shadow: 1rlh 0 0 0 var(--color-bg-content);
 }
 
 .heading__inner--h1 {

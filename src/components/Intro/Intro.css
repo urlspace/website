@@ -30,8 +30,8 @@
 
     background-image: linear-gradient(
       to right,
-      var(--color-bg) 0,
-      var(--color-bg) 50%,
+      var(--color-bg-content) 0,
+      var(--color-bg-content) 50%,
       color-mix(in srgb, var(--color-link) 10%, transparent) 50%,
       color-mix(in srgb, var(--color-link) 10%, transparent) 100%
     );
@@ -43,7 +43,7 @@
   --padding-inline: 1lh;
 
   grid-area: auto / span 6;
-  background-color: var(--color-bg);
+  background-color: var(--color-bg-content);
   padding-inline: var(--padding-inline);
   padding-block-start: var(--padding-block);
   padding-block-end: calc(var(--padding-block) - var(--gap));
