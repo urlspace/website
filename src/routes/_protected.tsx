@@ -1,3 +1,4 @@
+import { queryOptions } from "@tanstack/react-query";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { deleteCookie, getRequest } from "@tanstack/react-start/server";
@@ -25,6 +26,11 @@ const getUser = createServerFn().handler(async () => {
   return json.data;
 });
 
+const meQueryOptions = queryOptions({
+  queryKey: ["me"],
+  queryFn: () => getUser(),
+});
+
 const clearSession = createServerFn({ method: "POST" }).handler(() => {
   deleteCookie("session", {
     path: "/",
@@ -40,9 +46,10 @@ export const Route = createFileRoute("/_protected")({
         to: "/auth/signin",
       });
   },
-  loader: async () => {
-    const user = await getUser();
+  loader: async ({ context }) => {
+    const user = await context.queryClient.ensureQueryData(meQueryOptions);
     if (!user) {
+      context.queryClient.removeQueries({ queryKey: meQueryOptions.queryKey });
       await clearSession();
       throw redirect({
         to: "/auth/signin",

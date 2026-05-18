@@ -1,4 +1,5 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
+import type { QueryClient } from "@tanstack/react-query";
 import {
   createRootRouteWithContext,
   HeadContent,
@@ -14,7 +15,10 @@ const checkSession = createServerFn().handler(() => ({
   hasSession: getCookie("session") !== undefined,
 }));
 
-export const Route = createRootRouteWithContext<{ hasSession: boolean }>()({
+export const Route = createRootRouteWithContext<{
+  hasSession: boolean;
+  queryClient: QueryClient;
+}>()({
   beforeLoad: () => checkSession(),
   shellComponent: RootDocument,
   notFoundComponent: NotFound,

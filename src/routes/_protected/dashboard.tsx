@@ -1,5 +1,10 @@
 import { Form } from "#/components/index.ts";
 import {
+  queryOptions,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import {
   createFileRoute,
   Link,
   useLoaderData,
@@ -72,29 +77,44 @@ const getTags = createServerFn().handler(async () => {
   return json.data ?? [];
 });
 
+const linksQueryOptions = queryOptions({
+  queryKey: ["links"],
+  queryFn: () => getLinks(),
+});
+
+const collectionsQueryOptions = queryOptions({
+  queryKey: ["collections"],
+  queryFn: () => getCollections(),
+});
+
+const tagsQueryOptions = queryOptions({
+  queryKey: ["tags"],
+  queryFn: () => getTags(),
+});
+
 export const Route = createFileRoute("/_protected/dashboard")({
-  loader: async () => {
-    const [links, collections, tags] = await Promise.all([
-      getLinks(),
-      getCollections(),
-      getTags(),
+  loader: async ({ context }) => {
+    await Promise.all([
+      context.queryClient.ensureQueryData(linksQueryOptions),
+      context.queryClient.ensureQueryData(collectionsQueryOptions),
+      context.queryClient.ensureQueryData(tagsQueryOptions),
     ]);
-    return { links, collections, tags };
   },
   component: Dashboard,
 });
 
 function Dashboard() {
   const { user } = useLoaderData({ from: "/_protected" });
-  const { links, collections, tags } = useLoaderData({
-    from: "/_protected/dashboard",
-  });
+  const { data: links } = useSuspenseQuery(linksQueryOptions);
+  const { data: collections } = useSuspenseQuery(collectionsQueryOptions);
+  const { data: tags } = useSuspenseQuery(tagsQueryOptions);
   const [value, setValue] = useState<string>("");
   const [selectedTags, setSelectedTags] = useState<Array<string>>([]);
   const [selectedCollection, setSelectedCollection] = useState<string | null>(
     null,
   );
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   async function handleSubmitLink(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -113,7 +133,9 @@ function Dashboard() {
       }),
     });
 
-    await router.invalidate();
+    await queryClient.invalidateQueries({
+      queryKey: linksQueryOptions.queryKey,
+    });
     formElm.reset();
   }
 
@@ -132,7 +154,9 @@ function Dashboard() {
       }),
     });
 
-    await router.invalidate();
+    await queryClient.invalidateQueries({
+      queryKey: collectionsQueryOptions.queryKey,
+    });
     formElm.reset();
   }
 
@@ -170,9 +194,9 @@ function Dashboard() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   className="dashboard__icon"
                 >
                   <path d="M21 5H3" />
@@ -191,9 +215,9 @@ function Dashboard() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   className="dashboard__icon"
                 >
                   <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
@@ -210,9 +234,9 @@ function Dashboard() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   className="dashboard__icon"
                 >
                   <path d="M12 7v14" />
@@ -244,9 +268,9 @@ function Dashboard() {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     className="dashboard__icon"
                   >
                     <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
@@ -264,9 +288,9 @@ function Dashboard() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="dashboard__icon"
             >
               <path d="M5 12h14" />
@@ -298,9 +322,9 @@ function Dashboard() {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     className="dashboard__icon"
                   >
                     <line x1="4" x2="20" y1="9" y2="9" />
@@ -313,24 +337,6 @@ function Dashboard() {
               </li>
             ))}
           </ul>
-          <button className="dashboard__list-btn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              className="dashboard__icon"
-            >
-              <path d="M5 12h14" />
-              <path d="M12 5v14" />
-            </svg>
-            Add tag
-          </button>
         </div>
       </aside>
       <div className="dashbaord__links">
