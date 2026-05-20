@@ -321,9 +321,14 @@ p {
   display: flex;
   gap: 0.25lh;
   list-style: none;
+  flex-wrap: wrap;
 }
+
 .dashboard__link-tag {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  background-color: var(--color-border);
+  padding-inline: 0.25lh;
+  border-radius: var(--radius);
 
   &::before {
     content: "#";

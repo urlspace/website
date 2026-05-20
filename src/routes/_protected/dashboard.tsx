@@ -1,4 +1,4 @@
-import { Form, Stack } from "#/components/index.ts";
+import { Button, Dialog, Form, Stack } from "#/components/index.ts";
 import {
   queryOptions,
   useQueryClient,
@@ -120,48 +120,57 @@ function Dashboard() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const [isAddLinkOpen, setIsAddLinkOpen] = useState(false);
+  const [newLinkTitle, setNewLinkTitle] = useState("");
+  const [newLinkUrl, setNewLinkUrl] = useState("");
+  const [newLinkDescription, setNewLinkDescription] = useState("");
+  const [newLinkTags, setNewLinkTags] = useState("");
+
   async function handleSubmitLink(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    const formElm = e.currentTarget;
-    const form = new FormData(formElm);
 
     await fetch(`${import.meta.env.VITE_API_URL}/links`, {
       method: "POST",
       credentials: "include",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        title: form.get("title"),
-        description: form.get("description"),
-        url: form.get("url"),
+        title: newLinkTitle,
+        description: newLinkDescription,
+        url: newLinkUrl,
+        tags: newLinkTags.split(",").map((t) => t.trim()),
       }),
     });
 
     await queryClient.invalidateQueries({
       queryKey: linksQueryOptions.queryKey,
     });
-    formElm.reset();
+    setNewLinkTitle("");
+    setNewLinkUrl("");
+    setNewLinkDescription("");
+    setNewLinkTags("");
+    setIsAddLinkOpen(false);
   }
+
+  const [isAddCollectionOpen, setIsAddCollectionOpen] = useState(false);
+  const [newCollectionName, setNewCollectionName] = useState("");
 
   async function handleSubmitCollection(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    const formElm = e.currentTarget;
-    const form = new FormData(formElm);
 
     await fetch(`${import.meta.env.VITE_API_URL}/collections`, {
       method: "POST",
       credentials: "include",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        name: form.get("name"),
+        name: newCollectionName,
       }),
     });
 
     await queryClient.invalidateQueries({
       queryKey: collectionsQueryOptions.queryKey,
     });
-    formElm.reset();
+    setNewCollectionName("");
+    setIsAddCollectionOpen(false);
   }
 
   async function handleSignOut() {
@@ -283,6 +292,28 @@ function Dashboard() {
               </button>
             </li>
           </ul>
+          <button
+            type="button"
+            className="dashboard__list-btn"
+            onClick={() => setIsAddLinkOpen(true)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="dashboard__icon"
+            >
+              <path d="M5 12h14" />
+              <path d="M12 5v14" />
+            </svg>
+            Add link
+          </button>
         </div>
         <div className="dashboard__section">
           <details className="dashboard__details" open>
@@ -335,7 +366,11 @@ function Dashboard() {
                 </li>
               ))}
             </ul>
-            <button className="dashboard__list-btn">
+            <button
+              type="button"
+              className="dashboard__list-btn"
+              onClick={() => setIsAddCollectionOpen(true)}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="28"
@@ -468,7 +503,6 @@ function Dashboard() {
             ></Form.Input>
           </Form>
         </div>
-        <p>Results ({filteredLinks.length})</p>
         {filteredLinks.map((link) => (
           <article className="dashboard__link" key={link.id}>
             <Stack>
@@ -511,36 +545,67 @@ function Dashboard() {
         <p>Pro: {user.isPro ? "Yes" : "No"}</p>
         <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
         <p>Member since: {user.createdAt.slice(0, 10)}</p>
-
-        <h2>Add link</h2>
-        <form onSubmit={handleSubmitLink}>
-          <label>
-            Title
-            <input name="title" required />
-          </label>
-          <br />
-          <label>
-            Description
-            <input name="description" required />
-          </label>
-          <br />
-          <label>
-            URL
-            <input name="url" type="url" required />
-          </label>
-          <br />
-          <button type="submit">Add</button>
-        </form>
-        <h2>Add collection</h2>
-        <form onSubmit={handleSubmitCollection}>
-          <label>
-            Name
-            <input name="name" required />
-          </label>
-          <br />
-          <button type="submit">Add</button>
-        </form>
       </aside>
+
+      <Dialog open={isAddLinkOpen} onClose={() => setIsAddLinkOpen(false)}>
+        <Form onSubmit={handleSubmitLink}>
+          <Form.Input
+            label="Title"
+            required
+            type="text"
+            name="title"
+            value={newLinkTitle}
+            onChange={setNewLinkTitle}
+            placeholder="Boo"
+          ></Form.Input>
+          <Form.Input
+            label="URL"
+            required
+            type="text"
+            name="url"
+            value={newLinkUrl}
+            onChange={setNewLinkUrl}
+            placeholder="https://cloudflare.com"
+          ></Form.Input>
+          <Form.Input
+            label="Description"
+            required
+            type="text"
+            name="description"
+            value={newLinkDescription}
+            onChange={setNewLinkDescription}
+            placeholder="What a cool description"
+          ></Form.Input>
+          <Form.Input
+            label="Tags"
+            required
+            type="text"
+            name="tags"
+            value={newLinkTags}
+            onChange={setNewLinkTags}
+            placeholder="comma,separated,tags"
+          ></Form.Input>
+          <Button type="submit" text="Add new link" />
+        </Form>
+      </Dialog>
+
+      <Dialog
+        open={isAddCollectionOpen}
+        onClose={() => setIsAddCollectionOpen(false)}
+      >
+        <Form onSubmit={handleSubmitCollection}>
+          <Form.Input
+            label="Collection name"
+            required
+            type="text"
+            name="collection-name"
+            value={newCollectionName}
+            onChange={setNewCollectionName}
+            placeholder="Cats"
+          ></Form.Input>
+          <Button type="submit" text="Add new collection" />
+        </Form>
+      </Dialog>
     </div>
   );
 }
