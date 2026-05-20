@@ -6,6 +6,7 @@
   background-color: var(--color-border);
   padding: 0 var(--gap) var(--gap) var(--gap);
   gap: var(--gap);
+  width: 100%;
   max-width: var(--size-container-max);
   margin-inline: auto;
 }
@@ -15,7 +16,7 @@
   --padding-inline: 1lh;
 
   grid-area: auto / span 6;
-  background-color: var(--color-bg);
+  background-color: var(--color-bg-content);
   padding-block-start: var(--padding-block);
   padding-block-end: calc(var(--padding-block) - var(--gap));
   padding-inline: var(--padding-inline);
