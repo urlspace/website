@@ -1,8 +1,4 @@
 .dialog {
-  grid-template-rows: auto 1fr;
-  /*   even tho there is just a simple column, thsi is needed for the content */
-  /* to track its widht, so the ellipsis can work */
-  grid-template-columns: minmax(0, 1fr);
   position: fixed;
   inset: 0;
   margin: auto;
@@ -26,7 +22,8 @@
   }
 
   &[open] {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     opacity: 1;
     transform: none;
 
