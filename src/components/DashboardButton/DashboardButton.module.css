@@ -1,0 +1,33 @@
+.button {
+  font: inherit;
+  background-color: transparent;
+  border: none;
+  align-self: flex-start;
+  display: flex;
+  gap: 0.25lh;
+  align-items: center;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  max-width: 100%;
+
+  &:hover {
+    color: var(--color-link);
+    text-decoration-line: underline;
+  }
+
+  &[aria-pressed="true"] {
+    text-decoration-line: underline;
+    font-weight: 500;
+  }
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

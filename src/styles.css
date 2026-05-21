@@ -26,7 +26,7 @@
   );
   --color-link: light-dark(oklch(50% 0.134 242.749), oklch(87% 0.065 274.039));
 
-  --size-container-max: min(100vw - 2lh, 56lh);
+  --size-container-max: min(100% - 2lh, 56lh);
   --radius: 3px;
   --transition-duration: 120ms;
 
@@ -103,8 +103,14 @@ a {
   }
 
   &:focus-visible {
-    outline: 4px dotted currentColor;
+    outline: 4px dotted var(--color-link);
     outline-offset: 4px;
+  }
+}
+
+button {
+  &:focus-visible {
+    outline: 4px dotted var(--color-link);
   }
 }
 

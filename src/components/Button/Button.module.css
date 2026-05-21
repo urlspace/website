@@ -35,3 +35,7 @@
     }
   }
 }
+
+.fullWidth {
+  align-self: stretch;
+}

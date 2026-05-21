@@ -1,4 +1,16 @@
-import { Button, Dialog, Form, Stack } from "#/components/index.ts";
+import {
+  Button,
+  Dialog,
+  Form,
+  Stack,
+  Dashboard,
+  DashboardLogo,
+  DashboardButton,
+  Icon,
+  DashboardList,
+  DashboardAccordion,
+  DashboardSection,
+} from "#/components/index.ts";
 import {
   queryOptions,
   useQueryClient,
@@ -6,7 +18,6 @@ import {
 } from "@tanstack/react-query";
 import {
   createFileRoute,
-  Link,
   useLoaderData,
   useRouter,
 } from "@tanstack/react-router";
@@ -102,10 +113,10 @@ export const Route = createFileRoute("/_protected/dashboard")({
       context.queryClient.ensureQueryData(tagsQueryOptions),
     ]);
   },
-  component: Dashboard,
+  component: PageDashboard,
 });
 
-function Dashboard() {
+function PageDashboard() {
   const { user } = useLoaderData({ from: "/_protected" });
   const { data: links } = useSuspenseQuery(linksQueryOptions);
   const { data: collections } = useSuspenseQuery(collectionsQueryOptions);
@@ -206,406 +217,255 @@ function Dashboard() {
     .filter((link) => link.title.toLowerCase().includes(value.toLowerCase()));
 
   return (
-    <div className="dashboard">
-      <aside className="dashbaord__sidebar">
-        <div className="dashboard__section">
-          <Link to="/" className="dashboard__title">
-            url.space
-          </Link>
-          <ul className="dashboard__list">
-            <li>
-              <button
-                className="dashboard__list-btn"
-                onClick={() => {
-                  setFavourite(false);
-                  setForLater(false);
-                  setSelectedCollection(null);
-                  setSelectedTags([]);
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="28"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="dashboard__icon"
-                >
-                  <path d="M21 5H3" />
-                  <path d="M15 12H3" />
-                  <path d="M17 19H3" />
-                </svg>
-                All
-              </button>
-            </li>
-            <li>
-              <button
-                className="dashboard__list-btn"
-                onClick={() => setFavourite((prev) => !prev)}
-                aria-pressed={favourite}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="28"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="dashboard__icon"
-                >
-                  <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
-                </svg>
-                Favourite
-              </button>
-            </li>
-            <li>
-              <button
-                className="dashboard__list-btn"
-                onClick={() => setForLater((prev) => !prev)}
-                aria-pressed={forLater}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="28"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="dashboard__icon"
-                >
-                  <path d="M10 2v2" />
-                  <path d="M14 2v2" />
-                  <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" />
-                  <path d="M6 2v2" />
-                </svg>
-                For later
-              </button>
-            </li>
-          </ul>
-          <button
-            type="button"
-            className="dashboard__list-btn"
-            onClick={() => setIsAddLinkOpen(true)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="dashboard__icon"
-            >
-              <path d="M5 12h14" />
-              <path d="M12 5v14" />
-            </svg>
-            Add link
-          </button>
-        </div>
-        <div className="dashboard__section">
-          <details className="dashboard__details" open>
-            <summary className="dashboard__summary">
-              <div className="dashboard__title">Collections</div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="dashboard__icon"
-              >
-                <path d="m7 15 5 5 5-5" />
-                <path d="m7 9 5-5 5 5" />
-              </svg>
-            </summary>
-            <ul className="dashboard__list">
-              {collections.map((c) => (
-                <li key={c.id}>
-                  <button
-                    className="dashboard__list-btn"
-                    onClick={() =>
-                      setSelectedCollection((prev) =>
-                        prev === c.id ? null : c.id,
-                      )
-                    }
-                    aria-pressed={selectedCollection === c.id}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="28"
-                      height="28"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="dashboard__icon"
-                    >
-                      <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
-                    </svg>
-                    {c.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <button
-              type="button"
-              className="dashboard__list-btn"
-              onClick={() => setIsAddCollectionOpen(true)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="dashboard__icon"
-              >
-                <path d="M5 12h14" />
-                <path d="M12 5v14" />
-              </svg>
-              Add collection
-            </button>
-            <button className="dashboard__list-btn">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="dashboard__icon"
-              >
-                <path d="M14 17H5" />
-                <path d="M19 7h-9" />
-                <circle cx="17" cy="17" r="3" />
-                <circle cx="7" cy="7" r="3" />
-              </svg>
-              Edit collections
-            </button>
-          </details>
-        </div>
-        <div className="dashboard__section">
-          <details className="dashboard__details" open>
-            <summary className="dashboard__summary">
-              <div className="dashboard__title">Tags</div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="dashboard__icon"
-              >
-                <path d="m7 15 5 5 5-5" />
-                <path d="m7 9 5-5 5 5" />
-              </svg>
-            </summary>
-            <ul className="dashboard__list">
-              {tags.map((t) => (
-                <li key={t.id}>
-                  <button
-                    className="dashboard__list-btn"
-                    onClick={() =>
-                      setSelectedTags((prev) =>
-                        prev.includes(t.id)
-                          ? prev.filter((id) => id !== t.id)
-                          : [...prev, t.id],
-                      )
-                    }
-                    aria-pressed={selectedTags.includes(t.id)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="28"
-                      height="28"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="dashboard__icon"
-                    >
-                      <line x1="4" x2="20" y1="9" y2="9" />
-                      <line x1="4" x2="20" y1="15" y2="15" />
-                      <line x1="10" x2="8" y1="3" y2="21" />
-                      <line x1="16" x2="14" y1="3" y2="21" />
-                    </svg>
-                    {t.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-
-            <button className="dashboard__list-btn">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="dashboard__icon"
-              >
-                <path d="M14 17H5" />
-                <path d="M19 7h-9" />
-                <circle cx="17" cy="17" r="3" />
-                <circle cx="7" cy="7" r="3" />
-              </svg>
-              Edit tags
-            </button>
-          </details>
-        </div>
-      </aside>
-      <div className="dashbaord__links">
-        <div className="dashboard__search">
-          <Form onSubmit={() => console.log("search")}>
-            <Form.Input
-              name="search"
-              value={value}
-              onChange={setValue}
-              label="Search"
-              type="text"
-              placeholder="Search for..."
-            ></Form.Input>
-          </Form>
-        </div>
-        {filteredLinks.map((link) => (
-          <article className="dashboard__link" key={link.id}>
-            <Stack>
-              <Stack gap={0}>
-                <a href={link.url} className="dashboard__link-title">
-                  {link.title}
-                </a>
-                <a href={link.url} className="dashboard__link-a">
-                  {link.url}
-                </a>
-              </Stack>
-              {link.description.length > 0 ? <p>{link.description}</p> : null}
-              {link.tags.length > 0 ? (
-                <ul className="dashboard__link-tags">
-                  {link.tags.map((tag) => (
-                    <li key={tag.id} className="dashboard__link-tag">
-                      {tag.name}
-                    </li>
+    <>
+      <Dashboard>
+        <Dashboard.Header>
+          <DashboardLogo />
+          <DashboardButton
+            icon={<Icon.Filter />}
+            onClick={() => alert("Show filters")}
+            text="Filters"
+          />
+        </Dashboard.Header>
+        <Dashboard.AsideOne>
+          <DashboardSection>
+            <DashboardLogo />
+            <DashboardList>
+              <DashboardList.Li>
+                <DashboardButton
+                  icon={<Icon.List />}
+                  onClick={() => {
+                    setFavourite(false);
+                    setForLater(false);
+                    setSelectedCollection(null);
+                    setSelectedTags([]);
+                  }}
+                  text="All"
+                />
+              </DashboardList.Li>
+              <DashboardList.Li>
+                <DashboardButton
+                  ariaPressed={favourite}
+                  icon={<Icon.Heart />}
+                  onClick={() => setFavourite((prev) => !prev)}
+                  text="Favourite"
+                />
+              </DashboardList.Li>
+              <DashboardList.Li>
+                <DashboardButton
+                  ariaPressed={forLater}
+                  icon={<Icon.Coffee />}
+                  onClick={() => setForLater((prev) => !prev)}
+                  text="For later"
+                />
+              </DashboardList.Li>
+            </DashboardList>
+            <DashboardButton
+              icon={<Icon.Plus />}
+              onClick={() => setIsAddLinkOpen(true)}
+              text="Add link"
+            />
+          </DashboardSection>
+          <DashboardSection>
+            <DashboardAccordion summary="Collections">
+              <Stack>
+                <DashboardList>
+                  {collections.map((c) => (
+                    <DashboardList.Li key={c.id}>
+                      <DashboardButton
+                        icon={<Icon.Folder />}
+                        onClick={() =>
+                          setSelectedCollection((prev) =>
+                            prev === c.id ? null : c.id,
+                          )
+                        }
+                        ariaPressed={selectedCollection === c.id}
+                        text={c.name}
+                      />
+                    </DashboardList.Li>
                   ))}
-                </ul>
-              ) : null}
-              {link.collection ? (
-                <p className="dashboard__link-collection">
-                  Collection: {link.collection.name}
-                </p>
-              ) : null}
-            </Stack>
-          </article>
-        ))}
-      </div>
-      <aside className="dashbaord__sidebar">
-        <button type="button" onClick={handleSignOut}>
-          Sign out
-        </button>
+                </DashboardList>
+                <div>
+                  <DashboardButton
+                    icon={<Icon.Plus />}
+                    onClick={() => setIsAddCollectionOpen(true)}
+                    text="Add collection"
+                  />
+                  <DashboardButton
+                    icon={<Icon.Edit />}
+                    onClick={() => alert("Show filters")}
+                    text="Edit collections"
+                  />
+                </div>
+              </Stack>
+            </DashboardAccordion>
+          </DashboardSection>
+          <DashboardSection>
+            <DashboardAccordion summary="Tags">
+              <Stack>
+                <DashboardList>
+                  {tags.map((t) => (
+                    <DashboardList.Li key={t.id}>
+                      <DashboardButton
+                        icon={<Icon.Tag />}
+                        onClick={() =>
+                          setSelectedTags((prev) =>
+                            prev.includes(t.id)
+                              ? prev.filter((id) => id !== t.id)
+                              : [...prev, t.id],
+                          )
+                        }
+                        ariaPressed={selectedTags.includes(t.id)}
+                        text={t.name}
+                      />
+                    </DashboardList.Li>
+                  ))}
+                </DashboardList>
 
-        <h1>User</h1>
-        <p>Username: {user.username}</p>
-        <p>Display name: {user.displayName}</p>
-        <p>Email: {user.email}</p>
-        <p>Pro: {user.isPro ? "Yes" : "No"}</p>
-        <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
-        <p>Member since: {user.createdAt.slice(0, 10)}</p>
-      </aside>
+                <div>
+                  <DashboardButton
+                    icon={<Icon.Edit />}
+                    text="Edit tags"
+                    onClick={() => alert("Show filters")}
+                  />
+                </div>
+              </Stack>
+            </DashboardAccordion>
+          </DashboardSection>
+        </Dashboard.AsideOne>
+        <Dashboard.Main>
+          <DashboardSection>
+            <Form onSubmit={() => console.log("search")}>
+              <Form.Input
+                name="search"
+                value={value}
+                onChange={setValue}
+                label="Search"
+                type="text"
+                placeholder="Search for..."
+              ></Form.Input>
+            </Form>
+          </DashboardSection>
 
-      <Dialog open={isAddLinkOpen} onClose={() => setIsAddLinkOpen(false)}>
-        <Form onSubmit={handleSubmitLink}>
-          <Form.Input
-            label="Title"
-            required
-            type="text"
-            name="title"
-            value={newLinkTitle}
-            onChange={setNewLinkTitle}
-            placeholder="Boo"
-          ></Form.Input>
-          <Form.Input
-            label="URL"
-            required
-            type="text"
-            name="url"
-            value={newLinkUrl}
-            onChange={setNewLinkUrl}
-            placeholder="https://cloudflare.com"
-          ></Form.Input>
-          <Form.Input
-            label="Description"
-            required
-            type="text"
-            name="description"
-            value={newLinkDescription}
-            onChange={setNewLinkDescription}
-            placeholder="What a cool description"
-          ></Form.Input>
-          <Form.Input
-            label="Tags"
-            required
-            type="text"
-            name="tags"
-            value={newLinkTags}
-            onChange={setNewLinkTags}
-            placeholder="comma,separated,tags"
-          ></Form.Input>
-          <Button type="submit" text="Add new link" />
-        </Form>
-      </Dialog>
+          {filteredLinks.map((link) => (
+            <article className="dashboard__link" key={link.id}>
+              <Stack>
+                <Stack gap={0}>
+                  <a href={link.url} className="dashboard__link-title">
+                    {link.title}
+                  </a>
+                  <a href={link.url} className="dashboard__link-a">
+                    {link.url}
+                  </a>
+                </Stack>
+                {link.description.length > 0 ? <p>{link.description}</p> : null}
+                {link.tags.length > 0 ? (
+                  <ul className="dashboard__link-tags">
+                    {link.tags.map((tag) => (
+                      <li key={tag.id} className="dashboard__link-tag">
+                        {tag.name}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+                {link.collection ? (
+                  <p className="dashboard__link-collection">
+                    Collection: {link.collection.name}
+                  </p>
+                ) : null}
+              </Stack>
+            </article>
+          ))}
+        </Dashboard.Main>
+        <Dashboard.AsideTwo>
+          <DashboardSection>
+            <Button
+              text="Add link"
+              onClick={() => setIsAddLinkOpen(true)}
+              fullWidth
+            />
+            <Button
+              text="Add collection"
+              onClick={() => setIsAddCollectionOpen(true)}
+              fullWidth
+            />
+            <Button
+              type="button"
+              onClick={handleSignOut}
+              text="Sign out"
+              fullWidth
+            />
 
-      <Dialog
-        open={isAddCollectionOpen}
-        onClose={() => setIsAddCollectionOpen(false)}
-      >
-        <Form onSubmit={handleSubmitCollection}>
-          <Form.Input
-            label="Collection name"
-            required
-            type="text"
-            name="collection-name"
-            value={newCollectionName}
-            onChange={setNewCollectionName}
-            placeholder="Cats"
-          ></Form.Input>
-          <Button type="submit" text="Add new collection" />
-        </Form>
-      </Dialog>
-    </div>
+            <h1>User</h1>
+            <p>Username: {user.username}</p>
+            <p>Display name: {user.displayName}</p>
+            <p>Email: {user.email}</p>
+            <p>Pro: {user.isPro ? "Yes" : "No"}</p>
+            <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
+            <p>Member since: {user.createdAt.slice(0, 10)}</p>
+          </DashboardSection>
+        </Dashboard.AsideTwo>
+
+        <Dialog open={isAddLinkOpen} onClose={() => setIsAddLinkOpen(false)}>
+          <Form onSubmit={handleSubmitLink}>
+            <Form.Input
+              label="Title"
+              required
+              type="text"
+              name="title"
+              value={newLinkTitle}
+              onChange={setNewLinkTitle}
+              placeholder="Boo"
+            ></Form.Input>
+            <Form.Input
+              label="URL"
+              required
+              type="text"
+              name="url"
+              value={newLinkUrl}
+              onChange={setNewLinkUrl}
+              placeholder="https://cloudflare.com"
+            ></Form.Input>
+            <Form.Input
+              label="Description"
+              required
+              type="text"
+              name="description"
+              value={newLinkDescription}
+              onChange={setNewLinkDescription}
+              placeholder="What a cool description"
+            ></Form.Input>
+            <Form.Input
+              label="Tags"
+              required
+              type="text"
+              name="tags"
+              value={newLinkTags}
+              onChange={setNewLinkTags}
+              placeholder="comma,separated,tags"
+            ></Form.Input>
+            <Button type="submit" text="Add new link" />
+          </Form>
+        </Dialog>
+
+        <Dialog
+          open={isAddCollectionOpen}
+          onClose={() => setIsAddCollectionOpen(false)}
+        >
+          <Form onSubmit={handleSubmitCollection}>
+            <Form.Input
+              label="Collection name"
+              required
+              type="text"
+              name="collection-name"
+              value={newCollectionName}
+              onChange={setNewCollectionName}
+              placeholder="Cats"
+            ></Form.Input>
+            <Button type="submit" text="Add new collection" />
+          </Form>
+        </Dialog>
+      </Dashboard>
+    </>
   );
 }

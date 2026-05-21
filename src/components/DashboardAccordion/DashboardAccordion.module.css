@@ -1,0 +1,13 @@
+.details {
+  &[open] summary {
+    margin-block-end: 1lh;
+  }
+}
+
+.summary {
+  font-weight: 700;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

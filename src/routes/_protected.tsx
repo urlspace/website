@@ -35,7 +35,9 @@ const clearSession = createServerFn({ method: "POST" }).handler(() => {
   deleteCookie("session", {
     path: "/",
     secure: true,
-    domain: import.meta.env.VITE_API_URL.includes("localhost") ? "" : ".url.space",
+    domain: import.meta.env.VITE_API_URL.includes("localhost")
+      ? ""
+      : ".url.space",
   });
 });
 
@@ -71,20 +73,14 @@ export const Route = createFileRoute("/_protected")({
 });
 
 function ComponentPage() {
-  return (
-    <App>
-      <App.Main>
-        <Outlet />
-      </App.Main>
-    </App>
-  );
+  return <Outlet />;
 }
 
 function ComponentError() {
   return (
-    <App.Main>
+    <>
       <h1>Error protected</h1>
       <p>Generic error</p>
-    </App.Main>
+    </>
   );
 }
