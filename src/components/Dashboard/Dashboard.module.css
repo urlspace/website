@@ -57,7 +57,7 @@
     height: 100dvh;
     overflow-y: scroll;
     scrollbar-width: none;
-    overscroll-behavior: contain;
+    overscroll-behavior-y: contain;
   }
 }
 

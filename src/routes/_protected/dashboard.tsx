@@ -406,43 +406,48 @@ function PageDashboard() {
           </DashboardSection>
         </Dashboard.AsideTwo>
 
-        <Dialog open={isAddLinkOpen} onClose={() => setIsAddLinkOpen(false)}>
+        <Dialog
+          open={isAddLinkOpen}
+          onClose={() => setIsAddLinkOpen(false)}
+          title="Add new link"
+        >
           <Form onSubmit={handleSubmitLink}>
             <Form.Input
+              autoFocus
               label="Title"
-              required
-              type="text"
               name="title"
-              value={newLinkTitle}
               onChange={setNewLinkTitle}
               placeholder="Boo"
+              required
+              type="text"
+              value={newLinkTitle}
             ></Form.Input>
             <Form.Input
               label="URL"
-              required
-              type="text"
               name="url"
-              value={newLinkUrl}
               onChange={setNewLinkUrl}
               placeholder="https://cloudflare.com"
+              required
+              type="text"
+              value={newLinkUrl}
             ></Form.Input>
             <Form.Input
               label="Description"
-              required
-              type="text"
               name="description"
-              value={newLinkDescription}
               onChange={setNewLinkDescription}
               placeholder="What a cool description"
+              required
+              type="text"
+              value={newLinkDescription}
             ></Form.Input>
             <Form.Input
               label="Tags"
-              required
-              type="text"
               name="tags"
-              value={newLinkTags}
               onChange={setNewLinkTags}
               placeholder="comma,separated,tags"
+              required
+              type="text"
+              value={newLinkTags}
             ></Form.Input>
             <Button type="submit" text="Add new link" />
           </Form>
@@ -451,16 +456,18 @@ function PageDashboard() {
         <Dialog
           open={isAddCollectionOpen}
           onClose={() => setIsAddCollectionOpen(false)}
+          title="Add new collection"
         >
           <Form onSubmit={handleSubmitCollection}>
             <Form.Input
+              autoFocus
               label="Collection name"
-              required
-              type="text"
               name="collection-name"
-              value={newCollectionName}
               onChange={setNewCollectionName}
               placeholder="Cats"
+              required
+              type="text"
+              value={newCollectionName}
             ></Form.Input>
             <Button type="submit" text="Add new collection" />
           </Form>

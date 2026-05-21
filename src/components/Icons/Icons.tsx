@@ -102,6 +102,15 @@ function IconsTag() {
   );
 }
 
+function IconsClose() {
+  return (
+    <IconBase>
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
+    </IconBase>
+  );
+}
+
 Icon.Filter = IconsFilter;
 Icon.Plus = IconsPlus;
 Icon.Edit = IconsEdit;
@@ -111,5 +120,6 @@ Icon.Coffee = IconsCoffee;
 Icon.Expand = IconsExpand;
 Icon.Folder = IconsFolder;
 Icon.Tag = IconsTag;
+Icon.Close = IconsClose;
 
 export default Icon;

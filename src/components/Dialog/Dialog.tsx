@@ -1,14 +1,17 @@
 import { useEffect, useRef } from "react";
-import "./Dialog.css";
+import styles from "./Dialog.module.css";
+import Icon from "../Icons/Icons";
 
 function Dialog({
   open,
   onClose,
   children,
+  title,
 }: {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  title: string;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
 
@@ -22,13 +25,24 @@ function Dialog({
   return (
     <dialog
       ref={ref}
-      className="dialog"
+      className={styles.dialog}
       onClose={onClose}
       onClick={(e) => {
         if (e.target === ref.current) onClose();
       }}
     >
-      {children}
+      <div className={styles.header}>
+        <span className={styles.title}>{title}</span>
+        <button
+          className={styles.close}
+          onClick={onClose}
+          aria-label="Close dialog"
+        >
+          <Icon.Close />
+        </button>
+      </div>
+
+      <div className={styles.content}>{children}</div>
     </dialog>
   );
 }

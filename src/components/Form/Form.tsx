@@ -16,6 +16,7 @@ function Form({
 
 function Input({
   autoComplete,
+  autoFocus,
   description,
   disabled,
   label,
@@ -30,6 +31,7 @@ function Input({
   value,
 }: {
   autoComplete?: string;
+  autoFocus?: boolean;
   description?: string;
   disabled?: boolean;
   label: string;
@@ -67,6 +69,7 @@ function Input({
         required={required}
         type={type}
         value={value}
+        autoFocus={autoFocus}
       />
       {description ? (
         <p id={`${name}-description`} className="form__description">
