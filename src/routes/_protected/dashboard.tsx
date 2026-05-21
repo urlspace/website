@@ -7,9 +7,10 @@ import {
   DashboardLogo,
   DashboardButton,
   Icon,
-  DashboardList,
-  DashboardAccordion,
   DashboardSection,
+  DashboardNavDialog,
+  DashboardNav,
+  DashboardList,
 } from "#/components/index.ts";
 import {
   queryOptions,
@@ -131,6 +132,8 @@ function PageDashboard() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
   const [isAddLinkOpen, setIsAddLinkOpen] = useState(false);
   const [newLinkTitle, setNewLinkTitle] = useState("");
   const [newLinkUrl, setNewLinkUrl] = useState("");
@@ -217,262 +220,237 @@ function PageDashboard() {
     .filter((link) => link.title.toLowerCase().includes(value.toLowerCase()));
 
   return (
-    <>
-      <Dashboard>
-        <Dashboard.Header>
-          <DashboardLogo />
+    <Dashboard>
+      <Dashboard.Header>
+        <DashboardLogo />
+        <Stack direction="row" gap={0.75}>
+          <DashboardButton
+            icon={<Icon.Plus />}
+            onClick={() => setIsAddLinkOpen(true)}
+            text="Link"
+          />
+          <DashboardButton
+            icon={<Icon.Plus />}
+            onClick={() => setIsAddCollectionOpen(true)}
+            text="Collection"
+          />
           <DashboardButton
             icon={<Icon.Filter />}
-            onClick={() => alert("Show filters")}
-            text="Filters"
+            onClick={() => setIsNavOpen(true)}
+            text="Menu"
           />
-        </Dashboard.Header>
-        <Dashboard.AsideOne>
+        </Stack>
+      </Dashboard.Header>
+      <Dashboard.AsideOne>
+        <DashboardNav
+          showUserSection={false}
+          handleSignOut={handleSignOut}
+          showLogo={true}
+          favourite={favourite}
+          forLater={forLater}
+          setFavourite={setFavourite}
+          setForLater={setForLater}
+          setSelectedCollection={setSelectedCollection}
+          setSelectedTags={setSelectedTags}
+          setIsAddLinkOpen={setIsAddLinkOpen}
+          collections={collections}
+          tags={tags}
+          selectedCollection={selectedCollection}
+          selectedTags={selectedTags}
+          setIsAddCollectionOpen={setIsAddCollectionOpen}
+        />
+      </Dashboard.AsideOne>
+      <Dashboard.Main>
+        <DashboardSection>
+          <Form onSubmit={() => console.log("search")}>
+            <Form.Input
+              name="search"
+              value={value}
+              onChange={setValue}
+              label="Search"
+              type="text"
+              placeholder="Search for..."
+            ></Form.Input>
+          </Form>
+        </DashboardSection>
+
+        {filteredLinks.map((link) => (
+          <article className="dashboard__link" key={link.id}>
+            <Stack>
+              <Stack gap={0}>
+                <a href={link.url} className="dashboard__link-title">
+                  {link.title}
+                </a>
+                <a href={link.url} className="dashboard__link-a">
+                  {link.url}
+                </a>
+              </Stack>
+              {link.description.length > 0 ? <p>{link.description}</p> : null}
+              {link.tags.length > 0 ? (
+                <ul className="dashboard__link-tags">
+                  {link.tags.map((tag) => (
+                    <li key={tag.id} className="dashboard__link-tag">
+                      {tag.name}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              {link.collection ? (
+                <p className="dashboard__link-collection">
+                  Collection: {link.collection.name}
+                </p>
+              ) : null}
+            </Stack>
+          </article>
+        ))}
+      </Dashboard.Main>
+      <Dashboard.AsideTwo>
+        <Stack fullHeight spaceBetween gap={0}>
           <DashboardSection>
-            <DashboardLogo />
             <DashboardList>
               <DashboardList.Li>
                 <DashboardButton
-                  icon={<Icon.List />}
-                  onClick={() => {
-                    setFavourite(false);
-                    setForLater(false);
-                    setSelectedCollection(null);
-                    setSelectedTags([]);
-                  }}
-                  text="All"
+                  icon={<Icon.Plus />}
+                  onClick={() => setIsAddLinkOpen(true)}
+                  text="Add link"
                 />
               </DashboardList.Li>
               <DashboardList.Li>
                 <DashboardButton
-                  ariaPressed={favourite}
-                  icon={<Icon.Heart />}
-                  onClick={() => setFavourite((prev) => !prev)}
-                  text="Favourite"
-                />
-              </DashboardList.Li>
-              <DashboardList.Li>
-                <DashboardButton
-                  ariaPressed={forLater}
-                  icon={<Icon.Coffee />}
-                  onClick={() => setForLater((prev) => !prev)}
-                  text="For later"
+                  icon={<Icon.Plus />}
+                  onClick={() => setIsAddCollectionOpen(true)}
+                  text="Add collection"
                 />
               </DashboardList.Li>
             </DashboardList>
-            <DashboardButton
-              icon={<Icon.Plus />}
-              onClick={() => setIsAddLinkOpen(true)}
-              text="Add link"
-            />
           </DashboardSection>
           <DashboardSection>
-            <DashboardAccordion summary="Collections">
-              <Stack>
-                <DashboardList>
-                  {collections.map((c) => (
-                    <DashboardList.Li key={c.id}>
-                      <DashboardButton
-                        icon={<Icon.Folder />}
-                        onClick={() =>
-                          setSelectedCollection((prev) =>
-                            prev === c.id ? null : c.id,
-                          )
-                        }
-                        ariaPressed={selectedCollection === c.id}
-                        text={c.name}
-                      />
-                    </DashboardList.Li>
-                  ))}
-                </DashboardList>
-                <div>
-                  <DashboardButton
-                    icon={<Icon.Plus />}
-                    onClick={() => setIsAddCollectionOpen(true)}
-                    text="Add collection"
-                  />
-                  <DashboardButton
-                    icon={<Icon.Edit />}
-                    onClick={() => alert("Show filters")}
-                    text="Edit collections"
-                  />
-                </div>
-              </Stack>
-            </DashboardAccordion>
+            <DashboardList>
+              <DashboardList.Li>
+                <DashboardButton
+                  icon={<Icon.User />}
+                  onClick={() => alert("Show profile")}
+                  text={`Profile (${user.displayName})`}
+                />
+              </DashboardList.Li>
+              <DashboardList.Li>
+                <DashboardButton
+                  icon={<Icon.Settings />}
+                  onClick={() => alert("Show settings")}
+                  text="Settings"
+                />
+              </DashboardList.Li>
+              <DashboardList.Li>
+                <DashboardButton
+                  icon={<Icon.SignOut />}
+                  onClick={handleSignOut}
+                  text="Sign out"
+                />
+              </DashboardList.Li>
+            </DashboardList>
+            {
+              // <h1>User</h1>
+              // <p>Username: {user.username}</p>
+              // <p>Display name: {user.displayName}</p>
+              // <p>Email: {user.email}</p>
+              // <p>Pro: {user.isPro ? "Yes" : "No"}</p>
+              // <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
+              // <p>Member since: {user.createdAt.slice(0, 10)}</p>
+            }
           </DashboardSection>
-          <DashboardSection>
-            <DashboardAccordion summary="Tags">
-              <Stack>
-                <DashboardList>
-                  {tags.map((t) => (
-                    <DashboardList.Li key={t.id}>
-                      <DashboardButton
-                        icon={<Icon.Tag />}
-                        onClick={() =>
-                          setSelectedTags((prev) =>
-                            prev.includes(t.id)
-                              ? prev.filter((id) => id !== t.id)
-                              : [...prev, t.id],
-                          )
-                        }
-                        ariaPressed={selectedTags.includes(t.id)}
-                        text={t.name}
-                      />
-                    </DashboardList.Li>
-                  ))}
-                </DashboardList>
+        </Stack>
+      </Dashboard.AsideTwo>
 
-                <div>
-                  <DashboardButton
-                    icon={<Icon.Edit />}
-                    text="Edit tags"
-                    onClick={() => alert("Show filters")}
-                  />
-                </div>
-              </Stack>
-            </DashboardAccordion>
-          </DashboardSection>
-        </Dashboard.AsideOne>
-        <Dashboard.Main>
-          <DashboardSection>
-            <Form onSubmit={() => console.log("search")}>
-              <Form.Input
-                name="search"
-                value={value}
-                onChange={setValue}
-                label="Search"
-                type="text"
-                placeholder="Search for..."
-              ></Form.Input>
-            </Form>
-          </DashboardSection>
+      <Dialog
+        open={isAddCollectionOpen}
+        onClose={() => setIsAddCollectionOpen(false)}
+        title="Add new collection"
+      >
+        <Form onSubmit={handleSubmitCollection}>
+          <Form.Input
+            autoFocus
+            label="Collection name"
+            name="collection-name"
+            onChange={setNewCollectionName}
+            placeholder="Cats"
+            required
+            type="text"
+            value={newCollectionName}
+          ></Form.Input>
+          <Button type="submit" text="Add new collection" />
+        </Form>
+      </Dialog>
 
-          {filteredLinks.map((link) => (
-            <article className="dashboard__link" key={link.id}>
-              <Stack>
-                <Stack gap={0}>
-                  <a href={link.url} className="dashboard__link-title">
-                    {link.title}
-                  </a>
-                  <a href={link.url} className="dashboard__link-a">
-                    {link.url}
-                  </a>
-                </Stack>
-                {link.description.length > 0 ? <p>{link.description}</p> : null}
-                {link.tags.length > 0 ? (
-                  <ul className="dashboard__link-tags">
-                    {link.tags.map((tag) => (
-                      <li key={tag.id} className="dashboard__link-tag">
-                        {tag.name}
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-                {link.collection ? (
-                  <p className="dashboard__link-collection">
-                    Collection: {link.collection.name}
-                  </p>
-                ) : null}
-              </Stack>
-            </article>
-          ))}
-        </Dashboard.Main>
-        <Dashboard.AsideTwo>
-          <DashboardSection>
-            <Button
-              text="Add link"
-              onClick={() => setIsAddLinkOpen(true)}
-              fullWidth
-            />
-            <Button
-              text="Add collection"
-              onClick={() => setIsAddCollectionOpen(true)}
-              fullWidth
-            />
-            <Button
-              type="button"
-              onClick={handleSignOut}
-              text="Sign out"
-              fullWidth
-            />
+      <DashboardNavDialog
+        open={isNavOpen}
+        onClose={() => setIsNavOpen(false)}
+        title="Menu"
+      >
+        <DashboardNav
+          showUserSection={true}
+          collections={collections}
+          favourite={favourite}
+          forLater={forLater}
+          handleSignOut={handleSignOut}
+          selectedCollection={selectedCollection}
+          selectedTags={selectedTags}
+          setFavourite={setFavourite}
+          setForLater={setForLater}
+          setIsAddCollectionOpen={setIsAddCollectionOpen}
+          setIsAddLinkOpen={setIsAddLinkOpen}
+          setSelectedCollection={setSelectedCollection}
+          setSelectedTags={setSelectedTags}
+          showLogo={false}
+          tags={tags}
+        />
+      </DashboardNavDialog>
 
-            <h1>User</h1>
-            <p>Username: {user.username}</p>
-            <p>Display name: {user.displayName}</p>
-            <p>Email: {user.email}</p>
-            <p>Pro: {user.isPro ? "Yes" : "No"}</p>
-            <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
-            <p>Member since: {user.createdAt.slice(0, 10)}</p>
-          </DashboardSection>
-        </Dashboard.AsideTwo>
-
-        <Dialog
-          open={isAddLinkOpen}
-          onClose={() => setIsAddLinkOpen(false)}
-          title="Add new link"
-        >
-          <Form onSubmit={handleSubmitLink}>
-            <Form.Input
-              autoFocus
-              label="Title"
-              name="title"
-              onChange={setNewLinkTitle}
-              placeholder="Boo"
-              required
-              type="text"
-              value={newLinkTitle}
-            ></Form.Input>
-            <Form.Input
-              label="URL"
-              name="url"
-              onChange={setNewLinkUrl}
-              placeholder="https://cloudflare.com"
-              required
-              type="text"
-              value={newLinkUrl}
-            ></Form.Input>
-            <Form.Input
-              label="Description"
-              name="description"
-              onChange={setNewLinkDescription}
-              placeholder="What a cool description"
-              required
-              type="text"
-              value={newLinkDescription}
-            ></Form.Input>
-            <Form.Input
-              label="Tags"
-              name="tags"
-              onChange={setNewLinkTags}
-              placeholder="comma,separated,tags"
-              required
-              type="text"
-              value={newLinkTags}
-            ></Form.Input>
-            <Button type="submit" text="Add new link" />
-          </Form>
-        </Dialog>
-
-        <Dialog
-          open={isAddCollectionOpen}
-          onClose={() => setIsAddCollectionOpen(false)}
-          title="Add new collection"
-        >
-          <Form onSubmit={handleSubmitCollection}>
-            <Form.Input
-              autoFocus
-              label="Collection name"
-              name="collection-name"
-              onChange={setNewCollectionName}
-              placeholder="Cats"
-              required
-              type="text"
-              value={newCollectionName}
-            ></Form.Input>
-            <Button type="submit" text="Add new collection" />
-          </Form>
-        </Dialog>
-      </Dashboard>
-    </>
+      <Dialog
+        open={isAddLinkOpen}
+        onClose={() => setIsAddLinkOpen(false)}
+        title="Add new link"
+      >
+        <Form onSubmit={handleSubmitLink}>
+          <Form.Input
+            autoFocus
+            label="Title"
+            name="title"
+            onChange={setNewLinkTitle}
+            placeholder="Boo"
+            required
+            type="text"
+            value={newLinkTitle}
+          ></Form.Input>
+          <Form.Input
+            label="URL"
+            name="url"
+            onChange={setNewLinkUrl}
+            placeholder="https://cloudflare.com"
+            required
+            type="text"
+            value={newLinkUrl}
+          ></Form.Input>
+          <Form.Input
+            label="Description"
+            name="description"
+            onChange={setNewLinkDescription}
+            placeholder="What a cool description"
+            required
+            type="text"
+            value={newLinkDescription}
+          ></Form.Input>
+          <Form.Input
+            label="Tags"
+            name="tags"
+            onChange={setNewLinkTags}
+            placeholder="comma,separated,tags"
+            required
+            type="text"
+            value={newLinkTags}
+          ></Form.Input>
+          <Button type="submit" text="Add new link" />
+        </Form>
+      </Dialog>
+    </Dashboard>
   );
 }

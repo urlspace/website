@@ -1,0 +1,17 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--gap) * 1lh);
+}
+
+.fullHeight {
+  height: 100%;
+}
+
+.spaceBetween {
+  justify-content: space-between;
+}
+
+.row {
+  flex-direction: row;
+}

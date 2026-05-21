@@ -212,97 +212,6 @@ p {
   }
 }
 
-.dashboard {
-  --gap: 1px;
-
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  background-color: var(--color-border);
-  padding: 0 var(--gap) var(--gap) var(--gap);
-  gap: var(--gap);
-  max-width: var(--size-container-max);
-  margin-inline: auto;
-}
-
-.dashbaord__sidebar {
-  background-color: var(--color-bg-content);
-  height: 100dvh;
-  position: sticky;
-  top: 0px;
-  overflow-y: scroll;
-  scrollbar-width: none;
-  overscroll-behavior: contain;
-}
-
-.dashboard__search {
-  padding: 1lh;
-}
-.dashbaord__links {
-  background-color: var(--color-bg-content);
-  grid-area: auto / span 2;
-}
-
-.dashboard__section {
-  padding: 1lh;
-  padding-block-end: calc(1lh - 1px);
-  border-bottom: 1px solid var(--color-border);
-
-  &:last-of-type {
-    border-bottom: none;
-    padding-block-end: 1lh;
-  }
-}
-
-.dashboard__details {
-  display: flex;
-  flex-direction: column;
-  transition: height 0.2s ease-in;
-}
-
-.dashboard__summary {
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.dashboard__title {
-  font-weight: 800;
-  text-decoration: none;
-  color: inherit;
-}
-
-.dashboard__list {
-  list-style: none;
-  padding-block: 1lh;
-
-  &:last-child {
-    padding-block-end: 0;
-  }
-}
-
-.dashboard__list-btn {
-  font: inherit;
-  background-color: transparent;
-  border: none;
-  align-self: flex-start;
-  display: flex;
-  gap: 0.25lh;
-  align-items: center;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
-
-  &:hover {
-    color: var(--color-link);
-    text-decoration-line: underline;
-  }
-
-  &[aria-pressed="true"] {
-    text-decoration-line: underline;
-    font-weight: 500;
-  }
-}
-
 .dashboard__link {
   padding: 1lh;
   padding-block-end: calc(1lh - 1px);
@@ -321,7 +230,6 @@ p {
   font-size: 0.875rem;
   color: inherit;
   text-decoration: none;
-  opacity: 0.75;
 }
 .dashboard__link-tags {
   display: flex;
@@ -344,4 +252,5 @@ p {
 .dashboard__icon {
   width: 14px;
   height: 14px;
+  background-color: lime;
 }
