@@ -4,8 +4,6 @@
   right: 0;
   left: auto;
   top: 0;
-  /* margin: auto; */
-  width: fit-content;
   height: 100dvh;
   border: none;
   border-left: 1px solid var(--color-border);
@@ -65,7 +63,6 @@
 }
 
 .content {
-  overflow-y: scroll;
   overflow-y: scroll;
   scrollbar-width: none;
   overscroll-behavior-y: contain;

@@ -13,6 +13,7 @@ function DashbrardButton({
 }) {
   return (
     <button
+      type="button"
       className={styles.button}
       onClick={onClick}
       aria-pressed={ariaPressed}

@@ -243,7 +243,6 @@ function PageDashboard() {
       </Dashboard.Header>
       <Dashboard.AsideOne>
         <DashboardNav
-          showUserSection={false}
           handleSignOut={handleSignOut}
           showLogo={true}
           favourite={favourite}
@@ -252,12 +251,10 @@ function PageDashboard() {
           setForLater={setForLater}
           setSelectedCollection={setSelectedCollection}
           setSelectedTags={setSelectedTags}
-          setIsAddLinkOpen={setIsAddLinkOpen}
           collections={collections}
           tags={tags}
           selectedCollection={selectedCollection}
           selectedTags={selectedTags}
-          setIsAddCollectionOpen={setIsAddCollectionOpen}
         />
       </Dashboard.AsideOne>
       <Dashboard.Main>
@@ -325,6 +322,11 @@ function PageDashboard() {
             </DashboardList>
           </DashboardSection>
           <DashboardSection>
+            {
+              // this is the same list as on the dashboard nav
+              // now it is just repeated, it is fine, but if we need it in
+              // more places we should extract to a component
+            }
             <DashboardList>
               <DashboardList.Li>
                 <DashboardButton
@@ -368,7 +370,6 @@ function PageDashboard() {
       >
         <Form onSubmit={handleSubmitCollection}>
           <Form.Input
-            autoFocus
             label="Collection name"
             name="collection-name"
             onChange={setNewCollectionName}
@@ -387,7 +388,6 @@ function PageDashboard() {
         title="Menu"
       >
         <DashboardNav
-          showUserSection={true}
           collections={collections}
           favourite={favourite}
           forLater={forLater}
@@ -396,8 +396,6 @@ function PageDashboard() {
           selectedTags={selectedTags}
           setFavourite={setFavourite}
           setForLater={setForLater}
-          setIsAddCollectionOpen={setIsAddCollectionOpen}
-          setIsAddLinkOpen={setIsAddLinkOpen}
           setSelectedCollection={setSelectedCollection}
           setSelectedTags={setSelectedTags}
           showLogo={false}
@@ -412,7 +410,6 @@ function PageDashboard() {
       >
         <Form onSubmit={handleSubmitLink}>
           <Form.Input
-            autoFocus
             label="Title"
             name="title"
             onChange={setNewLinkTitle}

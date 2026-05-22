@@ -34,6 +34,7 @@ function Dialog({
       <div className={styles.header}>
         <span className={styles.title}>{title}</span>
         <button
+          type="button"
           className={styles.close}
           onClick={onClose}
           aria-label="Close dialog"

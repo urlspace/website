@@ -2,7 +2,6 @@ import { queryOptions } from "@tanstack/react-query";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { deleteCookie, getRequest } from "@tanstack/react-start/server";
-import { App } from "../components";
 
 export type User = {
   id: string;

@@ -37,7 +37,6 @@ function DashboardNav({
   selectedCollection,
   selectedTags,
   handleSignOut,
-  showUserSection,
 }: {
   showLogo: boolean;
   favourite: boolean;
@@ -51,7 +50,6 @@ function DashboardNav({
   selectedCollection: string | null;
   selectedTags: string[];
   handleSignOut: () => void;
-  showUserSection: boolean;
 }) {
   return (
     <>
@@ -88,7 +86,7 @@ function DashboardNav({
           </DashboardList.Li>
         </DashboardList>
       </DashboardSection>
-      {collectoins.length ? (
+      {collections.length ? (
         <DashboardSection>
           <DashboardAccordion summary="Collections">
             <Stack>
@@ -152,42 +150,45 @@ function DashboardNav({
         </DashboardSection>
       ) : null}
 
-      {showUserSection ? (
-        <DashboardSection>
-          <DashboardList>
-            <DashboardList.Li>
-              <DashboardButton
-                icon={<Icon.User />}
-                onClick={() => alert("Show profile")}
-                text="Profile"
-              />
-            </DashboardList.Li>
-            <DashboardList.Li>
-              <DashboardButton
-                icon={<Icon.Settings />}
-                onClick={() => alert("Show settings")}
-                text="Settings"
-              />
-            </DashboardList.Li>
-            <DashboardList.Li>
-              <DashboardButton
-                icon={<Icon.SignOut />}
-                onClick={handleSignOut}
-                text="Sign out"
-              />
-            </DashboardList.Li>
-          </DashboardList>
-          {
-            // <h1>User</h1>
-            // <p>Username: {user.username}</p>
-            // <p>Display name: {user.displayName}</p>
-            // <p>Email: {user.email}</p>
-            // <p>Pro: {user.isPro ? "Yes" : "No"}</p>
-            // <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
-            // <p>Member since: {user.createdAt.slice(0, 10)}</p>
-          }
-        </DashboardSection>
-      ) : null}
+      <DashboardSection desktopHide>
+        {
+          // this is the same list as on the dashboard asideTwo
+          // now it is just repeated, it is fine, but if we need it in
+          // more places we should extract to a component
+        }
+        <DashboardList>
+          <DashboardList.Li>
+            <DashboardButton
+              icon={<Icon.User />}
+              onClick={() => alert("Show profile")}
+              text="Profile"
+            />
+          </DashboardList.Li>
+          <DashboardList.Li>
+            <DashboardButton
+              icon={<Icon.Settings />}
+              onClick={() => alert("Show settings")}
+              text="Settings"
+            />
+          </DashboardList.Li>
+          <DashboardList.Li>
+            <DashboardButton
+              icon={<Icon.SignOut />}
+              onClick={handleSignOut}
+              text="Sign out"
+            />
+          </DashboardList.Li>
+        </DashboardList>
+        {
+          // <h1>User</h1>
+          // <p>Username: {user.username}</p>
+          // <p>Display name: {user.displayName}</p>
+          // <p>Email: {user.email}</p>
+          // <p>Pro: {user.isPro ? "Yes" : "No"}</p>
+          // <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
+          // <p>Member since: {user.createdAt.slice(0, 10)}</p>
+        }
+      </DashboardSection>
     </>
   );
 }
