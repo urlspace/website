@@ -75,6 +75,7 @@
 }
 
 .metaBtn {
+  color: inherit;
   font: inherit;
   background-color: transparent;
   border: none;
