@@ -224,7 +224,7 @@ function PageDashboard() {
     <Dashboard>
       <Dashboard.Header>
         <DashboardLogo />
-        <Stack direction="row" gap={0.75}>
+        <Stack direction="row" gap={0.5}>
           <DashboardButton
             icon={<Icon.Plus />}
             onClick={() => setIsAddLinkOpen(true)}
