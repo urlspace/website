@@ -18,7 +18,7 @@ function DashboardHeader({ children }: { children: React.ReactNode }) {
 }
 
 function DashboardMain({ children }: { children: React.ReactNode }) {
-  return <header className={styles.main}>{children}</header>;
+  return <main className={styles.main}>{children}</main>;
 }
 function AsideOne({ children }: { children: React.ReactNode }) {
   return <div className={styles.asideOne}>{children}</div>;

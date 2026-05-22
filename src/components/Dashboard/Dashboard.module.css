@@ -29,12 +29,12 @@
   @media (width >= 800px) {
     display: grid;
     gap: 1px;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
   }
 
   @media (width >= 1200px) {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
   }
 }
 
