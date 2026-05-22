@@ -156,9 +156,10 @@ function PageDashboard() {
       }),
     });
 
-    await queryClient.invalidateQueries({
-      queryKey: linksQueryOptions.queryKey,
-    });
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: linksQueryOptions.queryKey }),
+      queryClient.invalidateQueries({ queryKey: tagsQueryOptions.queryKey }),
+    ]);
     setNewLinkTitle("");
     setNewLinkUrl("");
     setNewLinkDescription("");
