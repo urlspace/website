@@ -89,8 +89,10 @@
   text-underline-offset: 4px;
 
   &:hover {
-    color: var(--color-link);
-    text-decoration-line: underline;
+    @media (hover: hover) and (pointer: fine) {
+      color: var(--color-link);
+      text-decoration-line: underline;
+    }
   }
 
   &[aria-pressed="true"] {
