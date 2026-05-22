@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import styles from "./DashboardLink.module.css";
 
@@ -21,6 +22,16 @@ type Link = {
 };
 
 function DashbrardLink({ link }: { link: Link }) {
+  const queryClient = useQueryClient();
+
+  async function handleDelete() {
+    await fetch(`${import.meta.env.VITE_API_URL}/links/${link.id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    await queryClient.invalidateQueries({ queryKey: ["links"] });
+  }
+
   return (
     <article className={styles.link} key={link.id}>
       <div className={styles.header}>
@@ -59,7 +70,10 @@ function DashbrardLink({ link }: { link: Link }) {
           </button>
         </li>
         <li>
-          <button className={[styles.metaBtn, styles.metaBtnDelete].join(" ")}>
+          <button
+            className={[styles.metaBtn, styles.metaBtnDelete].join(" ")}
+            onClick={handleDelete}
+          >
             Delete
           </button>
         </li>
