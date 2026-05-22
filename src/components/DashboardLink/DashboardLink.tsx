@@ -73,10 +73,20 @@ function DashbrardLink({ link }: { link: Link }) {
       key={link.id}
     >
       <div className={styles.header}>
-        <a href={link.url} className={styles.title}>
+        <a
+          href={link.url}
+          className={styles.title}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {link.title}
         </a>
-        <a href={link.url} className={styles.linkA}>
+        <a
+          href={link.url}
+          className={styles.linkA}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {link.url}
         </a>
       </div>
