@@ -4,6 +4,7 @@ import DashboardAccordion from "./DashboardAccordion/DashboardAccordion.tsx";
 import DashboardButton from "./DashboardButton/DashboardButton.tsx";
 import DashboardList from "./DashboardList/DashboardList.tsx";
 import DashboardLogo from "./DashboardLogo/DashboardLogo.tsx";
+import DashboardLink from "./DashboardLink/DashboardLink.tsx";
 import DashboardNavDialog from "./DashboardNavDialog/DashboardNavDialog.tsx";
 import DashboardNav from "./DashboardNav/DashboardNav.tsx";
 import DashboardSection from "./DashboardSection/DashboardSection.tsx";
@@ -28,6 +29,7 @@ export {
   DashboardButton,
   DashboardList,
   DashboardLogo,
+  DashboardLink,
   DashboardNav,
   DashboardNavDialog,
   DashboardSection,

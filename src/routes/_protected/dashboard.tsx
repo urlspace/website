@@ -11,6 +11,7 @@ import {
   DashboardNavDialog,
   DashboardNav,
   DashboardList,
+  DashboardLink,
 } from "#/components/index.ts";
 import {
   queryOptions,
@@ -272,33 +273,7 @@ function PageDashboard() {
         </DashboardSection>
 
         {filteredLinks.map((link) => (
-          <article className="dashboard__link" key={link.id}>
-            <Stack>
-              <Stack gap={0}>
-                <a href={link.url} className="dashboard__link-title">
-                  {link.title}
-                </a>
-                <a href={link.url} className="dashboard__link-a">
-                  {link.url}
-                </a>
-              </Stack>
-              {link.description.length > 0 ? <p>{link.description}</p> : null}
-              {link.tags.length > 0 ? (
-                <ul className="dashboard__link-tags">
-                  {link.tags.map((tag) => (
-                    <li key={tag.id} className="dashboard__link-tag">
-                      {tag.name}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-              {link.collection ? (
-                <p className="dashboard__link-collection">
-                  Collection: {link.collection.name}
-                </p>
-              ) : null}
-            </Stack>
-          </article>
+          <DashboardLink link={link} />
         ))}
       </Dashboard.Main>
       <Dashboard.AsideTwo>
