@@ -1,5 +1,6 @@
 .button {
   font: inherit;
+  color: var(--color-fg);
   background-color: transparent;
   border: none;
   align-self: flex-start;
