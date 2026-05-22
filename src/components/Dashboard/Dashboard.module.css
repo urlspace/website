@@ -54,29 +54,26 @@
 
 .main {
   background-color: var(--color-bg-content);
-
-  @media (width >= 800px) {
-    height: 100dvh;
-    overflow-y: scroll;
-    scrollbar-width: none;
-    overscroll-behavior-y: contain;
-  }
 }
 
 .asideOne,
 .asideTwo {
   display: none;
   background-color: var(--color-bg-content);
+  position: sticky;
+  top: 0px;
 
   height: 100dvh;
   overflow-y: scroll;
   scrollbar-width: none;
-  overscroll-behavior: contain;
 }
 
 .asideOne {
   @media (width >= 800px) {
     display: block;
+    /* this one is to prevent scroll bounce that reveals background color */
+    /* that looks shit so this one prevents it */
+    overscroll-behavior: none;
   }
 }
 

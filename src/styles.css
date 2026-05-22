@@ -56,6 +56,11 @@ html {
   scroll-behavior: smooth;
   background-color: var(--color-bg-content);
   interpolate-size: allow-keywords;
+  /* i dont mind bounce on the edges, but this one */
+  /* is to keep it consistent with Dashboard.AsideOne */
+  /* that on bounce reveals the background color, and that looks shit */
+  /* so im sticking that one here for consisteny, one one column shoulc cause bounce and not the other */
+  overscroll-behavior: none;
 
   @media (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;

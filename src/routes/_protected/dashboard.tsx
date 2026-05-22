@@ -19,7 +19,7 @@ import {
 } from "@tanstack/react-query";
 import {
   createFileRoute,
-  useLoaderData,
+  // useLoaderData,
   useRouter,
 } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
@@ -118,7 +118,7 @@ export const Route = createFileRoute("/_protected/dashboard")({
 });
 
 function PageDashboard() {
-  const { user } = useLoaderData({ from: "/_protected" });
+  // const { user } = useLoaderData({ from: "/_protected" });
   const { data: links } = useSuspenseQuery(linksQueryOptions);
   const { data: collections } = useSuspenseQuery(collectionsQueryOptions);
   const { data: tags } = useSuspenseQuery(tagsQueryOptions);
@@ -258,7 +258,7 @@ function PageDashboard() {
         />
       </Dashboard.AsideOne>
       <Dashboard.Main>
-        <DashboardSection>
+        <DashboardSection search>
           <Form onSubmit={() => console.log("search")}>
             <Form.Input
               name="search"

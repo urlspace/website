@@ -12,3 +12,14 @@
     display: none;
   }
 }
+
+.search {
+  @media (height >= 900px) {
+    position: sticky;
+    top: 3lh;
+  }
+  @media (height >= 700px) and (width >= 800px) {
+    position: sticky;
+    top: 0px;
+  }
+}
