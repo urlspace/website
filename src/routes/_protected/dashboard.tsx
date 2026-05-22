@@ -332,7 +332,7 @@ function PageDashboard() {
                 <DashboardButton
                   icon={<Icon.User />}
                   onClick={() => alert("Show profile")}
-                  text={`Profile (${user.displayName})`}
+                  text="Profile"
                 />
               </DashboardList.Li>
               <DashboardList.Li>
