@@ -6,6 +6,12 @@
   background-color: var(--color-bg-content);
   box-shadow: 0 0 0 1px var(--color-border);
   min-width: 1px;
+  transition: opacity var(--transition-duration) ease;
+}
+
+.linkLoading {
+  opacity: 0.25;
+  pointer-events: none;
 }
 
 .header {
