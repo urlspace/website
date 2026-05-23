@@ -400,7 +400,7 @@ function PageDashboard() {
             onChange={setNewLinkUrl}
             placeholder="https://cloudflare.com"
             required
-            type="text"
+            type="url"
             value={newLinkUrl}
           ></Form.Input>
           <Form.Input

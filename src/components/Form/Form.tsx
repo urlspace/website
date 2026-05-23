@@ -40,7 +40,7 @@ function Input({
   pattern?: string;
   placeholder: string;
   required?: boolean;
-  type: "text" | "email" | "password";
+  type: "text" | "email" | "password" | "url";
   value: string;
 }) {
   return (
