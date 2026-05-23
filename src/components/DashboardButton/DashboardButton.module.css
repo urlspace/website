@@ -7,16 +7,21 @@
   display: flex;
   gap: 0.25lh;
   align-items: center;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
+  text-decoration-thickness: 8px;
+  text-underline-offset: 0px;
   max-width: 100%;
 
   &:hover {
-    @media (hover: hover) and (pointer: fine) {
-      color: var(--color-link);
-      text-decoration-line: underline;
-    }
+    color: var(--color-link);
+    text-decoration-line: underline;
   }
+
+  /* &:hover { */
+  /*   @media (hover: hover) and (pointer: fine) { */
+  /*     color: var(--color-link); */
+  /*     text-decoration-line: underline; */
+  /*   } */
+  /* } */
 
   &[aria-pressed="true"] {
     text-decoration-line: underline;
