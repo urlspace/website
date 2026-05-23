@@ -33,4 +33,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  /* This is super strange */
+  /* Even tho this is not an inherited propery per spec, */
+  /* Chrome and FF do inheir it, Safari is the only one that does it right */
+  /* This is just for safari, to mimic Chrome and FF */
+  /* https://mastodon.social/@pawelgrzybek/116623309838307564 */
+  text-decoration-thickness: inherit;
 }
