@@ -113,12 +113,6 @@ a {
   }
 }
 
-button {
-  &:focus-visible {
-    outline: 4px dotted var(--color-link);
-  }
-}
-
 p {
   text-wrap-style: balance;
 }
