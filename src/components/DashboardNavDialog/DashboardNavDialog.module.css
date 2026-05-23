@@ -69,6 +69,7 @@
 }
 
 .close {
+  color: inherit;
   flex-shrink: 0;
   background: none;
   border: none;
