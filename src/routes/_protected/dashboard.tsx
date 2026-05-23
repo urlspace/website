@@ -408,7 +408,6 @@ function PageDashboard() {
             name="description"
             onChange={setNewLinkDescription}
             placeholder="What a cool description"
-            required
             type="text"
             value={newLinkDescription}
           ></Form.Input>
@@ -417,7 +416,6 @@ function PageDashboard() {
             name="tags"
             onChange={setNewLinkTags}
             placeholder="comma,separated,tags"
-            required
             type="text"
             value={newLinkTags}
           ></Form.Input>
