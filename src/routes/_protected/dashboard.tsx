@@ -144,15 +144,20 @@ function PageDashboard() {
   async function handleSubmitLink(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    const descriptionTrimmed = newLinkDescription.trim();
+    const tagsTrimmed = newLinkTags.trim();
+
     await fetch(`${import.meta.env.VITE_API_URL}/links`, {
       method: "POST",
       credentials: "include",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
         title: newLinkTitle,
-        description: newLinkDescription,
         url: newLinkUrl,
-        tags: newLinkTags.split(",").map((t) => t.trim()),
+        ...(descriptionTrimmed && { description: descriptionTrimmed }),
+        ...(tagsTrimmed && {
+          tags: tagsTrimmed.split(",").map((t) => t.trim()),
+        }),
       }),
     });
 
