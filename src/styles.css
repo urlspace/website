@@ -76,6 +76,9 @@ body {
   font-weight: 400;
   font-style: normal;
 
+  /* disable the gray highlight on iOS on tap of interactive element (button, link, etc) */
+  -webkit-tap-highlight-color: transparent;
+
   /* background-image: linear-gradient( */
   /*   red 0, */
   /*   red 1px, */
