@@ -1,8 +1,12 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1lh;
+  gap: 0.5lh;
   align-items: flex-start;
+
+  @media (height >= 600px) {
+    gap: 1lh;
+  }
 }
 
 .form__field {
