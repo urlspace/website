@@ -93,47 +93,70 @@ function DashbrardLink({ link }: { link: Link }) {
 
       {link.description.length > 0 ? <p>{link.description}</p> : null}
 
-      {link.collection ? <p>{link.collection.name}</p> : null}
+      <div className={styles.meta}>
+        <div>
+          <span>Added: {link.createdAt.slice(0, 10).replaceAll("-", ".")}</span>
+          {link.collection ? (
+            <span className={styles.metaCollection}>
+              Collection:{" "}
+              <button className={styles.metaBtn}>{link.collection.name}</button>
+            </span>
+          ) : null}
+        </div>
 
-      {link.tags.length > 0 ? (
-        <ul className={styles.tags}>
-          {link.tags.map((tag) => (
-            <li key={tag.id} className={styles.tag}>
-              {tag.name}
-            </li>
-          ))}
-        </ul>
-      ) : null}
-
-      <ul className={styles.meta}>
-        <li>{link.createdAt.slice(0, 10).replaceAll("-", ".")}</li>
-        <li>
-          <button
-            className={styles.metaBtn}
-            aria-pressed={link.favourite}
-            onClick={() => updateLink.mutate({ favourite: !link.favourite })}
-          >
-            Favourite
-          </button>
-        </li>
-        <li>
-          <button
-            className={styles.metaBtn}
-            aria-pressed={link.forLater}
-            onClick={() => updateLink.mutate({ forLater: !link.forLater })}
-          >
-            For later
-          </button>
-        </li>
-        <li>
-          <button
-            className={[styles.metaBtn, styles.metaBtnDelete].join(" ")}
-            onClick={() => deleteLink.mutate()}
-          >
-            Delete
-          </button>
-        </li>
-      </ul>
+        {link.tags.length > 0 ? (
+          <div>
+            Tags:{" "}
+            <ul className={styles.tags}>
+              {link.tags.map((tag) => (
+                <li key={tag.id} className={styles.tag}>
+                  <button
+                    className={[styles.metaBtn, styles.metaBtnTag].join(" ")}
+                  >
+                    {tag.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        <menu className={styles.menu}>
+          <li>
+            <button
+              className={styles.metaBtn}
+              aria-pressed={link.favourite}
+              onClick={() => updateLink.mutate({ favourite: !link.favourite })}
+            >
+              Favourite
+            </button>
+          </li>
+          <li>
+            <button
+              className={styles.metaBtn}
+              aria-pressed={link.forLater}
+              onClick={() => updateLink.mutate({ forLater: !link.forLater })}
+            >
+              For later
+            </button>
+          </li>
+          <li>
+            <button
+              className={styles.metaBtn}
+              onClick={() => alert("Show edit dialog")}
+            >
+              Edit
+            </button>
+          </li>
+          <li>
+            <button
+              className={[styles.metaBtn, styles.metaBtnDelete].join(" ")}
+              onClick={() => deleteLink.mutate()}
+            >
+              Delete
+            </button>
+          </li>
+        </menu>
+      </div>
     </article>
   );
 }
