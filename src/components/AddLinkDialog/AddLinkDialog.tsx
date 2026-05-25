@@ -96,7 +96,6 @@ function AddLinkDialog({
           value={collection}
           options={collections.map((c) => ({ name: c.name, value: c.id }))}
           placeholder="Select a collection"
-          required
         />
         <Form.Input
           label="Tags"
