@@ -94,8 +94,8 @@
 
 .checkbox {
   appearance: none;
-  width: 1lh;
-  height: 1lh;
+  width: 1rlh;
+  height: 1rlh;
   box-shadow:
     inset 0 0 0 1px var(--color-border-contrast),
     inset 0 0 0 3px var(--color-bg-content);
