@@ -279,7 +279,22 @@ function PageDashboard() {
         </DashboardSection>
 
         {filteredLinks.map((link) => (
-          <DashboardLink link={link} />
+          <DashboardLink
+            key={link.id}
+            link={link}
+            onTagClick={(tagId) => {
+              setFavourite(false);
+              setForLater(false);
+              setSelectedCollection(null);
+              setSelectedTags([tagId]);
+            }}
+            onCollectionClick={(collectionId) => {
+              setFavourite(false);
+              setForLater(false);
+              setSelectedCollection(collectionId);
+              setSelectedTags([]);
+            }}
+          />
         ))}
       </Dashboard.Main>
       <Dashboard.AsideTwo>
