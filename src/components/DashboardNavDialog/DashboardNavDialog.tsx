@@ -23,6 +23,7 @@ function Dialog({
   }, [open]);
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: dialog backdrop is pointer-only; Escape closes via the built-in close event
     <dialog
       ref={ref}
       className={styles.dialog}
