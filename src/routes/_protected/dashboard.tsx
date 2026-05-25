@@ -1,3 +1,4 @@
+import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
 import {
   Button,
   Dialog,
@@ -14,7 +15,9 @@ import {
   DashboardLink,
 } from "#/components/index.ts";
 import {
+  keepPreviousData,
   queryOptions,
+  useQuery,
   useQueryClient,
   useSuspenseQuery,
 } from "@tanstack/react-query";
@@ -46,6 +49,27 @@ type LinkRow = {
   updatedAt: string;
 };
 
+type Pagination = {
+  totalCount: number;
+  pageSize: number;
+  currentPage: number;
+  totalPages: number;
+};
+
+type LinksResponse = {
+  data: LinkRow[];
+  pagination: Pagination;
+};
+
+type LinkFilters = {
+  page: number;
+  query?: string;
+  collectionId?: string;
+  tagIds?: string[];
+  favourite?: true;
+  forLater?: true;
+};
+
 type CollectionRow = {
   id: string;
   name: string;
@@ -62,15 +86,28 @@ type TagRow = {
   updatedAt: string;
 };
 
-const getLinks = createServerFn().handler(async () => {
-  const cookie = getRequest().headers.get("cookie") ?? "";
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/links`, {
-    headers: { cookie },
+const getLinks = createServerFn()
+  // Identity validator — only used to type the handler input. Runtime
+  // validation lives on the API; this layer just forwards.
+  .inputValidator((filters: LinkFilters) => filters)
+  .handler(async ({ data: filters }) => {
+    const cookie = getRequest().headers.get("cookie") ?? "";
+    const params = new URLSearchParams();
+    params.set("page", String(filters.page));
+    params.set("pageSize", "250");
+    if (filters.query) params.set("query", filters.query);
+    if (filters.collectionId) params.set("collectionId", filters.collectionId);
+    if (filters.favourite) params.set("favourite", "true");
+    if (filters.forLater) params.set("forLater", "true");
+    if (filters.tagIds) {
+      for (const id of filters.tagIds) params.append("tagId", id);
+    }
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/links?${params}`, {
+      headers: { cookie },
+    });
+    if (!res.ok) throw new Error(`/links failed: ${res.status}`);
+    return (await res.json()) as LinksResponse;
   });
-  if (!res.ok) throw new Error(`/links failed: ${res.status}`);
-  const json = (await res.json()) as { data: LinkRow[] };
-  return json.data ?? [];
-});
 
 const getCollections = createServerFn().handler(async () => {
   const cookie = getRequest().headers.get("cookie") ?? "";
@@ -92,10 +129,18 @@ const getTags = createServerFn().handler(async () => {
   return json.data ?? [];
 });
 
-const linksQueryOptions = queryOptions({
-  queryKey: ["links"],
-  queryFn: () => getLinks(),
-});
+const linksQueryOptions = (filters: LinkFilters) => {
+  // Normalize tagIds order so different click sequences land on the same cache key.
+  const normalized: LinkFilters = filters.tagIds
+    ? { ...filters, tagIds: [...filters.tagIds].sort() }
+    : filters;
+  return queryOptions({
+    queryKey: ["links", normalized],
+    queryFn: () => getLinks({ data: normalized }),
+    placeholderData: keepPreviousData,
+    staleTime: 5 * 60 * 1000,
+  });
+};
 
 const collectionsQueryOptions = queryOptions({
   queryKey: ["collections"],
@@ -110,7 +155,7 @@ const tagsQueryOptions = queryOptions({
 export const Route = createFileRoute("/_protected/dashboard")({
   loader: async ({ context }) => {
     await Promise.all([
-      context.queryClient.ensureQueryData(linksQueryOptions),
+      context.queryClient.ensureQueryData(linksQueryOptions({ page: 1 })),
       context.queryClient.ensureQueryData(collectionsQueryOptions),
       context.queryClient.ensureQueryData(tagsQueryOptions),
     ]);
@@ -120,7 +165,6 @@ export const Route = createFileRoute("/_protected/dashboard")({
 
 function PageDashboard() {
   // const { user } = useLoaderData({ from: "/_protected" });
-  const { data: links } = useSuspenseQuery(linksQueryOptions);
   const { data: collections } = useSuspenseQuery(collectionsQueryOptions);
   const { data: tags } = useSuspenseQuery(tagsQueryOptions);
   const [value, setValue] = useState<string>("");
@@ -130,8 +174,32 @@ function PageDashboard() {
   const [selectedCollection, setSelectedCollection] = useState<string | null>(
     null,
   );
+  const [page, setPage] = useState(1);
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  const debouncedQuery = useDebouncedValue(value, 200, () => setPage(1));
+
+  // function refreshDashboard() {
+  //   queryClient.invalidateQueries({ queryKey: ["links"] });
+  //   queryClient.invalidateQueries({ queryKey: ["collections"] });
+  //   queryClient.invalidateQueries({ queryKey: ["tags"] });
+  // }
+
+  const filters: LinkFilters = {
+    page,
+    ...(debouncedQuery && { query: debouncedQuery }),
+    ...(selectedCollection && { collectionId: selectedCollection }),
+    ...(selectedTags.length > 0 && { tagIds: selectedTags }),
+    ...(favourite && { favourite: true as const }),
+    ...(forLater && { forLater: true as const }),
+  };
+
+  const { data: linksResponse, isPlaceholderData } = useQuery(
+    linksQueryOptions(filters),
+  );
+  const links = linksResponse?.data ?? [];
+  const totalCount = linksResponse?.pagination.totalCount ?? 0;
 
   const [isNavOpen, setIsNavOpen] = useState(false);
 
@@ -162,7 +230,7 @@ function PageDashboard() {
     });
 
     await Promise.all([
-      queryClient.invalidateQueries({ queryKey: linksQueryOptions.queryKey }),
+      queryClient.invalidateQueries({ queryKey: ["links"] }),
       queryClient.invalidateQueries({ queryKey: tagsQueryOptions.queryKey }),
     ]);
     setNewLinkTitle("");
@@ -211,21 +279,6 @@ function PageDashboard() {
     }
   }
 
-  const filteredLinks = links
-    .filter((link) => (favourite ? link.favourite : true))
-    .filter((link) => (forLater ? link.forLater : true))
-    .filter((link) =>
-      !selectedCollection ? true : link.collection?.id === selectedCollection,
-    )
-    .filter((link) =>
-      selectedTags.length > 0
-        ? selectedTags.every((tag) =>
-            link.tags.some((linkTag) => linkTag.id === tag),
-          )
-        : true,
-    )
-    .filter((link) => link.title.toLowerCase().includes(value.toLowerCase()));
-
   return (
     <Dashboard>
       <Dashboard.Header>
@@ -254,10 +307,22 @@ function PageDashboard() {
           showLogo={true}
           favourite={favourite}
           forLater={forLater}
-          setFavourite={setFavourite}
-          setForLater={setForLater}
-          setSelectedCollection={setSelectedCollection}
-          setSelectedTags={setSelectedTags}
+          setFavourite={(v) => {
+            setFavourite(v);
+            setPage(1);
+          }}
+          setForLater={(v) => {
+            setForLater(v);
+            setPage(1);
+          }}
+          setSelectedCollection={(v) => {
+            setSelectedCollection(v);
+            setPage(1);
+          }}
+          setSelectedTags={(v) => {
+            setSelectedTags(v);
+            setPage(1);
+          }}
           collections={collections}
           tags={tags}
           selectedCollection={selectedCollection}
@@ -276,23 +341,77 @@ function PageDashboard() {
               placeholder="Search for..."
             ></Form.Input>
           </Form>
+
+          {
+            // <div>
+            //   {value !== "" ? (
+            //     <button onClick={() => setValue("")}>
+            //       Search: {value} <Icon.Close />
+            //     </button>
+            //   ) : null}
+            //   {selectedCollection ? (
+            //     <button
+            //       onClick={() => {
+            //         setSelectedCollection(null);
+            //         setPage(1);
+            //       }}
+            //     >
+            //       collection:{" "}
+            //       {collections.find((c) => c.id === selectedCollection)?.name ??
+            //         "Unknown"}{" "}
+            //       <Icon.Close />
+            //     </button>
+            //   ) : null}
+            //   {selectedTags.length
+            //     ? selectedTags.map((tagId) => {
+            //         const tag = tags.find((t) => t.id === tagId);
+            //         if (!tag) return null;
+            //
+            //         return (
+            //           <button
+            //             key={tagId}
+            //             onClick={() => {
+            //               setSelectedTags(
+            //                 selectedTags.filter((t) => t !== tagId),
+            //               );
+            //               setPage(1);
+            //             }}
+            //           >
+            //             tag: {tag.name} <Icon.Close />
+            //           </button>
+            //         );
+            //       })
+            //     : null}
+            // </div>
+          }
+        </DashboardSection>
+        <DashboardSection>
+          {
+            // <button type="button" onClick={refreshDashboard}>
+            //   Reset cache //{" "}
+            // </button>
+          }
+          Results: {totalCount}
         </DashboardSection>
 
-        {filteredLinks.map((link) => (
+        {links.map((link) => (
           <DashboardLink
             key={link.id}
             link={link}
+            loading={isPlaceholderData}
             onTagClick={(tagId) => {
               setFavourite(false);
               setForLater(false);
               setSelectedCollection(null);
               setSelectedTags([tagId]);
+              setPage(1);
             }}
             onCollectionClick={(collectionId) => {
               setFavourite(false);
               setForLater(false);
               setSelectedCollection(collectionId);
               setSelectedTags([]);
+              setPage(1);
             }}
           />
         ))}
@@ -390,10 +509,22 @@ function PageDashboard() {
           handleSignOut={handleSignOut}
           selectedCollection={selectedCollection}
           selectedTags={selectedTags}
-          setFavourite={setFavourite}
-          setForLater={setForLater}
-          setSelectedCollection={setSelectedCollection}
-          setSelectedTags={setSelectedTags}
+          setFavourite={(v) => {
+            setFavourite(v);
+            setPage(1);
+          }}
+          setForLater={(v) => {
+            setForLater(v);
+            setPage(1);
+          }}
+          setSelectedCollection={(v) => {
+            setSelectedCollection(v);
+            setPage(1);
+          }}
+          setSelectedTags={(v) => {
+            setSelectedTags(v);
+            setPage(1);
+          }}
           showLogo={false}
           tags={tags}
         />
