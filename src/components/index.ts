@@ -1,3 +1,5 @@
+import AddCollectionDialog from "./AddCollectionDialog/AddCollectionDialog.tsx";
+import AddLinkDialog from "./AddLinkDialog/AddLinkDialog.tsx";
 import App from "./App/App.tsx";
 import Dashboard from "./Dashboard/Dashboard.tsx";
 import DashboardAccordion from "./DashboardAccordion/DashboardAccordion.tsx";
@@ -21,6 +23,8 @@ import Stack from "./Stack/Stack.tsx";
 import { Button, ButtonLink } from "./Button/Button.tsx";
 
 export {
+  AddCollectionDialog,
+  AddLinkDialog,
   App,
   Button,
   ButtonLink,

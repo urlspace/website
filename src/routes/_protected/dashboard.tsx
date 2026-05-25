@@ -1,7 +1,7 @@
 import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
 import {
-  Button,
-  Dialog,
+  AddCollectionDialog,
+  AddLinkDialog,
   Form,
   Stack,
   Dashboard,
@@ -21,7 +21,6 @@ import {
 import {
   queryOptions,
   useQuery,
-  useQueryClient,
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import {
@@ -103,7 +102,6 @@ function PageDashboard() {
   );
   const [page, setPage] = useState(1);
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const debouncedQuery = useDebouncedValue(value, 200, () => setPage(1));
 
@@ -131,63 +129,7 @@ function PageDashboard() {
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   const [isAddLinkOpen, setIsAddLinkOpen] = useState(false);
-  const [newLinkTitle, setNewLinkTitle] = useState("");
-  const [newLinkUrl, setNewLinkUrl] = useState("");
-  const [newLinkDescription, setNewLinkDescription] = useState("");
-  const [newLinkTags, setNewLinkTags] = useState("");
-
-  async function handleSubmitLink(e: React.SubmitEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    const descriptionTrimmed = newLinkDescription.trim();
-    const tagsTrimmed = newLinkTags.trim();
-
-    await fetch(`${import.meta.env.VITE_API_URL}/links`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        title: newLinkTitle,
-        url: newLinkUrl,
-        ...(descriptionTrimmed && { description: descriptionTrimmed }),
-        ...(tagsTrimmed && {
-          tags: tagsTrimmed.split(",").map((t) => t.trim()),
-        }),
-      }),
-    });
-
-    await Promise.all([
-      queryClient.invalidateQueries({ queryKey: ["links"] }),
-      queryClient.invalidateQueries({ queryKey: tagsQueryOptions.queryKey }),
-    ]);
-    setNewLinkTitle("");
-    setNewLinkUrl("");
-    setNewLinkDescription("");
-    setNewLinkTags("");
-    setIsAddLinkOpen(false);
-  }
-
   const [isAddCollectionOpen, setIsAddCollectionOpen] = useState(false);
-  const [newCollectionName, setNewCollectionName] = useState("");
-
-  async function handleSubmitCollection(e: React.SubmitEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    await fetch(`${import.meta.env.VITE_API_URL}/collections`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        name: newCollectionName,
-      }),
-    });
-
-    await queryClient.invalidateQueries({
-      queryKey: collectionsQueryOptions.queryKey,
-    });
-    setNewCollectionName("");
-    setIsAddCollectionOpen(false);
-  }
 
   async function handleSignOut() {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signout`, {
@@ -405,24 +347,10 @@ function PageDashboard() {
         </Stack>
       </Dashboard.AsideTwo>
 
-      <Dialog
+      <AddCollectionDialog
         open={isAddCollectionOpen}
         onClose={() => setIsAddCollectionOpen(false)}
-        title="Add new collection"
-      >
-        <Form onSubmit={handleSubmitCollection}>
-          <Form.Input
-            label="Collection name"
-            name="collection-name"
-            onChange={setNewCollectionName}
-            placeholder="Cats"
-            required
-            type="text"
-            value={newCollectionName}
-          ></Form.Input>
-          <Button type="submit" text="Add new collection" />
-        </Form>
-      </Dialog>
+      />
 
       <DashboardNavDialog
         open={isNavOpen}
@@ -457,49 +385,10 @@ function PageDashboard() {
         />
       </DashboardNavDialog>
 
-      <Dialog
+      <AddLinkDialog
         open={isAddLinkOpen}
         onClose={() => setIsAddLinkOpen(false)}
-        title="Add new link"
-      >
-        <Form onSubmit={handleSubmitLink}>
-          <Form.Input
-            label="Title"
-            name="title"
-            onChange={setNewLinkTitle}
-            placeholder="Boo"
-            required
-            type="text"
-            value={newLinkTitle}
-          ></Form.Input>
-          <Form.Input
-            label="URL"
-            name="url"
-            onChange={setNewLinkUrl}
-            placeholder="https://cloudflare.com"
-            required
-            type="url"
-            value={newLinkUrl}
-          ></Form.Input>
-          <Form.Input
-            label="Description"
-            name="description"
-            onChange={setNewLinkDescription}
-            placeholder="What a cool description"
-            type="text"
-            value={newLinkDescription}
-          ></Form.Input>
-          <Form.Input
-            label="Tags"
-            name="tags"
-            onChange={setNewLinkTags}
-            placeholder="comma,separated,tags"
-            type="text"
-            value={newLinkTags}
-          ></Form.Input>
-          <Button type="submit" text="Add new link" />
-        </Form>
-      </Dialog>
+      />
     </Dashboard>
   );
 }
