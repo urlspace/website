@@ -1,11 +1,13 @@
 .form {
+  --gap: 0.75lh;
+
   display: flex;
   flex-direction: column;
-  gap: 0.5lh;
+  gap: var(--gap);
   align-items: flex-start;
 
   @media (height >= 600px) {
-    gap: 1lh;
+    --gap: 1lh;
   }
 }
 
@@ -14,6 +16,11 @@
   display: flex;
   flex-direction: column;
   gap: 0.25lh;
+}
+
+.fieldRow {
+  flex-direction: row;
+  align-items: center;
 }
 
 .error {
@@ -77,4 +84,25 @@
 .description {
   font-size: 0.875rem;
   opacity: 0.75;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap);
+}
+
+.checkbox {
+  appearance: none;
+  width: 1lh;
+  height: 1lh;
+  box-shadow:
+    inset 0 0 0 1px var(--color-border-contrast),
+    inset 0 0 0 3px var(--color-bg-content);
+  border-radius: var(--radius);
+  background-color: var(--color-bg);
+
+  &:checked {
+    background-color: var(--color-link);
+  }
 }

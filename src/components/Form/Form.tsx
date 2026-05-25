@@ -139,6 +139,68 @@ function Select({
     </div>
   );
 }
+function Checkbox({
+  disabled,
+  label,
+  name,
+  onChange,
+  required,
+  value,
+}: {
+  disabled?: boolean;
+  label: string;
+  name: string;
+  onChange: (value: boolean) => void;
+  required?: boolean;
+  value: boolean;
+}) {
+  return (
+    <div className={[styles.field, styles.fieldRow].join(" ")}>
+      <input
+        type="checkbox"
+        id={name}
+        name={name}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.checked ? true : false)}
+        checked={value}
+        className={styles.checkbox}
+      />
+
+      <label className={styles.label} htmlFor={name}>
+        {label}
+        {required ? <span aria-hidden="true"> (required)</span> : null}
+      </label>
+
+      {
+        // <select
+        //   className={[styles.input, styles.inputSelect].join(" ")}
+        //   name={name}
+        //   id={name}
+        //   disabled={disabled}
+        //   onChange={(e) => {
+        //     console.log(e.target.value);
+        //     onChange(e.target.value);
+        //   }}
+        //   value={value}
+        //   required={required}
+        // >
+        //   {required ? (
+        //     <option value="" disabled hidden>
+        //       {placeholder}
+        //     </option>
+        //   ) : (
+        //     <option value="">{placeholder}</option>
+        //   )}
+        //   {options.map((option) => (
+        //     <option key={option.value} value={option.value}>
+        //       {option.name}
+        //     </option>
+        //   ))}
+        // </select>
+      }
+    </div>
+  );
+}
 
 function FormError({ errorMessage }: { errorMessage: React.ReactNode }) {
   return errorMessage ? (
@@ -148,8 +210,14 @@ function FormError({ errorMessage }: { errorMessage: React.ReactNode }) {
   ) : null;
 }
 
+function Row({ children }: { children: React.ReactNode }) {
+  return <div className={styles.row}>{children}</div>;
+}
+
 Form.Input = Input;
 Form.Select = Select;
+Form.Checkbox = Checkbox;
+Form.Row = Row;
 Form.Error = FormError;
 
 export default Form;

@@ -22,6 +22,8 @@ function AddLinkDialog({
   const [description, setDescription] = useState("");
   const [collection, setCollection] = useState("");
   const [tags, setTags] = useState("");
+  const [favourite, setFavourite] = useState(false);
+  const [forLater, setForLater] = useState(false);
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -40,6 +42,8 @@ function AddLinkDialog({
         ...(collection && { collectionId: collection }),
         ...(tagsTrimmed && {
           tags: tagsTrimmed.split(",").map((t) => t.trim()),
+          favourite,
+          forLater,
         }),
       }),
     });
@@ -48,11 +52,14 @@ function AddLinkDialog({
       queryClient.invalidateQueries({ queryKey: ["links"] }),
       queryClient.invalidateQueries({ queryKey: ["tags"] }),
     ]);
+
     setTitle("");
     setUrl("");
     setDescription("");
     setCollection("");
     setTags("");
+    setFavourite(false);
+    setForLater(false);
     onClose();
   }
 
@@ -105,6 +112,22 @@ function AddLinkDialog({
           type="text"
           value={tags}
         />
+        <Form.Row>
+          <>
+            <Form.Checkbox
+              label="Favourite"
+              name="favourite"
+              onChange={setFavourite}
+              value={favourite}
+            />
+            <Form.Checkbox
+              label="For later"
+              name="forlater"
+              onChange={setForLater}
+              value={forLater}
+            />
+          </>
+        </Form.Row>
         <Button type="submit" text="Add new link" />
       </Form>
     </Dialog>
