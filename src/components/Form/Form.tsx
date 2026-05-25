@@ -1,4 +1,4 @@
-import "./Form.css";
+import styles from "./Form.module.css";
 
 function Form({
   onSubmit,
@@ -8,7 +8,7 @@ function Form({
   children: React.ReactNode;
 }) {
   return (
-    <form className="form" onSubmit={onSubmit}>
+    <form className={styles.form} onSubmit={onSubmit}>
       {children}
     </form>
   );
@@ -44,8 +44,8 @@ function Input({
   value: string;
 }) {
   return (
-    <div className="form__field">
-      <label className="form__label" htmlFor={name}>
+    <div className={styles.field}>
+      <label className={styles.label} htmlFor={name}>
         {label}
         {required ? <span aria-hidden="true"> (required)</span> : null}
       </label>
@@ -55,7 +55,7 @@ function Input({
           description ? `${name}-description form-error` : "form-error"
         }
         autoComplete={autoComplete}
-        className="form__input"
+        className={styles.input}
         disabled={disabled}
         id={name}
         maxLength={maxLength}
@@ -69,7 +69,7 @@ function Input({
         value={value}
       />
       {description ? (
-        <p id={`${name}-description`} className="form__description">
+        <p id={`${name}-description`} className={styles.description}>
           {description}
         </p>
       ) : null}
@@ -86,6 +86,7 @@ function Select({
   required,
   value,
   options,
+  placeholder,
 }: {
   description?: string;
   disabled?: boolean;
@@ -95,16 +96,17 @@ function Select({
   required?: boolean;
   value: string;
   options: { name: string; value: string }[];
+  placeholder: string;
 }) {
   return (
-    <div className="form__field">
-      <label className="form__label" htmlFor={name}>
+    <div className={styles.field}>
+      <label className={styles.label} htmlFor={name}>
         {label}
         {required ? <span aria-hidden="true"> (required)</span> : null}
       </label>
 
       <select
-        className="form__input form__input--select"
+        className={[styles.input, styles.inputSelect].join(" ")}
         name={name}
         id={name}
         disabled={disabled}
@@ -113,8 +115,15 @@ function Select({
           onChange(e.target.value);
         }}
         value={value}
+        required={required}
       >
-        <option value="">Choose a collection</option>
+        {required ? (
+          <option value="" disabled hidden>
+            {placeholder}
+          </option>
+        ) : (
+          <option value="">{placeholder}</option>
+        )}
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.name}
@@ -123,7 +132,7 @@ function Select({
       </select>
 
       {description ? (
-        <p id={`${name}-description`} className="form__description">
+        <p id={`${name}-description`} className={styles.description}>
           {description}
         </p>
       ) : null}
@@ -133,7 +142,7 @@ function Select({
 
 function FormError({ errorMessage }: { errorMessage: React.ReactNode }) {
   return errorMessage ? (
-    <p id="form-error" className="form__error" role="alert">
+    <p id="form-error" className={styles.error} role="alert">
       {errorMessage}
     </p>
   ) : null;

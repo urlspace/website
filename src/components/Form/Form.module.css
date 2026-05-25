@@ -9,14 +9,14 @@
   }
 }
 
-.form__field {
+.field {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.25lh;
 }
 
-.form__error {
+.error {
   color: light-dark(oklch(57.7% 0.245 27.325), oklch(70.4% 0.191 22.216));
   padding: calc(0.75lh - 1px);
   border: 1px solid currentColor;
@@ -24,13 +24,13 @@
   border-radius: var(--radius);
 }
 
-.form__label {
+.label {
   font-size: 0.9375rem;
   font-weight: 600;
   align-self: flex-start;
 }
 
-.form__input {
+.input {
   --outline-color: transparent;
   font: inherit;
   padding: calc(0.5lh - 1px) 0.625lh;
@@ -58,14 +58,23 @@
     opacity: 0.75;
     cursor: not-allowed;
   }
+
+  &::placeholder {
+    color: color-mix(in srgb, var(--color-fg) 50%, transparent);
+  }
 }
 
-.form__input--select {
+.inputSelect {
   appearance: none;
-  -webkit-appearance: none; /* Safari still wants the prefix */
+  -webkit-appearance: none;
+  color: var(--color-fg);
+
+  &:has(option[value=""]:checked) {
+    color: color-mix(in srgb, var(--color-fg) 50%, transparent);
+  }
 }
 
-.form__description {
+.description {
   font-size: 0.875rem;
   opacity: 0.75;
 }
