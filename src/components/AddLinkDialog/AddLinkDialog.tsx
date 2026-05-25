@@ -7,14 +7,20 @@ import Form from "../Form/Form.tsx";
 function AddLinkDialog({
   open,
   onClose,
+  collections,
 }: {
   open: boolean;
   onClose: () => void;
+  collections: Array<{
+    id: string;
+    name: string;
+  }>;
 }) {
   const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
+  const [collection, setCollection] = useState("");
   const [tags, setTags] = useState("");
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
@@ -31,6 +37,7 @@ function AddLinkDialog({
         title,
         url,
         ...(descriptionTrimmed && { description: descriptionTrimmed }),
+        ...(collection && { collectionId: collection }),
         ...(tagsTrimmed && {
           tags: tagsTrimmed.split(",").map((t) => t.trim()),
         }),
@@ -44,6 +51,7 @@ function AddLinkDialog({
     setTitle("");
     setUrl("");
     setDescription("");
+    setCollection("");
     setTags("");
     onClose();
   }
@@ -59,6 +67,8 @@ function AddLinkDialog({
           required
           type="text"
           value={title}
+          minLength={3}
+          maxLength={255}
         />
         <Form.Input
           label="URL"
@@ -68,6 +78,7 @@ function AddLinkDialog({
           required
           type="url"
           value={url}
+          maxLength={2048}
         />
         <Form.Input
           label="Description"
@@ -76,6 +87,14 @@ function AddLinkDialog({
           placeholder="What a cool description"
           type="text"
           value={description}
+          maxLength={512}
+        />
+        <Form.Select
+          label="Collection"
+          name="collection"
+          onChange={setCollection}
+          value={collection}
+          options={collections.map((c) => ({ name: c.name, value: c.id }))}
         />
         <Form.Input
           label="Tags"

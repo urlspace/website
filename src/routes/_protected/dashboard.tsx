@@ -360,6 +360,7 @@ function PageDashboard() {
       <AddLinkDialog
         open={isAddLinkOpen}
         onClose={() => setIsAddLinkOpen(false)}
+        collections={collections}
       />
     </Dashboard>
   );

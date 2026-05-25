@@ -60,6 +60,11 @@
   }
 }
 
+.form__input--select {
+  appearance: none;
+  -webkit-appearance: none; /* Safari still wants the prefix */
+}
+
 .form__description {
   font-size: 0.875rem;
   opacity: 0.75;

@@ -40,6 +40,8 @@ function AddCollectionDialog({
           required
           type="text"
           value={name}
+          minLength={2}
+          maxLength={255}
         />
         <Button type="submit" text="Add new collection" />
       </Form>
