@@ -24,10 +24,12 @@ function DashbrardLink({
   link,
   onTagClick,
   onCollectionClick,
+  loading,
 }: {
   link: LinkRow;
   onTagClick: (tag: string) => void;
   onCollectionClick: (collectionId: string) => void;
+  loading: boolean;
 }) {
   const queryClient = useQueryClient();
 
@@ -72,7 +74,7 @@ function DashbrardLink({
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["links"] }),
   });
 
-  const isPending = updateLink.isPending || deleteLink.isPending;
+  const isPending = updateLink.isPending || deleteLink.isPending || loading;
 
   // im not destructuring other props because im lazy,
   // this is needed to avoid a type error because
