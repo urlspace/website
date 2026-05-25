@@ -14,10 +14,7 @@ import {
   DashboardList,
   DashboardLink,
 } from "#/components/index.ts";
-import {
-  type LinkFilters,
-  linksQueryOptions,
-} from "#/queries/links.ts";
+import { type LinkFilters, linksQueryOptions } from "#/queries/links.ts";
 import {
   queryOptions,
   useQuery,
@@ -172,10 +169,12 @@ function PageDashboard() {
       </Dashboard.Header>
       <Dashboard.AsideOne>
         <DashboardNav
-          handleSignOut={handleSignOut}
-          showLogo={true}
+          collections={collections}
           favourite={favourite}
           forLater={forLater}
+          handleSignOut={handleSignOut}
+          selectedCollection={selectedCollection}
+          selectedTags={selectedTags}
           setFavourite={(v) => {
             setFavourite(v);
             setPage(1);
@@ -184,6 +183,8 @@ function PageDashboard() {
             setForLater(v);
             setPage(1);
           }}
+          setIsAddCollectionkOpen={setIsAddCollectionOpen}
+          setIsAddLinkOpen={setIsAddLinkOpen}
           setSelectedCollection={(v) => {
             setSelectedCollection(v);
             setPage(1);
@@ -192,10 +193,8 @@ function PageDashboard() {
             setSelectedTags(v);
             setPage(1);
           }}
-          collections={collections}
+          showLogo={true}
           tags={tags}
-          selectedCollection={selectedCollection}
-          selectedTags={selectedTags}
         />
       </Dashboard.AsideOne>
       <Dashboard.Main>
@@ -286,65 +285,36 @@ function PageDashboard() {
         ))}
       </Dashboard.Main>
       <Dashboard.AsideTwo>
-        <Stack fullHeight spaceBetween gap={0}>
-          <DashboardSection>
-            <DashboardList>
-              <DashboardList.Li>
-                <DashboardButton
-                  icon={<Icon.Plus />}
-                  onClick={() => setIsAddLinkOpen(true)}
-                  text="Add link"
-                />
-              </DashboardList.Li>
-              <DashboardList.Li>
-                <DashboardButton
-                  icon={<Icon.Plus />}
-                  onClick={() => setIsAddCollectionOpen(true)}
-                  text="Add collection"
-                />
-              </DashboardList.Li>
-            </DashboardList>
-          </DashboardSection>
-          <DashboardSection>
-            {
-              // this is the same list as on the dashboard nav
-              // now it is just repeated, it is fine, but if we need it in
-              // more places we should extract to a component
-            }
-            <DashboardList>
-              <DashboardList.Li>
-                <DashboardButton
-                  icon={<Icon.User />}
-                  onClick={() => alert("Show profile")}
-                  text="Profile"
-                />
-              </DashboardList.Li>
-              <DashboardList.Li>
-                <DashboardButton
-                  icon={<Icon.Settings />}
-                  onClick={() => alert("Show settings")}
-                  text="Settings"
-                />
-              </DashboardList.Li>
-              <DashboardList.Li>
-                <DashboardButton
-                  icon={<Icon.SignOut />}
-                  onClick={handleSignOut}
-                  text="Sign out"
-                />
-              </DashboardList.Li>
-            </DashboardList>
-            {
-              // <h1>User</h1>
-              // <p>Username: {user.username}</p>
-              // <p>Display name: {user.displayName}</p>
-              // <p>Email: {user.email}</p>
-              // <p>Pro: {user.isPro ? "Yes" : "No"}</p>
-              // <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
-              // <p>Member since: {user.createdAt.slice(0, 10)}</p>
-            }
-          </DashboardSection>
-        </Stack>
+        <DashboardSection>
+          {
+            // this is the same list as on the dashboard nav
+            // now it is just repeated, it is fine, but if we need it in
+            // more places we should extract to a component
+          }
+          <DashboardList>
+            <DashboardList.Li>
+              <DashboardButton
+                icon={<Icon.User />}
+                onClick={() => alert("Show profile")}
+                text="Profile"
+              />
+            </DashboardList.Li>
+            <DashboardList.Li>
+              <DashboardButton
+                icon={<Icon.Settings />}
+                onClick={() => alert("Show settings")}
+                text="Settings"
+              />
+            </DashboardList.Li>
+            <DashboardList.Li>
+              <DashboardButton
+                icon={<Icon.SignOut />}
+                onClick={handleSignOut}
+                text="Sign out"
+              />
+            </DashboardList.Li>
+          </DashboardList>
+        </DashboardSection>
       </Dashboard.AsideTwo>
 
       <AddCollectionDialog
@@ -372,6 +342,8 @@ function PageDashboard() {
             setForLater(v);
             setPage(1);
           }}
+          setIsAddCollectionkOpen={setIsAddCollectionOpen}
+          setIsAddLinkOpen={setIsAddLinkOpen}
           setSelectedCollection={(v) => {
             setSelectedCollection(v);
             setPage(1);

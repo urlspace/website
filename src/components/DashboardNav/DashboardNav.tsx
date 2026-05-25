@@ -25,31 +25,35 @@ type TagRow = {
 };
 
 function DashboardNav({
-  showLogo,
+  collections,
   favourite,
   forLater,
-  setFavourite,
-  setForLater,
-  setSelectedCollection,
-  setSelectedTags,
-  collections,
-  tags,
+  handleSignOut,
   selectedCollection,
   selectedTags,
-  handleSignOut,
+  setFavourite,
+  setForLater,
+  setIsAddCollectionkOpen,
+  setIsAddLinkOpen,
+  setSelectedCollection,
+  setSelectedTags,
+  showLogo,
+  tags,
 }: {
-  showLogo: boolean;
+  collections: CollectionRow[];
   favourite: boolean;
   forLater: boolean;
-  setFavourite: React.Dispatch<React.SetStateAction<boolean>>;
-  setForLater: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedCollection: React.Dispatch<React.SetStateAction<string | null>>;
-  setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
-  collections: CollectionRow[];
-  tags: TagRow[];
+  handleSignOut: () => void;
   selectedCollection: string | null;
   selectedTags: string[];
-  handleSignOut: () => void;
+  setFavourite: React.Dispatch<React.SetStateAction<boolean>>;
+  setForLater: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsAddCollectionkOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsAddLinkOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedCollection: React.Dispatch<React.SetStateAction<string | null>>;
+  setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
+  showLogo: boolean;
+  tags: TagRow[];
 }) {
   return (
     <>
@@ -85,6 +89,12 @@ function DashboardNav({
             />
           </DashboardList.Li>
         </DashboardList>
+
+        <DashboardButton
+          icon={<Icon.Plus />}
+          onClick={() => setIsAddLinkOpen(true)}
+          text="Add link"
+        />
       </DashboardSection>
       {collections.length ? (
         <DashboardSection>
@@ -106,11 +116,19 @@ function DashboardNav({
                   </DashboardList.Li>
                 ))}
               </DashboardList>
-              <DashboardButton
-                icon={<Icon.Edit />}
-                onClick={() => alert("Show filters")}
-                text="Edit collections"
-              />
+
+              <div>
+                <DashboardButton
+                  icon={<Icon.Plus />}
+                  onClick={() => setIsAddCollectionkOpen(true)}
+                  text="Add collection"
+                />
+                <DashboardButton
+                  icon={<Icon.Edit />}
+                  onClick={() => alert("Show filters")}
+                  text="Edit collections"
+                />
+              </div>
             </Stack>
           </DashboardAccordion>
         </DashboardSection>
