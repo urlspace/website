@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import styles from "./DashboardNavDialog.module.css";
+import styles from "./Drawer.module.css";
 import Icon from "../Icons/Icons";
 
 function Dialog({
@@ -26,7 +26,7 @@ function Dialog({
     // biome-ignore lint/a11y/useKeyWithClickEvents: dialog backdrop is pointer-only; Escape closes via the built-in close event
     <dialog
       ref={ref}
-      className={styles.dialog}
+      className={styles.drawer}
       onClose={onClose}
       onClick={(e) => {
         if (e.target === ref.current) onClose();

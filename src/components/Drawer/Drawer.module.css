@@ -1,4 +1,4 @@
-.dialog {
+.drawer {
   position: fixed;
   inset: 0;
   right: 0;
@@ -39,7 +39,7 @@
   }
 }
 
-.dialog::backdrop {
+.drawer::backdrop {
   background-color: var(--color-bg);
   opacity: 0;
   transition:
@@ -52,7 +52,7 @@
   }
 }
 
-.dialog[open]::backdrop {
+.drawer[open]::backdrop {
   opacity: 1;
 
   @starting-style {

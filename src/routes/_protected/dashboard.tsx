@@ -9,7 +9,7 @@ import {
   DashboardButton,
   Icon,
   DashboardSection,
-  DashboardNavDialog,
+  Drawer,
   DashboardNav,
   DashboardList,
   DashboardLink,
@@ -322,11 +322,7 @@ function PageDashboard() {
         onClose={() => setIsAddCollectionOpen(false)}
       />
 
-      <DashboardNavDialog
-        open={isNavOpen}
-        onClose={() => setIsNavOpen(false)}
-        title="Menu"
-      >
+      <Drawer open={isNavOpen} onClose={() => setIsNavOpen(false)} title="Menu">
         <DashboardNav
           collections={collections}
           favourite={favourite}
@@ -355,7 +351,7 @@ function PageDashboard() {
           showLogo={false}
           tags={tags}
         />
-      </DashboardNavDialog>
+      </Drawer>
 
       <AddLinkDialog
         open={isAddLinkOpen}

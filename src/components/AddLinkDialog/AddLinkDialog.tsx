@@ -113,20 +113,18 @@ function AddLinkDialog({
           value={tags}
         />
         <Form.Row>
-          <>
-            <Form.Checkbox
-              label="Favourite"
-              name="favourite"
-              onChange={setFavourite}
-              value={favourite}
-            />
-            <Form.Checkbox
-              label="For later"
-              name="forlater"
-              onChange={setForLater}
-              value={forLater}
-            />
-          </>
+          <Form.Checkbox
+            label="Favourite"
+            name="favourite"
+            onChange={setFavourite}
+            value={favourite}
+          />
+          <Form.Checkbox
+            label="For later"
+            name="forlater"
+            onChange={setForLater}
+            value={forLater}
+          />
         </Form.Row>
         <Button type="submit" text="Add new link" />
       </Form>

@@ -161,7 +161,7 @@ function Checkbox({
         id={name}
         name={name}
         disabled={disabled}
-        onChange={(e) => onChange(e.target.checked ? true : false)}
+        onChange={(e) => onChange(e.target.checked)}
         checked={value}
         className={styles.checkbox}
       />
