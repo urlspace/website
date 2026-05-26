@@ -28,7 +28,7 @@
 
   --size-container-max: min(100% - 2lh, 56lh);
   --radius: 3px;
-  --transition-duration: 120ms;
+  --transition-duration: 140ms;
 
   @media (min-width: 1800px) {
     --size-container-max: 70lh;
@@ -54,6 +54,11 @@ html {
   hanging-punctuation: first allow-end last;
   line-height: 150%;
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+
+  &:has(dialog[open]) {
+    overflow: hidden;
+  }
   background-color: var(--color-bg-content);
   interpolate-size: allow-keywords;
   /* i dont mind bounce on the edges, but this one */
