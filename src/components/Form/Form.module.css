@@ -18,11 +18,6 @@
   gap: 0.25lh;
 }
 
-.fieldRow {
-  flex-direction: row;
-  align-items: center;
-}
-
 .error {
   color: light-dark(oklch(57.7% 0.245 27.325), oklch(70.4% 0.191 22.216));
   padding: calc(0.75lh - 1px);
@@ -90,6 +85,12 @@
   display: flex;
   flex-direction: row;
   gap: var(--gap);
+}
+
+.checkboxWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.25lh;
 }
 
 .checkbox {

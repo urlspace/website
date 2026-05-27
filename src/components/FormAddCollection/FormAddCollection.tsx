@@ -2,6 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Button } from "../Button/Button.tsx";
 import Form from "../Form/Form.tsx";
+import { Link } from "@tanstack/react-router";
 
 function FormAddCollection({ onClose }: { onClose: () => void }) {
   const queryClient = useQueryClient();
@@ -87,7 +88,15 @@ function FormAddCollection({ onClose }: { onClose: () => void }) {
         onChange={setPublicCollection}
         value={publicCollection}
         disabled={true}
-        description="Available only to pro users"
+        description={
+          <>
+            Available only to pro users.{" "}
+            {
+              // TODO: change to /upgrade when the page is ready
+            }
+            <Link to="/blog">Upgrade now</Link>.
+          </>
+        }
       />
       <Button type="submit" text="Add new collection" />
     </Form>

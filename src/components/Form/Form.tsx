@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import styles from "./Form.module.css";
 
 function Form({
@@ -30,7 +31,7 @@ function Input({
   value,
 }: {
   autoComplete?: string;
-  description?: string;
+  description?: ReactNode;
   disabled?: boolean;
   label: string;
   maxLength?: number;
@@ -88,7 +89,7 @@ function Select({
   options,
   placeholder,
 }: {
-  description?: string;
+  description?: ReactNode;
   disabled?: boolean;
   label: string;
   name: string;
@@ -154,24 +155,26 @@ function Checkbox({
   onChange: (value: boolean) => void;
   required?: boolean;
   value: boolean;
-  description?: string;
+  description?: ReactNode;
 }) {
   return (
-    <div className={[styles.field, styles.fieldRow].join(" ")}>
-      <input
-        type="checkbox"
-        id={name}
-        name={name}
-        disabled={disabled}
-        onChange={(e) => onChange(e.target.checked)}
-        checked={value}
-        className={styles.checkbox}
-      />
+    <div className={styles.field}>
+      <div className={styles.checkboxWrapper}>
+        <input
+          type="checkbox"
+          id={name}
+          name={name}
+          disabled={disabled}
+          onChange={(e) => onChange(e.target.checked)}
+          checked={value}
+          className={styles.checkbox}
+        />
 
-      <label className={styles.label} htmlFor={name}>
-        {label}
-        {required ? <span aria-hidden="true"> (required)</span> : null}
-      </label>
+        <label className={styles.label} htmlFor={name}>
+          {label}
+          {required ? <span aria-hidden="true"> (required)</span> : null}
+        </label>
+      </div>
 
       {description ? (
         <p id={`${name}-description`} className={styles.description}>
