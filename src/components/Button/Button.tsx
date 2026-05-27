@@ -31,9 +31,22 @@ function Button({
   );
 }
 
-function ButtonLink({ text, to }: { text: string; to: string }) {
+function ButtonLink({
+  text,
+  to,
+  fullWidth,
+}: {
+  text: string;
+  to: string;
+  fullWidth?: boolean;
+}) {
   return (
-    <Link className="button" to={to}>
+    <Link
+      className={[styles.button, fullWidth && styles.fullWidth]
+        .filter(Boolean)
+        .join(" ")}
+      to={to}
+    >
       {text}
     </Link>
   );
