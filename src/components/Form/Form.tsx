@@ -146,6 +146,7 @@ function Checkbox({
   onChange,
   required,
   value,
+  description,
 }: {
   disabled?: boolean;
   label: string;
@@ -153,6 +154,7 @@ function Checkbox({
   onChange: (value: boolean) => void;
   required?: boolean;
   value: boolean;
+  description?: string;
 }) {
   return (
     <div className={[styles.field, styles.fieldRow].join(" ")}>
@@ -171,33 +173,11 @@ function Checkbox({
         {required ? <span aria-hidden="true"> (required)</span> : null}
       </label>
 
-      {
-        // <select
-        //   className={[styles.input, styles.inputSelect].join(" ")}
-        //   name={name}
-        //   id={name}
-        //   disabled={disabled}
-        //   onChange={(e) => {
-        //     console.log(e.target.value);
-        //     onChange(e.target.value);
-        //   }}
-        //   value={value}
-        //   required={required}
-        // >
-        //   {required ? (
-        //     <option value="" disabled hidden>
-        //       {placeholder}
-        //     </option>
-        //   ) : (
-        //     <option value="">{placeholder}</option>
-        //   )}
-        //   {options.map((option) => (
-        //     <option key={option.value} value={option.value}>
-        //       {option.name}
-        //     </option>
-        //   ))}
-        // </select>
-      }
+      {description ? (
+        <p id={`${name}-description`} className={styles.description}>
+          {description}
+        </p>
+      ) : null}
     </div>
   );
 }

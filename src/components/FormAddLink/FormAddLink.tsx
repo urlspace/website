@@ -14,6 +14,9 @@ function FormAddLink({
   }>;
 }) {
   const queryClient = useQueryClient();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
@@ -23,45 +26,71 @@ function FormAddLink({
   const [forLater, setForLater] = useState(false);
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    if (isLoading) return;
+
     e.preventDefault();
 
-    const descriptionTrimmed = description.trim();
-    const tagsTrimmed = tags.trim();
+    setError(null);
+    setIsLoading(true);
 
-    await fetch(`${import.meta.env.VITE_API_URL}/links`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        title,
-        url,
-        ...(descriptionTrimmed && { description: descriptionTrimmed }),
-        ...(collection && { collectionId: collection }),
-        ...(tagsTrimmed && {
-          tags: tagsTrimmed.split(",").map((t) => t.trim()),
-          favourite,
-          forLater,
+    try {
+      const descriptionTrimmed = description.trim();
+      const tagsTrimmed = tags.trim();
+
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/links`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          title,
+          url,
+          ...(descriptionTrimmed && { description: descriptionTrimmed }),
+          ...(collection && { collectionId: collection }),
+          ...(tagsTrimmed && {
+            tags: tagsTrimmed.split(",").map((t) => t.trim()),
+            favourite,
+            forLater,
+          }),
         }),
-      }),
-    });
+      });
 
-    await Promise.all([
-      queryClient.invalidateQueries({ queryKey: ["links"] }),
-      queryClient.invalidateQueries({ queryKey: ["tags"] }),
-    ]);
+      if (!res.ok) {
+        switch (res.status) {
+          case 400:
+            setError("Incorrect body.");
+            break;
+          case 429:
+            setError("Too many attempts. Try again in a moment.");
+            break;
+          default:
+            setError("Something went wrong. Try again in a moment.");
+        }
+        return;
+      }
 
-    setTitle("");
-    setUrl("");
-    setDescription("");
-    setCollection("");
-    setTags("");
-    setFavourite(false);
-    setForLater(false);
-    onClose();
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["links"] }),
+        queryClient.invalidateQueries({ queryKey: ["tags"] }),
+      ]);
+
+      setTitle("");
+      setUrl("");
+      setDescription("");
+      setCollection("");
+      setTags("");
+      setFavourite(false);
+      setForLater(false);
+      onClose();
+    } catch {
+      setError("Something went wrong. Try again in a moment.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <Form onSubmit={handleSubmit}>
+      <Form.Error errorMessage={error} />
       <Form.Input
         label="Title"
         name="title"
@@ -85,7 +114,7 @@ function FormAddLink({
       />
       <Form.Input
         label="Description"
-        name="description"
+        name="description-link"
         onChange={setDescription}
         placeholder="What a cool description"
         type="text"
