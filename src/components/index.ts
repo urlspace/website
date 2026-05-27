@@ -1,18 +1,18 @@
-import AddCollectionDialog from "./AddCollectionDialog/AddCollectionDialog.tsx";
-import AddLinkDialog from "./AddLinkDialog/AddLinkDialog.tsx";
 import App from "./App/App.tsx";
 import Dashboard from "./Dashboard/Dashboard.tsx";
 import DashboardAccordion from "./DashboardAccordion/DashboardAccordion.tsx";
 import DashboardButton from "./DashboardButton/DashboardButton.tsx";
+import DashboardLink from "./DashboardLink/DashboardLink.tsx";
 import DashboardList from "./DashboardList/DashboardList.tsx";
 import DashboardLogo from "./DashboardLogo/DashboardLogo.tsx";
-import DashboardLink from "./DashboardLink/DashboardLink.tsx";
-import Drawer from "./Drawer/Drawer.tsx";
 import DashboardNav from "./DashboardNav/DashboardNav.tsx";
 import DashboardSection from "./DashboardSection/DashboardSection.tsx";
 import Dialog from "./Dialog/Dialog.tsx";
+import Drawer from "./Drawer/Drawer.tsx";
 import Footer from "./Footer/Footer.tsx";
 import Form from "./Form/Form.tsx";
+import FormAddCollection from "./FormAddCollection/FormAddCollection.tsx";
+import FormAddLink from "./FormAddLink/FormAddLink.tsx";
 import FormJoin from "./FormJoin/FormJoin.tsx";
 import Header from "./Header/Header.tsx";
 import Heading from "./Heading/Heading.tsx";
@@ -23,8 +23,8 @@ import Stack from "./Stack/Stack.tsx";
 import { Button, ButtonLink } from "./Button/Button.tsx";
 
 export {
-  AddCollectionDialog,
-  AddLinkDialog,
+  FormAddCollection,
+  FormAddLink,
   App,
   Button,
   ButtonLink,

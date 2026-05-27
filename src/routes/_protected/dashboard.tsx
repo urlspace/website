@@ -1,7 +1,7 @@
 import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
 import {
-  AddCollectionDialog,
-  AddLinkDialog,
+  FormAddLink,
+  FormAddCollection,
   Form,
   Stack,
   Dashboard,
@@ -13,6 +13,7 @@ import {
   DashboardNav,
   DashboardList,
   DashboardLink,
+  Dialog,
 } from "#/components/index.ts";
 import { type LinkFilters, linksQueryOptions } from "#/queries/links.ts";
 import {
@@ -317,11 +318,6 @@ function PageDashboard() {
         </DashboardSection>
       </Dashboard.AsideTwo>
 
-      <AddCollectionDialog
-        open={isAddCollectionOpen}
-        onClose={() => setIsAddCollectionOpen(false)}
-      />
-
       <Drawer open={isNavOpen} onClose={() => setIsNavOpen(false)} title="Menu">
         <DashboardNav
           collections={collections}
@@ -353,11 +349,24 @@ function PageDashboard() {
         />
       </Drawer>
 
-      <AddLinkDialog
+      <Dialog
         open={isAddLinkOpen}
         onClose={() => setIsAddLinkOpen(false)}
-        collections={collections}
-      />
+        title="Add new link"
+      >
+        <FormAddLink
+          onClose={() => setIsAddLinkOpen(false)}
+          collections={collections}
+        />
+      </Dialog>
+
+      <Dialog
+        open={isAddCollectionOpen}
+        onClose={() => setIsAddCollectionOpen(false)}
+        title="Add new collection"
+      >
+        <FormAddCollection onClose={() => setIsAddCollectionOpen(false)} />
+      </Dialog>
     </Dashboard>
   );
 }
