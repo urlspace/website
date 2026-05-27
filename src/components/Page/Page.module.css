@@ -1,0 +1,24 @@
+.page {
+	width: 100%;
+	max-width: var(--size-container-max);
+	margin-inline: auto;
+	background-color: var(--color-bg-content);
+	border-inline: 1px solid var(--color-border);
+}
+
+.content {
+	--padding-block: 2lh;
+
+	padding: var(--padding-block) 1lh;
+	width: 100%;
+	max-width: 90ch;
+	margin-inline: auto;
+
+	@media (min-width: 900px) {
+		--padding-block: 4lh;
+	}
+}
+
+.narrow {
+	max-width: 60ch;
+}

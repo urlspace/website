@@ -1,23 +1,23 @@
-import "./Page.css";
+import styles from "./Page.module.css";
 
 function Page({
-  children,
-  narrow,
+	children,
+	narrow,
 }: {
-  children: React.ReactNode;
-  narrow?: boolean;
+	children: React.ReactNode;
+	narrow?: boolean;
 }) {
-  return (
-    <div className="page">
-      <div
-        className={
-          narrow ? "page__content page__content--narrow" : "page__content"
-        }
-      >
-        {children}
-      </div>
-    </div>
-  );
+	return (
+		<div className={styles.page}>
+			<div
+				className={
+					narrow ? `${styles.content} ${styles.narrow}` : styles.content
+				}
+			>
+				{children}
+			</div>
+		</div>
+	);
 }
 
 export default Page;

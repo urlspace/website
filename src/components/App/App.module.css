@@ -1,0 +1,25 @@
+.app {
+	display: flex;
+	flex-direction: column;
+}
+
+.header {
+	position: sticky;
+	top: 0px;
+}
+
+.main {
+	--bg-color: transparent;
+	--bg-s-size: 2px;
+	--bg-s-color: var(--color-border);
+	--bg-size: 0.5rlh;
+
+	background-color: var(--bg-color);
+	background-image: conic-gradient(
+		at var(--bg-s-size) var(--bg-s-size),
+		#0000 75%,
+		var(--bg-s-color) 0
+	);
+	background-size: var(--bg-size) var(--bg-size);
+	background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
+}

@@ -1,0 +1,80 @@
+.intro {
+	--gap: 1px;
+
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	background-color: var(--color-border);
+	padding: 0 var(--gap) var(--gap) var(--gap);
+	gap: var(--gap);
+	width: 100%;
+	max-width: var(--size-container-max);
+	margin-inline: auto;
+}
+
+.banner {
+	--padding-block: 2lh;
+	--padding-inline: 1lh;
+
+	grid-area: auto / span 6;
+	background-color: var(--color-bg-content);
+	padding-block-start: var(--padding-block);
+	padding-block-end: calc(var(--padding-block) - var(--gap));
+	padding-inline: var(--padding-inline);
+
+	@media (min-width: 600px) {
+		--padding-block: 4lh;
+		--padding-inline: 2lh;
+	}
+
+	@media (min-width: 1000px) {
+		--padding-block: 6lh;
+
+		background-image: linear-gradient(
+			to right,
+			var(--color-bg-content) 0,
+			var(--color-bg-content) 50%,
+			color-mix(in srgb, var(--color-link) 10%, transparent) 50%,
+			color-mix(in srgb, var(--color-link) 10%, transparent) 100%
+		);
+	}
+}
+
+.feature {
+	--padding-block: 2.5lh;
+	--padding-inline: 1lh;
+
+	grid-area: auto / span 6;
+	background-color: var(--color-bg-content);
+	padding-inline: var(--padding-inline);
+	padding-block-start: var(--padding-block);
+	padding-block-end: calc(var(--padding-block) - var(--gap));
+
+	@media (min-width: 600px) {
+		--padding-inline: 2lh;
+	}
+
+	@media (min-width: 900px) {
+		--padding-block: 3lh;
+
+		grid-area: auto / span 2;
+	}
+}
+
+.content {
+	@media (min-width: 1000px) {
+		width: calc(50% - 4lh);
+	}
+}
+
+.description {
+	max-width: 50ch;
+}
+
+.more {
+	align-self: flex-start;
+	padding-inline-end: 0.5lh;
+
+	&::after {
+		content: " »";
+	}
+}
