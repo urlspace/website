@@ -9,7 +9,7 @@ import styles from "./Form.module.css";
 
 type FormContextValue = {
 	formId: string;
-	errorMessage: ReactNode;
+	error: ReactNode;
 	loading: boolean;
 };
 
@@ -22,21 +22,18 @@ function useFormContext() {
 }
 
 function useFieldIds(name: string, hasDescription: boolean) {
-	const { formId, errorMessage } = useFormContext();
+	const { formId, error, loading } = useFormContext();
 	const inputId = `${name}-${formId}`;
 	const descriptionId = `${name}-description-${formId}`;
 	const ariaDescribedBy =
-		[
-			hasDescription ? descriptionId : null,
-			errorMessage ? `error-${formId}` : null,
-		]
+		[hasDescription ? descriptionId : null, error ? `error-${formId}` : null]
 			.filter(Boolean)
 			.join(" ") || undefined;
-	return { inputId, descriptionId, ariaDescribedBy };
+	return { inputId, descriptionId, ariaDescribedBy, loading };
 }
 
-type SubmitHelpers = {
-	setErrorMessage: (msg: ReactNode) => void;
+export type SubmitHelpers = {
+	setError: (msg: ReactNode) => void;
 	setLoading: (loading: boolean) => void;
 };
 
@@ -45,30 +42,31 @@ function Form({
 	children,
 }: {
 	onSubmit: (
-		e: React.FormEvent<HTMLFormElement>,
+		e: React.SubmitEvent<HTMLFormElement>,
 		helpers: SubmitHelpers,
 	) => void;
 	children: React.ReactNode;
 }) {
 	const formId = useId();
-	const [errorMessage, setErrorMessage] = useState<ReactNode>(null);
+	const [error, setError] = useState<ReactNode>(null);
 	const [loading, setLoading] = useState(false);
 
 	return (
-		<FormContext.Provider value={{ formId, errorMessage, loading }}>
+		<FormContext.Provider value={{ formId, error, loading }}>
 			<form
 				className={styles.form}
+				aria-busy={loading || undefined}
 				onSubmit={(e) => {
 					if (loading) {
 						e.preventDefault();
 						return;
 					}
-					onSubmit(e, { setErrorMessage, setLoading });
+					onSubmit(e, { setError, setLoading });
 				}}
 			>
-				{errorMessage ? (
+				{error ? (
 					<p id={`error-${formId}`} className={styles.error} role="alert">
-						{errorMessage}
+						{error}
 					</p>
 				) : null}
 				{children}
@@ -106,7 +104,7 @@ function Input({
 	type: "text" | "email" | "password" | "url";
 	value: string;
 }) {
-	const { inputId, descriptionId, ariaDescribedBy } = useFieldIds(
+	const { inputId, descriptionId, ariaDescribedBy, loading } = useFieldIds(
 		name,
 		!!description,
 	);
@@ -121,7 +119,7 @@ function Input({
 				aria-describedby={ariaDescribedBy}
 				autoComplete={autoComplete}
 				className={styles.input}
-				disabled={disabled}
+				disabled={disabled || loading}
 				id={inputId}
 				maxLength={maxLength}
 				minLength={minLength}
@@ -163,7 +161,7 @@ function Select({
 	options: { name: string; value: string }[];
 	placeholder: string;
 }) {
-	const { inputId, descriptionId, ariaDescribedBy } = useFieldIds(
+	const { inputId, descriptionId, ariaDescribedBy, loading } = useFieldIds(
 		name,
 		!!description,
 	);
@@ -179,7 +177,7 @@ function Select({
 				className={[styles.input, styles.inputSelect].join(" ")}
 				name={name}
 				id={inputId}
-				disabled={disabled}
+				disabled={disabled || loading}
 				onChange={(e) => onChange(e.target.value)}
 				value={value}
 				required={required}
@@ -224,7 +222,7 @@ function Checkbox({
 	value: boolean;
 	description?: ReactNode;
 }) {
-	const { inputId, descriptionId, ariaDescribedBy } = useFieldIds(
+	const { inputId, descriptionId, ariaDescribedBy, loading } = useFieldIds(
 		name,
 		!!description,
 	);
@@ -236,7 +234,7 @@ function Checkbox({
 					type="checkbox"
 					id={inputId}
 					name={name}
-					disabled={disabled}
+					disabled={disabled || loading}
 					onChange={(e) => onChange(e.target.checked)}
 					checked={value}
 					className={styles.checkbox}
@@ -258,11 +256,11 @@ function Checkbox({
 	);
 }
 
-function Submit({ children }: { children: ReactNode }) {
+function Submit({ text, textLoading }: { text: string; textLoading: string }) {
 	const { loading } = useFormContext();
 	return (
 		<button type="submit" aria-disabled={loading} className={styles.submit}>
-			{children}
+			{loading ? textLoading : text}
 		</button>
 	);
 }
