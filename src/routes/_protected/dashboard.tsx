@@ -23,12 +23,16 @@ import {
 	Drawer,
 	Form,
 	FormAddCollection,
-	FormAddLink,
+	FormLink,
 	Icon,
 	Stack,
 } from "#/components/index.ts";
 import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
-import { type LinkFilters, linksQueryOptions } from "#/queries/links.ts";
+import {
+	type LinkFilters,
+	type LinkRow,
+	linksQueryOptions,
+} from "#/queries/links.ts";
 
 type CollectionRow = {
 	id: string;
@@ -128,6 +132,7 @@ function PageDashboard() {
 
 	const [isAddLinkOpen, setIsAddLinkOpen] = useState(false);
 	const [isAddCollectionOpen, setIsAddCollectionOpen] = useState(false);
+	const [editingLink, setEditingLink] = useState<LinkRow | null>(null);
 
 	async function handleSignOut() {
 		const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signout`, {
@@ -268,6 +273,7 @@ function PageDashboard() {
 						key={link.id}
 						link={link}
 						loading={isPlaceholderData}
+						onEdit={setEditingLink}
 						onTagClick={(tagId) => {
 							setFavourite(false);
 							setForLater(false);
@@ -354,11 +360,27 @@ function PageDashboard() {
 				onClose={() => setIsAddLinkOpen(false)}
 				title="Add new link"
 			>
-				<FormAddLink
+				<FormLink
 					onClose={() => setIsAddLinkOpen(false)}
 					collections={collections}
 					tags={tags}
 				/>
+			</Dialog>
+
+			<Dialog
+				open={!!editingLink}
+				onClose={() => setEditingLink(null)}
+				title="Edit link"
+			>
+				{editingLink ? (
+					<FormLink
+						key={editingLink.id}
+						link={editingLink}
+						onClose={() => setEditingLink(null)}
+						collections={collections}
+						tags={tags}
+					/>
+				) : null}
 			</Dialog>
 
 			<Dialog

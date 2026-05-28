@@ -2,10 +2,22 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
-function FormAddLink({
+type LinkRow = {
+	id: string;
+	title: string;
+	description: string;
+	url: string;
+	tags: Array<{ id: string; name: string }>;
+	collection: { id: string; name: string } | null;
+	favourite: boolean;
+	forLater: boolean;
+};
+
+function FormLink({
 	onClose,
 	collections,
 	tags,
+	link,
 }: {
 	onClose: () => void;
 	collections: Array<{
@@ -16,16 +28,20 @@ function FormAddLink({
 		id: string;
 		name: string;
 	}>;
+	link?: LinkRow;
 }) {
 	const queryClient = useQueryClient();
+	const isEdit = !!link;
 
-	const [title, setTitle] = useState("");
-	const [url, setUrl] = useState("");
-	const [description, setDescription] = useState("");
-	const [collection, setCollection] = useState("");
-	const [selectedTags, setSelectedTags] = useState<string[]>([]);
-	const [favourite, setFavourite] = useState(false);
-	const [forLater, setForLater] = useState(false);
+	const [title, setTitle] = useState(link?.title ?? "");
+	const [url, setUrl] = useState(link?.url ?? "");
+	const [description, setDescription] = useState(link?.description ?? "");
+	const [collection, setCollection] = useState(link?.collection?.id ?? "");
+	const [selectedTags, setSelectedTags] = useState<string[]>(
+		link?.tags.map((t) => t.name) ?? [],
+	);
+	const [favourite, setFavourite] = useState(link?.favourite ?? false);
+	const [forLater, setForLater] = useState(link?.forLater ?? false);
 
 	async function handleSubmit(
 		e: React.SubmitEvent<HTMLFormElement>,
@@ -37,24 +53,25 @@ function FormAddLink({
 		setLoading(true);
 
 		try {
-			const descriptionTrimmed = description.trim();
-
-			const res = await fetch(`${import.meta.env.VITE_API_URL}/links`, {
-				method: "POST",
-				credentials: "include",
-				headers: { "content-type": "application/json" },
-				body: JSON.stringify({
-					title,
-					url,
-					...(descriptionTrimmed && { description: descriptionTrimmed }),
-					...(collection && { collectionId: collection }),
-					...(selectedTags.length > 0 && {
+			const res = await fetch(
+				isEdit
+					? `${import.meta.env.VITE_API_URL}/links/${link.id}`
+					: `${import.meta.env.VITE_API_URL}/links`,
+				{
+					method: isEdit ? "PUT" : "POST",
+					credentials: "include",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify({
+						title,
+						url,
+						description: description.trim(),
+						collectionId: collection || null,
 						tags: selectedTags,
 						favourite,
 						forLater,
 					}),
-				}),
-			});
+				},
+			);
 
 			if (!res.ok) {
 				switch (res.status) {
@@ -75,13 +92,15 @@ function FormAddLink({
 				queryClient.invalidateQueries({ queryKey: ["tags"] }),
 			]);
 
-			setTitle("");
-			setUrl("");
-			setDescription("");
-			setCollection("");
-			setSelectedTags([]);
-			setFavourite(false);
-			setForLater(false);
+			if (!isEdit) {
+				setTitle("");
+				setUrl("");
+				setDescription("");
+				setCollection("");
+				setSelectedTags([]);
+				setFavourite(false);
+				setForLater(false);
+			}
 			onClose();
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
@@ -152,9 +171,12 @@ function FormAddLink({
 					value={forLater}
 				/>
 			</Form.Row>
-			<Form.Submit text="Add new link" textLoading="Adding..." />
+			<Form.Submit
+				text={isEdit ? "Save changes" : "Add new link"}
+				textLoading={isEdit ? "Saving..." : "Adding..."}
+			/>
 		</Form>
 	);
 }
 
-export default FormAddLink;
+export default FormLink;
