@@ -12,7 +12,7 @@ import Dialog from "./Dialog/Dialog.tsx";
 import Drawer from "./Drawer/Drawer.tsx";
 import Footer from "./Footer/Footer.tsx";
 import Form from "./Form/Form.tsx";
-import FormAddCollection from "./FormAddCollection/FormAddCollection.tsx";
+import FormCollection from "./FormCollection/FormCollection.tsx";
 import FormJoin from "./FormJoin/FormJoin.tsx";
 import FormLink from "./FormLink/FormLink.tsx";
 import Header from "./Header/Header.tsx";
@@ -23,28 +23,28 @@ import Page from "./Page/Page.tsx";
 import Stack from "./Stack/Stack.tsx";
 
 export {
-	App,
-	Button,
-	ButtonLink,
-	Dashboard,
-	DashboardAccordion,
-	DashboardButton,
-	DashboardLink,
-	DashboardList,
-	DashboardLogo,
-	DashboardNav,
-	DashboardSection,
-	Dialog,
-	Drawer,
-	Footer,
-	Form,
-	FormAddCollection,
-	FormJoin,
-	FormLink,
-	Header,
-	Heading,
-	Icon,
-	Intro,
-	Page,
-	Stack,
+  App,
+  Button,
+  ButtonLink,
+  Dashboard,
+  DashboardAccordion,
+  DashboardButton,
+  DashboardLink,
+  DashboardList,
+  DashboardLogo,
+  DashboardNav,
+  DashboardSection,
+  Dialog,
+  Drawer,
+  Footer,
+  Form,
+  FormCollection,
+  FormJoin,
+  FormLink,
+  Header,
+  Heading,
+  Icon,
+  Intro,
+  Page,
+  Stack,
 };
