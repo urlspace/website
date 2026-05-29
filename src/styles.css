@@ -21,8 +21,8 @@
 
   --color-border: light-dark(oklch(92.2% 0.005 34.3), oklch(32% 0.006 286.033));
   --color-border-contrast: light-dark(
-    oklch(86.8% 0.007 39.5),
-    oklch(40% 0.017 285.786)
+    oklch(76.8% 0.007 39.5),
+    oklch(50% 0.017 285.786)
   );
   --color-link: light-dark(oklch(50% 0.134 242.749), oklch(87% 0.065 274.039));
 
