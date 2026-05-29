@@ -4,11 +4,16 @@ import { useState } from "react";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
 function FormCollection({
-  onClose,
+  collections,
   isPro,
+  onClose,
 }: {
-  onClose: () => void;
+  collections: Array<{
+    id: string;
+    name: string;
+  }>;
   isPro: boolean;
+  onClose: () => void;
 }) {
   const queryClient = useQueryClient();
 
@@ -21,6 +26,15 @@ function FormCollection({
     { setError, setLoading }: SubmitHelpers,
   ) {
     e.preventDefault();
+
+    if (
+      collections.some(
+        (c) => c.name.toLowerCase() === name.trim().toLowerCase(),
+      )
+    ) {
+      setError("You already have a collection with that name.");
+      return;
+    }
 
     setError(null);
     setLoading(true);

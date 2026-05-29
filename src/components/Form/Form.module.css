@@ -19,17 +19,23 @@
 }
 
 .error {
-  color: light-dark(oklch(57.7% 0.245 27.325), oklch(70.4% 0.191 22.216));
-  padding: calc(0.75lh - 1px);
-  border: 1px solid currentColor;
-  background-color: color-mix(in srgb, red 6%, transparent);
-  border-radius: var(--radius);
+  --color: light-dark(oklch(57.7% 0.245 27.325), oklch(70.4% 0.191 22.216));
+
+  color: var(--color);
+  padding-inline-start: 0.5lh;
+  border-inline-start: 4px solid var(--color);
 }
 
 .label {
   font-size: 0.9375rem;
   font-weight: 600;
   align-self: flex-start;
+}
+
+.labelDisabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  color: color-mix(in srgb, currentColor 50%, transparent);
 }
 
 .input {

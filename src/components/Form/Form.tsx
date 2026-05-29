@@ -113,7 +113,12 @@ function Input({
   );
   return (
     <div className={styles.field}>
-      <label className={styles.label} htmlFor={inputId}>
+      <label
+        className={[styles.label, disabled && styles.labelDisabled]
+          .filter(Boolean)
+          .join(" ")}
+        htmlFor={inputId}
+      >
         {label}
         {required ? <span aria-hidden="true"> (required)</span> : null}
       </label>
@@ -170,7 +175,11 @@ function Select({
   );
   return (
     <div className={styles.field}>
-      <label className={styles.label} htmlFor={inputId}>
+      <label
+        className={[styles.label, disabled && styles.labelDisabled]
+          .filter(Boolean)
+          .join(" ")}
+      >
         {label}
         {required ? <span aria-hidden="true"> (required)</span> : null}
       </label>
@@ -244,7 +253,12 @@ function Checkbox({
           required={required}
         />
 
-        <label className={styles.label} htmlFor={inputId}>
+        <label
+          className={[styles.label, disabled && styles.labelDisabled]
+            .filter(Boolean)
+            .join(" ")}
+          htmlFor={inputId}
+        >
           {label}
           {required ? <span aria-hidden="true"> (required)</span> : null}
         </label>
@@ -331,7 +345,12 @@ function Combobox({
 
   return (
     <div className={styles.field}>
-      <label className={styles.label} htmlFor={inputId}>
+      <label
+        className={[styles.label, disabled && styles.labelDisabled]
+          .filter(Boolean)
+          .join(" ")}
+        htmlFor={inputId}
+      >
         {label}
         {required ? <span aria-hidden="true"> (required)</span> : null}
       </label>
@@ -501,7 +520,12 @@ function TagsInput({
 
   return (
     <div className={styles.field}>
-      <label className={styles.label} htmlFor={inputId}>
+      <label
+        className={[styles.label, disabled && styles.labelDisabled]
+          .filter(Boolean)
+          .join(" ")}
+        htmlFor={inputId}
+      >
         {label}
         {required ? <span aria-hidden="true"> (required)</span> : null}
       </label>

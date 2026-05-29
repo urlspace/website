@@ -391,6 +391,7 @@ function PageDashboard() {
         <FormCollection
           onClose={() => setIsAddCollectionOpen(false)}
           isPro={user.isPro}
+          collections={collections}
         />
       </Dialog>
     </Dashboard>
