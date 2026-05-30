@@ -31,6 +31,32 @@ function Button({
   );
 }
 
+function ButtonLinkLike({
+  text,
+  onClick,
+  type,
+  disabled,
+  ariaDisabled,
+}: {
+  text: string;
+  onClick?: () => void;
+  type?: "button" | "submit";
+  disabled?: boolean;
+  ariaDisabled?: boolean;
+}) {
+  return (
+    <button
+      className={styles.buttonLinkLike}
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+      aria-disabled={ariaDisabled}
+    >
+      {text}
+    </button>
+  );
+}
+
 function ButtonLink({
   text,
   to,
@@ -52,4 +78,4 @@ function ButtonLink({
   );
 }
 
-export { Button, ButtonLink };
+export { Button, ButtonLink, ButtonLinkLike };

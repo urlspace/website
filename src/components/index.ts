@@ -1,8 +1,9 @@
 import App from "./App/App.tsx";
-import { Button, ButtonLink } from "./Button/Button.tsx";
+import { Button, ButtonLink, ButtonLinkLike } from "./Button/Button.tsx";
 import Dashboard from "./Dashboard/Dashboard.tsx";
 import DashboardAccordion from "./DashboardAccordion/DashboardAccordion.tsx";
 import DashboardButton from "./DashboardButton/DashboardButton.tsx";
+import DashboardEmpty from "./DashboardEmpty/DashboardEmpty.tsx";
 import DashboardLink from "./DashboardLink/DashboardLink.tsx";
 import DashboardList from "./DashboardList/DashboardList.tsx";
 import DashboardLogo from "./DashboardLogo/DashboardLogo.tsx";
@@ -26,9 +27,11 @@ export {
   App,
   Button,
   ButtonLink,
+  ButtonLinkLike,
   Dashboard,
   DashboardAccordion,
   DashboardButton,
+  DashboardEmpty,
   DashboardLink,
   DashboardList,
   DashboardLogo,

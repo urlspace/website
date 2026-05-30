@@ -96,43 +96,43 @@ function DashboardNav({
           text="Add link"
         />
       </DashboardSection>
-      {collections.length ? (
-        <DashboardSection>
-          <DashboardAccordion summary="Collections">
-            <Stack>
-              <DashboardList>
-                {collections.map((c) => (
-                  <DashboardList.Li key={c.id}>
-                    <DashboardButton
-                      icon={<Icon.Folder />}
-                      onClick={() =>
-                        setSelectedCollection((prev) =>
-                          prev === c.id ? null : c.id,
-                        )
-                      }
-                      ariaPressed={selectedCollection === c.id}
-                      text={c.name}
-                    />
-                  </DashboardList.Li>
-                ))}
-              </DashboardList>
+      <DashboardSection>
+        <DashboardAccordion summary="Collections">
+          <Stack>
+            <DashboardList>
+              {collections.map((c) => (
+                <DashboardList.Li key={c.id}>
+                  <DashboardButton
+                    icon={<Icon.Folder />}
+                    onClick={() =>
+                      setSelectedCollection((prev) =>
+                        prev === c.id ? null : c.id,
+                      )
+                    }
+                    ariaPressed={selectedCollection === c.id}
+                    text={c.name}
+                  />
+                </DashboardList.Li>
+              ))}
+            </DashboardList>
 
-              <div>
-                <DashboardButton
-                  icon={<Icon.Plus />}
-                  onClick={() => setIsAddCollectionkOpen(true)}
-                  text="Add collection"
-                />
+            <div>
+              <DashboardButton
+                icon={<Icon.Plus />}
+                onClick={() => setIsAddCollectionkOpen(true)}
+                text="Add collection"
+              />
+              {collections.length ? (
                 <DashboardButton
                   icon={<Icon.Edit />}
                   onClick={() => alert("Show filters")}
                   text="Edit collections"
                 />
-              </div>
-            </Stack>
-          </DashboardAccordion>
-        </DashboardSection>
-      ) : null}
+              ) : null}
+            </div>
+          </Stack>
+        </DashboardAccordion>
+      </DashboardSection>
       {tags.length ? (
         <DashboardSection>
           <DashboardAccordion summary="Tags">

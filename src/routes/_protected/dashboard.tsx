@@ -14,6 +14,7 @@ import { useState } from "react";
 import {
   Dashboard,
   DashboardButton,
+  DashboardEmpty,
   DashboardLink,
   DashboardList,
   DashboardLogo,
@@ -268,28 +269,32 @@ function PageDashboard() {
           Results: {totalCount}
         </DashboardSection>
 
-        {links.map((link) => (
-          <DashboardLink
-            key={link.id}
-            link={link}
-            loading={isPlaceholderData}
-            onEdit={setEditingLink}
-            onTagClick={(tagId) => {
-              setFavourite(false);
-              setForLater(false);
-              setSelectedCollection(null);
-              setSelectedTags([tagId]);
-              setPage(1);
-            }}
-            onCollectionClick={(collectionId) => {
-              setFavourite(false);
-              setForLater(false);
-              setSelectedCollection(collectionId);
-              setSelectedTags([]);
-              setPage(1);
-            }}
-          />
-        ))}
+        {links.length ? (
+          links.map((link) => (
+            <DashboardLink
+              key={link.id}
+              link={link}
+              loading={isPlaceholderData}
+              onEdit={setEditingLink}
+              onTagClick={(tagId) => {
+                setFavourite(false);
+                setForLater(false);
+                setSelectedCollection(null);
+                setSelectedTags([tagId]);
+                setPage(1);
+              }}
+              onCollectionClick={(collectionId) => {
+                setFavourite(false);
+                setForLater(false);
+                setSelectedCollection(collectionId);
+                setSelectedTags([]);
+                setPage(1);
+              }}
+            />
+          ))
+        ) : (
+          <DashboardEmpty />
+        )}
       </Dashboard.Main>
       <Dashboard.AsideTwo>
         <DashboardSection>
