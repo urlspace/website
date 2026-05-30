@@ -20,17 +20,19 @@ type CollectionRow = {
 	updatedAt: string;
 };
 
+type Mode = "tag" | "col" | "is";
+
 type ParsedInput = {
 	freeText: string;
-	mode: "tag" | "col" | null;
+	mode: Mode | null;
 	query: string;
 };
 
-// Active prefix = last "tag:" or "col:" in the input that starts the string
-// (or follows whitespace) AND has no whitespace between the colon and end.
-// Whitespace after the query terminates prefix mode — see grilling notes.
+// Active prefix = last "tag:" / "col:" / "is:" in the input that starts the
+// string (or follows whitespace) AND has no whitespace between the colon and
+// end. Whitespace after the query terminates prefix mode — see grilling notes.
 function parseInput(raw: string): ParsedInput {
-	const match = raw.match(/(?:^|\s)(tag:|col:)(\S*)$/);
+	const match = raw.match(/(?:^|\s)(tag:|col:|is:)(\S*)$/);
 	if (!match) return { freeText: raw, mode: null, query: "" };
 
 	const prefix = match[1];
@@ -38,18 +40,30 @@ function parseInput(raw: string): ParsedInput {
 	const hasLeadingWs = match[0].length > prefix.length + query.length;
 	const prefixStart = (match.index ?? 0) + (hasLeadingWs ? 1 : 0);
 
+	const mode: Mode =
+		prefix === "tag:" ? "tag" : prefix === "col:" ? "col" : "is";
+
 	return {
 		freeText: raw.slice(0, prefixStart),
-		mode: prefix === "tag:" ? "tag" : "col",
+		mode,
 		query,
 	};
 }
 
 type Item = { id: string; name: string };
 
+const IS_OPTIONS: Item[] = [
+	{ id: "favourite", name: "Favourite" },
+	{ id: "forLater", name: "For later" },
+];
+
 function SearchInput({
 	collections,
+	favourite,
+	forLater,
 	label,
+	onFavouriteChange,
+	onForLaterChange,
 	onSelectedCollectionChange,
 	onSelectedTagsChange,
 	onValueChange,
@@ -60,7 +74,11 @@ function SearchInput({
 	value,
 }: {
 	collections: CollectionRow[];
+	favourite: boolean;
+	forLater: boolean;
 	label: string;
+	onFavouriteChange: React.Dispatch<React.SetStateAction<boolean>>;
+	onForLaterChange: React.Dispatch<React.SetStateAction<boolean>>;
 	onSelectedCollectionChange: React.Dispatch<
 		React.SetStateAction<string | null>
 	>;
@@ -105,7 +123,13 @@ function SearchInput({
 							(c) => !queryLower || c.name.toLowerCase().includes(queryLower),
 						)
 						.map((c) => ({ id: c.id, name: c.name }))
-				: [];
+				: parsed.mode === "is"
+					? IS_OPTIONS.filter((o) => {
+							if (o.id === "favourite" && favourite) return false;
+							if (o.id === "forLater" && forLater) return false;
+							return !queryLower || o.name.toLowerCase().includes(queryLower);
+						})
+					: [];
 
 	const collectionPill = selectedCollection
 		? (collections.find((c) => c.id === selectedCollection) ?? null)
@@ -129,6 +153,9 @@ function SearchInput({
 			);
 		} else if (parsed.mode === "col") {
 			onSelectedCollectionChange(item.id);
+		} else if (parsed.mode === "is") {
+			if (item.id === "favourite") onFavouriteChange(true);
+			else if (item.id === "forLater") onForLaterChange(true);
 		}
 	}
 
@@ -146,12 +173,16 @@ function SearchInput({
 		if (value !== "") onValueChange("");
 		if (selectedTags.length > 0) onSelectedTagsChange([]);
 		if (selectedCollection !== null) onSelectedCollectionChange(null);
+		if (favourite) onFavouriteChange(false);
+		if (forLater) onForLaterChange(false);
 	}
 
 	const hasAnything =
 		rawInput.length > 0 ||
 		selectedTags.length > 0 ||
-		selectedCollection !== null;
+		selectedCollection !== null ||
+		favourite ||
+		forLater;
 
 	const { getInputProps, getMenuProps, getItemProps, highlightedIndex } =
 		useCombobox<Item>({
@@ -198,6 +229,12 @@ function SearchInput({
 			} else if (collectionPill) {
 				e.preventDefault();
 				removeCollection();
+			} else if (forLater) {
+				e.preventDefault();
+				onForLaterChange(false);
+			} else if (favourite) {
+				e.preventDefault();
+				onFavouriteChange(false);
 			}
 		}
 	}
@@ -211,6 +248,32 @@ function SearchInput({
 			<div className={styles.comboboxWrapper}>
 				<div className={localStyles.group}>
 					<div className={localStyles.inner}>
+						{favourite ? (
+							<span className={styles.tag}>
+								Favourite
+								<button
+									type="button"
+									className={styles.tagRemove}
+									aria-label="Remove Favourite filter"
+									onClick={() => onFavouriteChange(false)}
+								>
+									<Icon.Close />
+								</button>
+							</span>
+						) : null}
+						{forLater ? (
+							<span className={styles.tag}>
+								For later
+								<button
+									type="button"
+									className={styles.tagRemove}
+									aria-label="Remove For later filter"
+									onClick={() => onForLaterChange(false)}
+								>
+									<Icon.Close />
+								</button>
+							</span>
+						) : null}
 						{collectionPill ? (
 							<span className={styles.tag}>
 								Collection: {collectionPill.name}
@@ -267,7 +330,9 @@ function SearchInput({
 						<li className={styles.comboboxEmpty}>
 							{parsed.mode === "tag"
 								? "No matching tags"
-								: "No matching collections"}
+								: parsed.mode === "col"
+									? "No matching collections"
+									: "No matching filters"}
 						</li>
 					) : null}
 					{isOpen

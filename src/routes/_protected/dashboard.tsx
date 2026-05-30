@@ -223,6 +223,16 @@ function PageDashboard() {
 							setSelectedCollection(updater);
 							setPage(1);
 						}}
+						favourite={favourite}
+						onFavouriteChange={(updater) => {
+							setFavourite(updater);
+							setPage(1);
+						}}
+						forLater={forLater}
+						onForLaterChange={(updater) => {
+							setForLater(updater);
+							setPage(1);
+						}}
 					/>
 				</DashboardSection>
 				<DashboardSection>
