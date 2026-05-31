@@ -1,6 +1,25 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styles from "./DashboardLink.module.css";
 
+function highlight(text: string, query: string): React.ReactNode {
+	const needle = query.trim().toLowerCase();
+	if (!needle) return text;
+	const hay = text.toLowerCase();
+	const out: React.ReactNode[] = [];
+	let i = 0;
+	while (i < text.length) {
+		const j = hay.indexOf(needle, i);
+		if (j === -1) {
+			out.push(text.slice(i));
+			break;
+		}
+		if (j > i) out.push(text.slice(i, j));
+		out.push(<mark key={j}>{text.slice(j, j + needle.length)}</mark>);
+		i = j + needle.length;
+	}
+	return out;
+}
+
 type LinkRow = {
 	id: string;
 	title: string;
@@ -26,12 +45,14 @@ function DashbrardLink({
 	onCollectionClick,
 	onEdit,
 	loading,
+	query,
 }: {
 	link: LinkRow;
 	onTagClick: (tag: string) => void;
 	onCollectionClick: (collectionId: string) => void;
 	onEdit: (link: LinkRow) => void;
 	loading: boolean;
+	query: string;
 }) {
 	const queryClient = useQueryClient();
 
@@ -95,7 +116,7 @@ function DashbrardLink({
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					{link.title}
+					{highlight(link.title, query)}
 				</a>
 				<a
 					href={link.url}

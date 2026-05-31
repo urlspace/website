@@ -24,6 +24,11 @@
   font-weight: 800;
   align-self: flex-start;
   text-wrap-style: pretty;
+
+  mark {
+    background-color: color-mix(in srgb, var(--color-link) 20%, transparent);
+    color: inherit;
+  }
 }
 
 .linkA {
@@ -109,3 +114,4 @@
     display: none;
   }
 }
+
