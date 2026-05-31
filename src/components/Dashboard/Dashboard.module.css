@@ -12,6 +12,7 @@
   );
   background-size: var(--bg-size) var(--bg-size);
   background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
+  background-attachment: fixed;
   min-height: 100dvh;
 }
 
