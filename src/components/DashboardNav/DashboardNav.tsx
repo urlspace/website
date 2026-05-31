@@ -168,12 +168,7 @@ function DashboardNav({
         </DashboardSection>
       ) : null}
 
-      <DashboardSection desktopHide>
-        {
-          // this is the same list as on the dashboard asideTwo
-          // now it is just repeated, it is fine, but if we need it in
-          // more places we should extract to a component
-        }
+      <DashboardSection>
         <DashboardList>
           <DashboardList.Li>
             <DashboardButton
