@@ -1,8 +1,7 @@
 import { useCombobox } from "downshift";
 import { useEffect, useId, useState } from "react";
-import styles from "../Form/Form.module.css";
 import Icon from "../Icons/Icons";
-import localStyles from "./SearchInput.module.css";
+import styles from "./Form.module.css";
 
 type TagRow = {
 	id: string;
@@ -191,7 +190,7 @@ function SearchInput({
 			isOpen,
 			selectedItem: null,
 			defaultHighlightedIndex: 0,
-			id: inputId,
+			inputId,
 			itemToString: (item) => item?.name ?? "",
 			stateReducer(_state, { changes, type }) {
 				switch (type) {
@@ -246,8 +245,8 @@ function SearchInput({
 			</label>
 
 			<div className={styles.comboboxWrapper}>
-				<div className={localStyles.group}>
-					<div className={localStyles.inner}>
+				<div className={styles.comboboxInputGroup}>
+					<div className={styles.searchInputInner}>
 						{favourite ? (
 							<span className={styles.tag}>
 								Favourite

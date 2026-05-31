@@ -21,7 +21,6 @@ import Heading from "./Heading/Heading.tsx";
 import Icon from "./Icons/Icons.tsx";
 import Intro from "./Intro/Intro.tsx";
 import Page from "./Page/Page.tsx";
-import SearchInput from "./SearchInput/SearchInput.tsx";
 import Stack from "./Stack/Stack.tsx";
 
 export {
@@ -50,6 +49,5 @@ export {
 	Icon,
 	Intro,
 	Page,
-	SearchInput,
 	Stack,
 };

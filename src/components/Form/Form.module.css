@@ -359,3 +359,13 @@
   color: inherit;
   padding: 0;
 }
+
+.searchInputInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25lh;
+  padding: calc(0.5lh - 1px) 0.625lh;
+  flex: 1;
+  min-width: 0;
+}

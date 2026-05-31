@@ -21,10 +21,10 @@ import {
 	DashboardSection,
 	Dialog,
 	Drawer,
+	Form,
 	FormCollection,
 	FormLink,
 	Icon,
-	SearchInput,
 	Stack,
 } from "#/components/index.ts";
 import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
@@ -207,7 +207,7 @@ function PageDashboard() {
 			</Dashboard.Aside>
 			<Dashboard.Main>
 				<DashboardSection search>
-					<SearchInput
+					<Form.SearchInput
 						label="Search"
 						placeholder="Search for..."
 						value={value}
