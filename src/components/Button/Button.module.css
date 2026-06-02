@@ -1,72 +1,72 @@
 .button {
-  background-color: var(--color-link);
-  color: var(--color-bg);
-  align-self: flex-start;
-  padding: 0.5lh 1lh;
-  text-decoration: none;
-  font: inherit;
-  border: none;
-  display: inline-block;
-  border-radius: var(--radius);
+	background-color: var(--color-link);
+	color: var(--color-bg);
+	align-self: flex-start;
+	padding: 0.5lh 1lh;
+	text-decoration: none;
+	font: inherit;
+	border: none;
+	display: inline-block;
+	border-radius: var(--radius);
 
-  &:hover {
-    color: var(--color-bg);
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
-  }
+	&:hover {
+		color: var(--color-bg);
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 4px;
+	}
 
-  &:focus-visible {
-    outline: 4px dotted var(--color-link);
-    outline-offset: 4px;
-  }
+	&:focus-visible {
+		outline: 4px dotted var(--color-link);
+		outline-offset: 4px;
+	}
 
-  &:active {
-    color: color-mix(in srgb, var(--color-bg) 50%, transparent);
-  }
+	&:active {
+		color: color-mix(in srgb, var(--color-bg) 50%, transparent);
+	}
 
-  &:disabled,
-  &[aria-disabled="true"] {
-    opacity: 0.75;
-    cursor: not-allowed;
+	&:disabled,
+	&[aria-disabled="true"] {
+		opacity: 0.75;
+		cursor: not-allowed;
 
-    &:hover {
-      text-decoration: none;
-    }
-  }
+		&:hover {
+			text-decoration: none;
+		}
+	}
 }
 
 .buttonLinkLike {
-  background-color: transparent;
-  color: var(--color-link);
-  font: inherit;
-  border: none;
-  font-weight: 500;
-  text-decoration-line: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
+	background-color: transparent;
+	color: var(--color-link);
+	font: inherit;
+	border: none;
+	font-weight: 500;
+	text-decoration-line: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 4px;
 
-  &:hover,
-  &:active {
-    color: var(--color-fg);
-  }
+	&:hover,
+	&:active {
+		color: var(--color-fg);
+	}
 
-  &:focus-visible {
-    outline: 4px dotted var(--color-link);
-    outline-offset: 4px;
-  }
+	&:focus-visible {
+		outline: 4px dotted var(--color-link);
+		outline-offset: 4px;
+	}
 
-  &:disabled,
-  &[aria-disabled="true"] {
-    opacity: 0.75;
-    cursor: not-allowed;
+	&:disabled,
+	&[aria-disabled="true"] {
+		opacity: 0.75;
+		cursor: not-allowed;
 
-    &:hover {
-      text-decoration: none;
-    }
-  }
+		&:hover {
+			text-decoration: none;
+		}
+	}
 }
 
 .fullWidth {
-  align-self: stretch;
+	align-self: stretch;
 }

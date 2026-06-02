@@ -1,9 +1,9 @@
 .stack {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--gap) * 1lh);
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--gap) * 1lh);
 }
 
 .row {
-  flex-direction: row;
+	flex-direction: row;
 }

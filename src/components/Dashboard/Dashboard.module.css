@@ -1,73 +1,73 @@
 .wrapper {
-  --bg-color: transparent;
-  --bg-s-size: 2px;
-  --bg-s-color: var(--color-border);
-  --bg-size: 0.5rlh;
+	--bg-color: transparent;
+	--bg-s-size: 2px;
+	--bg-s-color: var(--color-border);
+	--bg-size: 0.5rlh;
 
-  background-color: var(--bg-color);
-  background-image: conic-gradient(
-    at var(--bg-s-size) var(--bg-s-size),
-    #0000 75%,
-    var(--bg-s-color) 0
-  );
-  background-size: var(--bg-size) var(--bg-size);
-  background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
-  background-attachment: fixed;
-  min-height: 100dvh;
+	background-color: var(--bg-color);
+	background-image: conic-gradient(
+		at var(--bg-s-size) var(--bg-s-size),
+		#0000 75%,
+		var(--bg-s-color) 0
+	);
+	background-size: var(--bg-size) var(--bg-size);
+	background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
+	background-attachment: fixed;
+	min-height: 100dvh;
 }
 
 .container {
-  background-color: var(--color-border);
-  width: 100%;
-  margin-inline: auto;
-  box-shadow: 0 1px 0 0 var(--color-border);
+	background-color: var(--color-border);
+	width: 100%;
+	margin-inline: auto;
+	box-shadow: 0 1px 0 0 var(--color-border);
 
-  @media (width >= 560px) {
-    width: var(--size-container-max);
-    border-inline: 1px solid var(--color-border);
-  }
+	@media (width >= 560px) {
+		width: var(--size-container-max);
+		border-inline: 1px solid var(--color-border);
+	}
 
-  @media (width >= 800px) {
-    display: grid;
-    gap: 1px;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-  }
+	@media (width >= 800px) {
+		display: grid;
+		gap: 1px;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+	}
 }
 
 .header {
-  background-color: var(--color-bg-content);
-  padding: 1lh;
-  box-shadow: inset 0 -1px 0 0 var(--color-border);
-  display: flex;
-  justify-content: space-between;
-  position: sticky;
-  top: 0px;
+	background-color: var(--color-bg-content);
+	padding: 1lh;
+	box-shadow: inset 0 -1px 0 0 var(--color-border);
+	display: flex;
+	justify-content: space-between;
+	position: sticky;
+	top: 0px;
 
-  @media (width >= 800px) {
-    display: none;
-  }
+	@media (width >= 800px) {
+		display: none;
+	}
 }
 
 .main {
-  background-color: var(--color-bg-content);
+	background-color: var(--color-bg-content);
 }
 
 .aside {
-  display: none;
-  background-color: var(--color-bg-content);
-  position: sticky;
-  top: 0px;
+	display: none;
+	background-color: var(--color-bg-content);
+	position: sticky;
+	top: 0px;
 
-  height: 100dvh;
-  overflow-y: scroll;
-  scrollbar-width: none;
+	height: 100dvh;
+	overflow-y: scroll;
+	scrollbar-width: none;
 }
 
 .aside {
-  @media (width >= 800px) {
-    display: block;
-    /* this one is to prevent scroll bounce that reveals background color */
-    /* that looks shit so this one prevents it */
-    overscroll-behavior: none;
-  }
+	@media (width >= 800px) {
+		display: block;
+		/* this one is to prevent scroll bounce that reveals background color */
+		/* that looks shit so this one prevents it */
+		overscroll-behavior: none;
+	}
 }

@@ -1,19 +1,19 @@
 .section {
-  padding: 1lh;
-  box-shadow: 0 0 0 1px var(--color-border);
-  background-color: var(--color-bg-content);
-  display: flex;
-  flex-direction: column;
-  gap: 1lh;
+	padding: 1lh;
+	box-shadow: 0 0 0 1px var(--color-border);
+	background-color: var(--color-bg-content);
+	display: flex;
+	flex-direction: column;
+	gap: 1lh;
 }
 
 .search {
-  @media (height >= 900px) {
-    position: sticky;
-    top: 3lh;
-  }
-  @media (height >= 700px) and (width >= 800px) {
-    position: sticky;
-    top: 0px;
-  }
+	@media (height >= 900px) {
+		position: sticky;
+		top: 3lh;
+	}
+	@media (height >= 700px) and (width >= 800px) {
+		position: sticky;
+		top: 0px;
+	}
 }
