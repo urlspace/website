@@ -2,22 +2,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styles from "./DashboardLink.module.css";
 
 function highlight(text: string, query: string): React.ReactNode {
-	const needle = query.trim().toLowerCase();
+	const needle = query.trim();
 	if (!needle) return text;
-	const hay = text.toLowerCase();
-	const out: React.ReactNode[] = [];
-	let i = 0;
-	while (i < text.length) {
-		const j = hay.indexOf(needle, i);
-		if (j === -1) {
-			out.push(text.slice(i));
-			break;
-		}
-		if (j > i) out.push(text.slice(i, j));
-		out.push(<mark key={j}>{text.slice(j, j + needle.length)}</mark>);
-		i = j + needle.length;
-	}
-	return out;
+	// Escape regex metacharacters so a search like "C++" doesn't blow up.
+	const escaped = needle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+	// Capturing group: split returns [before, match, between, match, ..., after].
+	// Even indices are non-matches, odd indices are the matches.
+	const parts = text.split(new RegExp(`(${escaped})`, "gi"));
+	return parts.map((part, i) =>
+		// biome-ignore lint/suspicious/noArrayIndexKey: index is the meaningful identifier here (even=text, odd=match)
+		i % 2 === 1 ? <mark key={i}>{part}</mark> : part,
+	);
 }
 
 type LinkRow = {
