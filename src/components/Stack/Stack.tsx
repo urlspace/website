@@ -5,11 +5,13 @@ function Stack({
 	gap = 1,
 	direction = "column",
 	spaceBetween,
+	alignCenter,
 }: {
 	children: React.ReactNode;
 	gap?: number;
 	direction?: "column" | "row";
 	spaceBetween?: boolean;
+	alignCenter?: boolean;
 }) {
 	return (
 		<div
@@ -17,6 +19,7 @@ function Stack({
 				styles.stack,
 				direction === "row" && styles.row,
 				spaceBetween && styles.spaceBetween,
+				alignCenter && styles.alignCenter,
 			]
 				.filter(Boolean)
 				.join(" ")}

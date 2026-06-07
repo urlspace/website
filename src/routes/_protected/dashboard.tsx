@@ -13,6 +13,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { useState } from "react";
 import {
+	Button,
 	Dashboard,
 	DashboardButton,
 	DashboardEmpty,
@@ -131,6 +132,7 @@ function PageDashboard() {
 	);
 	const links = linksResponse?.data ?? [];
 	const totalCount = linksResponse?.pagination.totalCount ?? 0;
+	const totalPages = linksResponse?.pagination.totalPages ?? 1;
 
 	const [isNavOpen, setIsNavOpen] = useState(false);
 
@@ -290,6 +292,36 @@ function PageDashboard() {
 				) : (
 					<DashboardEmpty />
 				)}
+
+				{totalPages > 1 ? (
+					<DashboardSection>
+						<nav aria-label="Pagination">
+							<Stack direction="row" spaceBetween alignCenter>
+								{page > 1 ? (
+									<Button
+										text="Previous"
+										onClick={() => {
+											setPage(page - 1);
+											window.scrollTo({ top: 0, behavior: "instant" });
+										}}
+									/>
+								) : null}
+								<span>
+									Page {page}/{totalPages}
+								</span>
+								{page < totalPages ? (
+									<Button
+										text="Next"
+										onClick={() => {
+											setPage(page + 1);
+											window.scrollTo({ top: 0, behavior: "instant" });
+										}}
+									/>
+								) : null}
+							</Stack>
+						</nav>
+					</DashboardSection>
+				) : null}
 			</Dashboard.Main>
 
 			<Drawer open={isNavOpen} onClose={() => setIsNavOpen(false)} title="Menu">
