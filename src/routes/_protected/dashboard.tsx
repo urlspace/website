@@ -191,20 +191,24 @@ function PageDashboard() {
 					setFavourite={(v) => {
 						setFavourite(v);
 						setPage(1);
+						window.scrollTo({ top: 0, behavior: "instant" });
 					}}
 					setForLater={(v) => {
 						setForLater(v);
 						setPage(1);
+						window.scrollTo({ top: 0, behavior: "instant" });
 					}}
 					setIsAddCollectionkOpen={setIsAddCollectionOpen}
 					setIsAddLinkOpen={setIsAddLinkOpen}
 					setSelectedCollection={(v) => {
 						setSelectedCollection(v);
 						setPage(1);
+						window.scrollTo({ top: 0, behavior: "instant" });
 					}}
 					setSelectedTags={(v) => {
 						setSelectedTags(v);
 						setPage(1);
+						window.scrollTo({ top: 0, behavior: "instant" });
 					}}
 					showLogo={true}
 					tags={tags}
