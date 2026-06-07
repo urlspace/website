@@ -58,7 +58,7 @@ function DashboardNav({
 	tags: TagRow[];
 }) {
 	return (
-		<>
+		<nav>
 			<DashboardSection>
 				{showLogo ? <DashboardLogo /> : null}
 				<DashboardList>
@@ -211,7 +211,7 @@ function DashboardNav({
 					// <p>Member since: {user.createdAt.slice(0, 10)}</p>
 				}
 			</DashboardSection>
-		</>
+		</nav>
 	);
 }
 
