@@ -104,6 +104,25 @@ function SearchInput({
 		}
 	}, [value]);
 
+	useEffect(() => {
+		function handleGlobalKey(e: KeyboardEvent) {
+			if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey) return;
+			const target = e.target as HTMLElement | null;
+			if (!target) return;
+			if (
+				target.tagName === "INPUT" ||
+				target.tagName === "TEXTAREA" ||
+				target.tagName === "SELECT" ||
+				target.isContentEditable
+			)
+				return;
+			e.preventDefault();
+			document.getElementById(inputId)?.focus();
+		}
+		window.addEventListener("keydown", handleGlobalKey);
+		return () => window.removeEventListener("keydown", handleGlobalKey);
+	}, [inputId]);
+
 	const parsed = parseInput(rawInput);
 	const queryLower = parsed.query.toLowerCase();
 	const isOpen = parsed.mode !== null && !escapeClosed;
@@ -226,6 +245,9 @@ function SearchInput({
 			<label className={styles.label} htmlFor={inputId}>
 				{label}
 			</label>
+			<span className={styles.badge}>
+				Type <kbd className={styles.kbd}>/</kbd> to search
+			</span>
 
 			<div className={styles.comboboxWrapper}>
 				<div className={styles.comboboxInputGroup}>
