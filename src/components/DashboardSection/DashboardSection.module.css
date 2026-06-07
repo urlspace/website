@@ -8,6 +8,8 @@
 }
 
 .search {
+	z-index: 1;
+
 	@media (height >= 900px) {
 		position: sticky;
 		top: 3lh;
