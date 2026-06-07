@@ -186,6 +186,13 @@ function DashboardNav({
 					</DashboardList.Li>
 					<DashboardList.Li>
 						<DashboardButton
+							icon={<Icon.Reload />}
+							onClick={() => alert("Reload")}
+							text="Clear cache and reload"
+						/>
+					</DashboardList.Li>
+					<DashboardList.Li>
+						<DashboardButton
 							icon={<Icon.SignOut />}
 							onClick={handleSignOut}
 							text="Sign out"

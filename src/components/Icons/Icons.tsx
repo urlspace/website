@@ -145,16 +145,6 @@ function IconsReload() {
 	);
 }
 
-function IconsInfo() {
-	return (
-		<IconBase>
-			<circle cx="12" cy="12" r="10" />
-			<path d="M12 16v-4" />
-			<path d="M12 8h.01" />
-		</IconBase>
-	);
-}
-
 function IconsErease() {
 	return (
 		<IconBase>
@@ -178,7 +168,6 @@ Icon.SignOut = IconsSignOut;
 Icon.User = IconsUser;
 Icon.Settings = IconsSettings;
 Icon.Reload = IconsReload;
-Icon.Info = IconsInfo;
 Icon.Erease = IconsErease;
 
 export default Icon;
