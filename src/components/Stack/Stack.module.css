@@ -7,3 +7,7 @@
 .row {
 	flex-direction: row;
 }
+
+.spaceBetween {
+	justify-content: space-between;
+}

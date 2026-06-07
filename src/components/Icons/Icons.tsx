@@ -136,6 +136,34 @@ function IconsSettings() {
 	);
 }
 
+function IconsReload() {
+	return (
+		<IconBase>
+			<path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+			<path d="M21 3v5h-5" />
+		</IconBase>
+	);
+}
+
+function IconsInfo() {
+	return (
+		<IconBase>
+			<circle cx="12" cy="12" r="10" />
+			<path d="M12 16v-4" />
+			<path d="M12 8h.01" />
+		</IconBase>
+	);
+}
+
+function IconsErease() {
+	return (
+		<IconBase>
+			<path d="M21 21H8a2 2 0 0 1-1.42-.587l-3.994-3.999a2 2 0 0 1 0-2.828l10-10a2 2 0 0 1 2.829 0l5.999 6a2 2 0 0 1 0 2.828L12.834 21" />
+			<path d="m5.082 11.09 8.828 8.828" />
+		</IconBase>
+	);
+}
+
 Icon.Filter = IconsFilter;
 Icon.Plus = IconsPlus;
 Icon.Edit = IconsEdit;
@@ -149,5 +177,8 @@ Icon.Close = IconsClose;
 Icon.SignOut = IconsSignOut;
 Icon.User = IconsUser;
 Icon.Settings = IconsSettings;
+Icon.Reload = IconsReload;
+Icon.Info = IconsInfo;
+Icon.Erease = IconsErease;
 
 export default Icon;

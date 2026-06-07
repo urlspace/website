@@ -166,23 +166,6 @@ function SearchInput({
 		onSelectedCollectionChange(null);
 	}
 
-	function clearAll() {
-		setRawInput("");
-		setEscapeClosed(false);
-		if (value !== "") onValueChange("");
-		if (selectedTags.length > 0) onSelectedTagsChange([]);
-		if (selectedCollection !== null) onSelectedCollectionChange(null);
-		if (favourite) onFavouriteChange(false);
-		if (forLater) onForLaterChange(false);
-	}
-
-	const hasAnything =
-		rawInput.length > 0 ||
-		selectedTags.length > 0 ||
-		selectedCollection !== null ||
-		favourite ||
-		forLater;
-
 	const { getInputProps, getMenuProps, getItemProps, highlightedIndex } =
 		useCombobox<Item>({
 			items,
@@ -307,16 +290,6 @@ function SearchInput({
 							})}
 						/>
 					</div>
-					{hasAnything ? (
-						<button
-							type="button"
-							aria-label="Clear search"
-							className={styles.comboboxButton}
-							onClick={clearAll}
-						>
-							<Icon.Close />
-						</button>
-					) : null}
 				</div>
 
 				<ul

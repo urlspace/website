@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
 	Dashboard,
 	DashboardButton,
@@ -153,6 +153,8 @@ function PageDashboard() {
 		}
 	}
 
+	const popoverRef = useRef<HTMLDivElement>(null);
+
 	return (
 		<Dashboard>
 			<Dashboard.Header>
@@ -235,20 +237,45 @@ function PageDashboard() {
 							setPage(1);
 						}}
 					/>
-				</DashboardSection>
-				<DashboardSection>
-					<Stack direction="row">
+
+					<Stack direction="row" spaceBetween>
 						<p>Results: {totalCount}</p>
-						<DashboardButton
-							icon={<Icon.SignOut />}
-							onClick={() => alert("Clear filters")}
-							text="Clear filters"
-						/>
-						<DashboardButton
-							icon={<Icon.SignOut />}
-							onClick={() => alert("Reload")}
-							text="Reload"
-						/>
+
+						<Stack direction="row" gap={0.5}>
+							{
+								// <DashboardButton
+								// 	icon={<Icon.Info />}
+								// 	onClick={() => popoverRef.current?.togglePopover()}
+								// 	text="Explain"
+								// />
+								// <p
+								// 	popover="auto"
+								// 	ref={popoverRef}
+								// 	style={{ positionArea: "bottom" }}
+								// >
+								// 	Show all the lints in Watch later collection tagged with tagOne
+								// 	and tagTwo and tagThree
+								// </p>
+							}
+							{value ||
+							favourite ||
+							forLater ||
+							selectedTags.length > 0 ||
+							selectedCollection ? (
+								<DashboardButton
+									icon={<Icon.Erease />}
+									onClick={() => {
+										setValue("");
+										setFavourite(false);
+										setForLater(false);
+										setSelectedTags([]);
+										setSelectedCollection(null);
+										setPage(1);
+									}}
+									text="Clear filters"
+								/>
+							) : null}
+						</Stack>
 					</Stack>
 				</DashboardSection>
 
