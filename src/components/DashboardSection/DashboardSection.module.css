@@ -1,6 +1,6 @@
 .section {
 	padding: 1lh;
-	box-shadow: 0 0 0 1px var(--color-border);
+	box-shadow: 0 0 0 1px var(--color-fg);
 	background-color: var(--color-bg-content);
 	display: flex;
 	flex-direction: column;

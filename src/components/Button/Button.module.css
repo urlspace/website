@@ -7,7 +7,6 @@
 	font: inherit;
 	border: none;
 	display: inline-block;
-	border-radius: var(--radius);
 
 	&:hover {
 		color: var(--color-bg);

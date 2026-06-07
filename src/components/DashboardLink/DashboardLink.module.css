@@ -4,7 +4,7 @@
 	gap: 0.75lh;
 	padding: 1lh;
 	background-color: var(--color-bg-content);
-	box-shadow: 0 0 0 1px var(--color-border);
+	box-shadow: 0 0 0 1px var(--color-fg);
 	min-width: 1px;
 	transition: opacity var(--transition-duration) ease;
 }
