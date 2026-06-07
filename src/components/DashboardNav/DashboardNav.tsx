@@ -190,7 +190,7 @@ function DashboardNav({
 						<DashboardButton
 							icon={<Icon.Reload />}
 							onClick={handleClearCache}
-							text="Reload"
+							text="Purge cache"
 						/>
 					</DashboardList.Li>
 					<DashboardList.Li>
