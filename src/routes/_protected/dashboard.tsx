@@ -11,7 +11,7 @@ import {
 } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
 	Button,
 	Dashboard,
@@ -135,6 +135,29 @@ function PageDashboard() {
 	const totalPages = linksResponse?.pagination.totalPages ?? 1;
 
 	const [isNavOpen, setIsNavOpen] = useState(false);
+
+	// Mobile-only: snapshot active filters when the nav drawer opens, compare
+	// on close, and scroll to top if anything changed so the user lands on the
+	// start of the re-filtered list. On desktop the nav lives in the always-open
+	// sidebar, so isNavOpen never flips and this effect never fires.
+	const filtersAtOpenRef = useRef<string | null>(null);
+	// biome-ignore lint/correctness/useExhaustiveDependencies: only react to drawer open/close
+	useEffect(() => {
+		const key = JSON.stringify({
+			favourite,
+			forLater,
+			selectedCollection,
+			selectedTags: [...selectedTags].sort(),
+		});
+		if (isNavOpen) {
+			filtersAtOpenRef.current = key;
+		} else if (filtersAtOpenRef.current !== null) {
+			if (filtersAtOpenRef.current !== key) {
+				window.scrollTo({ top: 0, behavior: "instant" });
+			}
+			filtersAtOpenRef.current = null;
+		}
+	}, [isNavOpen]);
 
 	const [isAddLinkOpen, setIsAddLinkOpen] = useState(false);
 	const [isAddCollectionOpen, setIsAddCollectionOpen] = useState(false);
