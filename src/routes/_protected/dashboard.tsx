@@ -1,6 +1,7 @@
 import {
 	queryOptions,
 	useQuery,
+	useQueryClient,
 	useSuspenseQuery,
 } from "@tanstack/react-query";
 import {
@@ -106,14 +107,15 @@ function PageDashboard() {
 	);
 	const [page, setPage] = useState(1);
 	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	const debouncedQuery = useDebouncedValue(value, 200, () => setPage(1));
 
-	// function refreshDashboard() {
-	//   queryClient.invalidateQueries({ queryKey: ["links"] });
-	//   queryClient.invalidateQueries({ queryKey: ["collections"] });
-	//   queryClient.invalidateQueries({ queryKey: ["tags"] });
-	// }
+	function handleClearCache() {
+		queryClient.invalidateQueries({ queryKey: ["links"] });
+		queryClient.invalidateQueries({ queryKey: ["collections"] });
+		queryClient.invalidateQueries({ queryKey: ["tags"] });
+	}
 
 	const filters: LinkFilters = {
 		page,
@@ -180,6 +182,7 @@ function PageDashboard() {
 					collections={collections}
 					favourite={favourite}
 					forLater={forLater}
+					handleClearCache={handleClearCache}
 					handleSignOut={handleSignOut}
 					selectedCollection={selectedCollection}
 					selectedTags={selectedTags}
@@ -294,6 +297,7 @@ function PageDashboard() {
 					collections={collections}
 					favourite={favourite}
 					forLater={forLater}
+					handleClearCache={handleClearCache}
 					handleSignOut={handleSignOut}
 					selectedCollection={selectedCollection}
 					selectedTags={selectedTags}

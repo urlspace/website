@@ -28,6 +28,7 @@ function DashboardNav({
 	collections,
 	favourite,
 	forLater,
+	handleClearCache,
 	handleSignOut,
 	selectedCollection,
 	selectedTags,
@@ -43,6 +44,7 @@ function DashboardNav({
 	collections: CollectionRow[];
 	favourite: boolean;
 	forLater: boolean;
+	handleClearCache: () => void;
 	handleSignOut: () => void;
 	selectedCollection: string | null;
 	selectedTags: string[];
@@ -187,8 +189,8 @@ function DashboardNav({
 					<DashboardList.Li>
 						<DashboardButton
 							icon={<Icon.Reload />}
-							onClick={() => alert("Reload")}
-							text="Clear cache and reload"
+							onClick={handleClearCache}
+							text="Reload"
 						/>
 					</DashboardList.Li>
 					<DashboardList.Li>
