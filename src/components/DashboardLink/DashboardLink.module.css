@@ -3,8 +3,8 @@
 	flex-direction: column;
 	gap: 0.75lh;
 	padding: 1lh;
-	background-color: var(--color-bg-content);
-	box-shadow: 0 0 0 1px var(--color-fg);
+	background-color: var(--color-bg);
+	box-shadow: 0 0 0 1px var(--color-border);
 	min-width: 1px;
 	transition: opacity var(--transition-duration) ease;
 }
@@ -26,8 +26,9 @@
 	text-wrap-style: pretty;
 
 	mark {
-		background-color: color-mix(in srgb, var(--color-link) 20%, transparent);
-		color: inherit;
+		/* background-color: color-mix(in srgb, var(--color-link) 30%, transparent); */
+		background-color: var(--color-link);
+		color: var(--color-bg);
 	}
 }
 

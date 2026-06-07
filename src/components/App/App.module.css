@@ -9,9 +9,16 @@
 }
 
 .main {
-	--bg-color: transparent;
+	--bg-color-light: color-mix(in oklab, var(--color-bg) 98%, var(--color-fg));
+	--bg-color-dark: color-mix(in oklab, var(--color-bg) 99%, var(--color-fg));
+	--bg-color: light-dark(var(--bg-color-light), var(--bg-color-dark));
+
 	--bg-s-size: 2px;
-	--bg-s-color: var(--color-border);
+
+	--bg-s-color-light: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
+	--bg-s-color-dark: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
+	--bg-s-color: light-dark(var(--bg-s-color-light), var(--bg-s-color-dark));
+
 	--bg-size: 0.5rlh;
 
 	background-color: var(--bg-color);

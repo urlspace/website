@@ -1,7 +1,9 @@
 .heading {
 	--bg-color: transparent;
 	--bg-s-size: 2px;
-	--bg-s-color: var(--color-border-contrast);
+	--bg-s-color-light: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
+	--bg-s-color-dark: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
+	--bg-s-color: light-dark(var(--bg-s-color-light), var(--bg-s-color-dark));
 	--bg-size: 0.5lh;
 
 	background-color: var(--bg-color);
@@ -16,9 +18,9 @@
 }
 
 .inner {
-	background-color: var(--color-bg-content);
+	background-color: var(--color-bg);
 	display: inline;
-	box-shadow: 1rlh 0 0 0 var(--color-bg-content);
+	box-shadow: 1rlh 0 0 0 var(--color-bg);
 }
 
 .h1,

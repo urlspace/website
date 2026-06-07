@@ -1,6 +1,6 @@
 .footer {
 	padding: 2lh 1lh;
-	background-color: var(--color-bg-content);
+	background-color: var(--color-bg);
 	box-shadow: 0 -1px 0 0 var(--color-border);
 	width: 100%;
 	text-align: center;
