@@ -363,7 +363,7 @@
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 0.25lh;
-	padding: calc(0.5lh - 2px);
+	padding: 0.5lh;
 	flex: 1;
 	min-width: 0;
 }
