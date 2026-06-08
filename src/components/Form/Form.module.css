@@ -68,13 +68,14 @@
 }
 
 .input {
-	--outline-color: transparent;
+	--outline-color: var(--color-border);
+
 	font: inherit;
-	padding: calc(0.5lh - 2px);
-	border: 2px solid var(--color-border);
-	background-color: var(--color-bg);
+	padding: 0.5lh;
+	border: none;
 	outline: 2px solid var(--outline-color);
-	outline-offset: -1px;
+	outline-offset: -2px;
+	background-color: var(--color-bg);
 	transition: outline-color var(--transition-duration);
 
 	@media (prefers-reduced-motion: reduce) {
@@ -82,11 +83,10 @@
 	}
 
 	&:focus {
-		--outline-color: var(--color-link);
+		--outline-color: var(--color-fg);
 	}
 
 	&:disabled {
-		--outline-color: transparent;
 		opacity: 0.75;
 		cursor: not-allowed;
 	}
@@ -96,30 +96,13 @@
 	}
 }
 
-.inputSelect {
-	appearance: none;
-	-webkit-appearance: none;
-	color: var(--color-fg);
-
-	background-image: light-dark(
-		url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6 L8 10 L12 6'/%3E%3C/svg%3E"),
-		url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6 L8 10 L12 6'/%3E%3C/svg%3E")
-	);
-	background-repeat: no-repeat;
-	background-position: right 0.5lh center;
-	background-size: 1rem;
-	padding-inline-end: 1.5lh;
-
-	&:has(option[value=""]:checked) {
-		color: color-mix(in srgb, var(--color-fg) 50%, transparent);
-	}
-}
-
 .description {
 	font-size: 0.875rem;
 	opacity: 0.75;
 }
 
+/* this one is used to put checkboxes next to each other */
+/* not one under the other */
 .row {
 	display: flex;
 	flex-direction: row;
@@ -150,6 +133,10 @@
 		background-size: 0.5rem 0.5rem;
 		background-position: center center;
 		background-repeat: no-repeat;
+	}
+
+	&:focus {
+		outline: 2px solid var(--color-fg);
 	}
 
 	&:disabled {
@@ -201,14 +188,14 @@
 }
 
 .comboboxInputGroup {
-	--outline-color: transparent;
+	--outline-color: var(--color-border);
 
 	display: flex;
 	align-items: center;
-	border: 2px solid var(--color-border);
-	background-color: var(--color-bg);
 	outline: 2px solid var(--outline-color);
-	outline-offset: -1px;
+	outline-offset: -2px;
+	background-color: var(--color-bg);
+	border: none;
 	transition: outline-color var(--transition-duration);
 
 	@media (prefers-reduced-motion: reduce) {
@@ -216,11 +203,10 @@
 	}
 
 	&:focus-within {
-		--outline-color: var(--color-link);
+		--outline-color: var(--color-fg);
 	}
 
 	&:has(:disabled) {
-		--outline-color: transparent;
 		opacity: 0.75;
 		cursor: not-allowed;
 	}
@@ -233,7 +219,7 @@
 	border: none;
 	outline: none;
 	background: transparent;
-	padding: calc(0.5lh - 2px);
+	padding: 0.5lh;
 
 	&::placeholder {
 		color: color-mix(in srgb, var(--color-fg) 50%, transparent);
@@ -241,24 +227,25 @@
 }
 
 .comboboxButton {
-	--outline-color: transparent;
+	--bgc: transparent;
+	--c: var(--color-fg);
 
-	width: calc(1.5lh);
-	height: calc(1.5lh);
+	width: calc(2lh);
+	height: calc(2lh);
 	font: inherit;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: none;
+	background-color: var(--bgc);
 	border: none;
 	cursor: pointer;
-	color: inherit;
-	outline: 2px solid var(--outline-color);
-	margin: calc(0.25lh - 2px);
+	color: var(--c);
+	outline: none;
 	transition: outline-color var(--transition-duration);
 
 	&:focus {
-		--outline-color: var(--color-link);
+		--bgc: var(--color-fg);
+		--c: var(--color-bg);
 	}
 }
 
@@ -272,7 +259,8 @@
 	margin: 0;
 	padding: 0;
 	background-color: var(--color-bg);
-	box-shadow: inset 0 0 0 2px var(--color-border);
+	outline: 2px solid var(--color-fg);
+	outline-offset: -2px;
 	max-height: calc(1.5lh * 3.5);
 	overflow-y: scroll;
 	scrollbar-width: none;
@@ -291,7 +279,7 @@
 	white-space: nowrap;
 
 	&[data-highlighted] {
-		background-color: var(--color-link);
+		background-color: var(--color-fg);
 		color: var(--color-bg);
 	}
 }
@@ -302,17 +290,17 @@
 }
 
 .tagsInputGroup {
-	--outline-color: transparent;
+	--outline-color: var(--color-border);
 
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 0.25lh;
-	padding: calc(0.5lh - 2px);
-	border: 2px solid var(--color-border);
+	padding: 0.5lh;
+	border: none;
 	background-color: var(--color-bg);
 	outline: 2px solid var(--outline-color);
-	outline-offset: -1px;
+	outline-offset: -2px;
 	transition: outline-color var(--transition-duration);
 
 	@media (prefers-reduced-motion: reduce) {
@@ -320,7 +308,7 @@
 	}
 
 	&:focus-within {
-		--outline-color: var(--color-link);
+		--outline-color: var(--color-fg);
 	}
 
 	&:has(:disabled) {

@@ -120,76 +120,6 @@ function Input({
 	);
 }
 
-function Select({
-	description,
-	disabled,
-	label,
-	name,
-	onChange,
-	required,
-	value,
-	options,
-	placeholder,
-}: {
-	description?: ReactNode;
-	disabled?: boolean;
-	label: string;
-	name: string;
-	onChange: (value: string) => void;
-	required?: boolean;
-	value: string;
-	options: { name: string; value: string }[];
-	placeholder: string;
-}) {
-	const { inputId, descriptionId, ariaDescribedBy, loading } = useFieldIds(
-		name,
-		!!description,
-	);
-	return (
-		<div className={styles.field}>
-			<label
-				className={[styles.label, disabled && styles.labelDisabled]
-					.filter(Boolean)
-					.join(" ")}
-				htmlFor={inputId}
-			>
-				{label}
-				{required ? <span aria-hidden="true"> (required)</span> : null}
-			</label>
-
-			<select
-				aria-describedby={ariaDescribedBy}
-				className={[styles.input, styles.inputSelect].join(" ")}
-				name={name}
-				id={inputId}
-				disabled={disabled || loading}
-				onChange={(e) => onChange(e.target.value)}
-				value={value}
-				required={required}
-			>
-				{required ? (
-					<option value="" disabled hidden>
-						{placeholder}
-					</option>
-				) : (
-					<option value="">{placeholder}</option>
-				)}
-				{options.map((option) => (
-					<option key={option.value} value={option.value}>
-						{option.name}
-					</option>
-				))}
-			</select>
-
-			{description ? (
-				<p id={descriptionId} className={styles.description}>
-					{description}
-				</p>
-			) : null}
-		</div>
-	);
-}
-
 function Checkbox({
 	disabled,
 	label,
@@ -260,7 +190,6 @@ function Row({ children }: { children: React.ReactNode }) {
 }
 
 Form.Input = Input;
-Form.Select = Select;
 Form.Combobox = Combobox;
 Form.TagsInput = TagsInput;
 Form.SearchInput = SearchInput;
