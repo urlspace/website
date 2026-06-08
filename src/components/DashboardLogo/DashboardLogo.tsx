@@ -3,7 +3,7 @@ import styles from "./DashboardLogo.module.css";
 
 function DashbrardLogo() {
 	return (
-		<Link to="/" className={styles.logo}>
+		<Link to="/dashboard" className={styles.logo}>
 			url.space
 		</Link>
 	);
