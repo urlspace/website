@@ -58,6 +58,10 @@
 			}
 		}
 	}
+
+	&:focus-visible {
+		outline: none;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
