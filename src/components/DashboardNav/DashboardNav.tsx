@@ -35,6 +35,7 @@ function DashboardNav({
 	handleClearCache,
 	handleSignOut,
 	onEditCollection,
+	onRenameTag,
 	selectedCollection,
 	selectedTags,
 	setFavourite,
@@ -52,6 +53,7 @@ function DashboardNav({
 	handleClearCache: () => void;
 	handleSignOut: () => void;
 	onEditCollection: (collection: CollectionRow) => void;
+	onRenameTag: (tag: TagRow) => void;
 	selectedCollection: string | null;
 	selectedTags: string[];
 	setFavourite: React.Dispatch<React.SetStateAction<boolean>>;
@@ -196,8 +198,8 @@ function DashboardNav({
 											<DashboardMenu>
 												<DashboardMenu.Li>
 													<DashboardButtonAction
-														text="Edit"
-														onClick={() => alert("Edit a tag")}
+														text="Rename"
+														onClick={() => onRenameTag(t)}
 													/>
 												</DashboardMenu.Li>
 												<DashboardMenu.Li>

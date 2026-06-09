@@ -26,6 +26,7 @@ import {
 	Form,
 	FormCollection,
 	FormLink,
+	FormTag,
 	Icon,
 	Stack,
 } from "#/components/index.ts";
@@ -164,6 +165,7 @@ function PageDashboard() {
 	const [editingLink, setEditingLink] = useState<LinkRow | null>(null);
 	const [editingCollection, setEditingCollection] =
 		useState<CollectionRow | null>(null);
+	const [renamingTag, setRenamingTag] = useState<TagRow | null>(null);
 
 	async function handleSignOut() {
 		const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signout`, {
@@ -212,6 +214,7 @@ function PageDashboard() {
 					handleClearCache={handleClearCache}
 					handleSignOut={handleSignOut}
 					onEditCollection={setEditingCollection}
+					onRenameTag={setRenamingTag}
 					selectedCollection={selectedCollection}
 					selectedTags={selectedTags}
 					setFavourite={(v) => {
@@ -362,6 +365,7 @@ function PageDashboard() {
 					handleClearCache={handleClearCache}
 					handleSignOut={handleSignOut}
 					onEditCollection={setEditingCollection}
+					onRenameTag={setRenamingTag}
 					selectedCollection={selectedCollection}
 					selectedTags={selectedTags}
 					setFavourite={(v) => {
@@ -439,6 +443,21 @@ function PageDashboard() {
 						collections={collections}
 						isPro={user.isPro}
 						onClose={() => setEditingCollection(null)}
+					/>
+				) : null}
+			</Dialog>
+
+			<Dialog
+				open={!!renamingTag}
+				onClose={() => setRenamingTag(null)}
+				title="Rename tag"
+			>
+				{renamingTag ? (
+					<FormTag
+						key={renamingTag.id}
+						tag={renamingTag}
+						tags={tags}
+						onClose={() => setRenamingTag(null)}
 					/>
 				) : null}
 			</Dialog>
