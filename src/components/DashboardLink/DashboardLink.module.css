@@ -1,7 +1,7 @@
 .link {
 	display: flex;
 	flex-direction: column;
-	gap: 0.75lh;
+	gap: 1lh;
 	padding: 1lh;
 	background-color: var(--color-bg);
 	box-shadow: 0 0 0 1px var(--color-border);
@@ -12,12 +12,6 @@
 .linkLoading {
 	opacity: 0.25;
 	pointer-events: none;
-}
-
-.header {
-	display: flex;
-	gap: 0.25lh;
-	flex-direction: column;
 }
 
 .title {
@@ -33,10 +27,10 @@
 }
 
 .linkA {
-	align-self: flex-start;
 	font-size: 0.875rem;
 	text-decoration: none;
 	color: color-mix(in srgb, var(--color-fg) 75%, transparent);
+	vertical-align: bottom;
 }
 
 .meta {
