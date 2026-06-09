@@ -44,6 +44,7 @@ type CollectionRow = {
 	public: boolean;
 	createdAt: string;
 	updatedAt: string;
+	count: number;
 };
 
 type TagRow = {
@@ -51,6 +52,7 @@ type TagRow = {
 	name: string;
 	createdAt: string;
 	updatedAt: string;
+	count: number;
 };
 
 const getCollections = createServerFn().handler(async () => {

@@ -40,3 +40,8 @@
 	/* https://mastodon.social/@pawelgrzybek/116623309838307564 */
 	text-decoration-thickness: inherit;
 }
+
+.counter {
+	color: color-mix(in srgb, var(--color-fg) 50%, transparent);
+	font-weight: 400;
+}

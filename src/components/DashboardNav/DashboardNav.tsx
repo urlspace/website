@@ -20,6 +20,7 @@ type CollectionRow = {
 	public: boolean;
 	createdAt: string;
 	updatedAt: string;
+	count: number;
 };
 
 type TagRow = {
@@ -27,6 +28,7 @@ type TagRow = {
 	name: string;
 	createdAt: string;
 	updatedAt: string;
+	count: number;
 };
 
 function DashboardNav({
@@ -170,6 +172,7 @@ function DashboardNav({
 											}
 											ariaPressed={selectedCollection === c.id}
 											text={c.name}
+											counter={c.count}
 										/>
 									</Truncate>
 									{editModeCollections ? (
@@ -224,7 +227,9 @@ function DashboardNav({
 									<DashboardList.Li
 										key={t.id}
 										highlightOnHover={editModeTags}
-										loading={deleteTag.isPending && deleteTag.variables === t.id}
+										loading={
+											deleteTag.isPending && deleteTag.variables === t.id
+										}
 									>
 										<Truncate>
 											<DashboardButton
@@ -238,6 +243,7 @@ function DashboardNav({
 												}
 												ariaPressed={selectedTags.includes(t.id)}
 												text={t.name}
+												counter={t.count}
 											/>
 										</Truncate>
 
