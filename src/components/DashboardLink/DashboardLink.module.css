@@ -36,17 +36,11 @@
 	align-self: flex-start;
 	font-size: 0.875rem;
 	text-decoration: none;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	min-width: 1px;
-	max-width: 100%;
 	color: color-mix(in srgb, var(--color-fg) 75%, transparent);
 }
 
 .meta {
 	font-size: 0.875rem;
-	color: color-mix(in srgb, var(--color-fg) 75%, transparent);
 }
 
 .metaCollection {
@@ -67,51 +61,5 @@
 	&::after {
 		content: " ";
 		white-space: pre;
-	}
-}
-
-.metaBtn {
-	color: inherit;
-	font: inherit;
-	background-color: transparent;
-	border: none;
-	text-decoration-thickness: 2px;
-	text-underline-offset: 4px;
-
-	&:hover {
-		@media (hover: hover) and (pointer: fine) {
-			color: var(--color-link);
-			text-decoration-line: underline;
-		}
-	}
-
-	&[aria-pressed="true"] {
-		text-decoration-line: underline;
-		font-weight: 500;
-	}
-
-	&.metaBtnDelete:hover {
-		color: oklch(57.7% 0.245 27.325);
-	}
-}
-
-.metaBtnTag {
-	&::before {
-		content: "#";
-	}
-}
-
-.menu {
-	list-style: none;
-	display: flex;
-	flex-wrap: wrap;
-
-	li::after {
-		content: "·";
-		margin-inline: 0.25rem;
-	}
-
-	li:last-child::after {
-		display: none;
 	}
 }

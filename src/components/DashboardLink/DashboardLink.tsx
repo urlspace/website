@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styles from "./DashboardLink.module.css";
+import Truncate from "../Truncate/Truncate";
+import { DashboardMenu, DashboardButtonAction } from "..";
 
 function highlight(text: string, query: string): React.ReactNode {
 	const needle = query.trim();
@@ -113,14 +115,16 @@ function DashbrardLink({
 				>
 					{highlight(link.title, query)}
 				</a>
-				<a
-					href={link.url}
-					className={styles.linkA}
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					{link.url}
-				</a>
+				<Truncate>
+					<a
+						href={link.url}
+						className={styles.linkA}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{link.url}
+					</a>
+				</Truncate>
 			</div>
 
 			{link.description.length > 0 ? <p>{link.description}</p> : null}
@@ -131,13 +135,10 @@ function DashbrardLink({
 					{collection ? (
 						<span className={styles.metaCollection}>
 							Collection:{" "}
-							<button
-								type="button"
-								className={styles.metaBtn}
+							<DashboardButtonAction
 								onClick={() => onCollectionClick(collection.id)}
-							>
-								{collection.name}
-							</button>
+								text={collection.name}
+							/>
 						</span>
 					) : null}
 				</div>
@@ -148,58 +149,42 @@ function DashbrardLink({
 						<ul className={styles.tags}>
 							{link.tags.map((tag) => (
 								<li key={tag.id} className={styles.tag}>
-									<button
-										type="button"
-										className={[styles.metaBtn, styles.metaBtnTag].join(" ")}
+									<DashboardButtonAction
 										onClick={() => onTagClick(tag.id)}
-									>
-										{tag.name}
-									</button>
+										text={`#${tag.name}`}
+									/>
 								</li>
 							))}
 						</ul>
 					</div>
 				) : null}
-				<menu className={styles.menu}>
-					<li>
-						<button
-							type="button"
-							className={styles.metaBtn}
-							aria-pressed={link.favourite}
+
+				<DashboardMenu>
+					<DashboardMenu.Li>
+						<DashboardButtonAction
+							ariaPressed={link.favourite}
 							onClick={() => updateLink.mutate({ favourite: !link.favourite })}
-						>
-							Favourite
-						</button>
-					</li>
-					<li>
-						<button
-							type="button"
-							className={styles.metaBtn}
-							aria-pressed={link.forLater}
+							text="Favourite"
+						/>
+					</DashboardMenu.Li>
+					<DashboardMenu.Li>
+						<DashboardButtonAction
+							ariaPressed={link.forLater}
 							onClick={() => updateLink.mutate({ forLater: !link.forLater })}
-						>
-							For later
-						</button>
-					</li>
-					<li>
-						<button
-							type="button"
-							className={styles.metaBtn}
-							onClick={() => onEdit(link)}
-						>
-							Edit
-						</button>
-					</li>
-					<li>
-						<button
-							type="button"
-							className={[styles.metaBtn, styles.metaBtnDelete].join(" ")}
+							text="For later"
+						/>
+					</DashboardMenu.Li>
+					<DashboardMenu.Li>
+						<DashboardButtonAction text="Edit" onClick={() => onEdit(link)} />
+					</DashboardMenu.Li>
+					<DashboardMenu.Li>
+						<DashboardButtonAction
+							text="Delete"
 							onClick={() => deleteLink.mutate()}
-						>
-							Delete
-						</button>
-					</li>
-				</menu>
+							destructive
+						/>
+					</DashboardMenu.Li>
+				</DashboardMenu>
 			</div>
 		</article>
 	);

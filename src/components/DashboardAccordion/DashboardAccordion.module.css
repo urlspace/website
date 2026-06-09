@@ -5,7 +5,7 @@
 		block-size: 0;
 		padding-block-start: 0;
 		opacity: 0;
-		overflow: hidden;
+		overflow-y: clip;
 		transition:
 			block-size var(--transition-duration) cubic-bezier(0.78, 0, 0.22, 1),
 			padding-block-start var(--transition-duration)

@@ -1,0 +1,17 @@
+.list {
+	list-style: none;
+	display: flex;
+	flex-shrink: 0;
+	font-size: 0.875rem;
+}
+
+.item {
+	&::after {
+		content: "·";
+		margin-inline: 0.25rem;
+	}
+
+	&:last-child::after {
+		display: none;
+	}
+}

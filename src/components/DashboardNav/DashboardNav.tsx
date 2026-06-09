@@ -1,11 +1,15 @@
-import Icon from "../Icons/Icons";
+import { useState } from "react";
 import {
 	DashboardAccordion,
 	DashboardButton,
+	DashboardButtonAction,
 	DashboardList,
 	DashboardLogo,
+	DashboardMenu,
 	DashboardSection,
+	Truncate,
 } from "..";
+import Icon from "../Icons/Icons";
 import Stack from "../Stack/Stack";
 
 type CollectionRow = {
@@ -57,6 +61,9 @@ function DashboardNav({
 	showLogo: boolean;
 	tags: TagRow[];
 }) {
+	const [editModeCollections, setEditModeCollections] = useState(false);
+	const [editModeTags, setEditModeTags] = useState(false);
+
 	return (
 		<nav>
 			<DashboardSection>
@@ -103,17 +110,39 @@ function DashboardNav({
 					<Stack>
 						<DashboardList>
 							{collections.map((c) => (
-								<DashboardList.Li key={c.id}>
-									<DashboardButton
-										icon={<Icon.Folder />}
-										onClick={() =>
-											setSelectedCollection((prev) =>
-												prev === c.id ? null : c.id,
-											)
-										}
-										ariaPressed={selectedCollection === c.id}
-										text={c.name}
-									/>
+								<DashboardList.Li
+									key={c.id}
+									highlightOnHover={editModeCollections}
+								>
+									<Truncate>
+										<DashboardButton
+											icon={<Icon.Folder />}
+											onClick={() =>
+												setSelectedCollection((prev) =>
+													prev === c.id ? null : c.id,
+												)
+											}
+											ariaPressed={selectedCollection === c.id}
+											text={c.name}
+										/>
+									</Truncate>
+									{editModeCollections ? (
+										<DashboardMenu>
+											<DashboardMenu.Li>
+												<DashboardButtonAction
+													text="Edit"
+													onClick={() => alert("Edit collection")}
+												/>
+											</DashboardMenu.Li>
+											<DashboardMenu.Li>
+												<DashboardButtonAction
+													text="Delete"
+													onClick={() => alert("Delete collection")}
+													destructive
+												/>
+											</DashboardMenu.Li>
+										</DashboardMenu>
+									) : null}
 								</DashboardList.Li>
 							))}
 						</DashboardList>
@@ -127,8 +156,12 @@ function DashboardNav({
 							{collections.length ? (
 								<DashboardButton
 									icon={<Icon.Edit />}
-									onClick={() => alert("Show filters")}
-									text="Edit collections"
+									onClick={() => setEditModeCollections((prev) => !prev)}
+									text={
+										editModeCollections
+											? "Disable edit mode"
+											: "Edit collections"
+									}
 								/>
 							) : null}
 						</div>
@@ -141,19 +174,39 @@ function DashboardNav({
 						<Stack>
 							<DashboardList>
 								{tags.map((t) => (
-									<DashboardList.Li key={t.id}>
-										<DashboardButton
-											icon={<Icon.Tag />}
-											onClick={() =>
-												setSelectedTags((prev) =>
-													prev.includes(t.id)
-														? prev.filter((id) => id !== t.id)
-														: [...prev, t.id],
-												)
-											}
-											ariaPressed={selectedTags.includes(t.id)}
-											text={t.name}
-										/>
+									<DashboardList.Li key={t.id} highlightOnHover={editModeTags}>
+										<Truncate>
+											<DashboardButton
+												icon={<Icon.Tag />}
+												onClick={() =>
+													setSelectedTags((prev) =>
+														prev.includes(t.id)
+															? prev.filter((id) => id !== t.id)
+															: [...prev, t.id],
+													)
+												}
+												ariaPressed={selectedTags.includes(t.id)}
+												text={t.name}
+											/>
+										</Truncate>
+
+										{editModeTags ? (
+											<DashboardMenu>
+												<DashboardMenu.Li>
+													<DashboardButtonAction
+														text="Edit"
+														onClick={() => alert("Edit a tag")}
+													/>
+												</DashboardMenu.Li>
+												<DashboardMenu.Li>
+													<DashboardButtonAction
+														text="Delete"
+														onClick={() => alert("Delete tag")}
+														destructive
+													/>
+												</DashboardMenu.Li>
+											</DashboardMenu>
+										) : null}
 									</DashboardList.Li>
 								))}
 							</DashboardList>
@@ -161,8 +214,8 @@ function DashboardNav({
 							<div>
 								<DashboardButton
 									icon={<Icon.Edit />}
-									text="Edit tags"
-									onClick={() => alert("Show filters")}
+									text={editModeTags ? "Disable edit mode" : "Edit tags"}
+									onClick={() => setEditModeTags((prev) => !prev)}
 								/>
 							</div>
 						</Stack>
