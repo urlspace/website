@@ -1,3 +1,4 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import {
 	DashboardAccordion,
@@ -65,8 +66,42 @@ function DashboardNav({
 	showLogo: boolean;
 	tags: TagRow[];
 }) {
+	const queryClient = useQueryClient();
 	const [editModeCollections, setEditModeCollections] = useState(false);
 	const [editModeTags, setEditModeTags] = useState(false);
+
+	const deleteCollection = useMutation({
+		mutationFn: async (id: string) => {
+			const res = await fetch(
+				`${import.meta.env.VITE_API_URL}/collections/${id}`,
+				{ method: "DELETE", credentials: "include" },
+			);
+			if (!res.ok)
+				throw new Error(`DELETE /collections/${id} failed: ${res.status}`);
+		},
+		onSuccess: (_, id) => {
+			if (selectedCollection === id) setSelectedCollection(null);
+			queryClient.invalidateQueries({ queryKey: ["collections"] });
+			queryClient.invalidateQueries({ queryKey: ["links"] });
+		},
+	});
+
+	const deleteTag = useMutation({
+		mutationFn: async (id: string) => {
+			const res = await fetch(`${import.meta.env.VITE_API_URL}/tags/${id}`, {
+				method: "DELETE",
+				credentials: "include",
+			});
+			if (!res.ok)
+				throw new Error(`DELETE /tags/${id} failed: ${res.status}`);
+		},
+		onSuccess: (_, id) => {
+			if (selectedTags.includes(id))
+				setSelectedTags((prev) => prev.filter((t) => t !== id));
+			queryClient.invalidateQueries({ queryKey: ["tags"] });
+			queryClient.invalidateQueries({ queryKey: ["links"] });
+		},
+	});
 
 	return (
 		<nav>
@@ -141,7 +176,7 @@ function DashboardNav({
 											<DashboardMenu.Li>
 												<DashboardButtonAction
 													text="Delete"
-													onClick={() => alert("Delete collection")}
+													onClick={() => deleteCollection.mutate(c.id)}
 													destructive
 												/>
 											</DashboardMenu.Li>
@@ -205,7 +240,7 @@ function DashboardNav({
 												<DashboardMenu.Li>
 													<DashboardButtonAction
 														text="Delete"
-														onClick={() => alert("Delete tag")}
+														onClick={() => deleteTag.mutate(t.id)}
 														destructive
 													/>
 												</DashboardMenu.Li>
