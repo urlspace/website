@@ -4,10 +4,17 @@ import { useState } from "react";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
 function FormCollection({
+	collection,
 	collections,
 	isPro,
 	onClose,
 }: {
+	collection?: {
+		id: string;
+		name: string;
+		description: string;
+		public: boolean;
+	};
 	collections: Array<{
 		id: string;
 		name: string;
@@ -16,10 +23,13 @@ function FormCollection({
 	onClose: () => void;
 }) {
 	const queryClient = useQueryClient();
+	const isEdit = !!collection;
 
-	const [name, setName] = useState("");
-	const [description, setDescription] = useState("");
-	const [publicCollection, setPublicCollection] = useState(false);
+	const [name, setName] = useState(collection?.name ?? "");
+	const [description, setDescription] = useState(collection?.description ?? "");
+	const [publicCollection, setPublicCollection] = useState(
+		isPro ? (collection?.public ?? false) : false,
+	);
 
 	async function handleSubmit(
 		e: React.SubmitEvent<HTMLFormElement>,
@@ -27,9 +37,12 @@ function FormCollection({
 	) {
 		e.preventDefault();
 
+		// Catch duplicate names, but allow editing the existing collection.
 		if (
 			collections.some(
-				(c) => c.name.toLowerCase() === name.trim().toLowerCase(),
+				(c) =>
+					c.id !== collection?.id &&
+					c.name.toLowerCase() === name.trim().toLowerCase(),
 			)
 		) {
 			setError("You already have a collection with that name.");
@@ -39,17 +52,21 @@ function FormCollection({
 		setError(null);
 		setLoading(true);
 		try {
-			const descriptionTrimmed = description.trim();
-			const res = await fetch(`${import.meta.env.VITE_API_URL}/collections`, {
-				method: "POST",
-				credentials: "include",
-				headers: { "content-type": "application/json" },
-				body: JSON.stringify({
-					name,
-					...(descriptionTrimmed && { description: descriptionTrimmed }),
-					public: publicCollection,
-				}),
-			});
+			const res = await fetch(
+				isEdit
+					? `${import.meta.env.VITE_API_URL}/collections/${collection.id}`
+					: `${import.meta.env.VITE_API_URL}/collections`,
+				{
+					method: isEdit ? "PUT" : "POST",
+					credentials: "include",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify({
+						name,
+						description: description.trim(),
+						public: publicCollection,
+					}),
+				},
+			);
 
 			if (!res.ok) {
 				switch (res.status) {
@@ -65,8 +82,16 @@ function FormCollection({
 				return;
 			}
 
-			await queryClient.invalidateQueries({ queryKey: ["collections"] });
-			setName("");
+			await Promise.all([
+				queryClient.invalidateQueries({ queryKey: ["collections"] }),
+				queryClient.invalidateQueries({ queryKey: ["links"] }),
+			]);
+
+			if (!isEdit) {
+				setName("");
+				setDescription("");
+				setPublicCollection(false);
+			}
 			onClose();
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
@@ -116,7 +141,10 @@ function FormCollection({
 					)
 				}
 			/>
-			<Form.Submit text="Add new collection" textLoading="Adding..." />
+			<Form.Submit
+				text={isEdit ? "Save changes" : "Add new collection"}
+				textLoading={isEdit ? "Saving..." : "Adding..."}
+			/>
 		</Form>
 	);
 }

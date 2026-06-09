@@ -1,12 +1,13 @@
 import App from "./App/App.tsx";
-import { Button, ButtonLink, ButtonLinkLike } from "./Button/Button.tsx";
 import Dashboard from "./Dashboard/Dashboard.tsx";
 import DashboardAccordion from "./DashboardAccordion/DashboardAccordion.tsx";
 import DashboardButton from "./DashboardButton/DashboardButton.tsx";
+import DashboardButtonAction from "./DashboardButtonAction/DashboardButtonAction.tsx";
 import DashboardEmpty from "./DashboardEmpty/DashboardEmpty.tsx";
 import DashboardLink from "./DashboardLink/DashboardLink.tsx";
 import DashboardList from "./DashboardList/DashboardList.tsx";
 import DashboardLogo from "./DashboardLogo/DashboardLogo.tsx";
+import DashboardMenu from "./DashboardMenu/DashboardMenu.tsx";
 import DashboardNav from "./DashboardNav/DashboardNav.tsx";
 import DashboardSection from "./DashboardSection/DashboardSection.tsx";
 import Dialog from "./Dialog/Dialog.tsx";
@@ -22,6 +23,8 @@ import Icon from "./Icons/Icons.tsx";
 import Intro from "./Intro/Intro.tsx";
 import Page from "./Page/Page.tsx";
 import Stack from "./Stack/Stack.tsx";
+import Truncate from "./Truncate/Truncate.tsx";
+import { Button, ButtonLink, ButtonLinkLike } from "./Button/Button.tsx";
 
 export {
 	App,
@@ -31,10 +34,12 @@ export {
 	Dashboard,
 	DashboardAccordion,
 	DashboardButton,
+	DashboardButtonAction,
 	DashboardEmpty,
 	DashboardLink,
 	DashboardList,
 	DashboardLogo,
+	DashboardMenu,
 	DashboardNav,
 	DashboardSection,
 	Dialog,
@@ -50,4 +55,5 @@ export {
 	Intro,
 	Page,
 	Stack,
+	Truncate,
 };

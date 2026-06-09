@@ -34,6 +34,7 @@ function DashboardNav({
 	forLater,
 	handleClearCache,
 	handleSignOut,
+	onEditCollection,
 	selectedCollection,
 	selectedTags,
 	setFavourite,
@@ -50,6 +51,7 @@ function DashboardNav({
 	forLater: boolean;
 	handleClearCache: () => void;
 	handleSignOut: () => void;
+	onEditCollection: (collection: CollectionRow) => void;
 	selectedCollection: string | null;
 	selectedTags: string[];
 	setFavourite: React.Dispatch<React.SetStateAction<boolean>>;
@@ -131,7 +133,7 @@ function DashboardNav({
 											<DashboardMenu.Li>
 												<DashboardButtonAction
 													text="Edit"
-													onClick={() => alert("Edit collection")}
+													onClick={() => onEditCollection(c)}
 												/>
 											</DashboardMenu.Li>
 											<DashboardMenu.Li>

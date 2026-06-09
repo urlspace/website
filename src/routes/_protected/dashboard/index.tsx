@@ -84,7 +84,7 @@ const tagsQueryOptions = queryOptions({
 	staleTime: 5 * 60 * 1000,
 });
 
-export const Route = createFileRoute("/_protected/dashboard")({
+export const Route = createFileRoute("/_protected/dashboard/")({
 	loader: async ({ context }) => {
 		await Promise.all([
 			context.queryClient.ensureQueryData(linksQueryOptions({ page: 1 })),
@@ -162,6 +162,8 @@ function PageDashboard() {
 	const [isAddLinkOpen, setIsAddLinkOpen] = useState(false);
 	const [isAddCollectionOpen, setIsAddCollectionOpen] = useState(false);
 	const [editingLink, setEditingLink] = useState<LinkRow | null>(null);
+	const [editingCollection, setEditingCollection] =
+		useState<CollectionRow | null>(null);
 
 	async function handleSignOut() {
 		const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signout`, {
@@ -209,6 +211,7 @@ function PageDashboard() {
 					forLater={forLater}
 					handleClearCache={handleClearCache}
 					handleSignOut={handleSignOut}
+					onEditCollection={setEditingCollection}
 					selectedCollection={selectedCollection}
 					selectedTags={selectedTags}
 					setFavourite={(v) => {
@@ -358,6 +361,7 @@ function PageDashboard() {
 					forLater={forLater}
 					handleClearCache={handleClearCache}
 					handleSignOut={handleSignOut}
+					onEditCollection={setEditingCollection}
 					selectedCollection={selectedCollection}
 					selectedTags={selectedTags}
 					setFavourite={(v) => {
@@ -421,6 +425,22 @@ function PageDashboard() {
 					isPro={user.isPro}
 					collections={collections}
 				/>
+			</Dialog>
+
+			<Dialog
+				open={!!editingCollection}
+				onClose={() => setEditingCollection(null)}
+				title="Edit collection"
+			>
+				{editingCollection ? (
+					<FormCollection
+						key={editingCollection.id}
+						collection={editingCollection}
+						collections={collections}
+						isPro={user.isPro}
+						onClose={() => setEditingCollection(null)}
+					/>
+				) : null}
 			</Dialog>
 		</Dashboard>
 	);
