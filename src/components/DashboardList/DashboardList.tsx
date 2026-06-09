@@ -7,13 +7,19 @@ function DashbrardList({ children }: { children: React.ReactNode }) {
 function DashbrardListLi({
 	children,
 	highlightOnHover,
+	loading,
 }: {
 	children: React.ReactNode;
 	highlightOnHover?: boolean;
+	loading?: boolean;
 }) {
 	return (
 		<li
-			className={[styles.item, highlightOnHover && styles.highlightOnHover]
+			className={[
+				styles.item,
+				highlightOnHover && styles.highlightOnHover,
+				loading && styles.loading,
+			]
 				.filter(Boolean)
 				.join(" ")}
 		>

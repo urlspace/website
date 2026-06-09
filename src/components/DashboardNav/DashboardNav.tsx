@@ -79,10 +79,12 @@ function DashboardNav({
 			if (!res.ok)
 				throw new Error(`DELETE /collections/${id} failed: ${res.status}`);
 		},
-		onSuccess: (_, id) => {
+		onSuccess: async (_, id) => {
 			if (selectedCollection === id) setSelectedCollection(null);
-			queryClient.invalidateQueries({ queryKey: ["collections"] });
-			queryClient.invalidateQueries({ queryKey: ["links"] });
+			await Promise.all([
+				queryClient.invalidateQueries({ queryKey: ["collections"] }),
+				queryClient.invalidateQueries({ queryKey: ["links"] }),
+			]);
 		},
 	});
 
@@ -94,11 +96,13 @@ function DashboardNav({
 			});
 			if (!res.ok) throw new Error(`DELETE /tags/${id} failed: ${res.status}`);
 		},
-		onSuccess: (_, id) => {
+		onSuccess: async (_, id) => {
 			if (selectedTags.includes(id))
 				setSelectedTags((prev) => prev.filter((t) => t !== id));
-			queryClient.invalidateQueries({ queryKey: ["tags"] });
-			queryClient.invalidateQueries({ queryKey: ["links"] });
+			await Promise.all([
+				queryClient.invalidateQueries({ queryKey: ["tags"] }),
+				queryClient.invalidateQueries({ queryKey: ["links"] }),
+			]);
 		},
 	});
 
@@ -151,6 +155,10 @@ function DashboardNav({
 								<DashboardList.Li
 									key={c.id}
 									highlightOnHover={editModeCollections}
+									loading={
+										deleteCollection.isPending &&
+										deleteCollection.variables === c.id
+									}
 								>
 									<Truncate>
 										<DashboardButton
@@ -213,7 +221,11 @@ function DashboardNav({
 						<Stack>
 							<DashboardList>
 								{tags.map((t) => (
-									<DashboardList.Li key={t.id} highlightOnHover={editModeTags}>
+									<DashboardList.Li
+										key={t.id}
+										highlightOnHover={editModeTags}
+										loading={deleteTag.isPending && deleteTag.variables === t.id}
+									>
 										<Truncate>
 											<DashboardButton
 												icon={<Icon.Tag />}

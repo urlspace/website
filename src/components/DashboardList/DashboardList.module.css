@@ -6,6 +6,7 @@
 	display: flex;
 	gap: 0.25lh;
 	justify-content: space-between;
+	transition: opacity var(--transition-duration) ease;
 
 	@media (hover: hover) and (pointer: fine) {
 		background-color: var(--color-bg);
@@ -33,4 +34,9 @@
 			1lh 0 0 0 var(--highlight),
 			-1lh 0 0 0 var(--highlight);
 	}
+}
+
+.loading {
+	opacity: 0.25;
+	pointer-events: none;
 }
