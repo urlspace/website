@@ -92,8 +92,7 @@ function DashboardNav({
 				method: "DELETE",
 				credentials: "include",
 			});
-			if (!res.ok)
-				throw new Error(`DELETE /tags/${id} failed: ${res.status}`);
+			if (!res.ok) throw new Error(`DELETE /tags/${id} failed: ${res.status}`);
 		},
 		onSuccess: (_, id) => {
 			if (selectedTags.includes(id))
@@ -194,6 +193,7 @@ function DashboardNav({
 							/>
 							{collections.length ? (
 								<DashboardButton
+									ariaPressed={editModeCollections}
 									icon={<Icon.Edit />}
 									onClick={() => setEditModeCollections((prev) => !prev)}
 									text={
@@ -252,6 +252,7 @@ function DashboardNav({
 
 							<div>
 								<DashboardButton
+									ariaPressed={editModeTags}
 									icon={<Icon.Edit />}
 									text={editModeTags ? "Disable edit mode" : "Edit tags"}
 									onClick={() => setEditModeTags((prev) => !prev)}
