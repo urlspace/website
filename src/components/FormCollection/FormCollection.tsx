@@ -112,6 +112,8 @@ function FormCollection({
 				value={name}
 				minLength={2}
 				maxLength={255}
+				pattern="[^\p{Cc}]{2,255}"
+				description="Between 2 and 255 characters."
 			/>
 
 			<Form.Input
@@ -122,6 +124,8 @@ function FormCollection({
 				type="text"
 				value={description}
 				maxLength={512}
+				pattern="[^\p{Cc}]{0,512}"
+				description="Up to 512 characters."
 			/>
 
 			<Form.Checkbox
