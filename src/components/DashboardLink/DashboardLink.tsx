@@ -106,7 +106,7 @@ function DashbrardLink({
 			className={[styles.link, isPending && styles.linkLoading].join(" ")}
 			key={link.id}
 		>
-			<div className={styles.header}>
+			<div>
 				<a
 					href={link.url}
 					className={styles.title}
