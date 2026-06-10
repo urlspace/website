@@ -5,6 +5,24 @@
 	font-size: 0.875rem;
 }
 
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.fadeIn {
+	animation: fadeIn 220ms ease-in-out;
+	animation-fill-mode: both;
+
+	@media (prefers-reduced-motion: reduce) {
+		animation: none;
+	}
+}
+
 .item {
 	&::after {
 		content: "·";

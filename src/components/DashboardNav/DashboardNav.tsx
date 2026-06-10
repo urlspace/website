@@ -153,7 +153,7 @@ function DashboardNav({
 				<DashboardAccordion summary="Collections">
 					<Stack>
 						<DashboardList>
-							{collections.map((c) => (
+							{collections.map((c, index, arr) => (
 								<DashboardList.Li
 									key={c.id}
 									highlightOnHover={editModeCollections}
@@ -176,7 +176,7 @@ function DashboardNav({
 										/>
 									</Truncate>
 									{editModeCollections ? (
-										<DashboardMenu>
+										<DashboardMenu fadeIn order={arr.length - index}>
 											<DashboardMenu.Li>
 												<DashboardButtonAction
 													text="Edit"
@@ -223,7 +223,7 @@ function DashboardNav({
 					<DashboardAccordion summary="Tags">
 						<Stack>
 							<DashboardList>
-								{tags.map((t) => (
+								{tags.map((t, index, arr) => (
 									<DashboardList.Li
 										key={t.id}
 										highlightOnHover={editModeTags}
@@ -248,7 +248,7 @@ function DashboardNav({
 										</Truncate>
 
 										{editModeTags ? (
-											<DashboardMenu>
+											<DashboardMenu fadeIn order={arr.length - index}>
 												<DashboardMenu.Li>
 													<DashboardButtonAction
 														text="Rename"
