@@ -34,6 +34,7 @@ import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
 import {
 	type LinkFilters,
 	type LinkRow,
+	type LinksResponse,
 	linksQueryOptions,
 } from "#/queries/links.ts";
 
@@ -136,6 +137,13 @@ function PageDashboard() {
 	const links = linksResponse?.data ?? [];
 	const totalCount = linksResponse?.pagination.totalCount ?? 0;
 	const totalPages = linksResponse?.pagination.totalPages ?? 1;
+
+	// Empty payload can mean a brand-new account or filters with no matches.
+	// Read the loader's unfiltered cache to tell them apart.
+	const newAccount =
+		(queryClient.getQueryData<LinksResponse>(
+			linksQueryOptions({ page: 1 }).queryKey,
+		)?.pagination.totalCount ?? 0) === 0;
 
 	const [isNavOpen, setIsNavOpen] = useState(false);
 
@@ -325,7 +333,7 @@ function PageDashboard() {
 						/>
 					))
 				) : (
-					<DashboardEmpty />
+					<DashboardEmpty newAccount={newAccount} />
 				)}
 
 				{totalPages > 1 ? (

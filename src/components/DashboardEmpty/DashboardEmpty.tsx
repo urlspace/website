@@ -2,8 +2,16 @@ import { Link } from "@tanstack/react-router";
 import styles from "./DashboardEmpty.module.css";
 import { ButtonLinkLike } from "../Button/Button";
 
-function DashbrardEmpty() {
+function DashbrardEmpty({ newAccount }: { newAccount: boolean }) {
 	// TODO: link to the right import page when this one is done
+
+	if (!newAccount) {
+		return (
+			<div className={styles.empty}>
+				<p>No links match these filters. Try adjusting them.</p>
+			</div>
+		);
+	}
 
 	return (
 		<div className={styles.empty}>
