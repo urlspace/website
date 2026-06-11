@@ -9,8 +9,6 @@ function DashbrardEmpty({
 	newAccount: boolean;
 	setIsAddLinkOpen: (open: boolean) => void;
 }) {
-	// TODO: link to the right import page when this one is done
-
 	if (!newAccount) {
 		return (
 			<div className={styles.empty}>
@@ -19,6 +17,7 @@ function DashbrardEmpty({
 		);
 	}
 
+	// TODO: link to the right import page when this one is done
 	return (
 		<div className={styles.empty}>
 			<p>
