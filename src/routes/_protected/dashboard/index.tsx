@@ -254,59 +254,61 @@ function PageDashboard() {
 				/>
 			</Dashboard.Aside>
 			<Dashboard.Main>
-				<DashboardSection search>
-					<Form.SearchInput
-						label="Search"
-						placeholder="Search for..."
-						value={value}
-						onValueChange={setValue}
-						tags={tags}
-						collections={collections}
-						selectedTags={selectedTags}
-						onSelectedTagsChange={(updater) => {
-							setSelectedTags(updater);
-							setPage(1);
-						}}
-						selectedCollection={selectedCollection}
-						onSelectedCollectionChange={(updater) => {
-							setSelectedCollection(updater);
-							setPage(1);
-						}}
-						favourite={favourite}
-						onFavouriteChange={(updater) => {
-							setFavourite(updater);
-							setPage(1);
-						}}
-						forLater={forLater}
-						onForLaterChange={(updater) => {
-							setForLater(updater);
-							setPage(1);
-						}}
-					/>
+				{newAccount ? null : (
+					<DashboardSection search>
+						<Form.SearchInput
+							label="Search"
+							placeholder="Search for..."
+							value={value}
+							onValueChange={setValue}
+							tags={tags}
+							collections={collections}
+							selectedTags={selectedTags}
+							onSelectedTagsChange={(updater) => {
+								setSelectedTags(updater);
+								setPage(1);
+							}}
+							selectedCollection={selectedCollection}
+							onSelectedCollectionChange={(updater) => {
+								setSelectedCollection(updater);
+								setPage(1);
+							}}
+							favourite={favourite}
+							onFavouriteChange={(updater) => {
+								setFavourite(updater);
+								setPage(1);
+							}}
+							forLater={forLater}
+							onForLaterChange={(updater) => {
+								setForLater(updater);
+								setPage(1);
+							}}
+						/>
 
-					<Stack direction="row" spaceBetween>
-						<p>Results: {totalCount}</p>
+						<Stack direction="row" spaceBetween>
+							<p>Results: {totalCount}</p>
 
-						{value ||
-						favourite ||
-						forLater ||
-						selectedTags.length > 0 ||
-						selectedCollection ? (
-							<DashboardButton
-								icon={<Icon.Erease />}
-								onClick={() => {
-									setValue("");
-									setFavourite(false);
-									setForLater(false);
-									setSelectedTags([]);
-									setSelectedCollection(null);
-									setPage(1);
-								}}
-								text="Clear filters"
-							/>
-						) : null}
-					</Stack>
-				</DashboardSection>
+							{value ||
+							favourite ||
+							forLater ||
+							selectedTags.length > 0 ||
+							selectedCollection ? (
+								<DashboardButton
+									icon={<Icon.Erease />}
+									onClick={() => {
+										setValue("");
+										setFavourite(false);
+										setForLater(false);
+										setSelectedTags([]);
+										setSelectedCollection(null);
+										setPage(1);
+									}}
+									text="Clear filters"
+								/>
+							) : null}
+						</Stack>
+					</DashboardSection>
+				)}
 
 				{links.length ? (
 					links.map((link) => (
