@@ -2,7 +2,13 @@ import { Link } from "@tanstack/react-router";
 import styles from "./DashboardEmpty.module.css";
 import { ButtonLinkLike } from "../Button/Button";
 
-function DashbrardEmpty({ newAccount }: { newAccount: boolean }) {
+function DashbrardEmpty({
+	newAccount,
+	setIsAddLinkOpen,
+}: {
+	newAccount: boolean;
+	setIsAddLinkOpen: (open: boolean) => void;
+}) {
 	// TODO: link to the right import page when this one is done
 
 	if (!newAccount) {
@@ -19,7 +25,7 @@ function DashbrardEmpty({ newAccount }: { newAccount: boolean }) {
 				You don't have an links yet.{" "}
 				<ButtonLinkLike
 					type="button"
-					onClick={() => alert("Add link")}
+					onClick={() => setIsAddLinkOpen(true)}
 					text="Add your first one"
 				/>{" "}
 				or <Link to="/dashboard">import</Link> your bookmarks from somewhere

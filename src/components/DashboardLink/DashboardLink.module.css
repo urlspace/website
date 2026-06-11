@@ -6,11 +6,11 @@
 	background-color: var(--color-bg);
 	box-shadow: 0 0 0 1px var(--color-border);
 	min-width: 1px;
-	transition: opacity var(--transition-duration) ease;
+	transition: opacity 60ms ease;
 }
 
 .linkLoading {
-	opacity: 0.25;
+	opacity: 0.5;
 	pointer-events: none;
 }
 

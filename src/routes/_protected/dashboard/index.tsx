@@ -333,7 +333,10 @@ function PageDashboard() {
 						/>
 					))
 				) : (
-					<DashboardEmpty newAccount={newAccount} />
+					<DashboardEmpty
+						newAccount={newAccount}
+						setIsAddLinkOpen={setIsAddLinkOpen}
+					/>
 				)}
 
 				{totalPages > 1 ? (
