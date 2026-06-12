@@ -189,6 +189,7 @@ function PageDashboard() {
 		//  maybe this should run on server, i dont know
 
 		if (res.ok) {
+			queryClient.clear();
 			await router.invalidate();
 			await router.navigate({ to: "/auth/signin" });
 		}
