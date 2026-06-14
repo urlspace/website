@@ -24,8 +24,15 @@ function DashbrardButton({
 			<div className={styles.text}>
 				{text}{" "}
 				{counter || counter === 0 ? (
-					<span className={styles.counter}>({counter})</span>
+					<span className={styles.counter}>({counter}) </span>
 				) : null}
+				{
+					// this space at the end of the span is intentional
+					// there is a terrible bug in safari that cuts off the last
+					// closing parenthesis in the overflow: hodden containers
+					// awful bug, and maybe one day i will have a better solutoin but for know
+					// adding extra space is the simplext fix in this case
+				}
 			</div>
 		</button>
 	);
