@@ -292,16 +292,30 @@ function DashboardNav({
 					</DashboardList.Li>
 					<DashboardList.Li>
 						<DashboardButton
-							icon={<Icon.Settings />}
-							onClick={() => alert("Show settings")}
-							text="Settings"
+							icon={<Icon.Import />}
+							onClick={() => alert("Import & export")}
+							text="Import & export"
+						/>
+					</DashboardList.Li>
+					<DashboardList.Li>
+						<DashboardButton
+							icon={<Icon.Extension />}
+							onClick={() => alert("Browsers extensions")}
+							text="Browsers extensions"
+						/>
+					</DashboardList.Li>
+					<DashboardList.Li>
+						<DashboardButton
+							icon={<Icon.Star />}
+							onClick={() => alert("Pro features")}
+							text="Pro features"
 						/>
 					</DashboardList.Li>
 					<DashboardList.Li>
 						<DashboardButton
 							icon={<Icon.Reload />}
 							onClick={handleClearCache}
-							text="Sync"
+							text="Clear cache and sync"
 						/>
 					</DashboardList.Li>
 					<DashboardList.Li>
