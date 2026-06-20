@@ -6,7 +6,7 @@
 	flex-direction: column;
 	gap: 1lh;
 
-	&:last-of-type {
+	&:last-child {
 		box-shadow: none;
 	}
 }
