@@ -2,6 +2,7 @@ import App from "./App/App.tsx";
 import Dashboard from "./Dashboard/Dashboard.tsx";
 import DashboardAccordion from "./DashboardAccordion/DashboardAccordion.tsx";
 import DashboardButton from "./DashboardButton/DashboardButton.tsx";
+import DashboardButtonLink from "./DashboardButton/DashboardButtonLink.tsx";
 import DashboardButtonAction from "./DashboardButtonAction/DashboardButtonAction.tsx";
 import DashboardEmpty from "./DashboardEmpty/DashboardEmpty.tsx";
 import DashboardLink from "./DashboardLink/DashboardLink.tsx";
@@ -9,6 +10,7 @@ import DashboardList from "./DashboardList/DashboardList.tsx";
 import DashboardLogo from "./DashboardLogo/DashboardLogo.tsx";
 import DashboardMenu from "./DashboardMenu/DashboardMenu.tsx";
 import DashboardNav from "./DashboardNav/DashboardNav.tsx";
+import DashboardNavSecondary from "./DashboardNavSecondary/DashboardNavSecondary.tsx";
 import DashboardSection from "./DashboardSection/DashboardSection.tsx";
 import Dialog from "./Dialog/Dialog.tsx";
 import Drawer from "./Drawer/Drawer.tsx";
@@ -35,6 +37,7 @@ export {
 	Dashboard,
 	DashboardAccordion,
 	DashboardButton,
+	DashboardButtonLink,
 	DashboardButtonAction,
 	DashboardEmpty,
 	DashboardLink,
@@ -42,6 +45,7 @@ export {
 	DashboardLogo,
 	DashboardMenu,
 	DashboardNav,
+	DashboardNavSecondary,
 	DashboardSection,
 	Dialog,
 	Drawer,

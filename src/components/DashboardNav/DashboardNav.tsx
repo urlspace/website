@@ -4,6 +4,7 @@ import {
 	DashboardAccordion,
 	DashboardButton,
 	DashboardButtonAction,
+	DashboardButtonLink,
 	DashboardList,
 	DashboardLogo,
 	DashboardMenu,
@@ -110,8 +111,12 @@ function DashboardNav({
 
 	return (
 		<nav>
+			{showLogo ? (
+				<DashboardSection>
+					<DashboardLogo />
+				</DashboardSection>
+			) : null}
 			<DashboardSection>
-				{showLogo ? <DashboardLogo /> : null}
 				<DashboardList>
 					<DashboardList.Li>
 						<DashboardButton
@@ -284,9 +289,9 @@ function DashboardNav({
 			<DashboardSection>
 				<DashboardList>
 					<DashboardList.Li>
-						<DashboardButton
+						<DashboardButtonLink
 							icon={<Icon.User />}
-							onClick={() => alert("Show profile")}
+							to="/profile"
 							text="Profile"
 						/>
 					</DashboardList.Li>

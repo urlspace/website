@@ -16,7 +16,8 @@ import { Route as PublicTermsOfServiceRouteImport } from './routes/_public/terms
 import { Route as PublicPrivacyPolicyRouteImport } from './routes/_public/privacy-policy'
 import { Route as PublicDocsRouteImport } from './routes/_public/docs'
 import { Route as PublicBlogRouteImport } from './routes/_public/blog'
-import { Route as ProtectedDashboardIndexRouteImport } from './routes/_protected/dashboard/index'
+import { Route as ProtectedProfileRouteImport } from './routes/_protected/profile'
+import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as PublicAuthSigninRouteImport } from './routes/_public/auth/signin'
 import { Route as PublicAuthResendVerificationRouteImport } from './routes/_public/auth/resend-verification'
 import { Route as PublicAuthSignupIndexRouteImport } from './routes/_public/auth/signup/index'
@@ -57,9 +58,14 @@ const PublicBlogRoute = PublicBlogRouteImport.update({
   path: '/blog',
   getParentRoute: () => PublicRoute,
 } as any)
-const ProtectedDashboardIndexRoute = ProtectedDashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
+const ProtectedProfileRoute = ProtectedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => ProtectedRoute,
 } as any)
 const PublicAuthSigninRoute = PublicAuthSigninRouteImport.update({
@@ -98,13 +104,14 @@ const PublicAuthResetPasswordTokenRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
+  '/dashboard': typeof ProtectedDashboardRoute
+  '/profile': typeof ProtectedProfileRoute
   '/blog': typeof PublicBlogRoute
   '/docs': typeof PublicDocsRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/auth/signin': typeof PublicAuthSigninRoute
-  '/dashboard/': typeof ProtectedDashboardIndexRoute
   '/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/auth/signup/$token': typeof PublicAuthSignupTokenRoute
   '/auth/reset-password/': typeof PublicAuthResetPasswordIndexRoute
@@ -112,13 +119,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
+  '/dashboard': typeof ProtectedDashboardRoute
+  '/profile': typeof ProtectedProfileRoute
   '/blog': typeof PublicBlogRoute
   '/docs': typeof PublicDocsRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/auth/signin': typeof PublicAuthSigninRoute
-  '/dashboard': typeof ProtectedDashboardIndexRoute
   '/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/auth/signup/$token': typeof PublicAuthSignupTokenRoute
   '/auth/reset-password': typeof PublicAuthResetPasswordIndexRoute
@@ -128,6 +136,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_protected': typeof ProtectedRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
+  '/_protected/dashboard': typeof ProtectedDashboardRoute
+  '/_protected/profile': typeof ProtectedProfileRoute
   '/_public/blog': typeof PublicBlogRoute
   '/_public/docs': typeof PublicDocsRoute
   '/_public/privacy-policy': typeof PublicPrivacyPolicyRoute
@@ -135,7 +145,6 @@ export interface FileRoutesById {
   '/_public/': typeof PublicIndexRoute
   '/_public/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/_public/auth/signin': typeof PublicAuthSigninRoute
-  '/_protected/dashboard/': typeof ProtectedDashboardIndexRoute
   '/_public/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/_public/auth/signup/$token': typeof PublicAuthSignupTokenRoute
   '/_public/auth/reset-password/': typeof PublicAuthResetPasswordIndexRoute
@@ -145,13 +154,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/dashboard'
+    | '/profile'
     | '/blog'
     | '/docs'
     | '/privacy-policy'
     | '/terms-of-service'
     | '/auth/resend-verification'
     | '/auth/signin'
-    | '/dashboard/'
     | '/auth/reset-password/$token'
     | '/auth/signup/$token'
     | '/auth/reset-password/'
@@ -159,13 +169,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/dashboard'
+    | '/profile'
     | '/blog'
     | '/docs'
     | '/privacy-policy'
     | '/terms-of-service'
     | '/auth/resend-verification'
     | '/auth/signin'
-    | '/dashboard'
     | '/auth/reset-password/$token'
     | '/auth/signup/$token'
     | '/auth/reset-password'
@@ -174,6 +185,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_protected'
     | '/_public'
+    | '/_protected/dashboard'
+    | '/_protected/profile'
     | '/_public/blog'
     | '/_public/docs'
     | '/_public/privacy-policy'
@@ -181,7 +194,6 @@ export interface FileRouteTypes {
     | '/_public/'
     | '/_public/auth/resend-verification'
     | '/_public/auth/signin'
-    | '/_protected/dashboard/'
     | '/_public/auth/reset-password/$token'
     | '/_public/auth/signup/$token'
     | '/_public/auth/reset-password/'
@@ -244,11 +256,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicBlogRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_protected/dashboard/': {
-      id: '/_protected/dashboard/'
+    '/_protected/profile': {
+      id: '/_protected/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProtectedProfileRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/dashboard': {
+      id: '/_protected/dashboard'
       path: '/dashboard'
-      fullPath: '/dashboard/'
-      preLoaderRoute: typeof ProtectedDashboardIndexRouteImport
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof ProtectedDashboardRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_public/auth/signin': {
@@ -297,11 +316,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface ProtectedRouteChildren {
-  ProtectedDashboardIndexRoute: typeof ProtectedDashboardIndexRoute
+  ProtectedDashboardRoute: typeof ProtectedDashboardRoute
+  ProtectedProfileRoute: typeof ProtectedProfileRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
-  ProtectedDashboardIndexRoute: ProtectedDashboardIndexRoute,
+  ProtectedDashboardRoute: ProtectedDashboardRoute,
+  ProtectedProfileRoute: ProtectedProfileRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(

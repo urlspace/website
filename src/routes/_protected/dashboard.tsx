@@ -88,7 +88,7 @@ const tagsQueryOptions = queryOptions({
 	staleTime: 5 * 60 * 1000,
 });
 
-export const Route = createFileRoute("/_protected/dashboard/")({
+export const Route = createFileRoute("/_protected/dashboard")({
 	loader: async ({ context }) => {
 		await Promise.all([
 			context.queryClient.ensureQueryData(linksQueryOptions({ page: 1 })),

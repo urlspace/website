@@ -7,6 +7,7 @@
 	display: flex;
 	gap: 0.25lh;
 	align-items: center;
+	text-decoration-line: none;
 	text-decoration-thickness: 2px;
 	text-underline-offset: 4px;
 	max-width: 100%;
@@ -18,7 +19,8 @@
 		}
 	}
 
-	&[aria-pressed="true"] {
+	&[aria-pressed="true"],
+	&[aria-current="page"] {
 		text-decoration-line: underline;
 		font-weight: 600;
 	}
