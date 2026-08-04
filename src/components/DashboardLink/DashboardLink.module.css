@@ -1,59 +1,58 @@
 .link {
-	display: flex;
-	flex-direction: column;
-	gap: 1lh;
-	padding: 1lh;
-	background-color: var(--color-bg);
-	box-shadow: 0 0 0 1px var(--color-border);
-	min-width: 1px;
-	transition: opacity 60ms ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75lh;
+  background-color: var(--color-bg);
+  min-width: 1px;
+  transition: opacity 60ms ease;
+  margin-block-end: 2lh;
 }
 
 .linkLoading {
-	opacity: 0.5;
-	pointer-events: none;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .title {
-	font-weight: 800;
-	align-self: flex-start;
-	text-wrap-style: pretty;
+  font-weight: 800;
+  align-self: flex-start;
+  text-wrap-style: pretty;
 
-	mark {
-		/* background-color: color-mix(in srgb, var(--color-link) 30%, transparent); */
-		background-color: var(--color-link);
-		color: var(--color-bg);
-	}
+  mark {
+    /* background-color: color-mix(in srgb, var(--color-link) 30%, transparent); */
+    background-color: var(--color-link);
+    color: var(--color-bg);
+  }
 }
 
 .linkA {
-	font-size: 0.875rem;
-	text-decoration: none;
-	color: color-mix(in srgb, var(--color-fg) 75%, transparent);
-	vertical-align: bottom;
+  font-size: 0.875rem;
+  text-decoration: none;
+  color: color-mix(in srgb, var(--color-fg) 75%, transparent);
+  vertical-align: bottom;
 }
 
 .meta {
-	font-size: 0.875rem;
+  font-size: 0.875rem;
 }
 
 .metaCollection {
-	&::before {
-		content: "·";
-		margin-inline: 0.25rem;
-	}
+  &::before {
+    content: "·";
+    margin-inline: 0.25rem;
+  }
 }
 
 .tags {
-	display: inline;
-	list-style: none;
+  display: inline;
+  list-style: none;
 }
 
 .tag {
-	display: inline;
+  display: inline;
 
-	&::after {
-		content: " ";
-		white-space: pre;
-	}
+  &::after {
+    content: " ";
+    white-space: pre;
+  }
 }

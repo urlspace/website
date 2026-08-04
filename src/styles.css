@@ -11,22 +11,24 @@
 /* } */
 
 :root {
-  --color-fg: light-dark(oklch(0.20 0.005 65), oklch(0.99 0.005 65));
-  --color-bg: light-dark(oklch(0.99 0.005 65), oklch(0.18 0.005 65));
+  --color-fg: light-dark(oklch(0.2 0.005 65), oklch(0.99 0.005 65));
+  --color-bg: light-dark(oklch(0.97 0.005 65), oklch(0.18 0.005 65));
+  --color-bg-content: light-dark(oklch(0.99 0.005 65), oklch(0.18 0.005 65));
 
   --color-border: light-dark(oklch(0.86 0.005 65), oklch(0.32 0.005 65));
 
-  --color-link: light-dark(oklch(0.50 0.13 280), oklch(0.83 0.08 268));
+  --color-link: light-dark(oklch(0.5 0.13 280), oklch(0.83 0.08 268));
 
   --size-container-max: min(100% - 2lh, 56lh);
   --transition-duration: 140ms;
+  --radius: 0.25lh;
 
   @media (min-width: 1800px) {
     --size-container-max: 70lh;
   }
 
   @media (prefers-contrast: more) {
-    --color-border: light-dark(oklch(0.20 0.005 65), oklch(0.99 0.005 65));
+    --color-border: light-dark(oklch(0.2 0.005 65), oklch(0.99 0.005 65));
   }
 }
 
@@ -196,6 +198,5 @@ p {
       background-size: var(--bg-size) var(--bg-size);
       background-position: center calc(var(--bg-size) / 2);
     }
-
   }
 }

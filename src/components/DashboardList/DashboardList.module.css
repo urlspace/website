@@ -1,42 +1,15 @@
 .list {
-	list-style: none;
+  list-style: none;
 }
 
 .item {
-	display: flex;
-	gap: 0.25lh;
-	justify-content: space-between;
-	transition: opacity var(--transition-duration) ease;
-
-	@media (hover: hover) and (pointer: fine) {
-		background-color: var(--color-bg);
-		box-shadow:
-			1lh 0 0 0 var(--color-bg),
-			-1lh 0 0 0 var(--color-bg);
-		transition:
-			background-color var(--transition-duration) ease,
-			box-shadow var(--transition-duration) ease;
-	}
-}
-
-.highlightOnHover:hover {
-	@media (hover: hover) and (pointer: fine) {
-		--highlight-light: color-mix(
-			in oklab,
-			var(--color-bg) 96%,
-			var(--color-fg)
-		);
-		--highlight-dark: color-mix(in oklab, var(--color-bg) 92%, var(--color-fg));
-		--highlight: light-dark(var(--highlight-light), var(--highlight-dark));
-
-		background-color: var(--highlight);
-		box-shadow:
-			1lh 0 0 0 var(--highlight),
-			-1lh 0 0 0 var(--highlight);
-	}
+  display: flex;
+  gap: 0.25lh;
+  justify-content: space-between;
+  transition: opacity var(--transition-duration) ease;
 }
 
 .loading {
-	opacity: 0.25;
-	pointer-events: none;
+  opacity: 0.25;
+  pointer-events: none;
 }

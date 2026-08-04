@@ -1,81 +1,140 @@
 .wrapper {
-	--bg-color-light: color-mix(in oklab, var(--color-bg) 98%, var(--color-fg));
-	--bg-color-dark: color-mix(in oklab, var(--color-bg) 99%, var(--color-fg));
-	--bg-color: light-dark(var(--bg-color-light), var(--bg-color-dark));
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: start;
 
-	--bg-s-size: 2px;
+  @media (width >= 900px) {
+    grid-template-columns: 320px minmax(0, 1fr);
+  }
 
-	--bg-s-color-light: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
-	--bg-s-color-dark: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
-	--bg-s-color: light-dark(var(--bg-s-color-light), var(--bg-s-color-dark));
+  @media (width >= 1100px) {
+    grid-template-columns: 320px minmax(0, 1fr) auto;
+  }
 
-	--bg-size: 0.5rlh;
-
-	background-color: var(--bg-color);
-	background-image: conic-gradient(
-		at var(--bg-s-size) var(--bg-s-size),
-		#0000 75%,
-		var(--bg-s-color) 0
-	);
-	background-size: var(--bg-size) var(--bg-size);
-	background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
-	background-attachment: fixed;
-	min-height: 100dvh;
-}
-
-.container {
-	background-color: var(--color-border);
-	width: 100%;
-	margin-inline: auto;
-	box-shadow: 0 1px 0 0 var(--color-border);
-
-	@media (width >= 560px) {
-		width: var(--size-container-max);
-		border-inline: 1px solid var(--color-border);
-	}
-
-	@media (width >= 800px) {
-		display: grid;
-		gap: 1px;
-		grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-	}
+  @media (width >= 1300px) {
+    grid-template-columns: 400px minmax(0, 1fr) 400px;
+  }
 }
 
 .header {
-	background-color: var(--color-bg);
-	padding: 1lh;
-	box-shadow: inset 0 -1px 0 0 var(--color-border);
-	display: flex;
-	justify-content: space-between;
-	position: sticky;
-	top: 0px;
-	z-index: 1;
-
-	@media (width >= 800px) {
-		display: none;
-	}
+  background-color: var(--color-bg-content);
+  padding: 0.5lh;
+  box-shadow: inset 0 -1px 0 0 var(--color-border);
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  position: sticky;
+  top: -2lh;
+  align-items: center;
+  /* z-index: 1; */
+  /**/
+  @media (width >= 1100px) {
+    top: 0;
+  }
 }
+
+.headerLogo {
+  padding-block: 0.5lh;
+}
+.headerActions {
+  display: flex;
+  gap: 0.5lh;
+  justify-content: flex-end;
+  padding: 0.5lh;
+
+  @media (width >= 1100px) {
+    grid-column: 3 / 4;
+    order: 3;
+  }
+}
+.headerFilters {
+  display: flex;
+  gap: 0.5lh;
+  align-items: center;
+  grid-column: 1 / -1;
+  padding-inline: 0.5lh;
+
+  @media (width >= 1100px) {
+    grid-column: 2 / 3;
+    order: 2;
+    padding-inline: clamp(1lh, (100% - 740px) / 2, 100%);
+  }
+}
+
+.headerTrigger {
+  @media (width >= 900px) {
+    display: none;
+  }
+}
+/* .container { */
+/*   background-color: var(--color-border); */
+/*   width: 100%; */
+/*   margin-inline: auto; */
+/*   box-shadow: 0 1px 0 0 var(--color-border); */
+/**/
+/*   @media (width >= 560px) { */
+/*     width: var(--size-container-max); */
+/*     border-inline: 1px solid var(--color-border); */
+/*   } */
+/**/
+/*   @media (width >= 800px) { */
+/*     display: grid; */
+/*     gap: 1px; */
+/*     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); */
+/*   } */
+/* } */
+
+/* .header { */
+/*   background-color: var(--color-bg); */
+/*   padding: 1lh; */
+/*   box-shadow: inset 0 -1px 0 0 var(--color-border); */
+/*   display: flex; */
+/*   justify-content: space-between; */
+/*   position: sticky; */
+/*   top: 0px; */
+/*   z-index: 1; */
+/**/
+/*   @media (width >= 800px) { */
+/*     display: none; */
+/*   } */
+/* } */
 
 .main {
-	background-color: var(--color-bg);
+  grid-column: 1 / -1;
+  padding-block: 2lh;
+  padding-inline: 1lh;
+
+  @media (width >= 900px) {
+    grid-column: 2 / 3;
+  }
+
+  @media (width >= 1100px) {
+    padding-inline: clamp(1lh, (100% - 740px) / 2, 100%);
+  }
 }
 
 .aside {
-	display: none;
-	background-color: var(--color-bg);
-	position: sticky;
-	top: 0px;
+  --h: 3lh;
 
-	height: 100dvh;
-	overflow-y: scroll;
-	scrollbar-width: none;
+  display: none;
+  position: sticky;
+  top: var(--h);
+
+  height: calc(100dvh - var(--h));
+  overflow-y: scroll;
+  scrollbar-width: none;
+
+  background-color: var(--color-bg-content);
+
+  box-shadow: inset -1px 0 0 0 var(--color-border);
 }
 
 .aside {
-	@media (width >= 800px) {
-		display: block;
-		/* this one is to prevent scroll bounce that reveals background color */
-		/* that looks shit so this one prevents it */
-		overscroll-behavior: none;
-	}
+  @media (width >= 900px) {
+    display: block;
+    /* this one is to prevent scroll bounce that reveals background color */
+    /* that looks shit so this one prevents it */
+    overscroll-behavior: none;
+  }
 }

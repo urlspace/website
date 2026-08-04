@@ -1,49 +1,49 @@
 .button {
-	font: inherit;
-	color: var(--color-fg);
-	background-color: transparent;
-	border: none;
-	align-self: flex-start;
-	display: flex;
-	gap: 0.25lh;
-	align-items: center;
-	text-decoration-line: none;
-	text-decoration-thickness: 2px;
-	text-underline-offset: 4px;
-	max-width: 100%;
+  font: inherit;
+  color: var(--color-fg);
+  background-color: transparent;
+  border: none;
+  /* align-self: flex-start; */
+  display: flex;
+  gap: 0.25lh;
+  align-items: center;
+  text-decoration-line: none;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  max-width: 100%;
 
-	&:hover {
-		@media (hover: hover) and (pointer: fine) {
-			color: var(--color-link);
-			text-decoration-line: underline;
-		}
-	}
+  &:hover {
+    @media (hover: hover) and (pointer: fine) {
+      color: var(--color-link);
+      text-decoration-line: underline;
+    }
+  }
 
-	&[aria-pressed="true"],
-	&[aria-current="page"] {
-		text-decoration-line: underline;
-		font-weight: 600;
-	}
+  &[aria-pressed="true"],
+  &[aria-current="page"] {
+    text-decoration-line: underline;
+    font-weight: 600;
+  }
 }
 
 .icon {
-	flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .text {
-	min-width: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	/* This is super strange */
-	/* Even tho this is not an inherited propery per spec, */
-	/* Chrome and FF do inheir it, Safari is the only one that does it right */
-	/* This is just for safari, to mimic Chrome and FF */
-	/* https://mastodon.social/@pawelgrzybek/116623309838307564 */
-	text-decoration-thickness: inherit;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* This is super strange */
+  /* Even tho this is not an inherited propery per spec, */
+  /* Chrome and FF do inheir it, Safari is the only one that does it right */
+  /* This is just for safari, to mimic Chrome and FF */
+  /* https://mastodon.social/@pawelgrzybek/116623309838307564 */
+  text-decoration-thickness: inherit;
 }
 
 .counter {
-	color: color-mix(in srgb, var(--color-fg) 50%, transparent);
-	font-weight: 400;
+  color: color-mix(in srgb, var(--color-fg) 50%, transparent);
+  font-weight: 400;
 }

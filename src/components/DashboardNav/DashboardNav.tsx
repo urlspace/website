@@ -1,348 +1,338 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import {
-	DashboardAccordion,
-	DashboardButton,
-	DashboardButtonAction,
-	DashboardButtonLink,
-	DashboardList,
-	DashboardLogo,
-	DashboardMenu,
-	DashboardSection,
-	Truncate,
+  DashboardAccordion,
+  DashboardButton,
+  DashboardButtonAction,
+  DashboardButtonLink,
+  DashboardList,
+  DashboardMenu,
+  DashboardSection,
+  Truncate,
 } from "..";
 import Icon from "../Icons/Icons";
 import Stack from "../Stack/Stack";
 
 type CollectionRow = {
-	id: string;
-	name: string;
-	description: string;
-	public: boolean;
-	createdAt: string;
-	updatedAt: string;
-	count: number;
+  id: string;
+  name: string;
+  description: string;
+  public: boolean;
+  createdAt: string;
+  updatedAt: string;
+  count: number;
 };
 
 type TagRow = {
-	id: string;
-	name: string;
-	createdAt: string;
-	updatedAt: string;
-	count: number;
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  count: number;
 };
 
 function DashboardNav({
-	collections,
-	favourite,
-	forLater,
-	handleClearCache,
-	handleSignOut,
-	onEditCollection,
-	onRenameTag,
-	selectedCollection,
-	selectedTags,
-	setFavourite,
-	setForLater,
-	setIsAddCollectionkOpen,
-	setIsAddLinkOpen,
-	setSelectedCollection,
-	setSelectedTags,
-	showLogo,
-	tags,
+  collections,
+  favourite,
+  forLater,
+  handleClearCache,
+  handleSignOut,
+  onEditCollection,
+  onRenameTag,
+  selectedCollection,
+  selectedTags,
+  setFavourite,
+  setForLater,
+  setIsAddCollectionkOpen,
+  setIsAddLinkOpen,
+  setSelectedCollection,
+  setSelectedTags,
+  tags,
 }: {
-	collections: CollectionRow[];
-	favourite: boolean;
-	forLater: boolean;
-	handleClearCache: () => void;
-	handleSignOut: () => void;
-	onEditCollection: (collection: CollectionRow) => void;
-	onRenameTag: (tag: TagRow) => void;
-	selectedCollection: string | null;
-	selectedTags: string[];
-	setFavourite: React.Dispatch<React.SetStateAction<boolean>>;
-	setForLater: React.Dispatch<React.SetStateAction<boolean>>;
-	setIsAddCollectionkOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	setIsAddLinkOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	setSelectedCollection: React.Dispatch<React.SetStateAction<string | null>>;
-	setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
-	showLogo: boolean;
-	tags: TagRow[];
+  collections: CollectionRow[];
+  favourite: boolean;
+  forLater: boolean;
+  handleClearCache: () => void;
+  handleSignOut: () => void;
+  onEditCollection: (collection: CollectionRow) => void;
+  onRenameTag: (tag: TagRow) => void;
+  selectedCollection: string | null;
+  selectedTags: string[];
+  setFavourite: React.Dispatch<React.SetStateAction<boolean>>;
+  setForLater: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsAddCollectionkOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsAddLinkOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedCollection: React.Dispatch<React.SetStateAction<string | null>>;
+  setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
+  tags: TagRow[];
 }) {
-	const queryClient = useQueryClient();
-	const [editModeCollections, setEditModeCollections] = useState(false);
-	const [editModeTags, setEditModeTags] = useState(false);
+  const queryClient = useQueryClient();
+  const [editModeCollections, setEditModeCollections] = useState(false);
+  const [editModeTags, setEditModeTags] = useState(false);
 
-	const deleteCollection = useMutation({
-		mutationFn: async (id: string) => {
-			const res = await fetch(
-				`${import.meta.env.VITE_API_URL}/collections/${id}`,
-				{ method: "DELETE", credentials: "include" },
-			);
-			if (!res.ok)
-				throw new Error(`DELETE /collections/${id} failed: ${res.status}`);
-		},
-		onSuccess: async (_, id) => {
-			if (selectedCollection === id) setSelectedCollection(null);
-			await Promise.all([
-				queryClient.invalidateQueries({ queryKey: ["collections"] }),
-				queryClient.invalidateQueries({ queryKey: ["links"] }),
-			]);
-		},
-	});
+  const deleteCollection = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/collections/${id}`,
+        { method: "DELETE", credentials: "include" },
+      );
+      if (!res.ok)
+        throw new Error(`DELETE /collections/${id} failed: ${res.status}`);
+    },
+    onSuccess: async (_, id) => {
+      if (selectedCollection === id) setSelectedCollection(null);
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["collections"] }),
+        queryClient.invalidateQueries({ queryKey: ["links"] }),
+      ]);
+    },
+  });
 
-	const deleteTag = useMutation({
-		mutationFn: async (id: string) => {
-			const res = await fetch(`${import.meta.env.VITE_API_URL}/tags/${id}`, {
-				method: "DELETE",
-				credentials: "include",
-			});
-			if (!res.ok) throw new Error(`DELETE /tags/${id} failed: ${res.status}`);
-		},
-		onSuccess: async (_, id) => {
-			if (selectedTags.includes(id))
-				setSelectedTags((prev) => prev.filter((t) => t !== id));
-			await Promise.all([
-				queryClient.invalidateQueries({ queryKey: ["tags"] }),
-				queryClient.invalidateQueries({ queryKey: ["links"] }),
-			]);
-		},
-	});
+  const deleteTag = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/tags/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error(`DELETE /tags/${id} failed: ${res.status}`);
+    },
+    onSuccess: async (_, id) => {
+      if (selectedTags.includes(id))
+        setSelectedTags((prev) => prev.filter((t) => t !== id));
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["tags"] }),
+        queryClient.invalidateQueries({ queryKey: ["links"] }),
+      ]);
+    },
+  });
 
-	return (
-		<nav>
-			{showLogo ? (
-				<DashboardSection>
-					<DashboardLogo />
-				</DashboardSection>
-			) : null}
-			<DashboardSection>
-				<DashboardList>
-					<DashboardList.Li>
-						<DashboardButton
-							icon={<Icon.List />}
-							onClick={() => {
-								setFavourite(false);
-								setForLater(false);
-								setSelectedCollection(null);
-								setSelectedTags([]);
-							}}
-							text="All"
-						/>
-					</DashboardList.Li>
-					<DashboardList.Li>
-						<DashboardButton
-							ariaPressed={favourite}
-							icon={<Icon.Heart />}
-							onClick={() => setFavourite((prev) => !prev)}
-							text="Favourite"
-						/>
-					</DashboardList.Li>
-					<DashboardList.Li>
-						<DashboardButton
-							ariaPressed={forLater}
-							icon={<Icon.Coffee />}
-							onClick={() => setForLater((prev) => !prev)}
-							text="For later"
-						/>
-					</DashboardList.Li>
-				</DashboardList>
+  return (
+    <nav>
+      <DashboardSection>
+        <DashboardList>
+          <DashboardList.Li>
+            <DashboardButton
+              icon={<Icon.List />}
+              onClick={() => {
+                setFavourite(false);
+                setForLater(false);
+                setSelectedCollection(null);
+                setSelectedTags([]);
+              }}
+              text="All"
+            />
+          </DashboardList.Li>
+          <DashboardList.Li>
+            <DashboardButton
+              ariaPressed={favourite}
+              icon={<Icon.Heart />}
+              onClick={() => setFavourite((prev) => !prev)}
+              text="Favourite"
+            />
+          </DashboardList.Li>
+          <DashboardList.Li>
+            <DashboardButton
+              ariaPressed={forLater}
+              icon={<Icon.Coffee />}
+              onClick={() => setForLater((prev) => !prev)}
+              text="For later"
+            />
+          </DashboardList.Li>
+        </DashboardList>
 
-				<DashboardButton
-					icon={<Icon.Plus />}
-					onClick={() => setIsAddLinkOpen(true)}
-					text="Add link"
-				/>
-			</DashboardSection>
-			<DashboardSection>
-				<DashboardAccordion summary="Collections">
-					<Stack>
-						<DashboardList>
-							{collections.map((c, index, arr) => (
-								<DashboardList.Li
-									key={c.id}
-									highlightOnHover={editModeCollections}
-									loading={
-										deleteCollection.isPending &&
-										deleteCollection.variables === c.id
-									}
-								>
-									<Truncate>
-										<DashboardButton
-											icon={<Icon.Folder />}
-											onClick={() =>
-												setSelectedCollection((prev) =>
-													prev === c.id ? null : c.id,
-												)
-											}
-											ariaPressed={selectedCollection === c.id}
-											text={c.name}
-											counter={c.count}
-										/>
-									</Truncate>
-									{editModeCollections ? (
-										<DashboardMenu fadeIn order={arr.length - index}>
-											<DashboardMenu.Li>
-												<DashboardButtonAction
-													text="Edit"
-													onClick={() => onEditCollection(c)}
-												/>
-											</DashboardMenu.Li>
-											<DashboardMenu.Li>
-												<DashboardButtonAction
-													text="Delete"
-													onClick={() => deleteCollection.mutate(c.id)}
-													destructive
-												/>
-											</DashboardMenu.Li>
-										</DashboardMenu>
-									) : null}
-								</DashboardList.Li>
-							))}
-						</DashboardList>
+        <DashboardButton
+          icon={<Icon.Plus />}
+          onClick={() => setIsAddLinkOpen(true)}
+          text="Add link"
+        />
+      </DashboardSection>
+      <DashboardSection>
+        <DashboardAccordion summary="Collections">
+          <Stack>
+            <DashboardList>
+              {collections.map((c, index, arr) => (
+                <DashboardList.Li
+                  key={c.id}
+                  loading={
+                    deleteCollection.isPending &&
+                    deleteCollection.variables === c.id
+                  }
+                >
+                  <Truncate>
+                    <DashboardButton
+                      icon={<Icon.Folder />}
+                      onClick={() =>
+                        setSelectedCollection((prev) =>
+                          prev === c.id ? null : c.id,
+                        )
+                      }
+                      ariaPressed={selectedCollection === c.id}
+                      text={c.name}
+                      counter={c.count}
+                    />
+                  </Truncate>
+                  {editModeCollections ? (
+                    <DashboardMenu fadeIn order={arr.length - index}>
+                      <DashboardMenu.Li>
+                        <DashboardButtonAction
+                          text="Edit"
+                          onClick={() => onEditCollection(c)}
+                        />
+                      </DashboardMenu.Li>
+                      <DashboardMenu.Li>
+                        <DashboardButtonAction
+                          text="Delete"
+                          onClick={() => deleteCollection.mutate(c.id)}
+                          destructive
+                        />
+                      </DashboardMenu.Li>
+                    </DashboardMenu>
+                  ) : null}
+                </DashboardList.Li>
+              ))}
+            </DashboardList>
 
-						<div>
-							<DashboardButton
-								icon={<Icon.Plus />}
-								onClick={() => setIsAddCollectionkOpen(true)}
-								text="Add collection"
-							/>
-							{collections.length ? (
-								<DashboardButton
-									ariaPressed={editModeCollections}
-									icon={<Icon.Edit />}
-									onClick={() => setEditModeCollections((prev) => !prev)}
-									text={
-										editModeCollections
-											? "Disable edit mode"
-											: "Edit collections"
-									}
-								/>
-							) : null}
-						</div>
-					</Stack>
-				</DashboardAccordion>
-			</DashboardSection>
-			{tags.length ? (
-				<DashboardSection>
-					<DashboardAccordion summary="Tags">
-						<Stack>
-							<DashboardList>
-								{tags.map((t, index, arr) => (
-									<DashboardList.Li
-										key={t.id}
-										highlightOnHover={editModeTags}
-										loading={
-											deleteTag.isPending && deleteTag.variables === t.id
-										}
-									>
-										<Truncate>
-											<DashboardButton
-												icon={<Icon.Tag />}
-												onClick={() =>
-													setSelectedTags((prev) =>
-														prev.includes(t.id)
-															? prev.filter((id) => id !== t.id)
-															: [...prev, t.id],
-													)
-												}
-												ariaPressed={selectedTags.includes(t.id)}
-												text={t.name}
-												counter={t.count}
-											/>
-										</Truncate>
+            <div>
+              <DashboardButton
+                icon={<Icon.Plus />}
+                onClick={() => setIsAddCollectionkOpen(true)}
+                text="Add collection"
+              />
+              {collections.length ? (
+                <DashboardButton
+                  ariaPressed={editModeCollections}
+                  icon={<Icon.Edit />}
+                  onClick={() => setEditModeCollections((prev) => !prev)}
+                  text={
+                    editModeCollections
+                      ? "Disable edit mode"
+                      : "Edit collections"
+                  }
+                />
+              ) : null}
+            </div>
+          </Stack>
+        </DashboardAccordion>
+      </DashboardSection>
+      {tags.length ? (
+        <DashboardSection>
+          <DashboardAccordion summary="Tags">
+            <Stack>
+              <DashboardList>
+                {tags.map((t, index, arr) => (
+                  <DashboardList.Li
+                    key={t.id}
+                    loading={
+                      deleteTag.isPending && deleteTag.variables === t.id
+                    }
+                  >
+                    <Truncate>
+                      <DashboardButton
+                        icon={<Icon.Tag />}
+                        onClick={() =>
+                          setSelectedTags((prev) =>
+                            prev.includes(t.id)
+                              ? prev.filter((id) => id !== t.id)
+                              : [...prev, t.id],
+                          )
+                        }
+                        ariaPressed={selectedTags.includes(t.id)}
+                        text={t.name}
+                        counter={t.count}
+                      />
+                    </Truncate>
 
-										{editModeTags ? (
-											<DashboardMenu fadeIn order={arr.length - index}>
-												<DashboardMenu.Li>
-													<DashboardButtonAction
-														text="Rename"
-														onClick={() => onRenameTag(t)}
-													/>
-												</DashboardMenu.Li>
-												<DashboardMenu.Li>
-													<DashboardButtonAction
-														text="Delete"
-														onClick={() => deleteTag.mutate(t.id)}
-														destructive
-													/>
-												</DashboardMenu.Li>
-											</DashboardMenu>
-										) : null}
-									</DashboardList.Li>
-								))}
-							</DashboardList>
+                    {editModeTags ? (
+                      <DashboardMenu fadeIn order={arr.length - index}>
+                        <DashboardMenu.Li>
+                          <DashboardButtonAction
+                            text="Rename"
+                            onClick={() => onRenameTag(t)}
+                          />
+                        </DashboardMenu.Li>
+                        <DashboardMenu.Li>
+                          <DashboardButtonAction
+                            text="Delete"
+                            onClick={() => deleteTag.mutate(t.id)}
+                            destructive
+                          />
+                        </DashboardMenu.Li>
+                      </DashboardMenu>
+                    ) : null}
+                  </DashboardList.Li>
+                ))}
+              </DashboardList>
 
-							<div>
-								<DashboardButton
-									ariaPressed={editModeTags}
-									icon={<Icon.Edit />}
-									text={editModeTags ? "Disable edit mode" : "Edit tags"}
-									onClick={() => setEditModeTags((prev) => !prev)}
-								/>
-							</div>
-						</Stack>
-					</DashboardAccordion>
-				</DashboardSection>
-			) : null}
+              <div>
+                <DashboardButton
+                  ariaPressed={editModeTags}
+                  icon={<Icon.Edit />}
+                  text={editModeTags ? "Disable edit mode" : "Edit tags"}
+                  onClick={() => setEditModeTags((prev) => !prev)}
+                />
+              </div>
+            </Stack>
+          </DashboardAccordion>
+        </DashboardSection>
+      ) : null}
 
-			<DashboardSection>
-				<DashboardList>
-					<DashboardList.Li>
-						<DashboardButtonLink
-							icon={<Icon.User />}
-							to="/profile"
-							text="Profile"
-						/>
-					</DashboardList.Li>
-					<DashboardList.Li>
-						<DashboardButton
-							icon={<Icon.Import />}
-							onClick={() => alert("Import & export")}
-							text="Import & export"
-						/>
-					</DashboardList.Li>
-					<DashboardList.Li>
-						<DashboardButton
-							icon={<Icon.Extension />}
-							onClick={() => alert("Browsers extensions")}
-							text="Browsers extensions"
-						/>
-					</DashboardList.Li>
-					<DashboardList.Li>
-						<DashboardButton
-							icon={<Icon.Star />}
-							onClick={() => alert("Pro features")}
-							text="Pro features"
-						/>
-					</DashboardList.Li>
-					<DashboardList.Li>
-						<DashboardButton
-							icon={<Icon.Reload />}
-							onClick={handleClearCache}
-							text="Clear cache and sync"
-						/>
-					</DashboardList.Li>
-					<DashboardList.Li>
-						<DashboardButton
-							icon={<Icon.SignOut />}
-							onClick={handleSignOut}
-							text="Sign out"
-						/>
-					</DashboardList.Li>
-				</DashboardList>
-				{
-					// <h1>User</h1>
-					// <p>Username: {user.username}</p>
-					// <p>Display name: {user.displayName}</p>
-					// <p>Email: {user.email}</p>
-					// <p>Pro: {user.isPro ? "Yes" : "No"}</p>
-					// <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
-					// <p>Member since: {user.createdAt.slice(0, 10)}</p>
-				}
-			</DashboardSection>
-		</nav>
-	);
+      <DashboardSection>
+        <DashboardList>
+          <DashboardList.Li>
+            <DashboardButtonLink
+              icon={<Icon.User />}
+              to="/profile"
+              text="Profile"
+            />
+          </DashboardList.Li>
+          <DashboardList.Li>
+            <DashboardButton
+              icon={<Icon.Import />}
+              onClick={() => alert("Import & export")}
+              text="Import & export"
+            />
+          </DashboardList.Li>
+          <DashboardList.Li>
+            <DashboardButton
+              icon={<Icon.Extension />}
+              onClick={() => alert("Browsers extensions")}
+              text="Browsers extensions"
+            />
+          </DashboardList.Li>
+          <DashboardList.Li>
+            <DashboardButton
+              icon={<Icon.Star />}
+              onClick={() => alert("Pro features")}
+              text="Pro features"
+            />
+          </DashboardList.Li>
+          <DashboardList.Li>
+            <DashboardButton
+              icon={<Icon.Reload />}
+              onClick={handleClearCache}
+              text="Clear cache and sync"
+            />
+          </DashboardList.Li>
+          <DashboardList.Li>
+            <DashboardButton
+              icon={<Icon.SignOut />}
+              onClick={handleSignOut}
+              text="Sign out"
+            />
+          </DashboardList.Li>
+        </DashboardList>
+        {
+          // <h1>User</h1>
+          // <p>Username: {user.username}</p>
+          // <p>Display name: {user.displayName}</p>
+          // <p>Email: {user.email}</p>
+          // <p>Pro: {user.isPro ? "Yes" : "No"}</p>
+          // <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
+          // <p>Member since: {user.createdAt.slice(0, 10)}</p>
+        }
+      </DashboardSection>
+    </nav>
+  );
 }
 
 export default DashboardNav;
