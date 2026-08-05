@@ -185,6 +185,22 @@ function SearchInput({
     onSelectedCollectionChange(null);
   }
 
+  const hasAnyFilter =
+    rawInput.trim() !== "" ||
+    favourite ||
+    forLater ||
+    collectionPill !== null ||
+    tagPills.length > 0;
+
+  function clearAll() {
+    updateRawAndValue("");
+    onSelectedTagsChange([]);
+    onSelectedCollectionChange(null);
+    onFavouriteChange(false);
+    onForLaterChange(false);
+    setEscapeClosed(false);
+  }
+
   const { getInputProps, getMenuProps, getItemProps, highlightedIndex } =
     useCombobox<Item>({
       items,
@@ -244,6 +260,9 @@ function SearchInput({
     <div className={styles.field}>
       <div className={styles.comboboxWrapper}>
         <div className={styles.comboboxInputGroup}>
+          <div className={styles.searchIcon}>
+            <Icon.Search />
+          </div>
           <div className={styles.searchInputInner}>
             {favourite ? (
               <span className={styles.tag}>
@@ -305,6 +324,16 @@ function SearchInput({
               })}
             />
           </div>
+          {hasAnyFilter ? (
+            <button
+              type="button"
+              className={styles.searchClear}
+              aria-label="Clear all filters"
+              onClick={clearAll}
+            >
+              <Icon.Close />
+            </button>
+          ) : null}
         </div>
 
         <ul
