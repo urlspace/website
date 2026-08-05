@@ -113,7 +113,7 @@ function PageDashboard() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const debouncedQuery = useDebouncedValue(value, 200, () => setPage(1));
+  const debouncedQuery = useDebouncedValue(value, 250, () => setPage(1));
 
   function handleClearCache() {
     queryClient.invalidateQueries({ queryKey: ["links"] });

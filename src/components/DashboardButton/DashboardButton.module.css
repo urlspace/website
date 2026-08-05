@@ -3,7 +3,7 @@
   color: var(--color-fg);
   background-color: transparent;
   border: none;
-  /* align-self: flex-start; */
+  align-self: flex-start;
   display: flex;
   gap: 0.25lh;
   align-items: center;

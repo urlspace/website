@@ -20,8 +20,8 @@
     overlay var(--transition-duration) allow-discrete;
 
   &::backdrop {
-    background-color: color-mix(in srgb, var(--color-bg) 75%, transparent);
-    backdrop-filter: blur(10px);
+    background-color: color-mix(in srgb, var(--color-bg) 85%, transparent);
+    backdrop-filter: blur(6px);
     opacity: 0;
     transition: opacity var(--transition-duration);
   }

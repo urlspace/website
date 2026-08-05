@@ -44,27 +44,6 @@
   }
 }
 
-.kbd {
-  --bg-color-light: color-mix(in oklab, var(--color-bg) 98%, var(--color-fg));
-  --bg-color-dark: color-mix(in oklab, var(--color-bg) 99%, var(--color-fg));
-  --bg-color: light-dark(var(--bg-color-light), var(--bg-color-dark));
-
-  font-size: 0.75rem;
-  font-family:
-    ui-monospace,
-    SF Mono,
-    SF Mono-Regular,
-    Consolas,
-    "Liberation Mono",
-    Menlo,
-    Courier,
-    monospace;
-  padding-inline: 0.25rem;
-  outline: 1px solid var(--color-border);
-  background-color: var(--bg-color);
-  color: var(--color-fg);
-}
-
 .labelDisabled {
   opacity: 0.75;
   cursor: not-allowed;
@@ -72,7 +51,7 @@
 }
 
 .input {
-  --outline-color: var(--color-border);
+  --outline-color: var(--color-border-input);
 
   font: inherit;
   padding: 0.5lh;
@@ -125,7 +104,7 @@
   width: 0.75rlh;
   height: 0.75rlh;
   box-shadow:
-    inset 0 0 0 2px var(--color-border),
+    inset 0 0 0 1px var(--color-border-input),
     inset 0 0 0 3px var(--color-bg);
   background-color: var(--color-bg-content);
   border-radius: var(--radius);
@@ -142,7 +121,7 @@
   }
 
   &:focus {
-    outline: 2px solid var(--color-fg);
+    outline: 1px solid var(--color-fg);
   }
 
   &:disabled {
@@ -195,7 +174,7 @@
 }
 
 .comboboxInputGroup {
-  --outline-color: var(--color-border);
+  --outline-color: var(--color-border-input);
 
   display: flex;
   align-items: center;
@@ -267,15 +246,20 @@
   margin: 0;
   padding: 0;
   background-color: var(--color-bg);
-  outline: 2px solid var(--color-fg);
-  outline-offset: -2px;
-  max-height: calc(1.5lh * 3.5);
+  outline: 1px solid var(--color-fg);
+  outline-offset: -1px;
+  max-height: calc(1.5lh * 9);
   overflow-y: scroll;
   scrollbar-width: none;
   overscroll-behavior-y: contain;
+  border-radius: var(--radius);
 
   &[hidden] {
     display: none;
+  }
+
+  dialog & {
+    max-height: calc(1.5lh * 4);
   }
 }
 
@@ -298,7 +282,7 @@
 }
 
 .tagsInputGroup {
-  --outline-color: var(--color-border);
+  --outline-color: var(--color-border-input);
 
   display: flex;
   flex-wrap: wrap;
@@ -346,11 +330,12 @@
   align-items: center;
   gap: 0.25lh;
   padding-inline: 0.25lh;
-  box-shadow: inset 0 0 0 2px var(--color-fg);
+  box-shadow: inset 0 0 0 1px var(--color-border-input);
   color: var(--color-fg);
   font-size: 0.8125rem;
-  font-weight: 600;
+  /* font-weight: 600; */
   white-space: nowrap;
+  border-radius: 4px;
 }
 
 .tagRemove {

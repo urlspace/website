@@ -242,16 +242,6 @@ function SearchInput({
 
   return (
     <div className={styles.field}>
-      {
-        // TODO: Add label and badge back in when we have a better design for them.
-        // <label className={styles.label} htmlFor={inputId}>
-        // 	{label}
-        // </label>
-        // <span className={styles.badge}>
-        // 	Type <kbd className={styles.kbd}>/</kbd> to search
-        // </span>
-      }
-
       <div className={styles.comboboxWrapper}>
         <div className={styles.comboboxInputGroup}>
           <div className={styles.searchInputInner}>
