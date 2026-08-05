@@ -348,24 +348,6 @@ function PageDashboard() {
       </Dashboard.Main>
       <aside>
         total count: {totalCount} | page {page}/{totalPages}
-        {value ||
-        favourite ||
-        forLater ||
-        selectedTags.length > 0 ||
-        selectedCollection ? (
-          <DashboardButton
-            icon={<Icon.Erease />}
-            onClick={() => {
-              setValue("");
-              setFavourite(false);
-              setForLater(false);
-              setSelectedTags([]);
-              setSelectedCollection(null);
-              setPage(1);
-            }}
-            text="Clear filters"
-          />
-        ) : null}
       </aside>
 
       <Drawer open={isNavOpen} onClose={() => setIsNavOpen(false)} title="Menu">

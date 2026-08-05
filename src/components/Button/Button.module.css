@@ -8,6 +8,7 @@
   font-weight: 500;
   border: none;
   display: inline-block;
+  border-radius: var(--radius);
 
   &:hover {
     color: var(--color-bg);
