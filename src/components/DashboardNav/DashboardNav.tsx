@@ -7,11 +7,11 @@ import {
   DashboardButtonLink,
   DashboardList,
   DashboardMenu,
-  DashboardSection,
   Truncate,
 } from "..";
 import Icon from "../Icons/Icons";
 import Stack from "../Stack/Stack";
+import styles from "./DashboardNav.module.css";
 
 type CollectionRow = {
   id: string;
@@ -107,48 +107,48 @@ function DashboardNav({
   });
 
   return (
-    <nav>
-      <DashboardSection>
-        <DashboardList>
-          <DashboardList.Li>
-            <DashboardButton
-              icon={<Icon.List />}
-              onClick={() => {
-                setFavourite(false);
-                setForLater(false);
-                setSelectedCollection(null);
-                setSelectedTags([]);
-              }}
-              text="All"
-            />
-          </DashboardList.Li>
-          <DashboardList.Li>
-            <DashboardButton
-              ariaPressed={favourite}
-              icon={<Icon.Heart />}
-              onClick={() => setFavourite((prev) => !prev)}
-              text="Favourite"
-            />
-          </DashboardList.Li>
-          <DashboardList.Li>
-            <DashboardButton
-              ariaPressed={forLater}
-              icon={<Icon.Coffee />}
-              onClick={() => setForLater((prev) => !prev)}
-              text="For later"
-            />
-          </DashboardList.Li>
-        </DashboardList>
+    <nav className={styles.nav}>
+      <Stack gap={1.5}>
+        <Stack gap={0.5}>
+          <DashboardList>
+            <DashboardList.Li>
+              <DashboardButton
+                icon={<Icon.List />}
+                onClick={() => {
+                  setFavourite(false);
+                  setForLater(false);
+                  setSelectedCollection(null);
+                  setSelectedTags([]);
+                }}
+                text="All"
+              />
+            </DashboardList.Li>
+            <DashboardList.Li>
+              <DashboardButton
+                ariaPressed={favourite}
+                icon={<Icon.Heart />}
+                onClick={() => setFavourite((prev) => !prev)}
+                text="Favourite"
+              />
+            </DashboardList.Li>
+            <DashboardList.Li>
+              <DashboardButton
+                ariaPressed={forLater}
+                icon={<Icon.Coffee />}
+                onClick={() => setForLater((prev) => !prev)}
+                text="For later"
+              />
+            </DashboardList.Li>
+          </DashboardList>
 
-        <DashboardButton
-          icon={<Icon.Plus />}
-          onClick={() => setIsAddLinkOpen(true)}
-          text="Add link"
-        />
-      </DashboardSection>
-      <DashboardSection>
+          <DashboardButton
+            icon={<Icon.Plus />}
+            onClick={() => setIsAddLinkOpen(true)}
+            text="Add link"
+          />
+        </Stack>
         <DashboardAccordion summary="Collections">
-          <Stack>
+          <Stack gap={0.5}>
             <DashboardList>
               {collections.map((c, index, arr) => (
                 <DashboardList.Li
@@ -213,11 +213,9 @@ function DashboardNav({
             </div>
           </Stack>
         </DashboardAccordion>
-      </DashboardSection>
-      {tags.length ? (
-        <DashboardSection>
+        {tags.length ? (
           <DashboardAccordion summary="Tags">
-            <Stack>
+            <Stack gap={0.5}>
               <DashboardList>
                 {tags.map((t, index, arr) => (
                   <DashboardList.Li
@@ -273,10 +271,7 @@ function DashboardNav({
               </div>
             </Stack>
           </DashboardAccordion>
-        </DashboardSection>
-      ) : null}
-
-      <DashboardSection>
+        ) : null}
         <DashboardList>
           <DashboardList.Li>
             <DashboardButtonLink
@@ -321,16 +316,7 @@ function DashboardNav({
             />
           </DashboardList.Li>
         </DashboardList>
-        {
-          // <h1>User</h1>
-          // <p>Username: {user.username}</p>
-          // <p>Display name: {user.displayName}</p>
-          // <p>Email: {user.email}</p>
-          // <p>Pro: {user.isPro ? "Yes" : "No"}</p>
-          // <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
-          // <p>Member since: {user.createdAt.slice(0, 10)}</p>
-        }
-      </DashboardSection>
+      </Stack>
     </nav>
   );
 }
