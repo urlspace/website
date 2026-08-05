@@ -204,12 +204,12 @@ function PageDashboard() {
           <DashboardButton
             icon={<Icon.Plus />}
             onClick={() => setIsAddLinkOpen(true)}
-            text="Link"
+            text="Add link"
           />
           <DashboardButton
             icon={<Icon.Plus />}
             onClick={() => setIsAddCollectionOpen(true)}
-            text="Collection"
+            text="Add collection"
           />
         </Dashboard.HeaderActions>
         <Dashboard.HeaderFilters>
@@ -287,64 +287,6 @@ function PageDashboard() {
         />
       </Dashboard.Aside>
       <Dashboard.Main>
-        {
-          //   newAccount ? null : (
-          //   <DashboardSection search>
-          //     <Form.SearchInput
-          //       label="Search"
-          //       placeholder="Search for..."
-          //       value={value}
-          //       onValueChange={setValue}
-          //       tags={tags}
-          //       collections={collections}
-          //       selectedTags={selectedTags}
-          //       onSelectedTagsChange={(updater) => {
-          //         setSelectedTags(updater);
-          //         setPage(1);
-          //       }}
-          //       selectedCollection={selectedCollection}
-          //       onSelectedCollectionChange={(updater) => {
-          //         setSelectedCollection(updater);
-          //         setPage(1);
-          //       }}
-          //       favourite={favourite}
-          //       onFavouriteChange={(updater) => {
-          //         setFavourite(updater);
-          //         setPage(1);
-          //       }}
-          //       forLater={forLater}
-          //       onForLaterChange={(updater) => {
-          //         setForLater(updater);
-          //         setPage(1);
-          //       }}
-          //     />
-          //
-          //     <Stack direction="row" spaceBetween>
-          //       <p>Results: {totalCount}</p>
-          //
-          //       {value ||
-          //       favourite ||
-          //       forLater ||
-          //       selectedTags.length > 0 ||
-          //       selectedCollection ? (
-          //         <DashboardButton
-          //           icon={<Icon.Erease />}
-          //           onClick={() => {
-          //             setValue("");
-          //             setFavourite(false);
-          //             setForLater(false);
-          //             setSelectedTags([]);
-          //             setSelectedCollection(null);
-          //             setPage(1);
-          //           }}
-          //           text="Clear filters"
-          //         />
-          //       ) : null}
-          //     </Stack>
-          //   </DashboardSection>
-          // )
-        }
-
         {links.length ? (
           links.map((link) => (
             <DashboardLink
@@ -404,7 +346,27 @@ function PageDashboard() {
           </nav>
         ) : null}
       </Dashboard.Main>
-      <aside>aside</aside>
+      <aside>
+        total count: {totalCount} | page {page}/{totalPages}
+        {value ||
+        favourite ||
+        forLater ||
+        selectedTags.length > 0 ||
+        selectedCollection ? (
+          <DashboardButton
+            icon={<Icon.Erease />}
+            onClick={() => {
+              setValue("");
+              setFavourite(false);
+              setForLater(false);
+              setSelectedTags([]);
+              setSelectedCollection(null);
+              setPage(1);
+            }}
+            text="Clear filters"
+          />
+        ) : null}
+      </aside>
 
       <Drawer open={isNavOpen} onClose={() => setIsNavOpen(false)} title="Menu">
         <DashboardNav

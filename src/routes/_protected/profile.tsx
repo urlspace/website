@@ -12,7 +12,6 @@ import {
   DashboardButton,
   DashboardLogo,
   DashboardNavSecondary,
-  DashboardSection,
   Drawer,
   Heading,
   Icon,
@@ -138,48 +137,39 @@ function PageProfile() {
         />
       </Dashboard.Aside>
       <Dashboard.Main>
-        <DashboardSection>
-          <Stack>
-            <Heading level={1} text={`Profile (${user.username})`} />
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Exercitationem, excepturi soluta? Odio, optio voluptas ratione
-              quisquam temporibus laudantium corrupti cumque voluptatum vitae
-              reiciendis, placeat debitis, ea magnam beatae provident?
-              Voluptatem!
-            </p>
+        <Stack>
+          <Heading level={1} text={`Profile (${user.username})`} />
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Exercitationem, excepturi soluta? Odio, optio voluptas ratione
+            quisquam temporibus laudantium corrupti cumque voluptatum vitae
+            reiciendis, placeat debitis, ea magnam beatae provident? Voluptatem!
+          </p>
 
-            <ul>
-              <li>Username: {user.username}</li>
-              <li>Display name: {user.displayName}</li>
-              <li>Email: {user.email}</li>
-            </ul>
-          </Stack>
-        </DashboardSection>
-        <DashboardSection>
-          <Stack>
-            <Heading level={2} text="Sessions" />
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Exercitationem, excepturi soluta? Odio, optio voluptas ratione
-              quisquam temporibus laudantium corrupti cumque voluptatum vitae
-              reiciendis, placeat debitis, ea magnam beatae provident?
-              Voluptatem!
-            </p>
-          </Stack>
-        </DashboardSection>
-        <DashboardSection>
-          <Stack>
-            <Heading level={2} text="API Tokens" />
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Exercitationem, excepturi soluta? Odio, optio voluptas ratione
-              quisquam temporibus laudantium corrupti cumque voluptatum vitae
-              reiciendis, placeat debitis, ea magnam beatae provident?
-              Voluptatem!
-            </p>
-          </Stack>
-        </DashboardSection>
+          <ul>
+            <li>Username: {user.username}</li>
+            <li>Display name: {user.displayName}</li>
+            <li>Email: {user.email}</li>
+          </ul>
+        </Stack>
+        <Stack>
+          <Heading level={2} text="Sessions" />
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Exercitationem, excepturi soluta? Odio, optio voluptas ratione
+            quisquam temporibus laudantium corrupti cumque voluptatum vitae
+            reiciendis, placeat debitis, ea magnam beatae provident? Voluptatem!
+          </p>
+        </Stack>
+        <Stack>
+          <Heading level={2} text="API Tokens" />
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Exercitationem, excepturi soluta? Odio, optio voluptas ratione
+            quisquam temporibus laudantium corrupti cumque voluptatum vitae
+            reiciendis, placeat debitis, ea magnam beatae provident? Voluptatem!
+          </p>
+        </Stack>
       </Dashboard.Main>
 
       <Drawer open={isNavOpen} onClose={() => setIsNavOpen(false)} title="Menu">
