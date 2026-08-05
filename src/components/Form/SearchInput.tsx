@@ -201,8 +201,13 @@ function SearchInput({
     setEscapeClosed(false);
   }
 
-  const { getInputProps, getMenuProps, getItemProps, highlightedIndex } =
-    useCombobox<Item>({
+  const {
+    getInputProps,
+    getLabelProps,
+    getMenuProps,
+    getItemProps,
+    highlightedIndex,
+  } = useCombobox<Item>({
       items,
       inputValue: rawInput,
       isOpen,
@@ -258,6 +263,9 @@ function SearchInput({
 
   return (
     <div className={styles.field}>
+      <label {...getLabelProps({ className: styles.visuallyHidden })}>
+        {label}
+      </label>
       <div className={styles.comboboxWrapper}>
         <div className={styles.comboboxInputGroup}>
           <div className={styles.searchIcon}>
