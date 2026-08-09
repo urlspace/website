@@ -346,9 +346,14 @@ function PageDashboard() {
           </nav>
         ) : null}
       </Dashboard.Main>
-      <aside>
-        total count: {totalCount} | page {page}/{totalPages}
-      </aside>
+      <Dashboard.AsideStats>
+        <ul>
+          <li>total count: {totalCount}</li>
+          <li>
+            page {page}/{totalPages}{" "}
+          </li>
+        </ul>
+      </Dashboard.AsideStats>
 
       <Drawer open={isNavOpen} onClose={() => setIsNavOpen(false)} title="Menu">
         <DashboardNav

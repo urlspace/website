@@ -103,3 +103,39 @@
     display: block;
   }
 }
+
+.asideStats {
+  --h: 3lh;
+
+  display: none;
+  position: sticky;
+  top: var(--h);
+  height: calc(100dvh - var(--h));
+  overflow-y: scroll;
+  scrollbar-width: none;
+  padding: 1lh;
+
+  ul {
+    margin-block-start: auto;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  li {
+    font-size: 0.625rem;
+    line-height: 0.5lh;
+    border-radius: var(--radius);
+    font-family: ui-monospace;
+    opacity: 0.5;
+    font-weight: 700;
+  }
+}
+
+.asideStats {
+  @media (width >= 1100px) {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

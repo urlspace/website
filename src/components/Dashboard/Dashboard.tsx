@@ -36,6 +36,10 @@ function Aside({ children }: { children: React.ReactNode }) {
   return <div className={styles.aside}>{children}</div>;
 }
 
+function AsideStats({ children }: { children: React.ReactNode }) {
+  return <div className={styles.asideStats}>{children}</div>;
+}
+
 Dashboard.Header = DashboardHeader;
 Dashboard.HeaderLogo = DashboardHeaderLogo;
 Dashboard.HeaderActions = DashboardHeaderActions;
@@ -43,5 +47,6 @@ Dashboard.HeaderFilters = DashboardHeaderFilters;
 Dashboard.HeaderTrigger = DashboardFiltersTrigger;
 Dashboard.Main = DashboardMain;
 Dashboard.Aside = Aside;
+Dashboard.AsideStats = AsideStats;
 
 export default Dashboard;
