@@ -31,6 +31,7 @@ export type Pagination = {
 export type LinksResponse = {
   data: LinkRow[];
   pagination: Pagination;
+  meta: { durationMs: number };
 };
 
 export type LinkFilters = {
@@ -58,11 +59,16 @@ const getLinks = createServerFn()
     if (filters.tagIds) {
       for (const id of filters.tagIds) params.append("tagId", id);
     }
+    const start = performance.now();
     const res = await fetch(`${import.meta.env.VITE_API_URL}/links?${params}`, {
       headers: { cookie },
     });
     if (!res.ok) throw new Error(`/links failed: ${res.status}`);
-    return (await res.json()) as LinksResponse;
+    const json = (await res.json()) as {
+      data: LinkRow[];
+      pagination: Pagination;
+    };
+    return { ...json, meta: { durationMs: Math.round(performance.now() - start) } };
   });
 
 export const linksQueryOptions = (filters: LinkFilters) => {

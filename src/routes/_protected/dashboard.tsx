@@ -352,6 +352,7 @@ function PageDashboard() {
           <li>
             page {page}/{totalPages}{" "}
           </li>
+          <li>query time: {linksResponse?.meta.durationMs}ms</li>
         </ul>
       </Dashboard.AsideStats>
 
