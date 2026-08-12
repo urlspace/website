@@ -1,26 +1,25 @@
 .heading {
-	--bg-color: transparent;
-	--bg-s-size: 2px;
-	--bg-s-color-light: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
-	--bg-s-color-dark: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
-	--bg-s-color: light-dark(var(--bg-s-color-light), var(--bg-s-color-dark));
-	--bg-size: 0.5lh;
+  --bg-color: transparent;
+  --bg-s-size: 2px;
+  --bg-s-color-light: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
+  --bg-s-color-dark: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
+  --bg-s-color: light-dark(var(--bg-s-color-light), var(--bg-s-color-dark));
+  --bg-size: 0.5lh;
 
-	background-color: var(--bg-color);
-	background-image: conic-gradient(
-		at var(--bg-s-size) var(--bg-s-size),
-		#0000 75%,
-		var(--bg-s-color) 0
-	);
-	background-size: var(--bg-size) var(--bg-size);
-	background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
-	text-wrap-style: pretty;
+  background-image: conic-gradient(
+    at var(--bg-s-size) var(--bg-s-size),
+    #0000 75%,
+    var(--bg-s-color) 0
+  );
+  background-size: var(--bg-size) var(--bg-size);
+  background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
+  text-wrap-style: pretty;
 }
 
 .inner {
-	background-color: var(--color-bg);
-	display: inline;
-	box-shadow: 1rlh 0 0 0 var(--color-bg);
+  background-color: var(--color-bg-content);
+  display: inline;
+  box-shadow: 1rlh 0 0 0 var(--color-bg-content);
 }
 
 .h1,
@@ -29,41 +28,41 @@
 .h4,
 .h5,
 .h6 {
-	margin: 0;
+  margin: 0;
 }
 
 .h1 {
-	font-weight: 800;
-	font-size: 1.5lh;
-	line-height: 2lh;
+  font-weight: 800;
+  font-size: 1.5lh;
+  line-height: 2lh;
 }
 
 .h2 {
-	font-weight: 800;
-	font-size: 1.125lh;
-	line-height: 1.5lh;
+  font-weight: 800;
+  font-size: 1.125lh;
+  line-height: 1.5lh;
 }
 
 .h3 {
-	font-weight: 800;
-	font-size: 1lh;
-	line-height: 1.5lh;
+  font-weight: 800;
+  font-size: 1lh;
+  line-height: 1.5lh;
 }
 
 .h4 {
-	font-weight: 500;
-	font-size: 1lh;
-	line-height: 1.5lh;
+  font-weight: 500;
+  font-size: 1lh;
+  line-height: 1.5lh;
 }
 
 .h5 {
-	font-weight: 500;
-	font-size: 0.75lh;
-	line-height: 1lh;
+  font-weight: 500;
+  font-size: 0.75lh;
+  line-height: 1lh;
 }
 
 .h6 {
-	font-weight: 500;
-	font-size: 0.625lh;
-	line-height: 1lh;
+  font-weight: 500;
+  font-size: 0.625lh;
+  line-height: 1lh;
 }

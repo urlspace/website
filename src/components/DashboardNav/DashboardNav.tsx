@@ -276,24 +276,26 @@ function DashboardNav({
           <DashboardList.Li>
             <DashboardButtonLink
               icon={<Icon.User />}
-              to="/profile"
-              text="Profile"
+              to="/settings"
+              text="Account settings"
             />
           </DashboardList.Li>
-          <DashboardList.Li>
-            <DashboardButton
-              icon={<Icon.Import />}
-              onClick={() => alert("Import & export")}
-              text="Import & export"
-            />
-          </DashboardList.Li>
-          <DashboardList.Li>
-            <DashboardButton
-              icon={<Icon.Extension />}
-              onClick={() => alert("Browsers extensions")}
-              text="Browsers extensions"
-            />
-          </DashboardList.Li>
+          {
+            // <DashboardList.Li>
+            //   <DashboardButton
+            //     icon={<Icon.Import />}
+            //     onClick={() => alert("Import & export")}
+            //     text="Import & export"
+            //   />
+            // </DashboardList.Li>
+            // <DashboardList.Li>
+            //   <DashboardButton
+            //     icon={<Icon.Extension />}
+            //     onClick={() => alert("Browsers extensions")}
+            //     text="Browsers extensions"
+            //   />
+            // </DashboardList.Li>
+          }
           <DashboardList.Li>
             <DashboardButton
               icon={<Icon.Star />}

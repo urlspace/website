@@ -171,6 +171,16 @@ function IconsSearch() {
   );
 }
 
+function IconsDashboard() {
+  return (
+    <IconBase>
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="M9 3v18" />
+      <path d="M15 3v18" />
+    </IconBase>
+  );
+}
+
 Icon.Filter = IconsFilter;
 Icon.Plus = IconsPlus;
 Icon.Edit = IconsEdit;
@@ -188,5 +198,6 @@ Icon.Reload = IconsReload;
 Icon.Star = IconsStar;
 Icon.Extension = IconsExtension;
 Icon.Search = IconsSearch;
+Icon.Dashboard = IconsDashboard;
 
 export default Icon;

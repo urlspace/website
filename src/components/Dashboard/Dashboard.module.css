@@ -23,33 +23,32 @@
 
 .header {
   background-color: var(--color-bg-content);
-  padding: 0.5lh;
+  padding: 1lh 1lh 0.5lh;
   box-shadow: inset 0 -1px 0 0 var(--color-border);
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: subgrid;
   position: sticky;
-  top: -2lh;
+  top: -2.5lh;
   align-items: center;
   /* this is important */
   /* then the link is loading, the opacity is modified so the component */
   /* temporarily is rendered on top of the header  */
   /* this one is here to make sure that the header is always on top  */
   z-index: 1;
+  gap: 1lh;
 
   @media (width >= 1100px) {
+    padding: 0.5lh 1lh;
+    gap: 0;
     top: 0;
   }
 }
 
-.headerLogo {
-  padding-block: 0.5lh;
-}
 .headerActions {
   display: flex;
   gap: 0.5lh;
   justify-content: flex-end;
-  padding: 0.5lh;
 
   @media (width >= 1100px) {
     grid-column: 3 / 4;
@@ -61,7 +60,6 @@
   gap: 0.5lh;
   align-items: center;
   grid-column: 1 / -1;
-  padding-inline: 0.5lh;
 
   @media (width >= 1100px) {
     grid-column: 2 / 3;

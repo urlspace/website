@@ -13,10 +13,6 @@ function DashboardHeader({ children }: { children: React.ReactNode }) {
   return <header className={styles.header}>{children}</header>;
 }
 
-function DashboardHeaderLogo({ children }: { children: React.ReactNode }) {
-  return <header className={styles.headerLogo}>{children}</header>;
-}
-
 function DashboardHeaderActions({ children }: { children: React.ReactNode }) {
   return <header className={styles.headerActions}>{children}</header>;
 }
@@ -41,7 +37,6 @@ function AsideStats({ children }: { children: React.ReactNode }) {
 }
 
 Dashboard.Header = DashboardHeader;
-Dashboard.HeaderLogo = DashboardHeaderLogo;
 Dashboard.HeaderActions = DashboardHeaderActions;
 Dashboard.HeaderFilters = DashboardHeaderFilters;
 Dashboard.HeaderTrigger = DashboardFiltersTrigger;

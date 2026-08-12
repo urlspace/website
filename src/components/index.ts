@@ -10,7 +10,6 @@ import DashboardList from "./DashboardList/DashboardList.tsx";
 import DashboardLogo from "./DashboardLogo/DashboardLogo.tsx";
 import DashboardMenu from "./DashboardMenu/DashboardMenu.tsx";
 import DashboardNav from "./DashboardNav/DashboardNav.tsx";
-import DashboardNavSecondary from "./DashboardNavSecondary/DashboardNavSecondary.tsx";
 import Dialog from "./Dialog/Dialog.tsx";
 import Drawer from "./Drawer/Drawer.tsx";
 import Footer from "./Footer/Footer.tsx";
@@ -44,7 +43,6 @@ export {
   DashboardLogo,
   DashboardMenu,
   DashboardNav,
-  DashboardNavSecondary,
   Dialog,
   Drawer,
   Footer,

@@ -197,9 +197,7 @@ function PageDashboard() {
   return (
     <Dashboard>
       <Dashboard.Header>
-        <Dashboard.HeaderLogo>
-          <DashboardLogo />
-        </Dashboard.HeaderLogo>
+        <DashboardLogo />
         <Dashboard.HeaderActions>
           <DashboardButton
             icon={<Icon.Plus />}

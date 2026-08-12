@@ -16,7 +16,7 @@ import { Route as PublicTermsOfServiceRouteImport } from './routes/_public/terms
 import { Route as PublicPrivacyPolicyRouteImport } from './routes/_public/privacy-policy'
 import { Route as PublicDocsRouteImport } from './routes/_public/docs'
 import { Route as PublicBlogRouteImport } from './routes/_public/blog'
-import { Route as ProtectedProfileRouteImport } from './routes/_protected/profile'
+import { Route as ProtectedSettingsRouteImport } from './routes/_protected/settings'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as PublicAuthSigninRouteImport } from './routes/_public/auth/signin'
 import { Route as PublicAuthResendVerificationRouteImport } from './routes/_public/auth/resend-verification'
@@ -58,9 +58,9 @@ const PublicBlogRoute = PublicBlogRouteImport.update({
   path: '/blog',
   getParentRoute: () => PublicRoute,
 } as any)
-const ProtectedProfileRoute = ProtectedProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
+const ProtectedSettingsRoute = ProtectedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => ProtectedRoute,
 } as any)
 const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
@@ -105,7 +105,7 @@ const PublicAuthResetPasswordTokenRoute =
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/dashboard': typeof ProtectedDashboardRoute
-  '/profile': typeof ProtectedProfileRoute
+  '/settings': typeof ProtectedSettingsRoute
   '/blog': typeof PublicBlogRoute
   '/docs': typeof PublicDocsRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
@@ -120,7 +120,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
   '/dashboard': typeof ProtectedDashboardRoute
-  '/profile': typeof ProtectedProfileRoute
+  '/settings': typeof ProtectedSettingsRoute
   '/blog': typeof PublicBlogRoute
   '/docs': typeof PublicDocsRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
@@ -137,7 +137,7 @@ export interface FileRoutesById {
   '/_protected': typeof ProtectedRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
   '/_protected/dashboard': typeof ProtectedDashboardRoute
-  '/_protected/profile': typeof ProtectedProfileRoute
+  '/_protected/settings': typeof ProtectedSettingsRoute
   '/_public/blog': typeof PublicBlogRoute
   '/_public/docs': typeof PublicDocsRoute
   '/_public/privacy-policy': typeof PublicPrivacyPolicyRoute
@@ -155,7 +155,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
-    | '/profile'
+    | '/settings'
     | '/blog'
     | '/docs'
     | '/privacy-policy'
@@ -170,7 +170,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
-    | '/profile'
+    | '/settings'
     | '/blog'
     | '/docs'
     | '/privacy-policy'
@@ -186,7 +186,7 @@ export interface FileRouteTypes {
     | '/_protected'
     | '/_public'
     | '/_protected/dashboard'
-    | '/_protected/profile'
+    | '/_protected/settings'
     | '/_public/blog'
     | '/_public/docs'
     | '/_public/privacy-policy'
@@ -256,11 +256,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicBlogRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_protected/profile': {
-      id: '/_protected/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProtectedProfileRouteImport
+    '/_protected/settings': {
+      id: '/_protected/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof ProtectedSettingsRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/dashboard': {
@@ -317,12 +317,12 @@ declare module '@tanstack/react-router' {
 
 interface ProtectedRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
-  ProtectedProfileRoute: typeof ProtectedProfileRoute
+  ProtectedSettingsRoute: typeof ProtectedSettingsRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
-  ProtectedProfileRoute: ProtectedProfileRoute,
+  ProtectedSettingsRoute: ProtectedSettingsRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
