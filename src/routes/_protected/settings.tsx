@@ -4,6 +4,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { useState } from "react";
 import {
+  Button,
   DashboardButton,
   DashboardButtonLink,
   DashboardLogo,
@@ -114,8 +115,7 @@ function PageProfile() {
                   <span>{user.username}</span>
                   <DashboardButton
                     onClick={() => setIsChangeUsernameOpen(true)}
-                    text="Change"
-                    ariaLabel="Change username"
+                    text="Change username"
                   />
                 </dd>
               </div>
@@ -126,8 +126,7 @@ function PageProfile() {
                   <span>{user.displayName}</span>
                   <DashboardButton
                     onClick={() => setIsChangeDisplayNameOpen(true)}
-                    text="Change"
-                    ariaLabel="Change display name"
+                    text="Change display name"
                   />
                 </dd>
               </div>
@@ -138,13 +137,13 @@ function PageProfile() {
                   <span>{user.email}</span>
                   <DashboardButton
                     onClick={() => setIsChangeEmailOpen(true)}
-                    text="Change"
-                    ariaLabel="Change email"
+                    text="Change email"
                   />
                 </dd>
               </div>
             </dl>
           </Stack>
+          <hr />
           <Stack gap={1}>
             <Heading level={2} text="Security" />
             <dl className="settings">
@@ -154,20 +153,79 @@ function PageProfile() {
                   <span>************</span>
                   <DashboardButton
                     onClick={() => setIsChangePasswordOpen(true)}
-                    text="Change"
-                    ariaLabel="Change password"
+                    text="Change password"
                   />
                 </dd>
               </div>
             </dl>
           </Stack>
+          <hr />
           <Stack gap={1}>
             <Heading level={2} text="Sessions" />
-            <p>list here</p>
+            <ul className="settingsList">
+              <li className="settingsList__item">
+                <span className="settingsList__name">Session name</span>
+                <span className="settingsList__action">
+                  <DashboardButton
+                    onClick={() => setIsChangeUsernameOpen(true)}
+                    text="Revoke session"
+                  />
+                </span>
+              </li>
+              <li className="settingsList__item">
+                <span className="settingsList__name">
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Doloremque? Lorem ipsum dolor sit amet.
+                </span>
+                <span className="settingsList__action">
+                  <DashboardButton
+                    onClick={() => setIsChangeUsernameOpen(true)}
+                    text="Revoke session"
+                  />
+                </span>
+              </li>
+            </ul>
+
+            <Button text="Delete all sessions" />
           </Stack>
+          <hr />
           <Stack gap={1}>
             <Heading level={2} text="API Tokens" />
-            <p>list here</p>
+            <ul className="settingsList">
+              <li className="settingsList__item">
+                <span className="settingsList__name">Token name</span>
+                <span className="settingsList__action">
+                  <DashboardButton
+                    onClick={() => setIsChangeUsernameOpen(true)}
+                    text="Delete token"
+                  />
+                </span>
+              </li>
+              <li className="settingsList__item">
+                <span className="settingsList__name">
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  Doloremque? Lorem ipsum dolor sit amet.
+                </span>
+                <span className="settingsList__action">
+                  <DashboardButton
+                    onClick={() => setIsChangeUsernameOpen(true)}
+                    text="Delete token"
+                  />
+                </span>
+              </li>
+            </ul>
+            <Button text="Delete all tokens" />
+          </Stack>
+          <hr />
+          <Stack gap={1}>
+            <Heading level={2} text="Delete your account" />
+            <p>
+              Deleting an account should be as easy as creating one, and we are
+              not going to stop you. We would appreciate if you could drop us a
+              line at <a href="mailto:mail@url.space">mail@url.space</a> and
+              share your rason please.
+            </p>
+            <Button text="Delete your account" />
           </Stack>
         </Stack>
       </main>

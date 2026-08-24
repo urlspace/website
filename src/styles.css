@@ -249,3 +249,26 @@ p {
     justify-content: space-between;
   }
 }
+
+.settingsList {
+  display: grid;
+}
+
+.settingsList__item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1lh;
+  min-width: 0;
+}
+
+.settingsList__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.settingsList__action {
+  flex-shrink: 0;
+}
