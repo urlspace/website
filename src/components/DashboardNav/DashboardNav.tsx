@@ -233,7 +233,7 @@ function DashboardNav({
                       }}
                     >
                       <DashboardButton
-                        // icon={<Icon.Tag />}
+                        icon={<Icon.Tag />}
                         onClick={() =>
                           setSelectedTags((prev) =>
                             prev.includes(t.id)
