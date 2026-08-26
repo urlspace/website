@@ -19,6 +19,11 @@
     }
   }
 
+  &:focus-visible {
+    outline: 3px dotted var(--color-link);
+    outline-offset: 1px;
+  }
+
   &[aria-pressed="true"],
   &[aria-current="page"] {
     text-decoration-line: underline;

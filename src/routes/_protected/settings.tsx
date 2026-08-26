@@ -5,7 +5,7 @@ import { getRequest } from "@tanstack/react-start/server";
 import { useState } from "react";
 import {
   Button,
-  DashboardButton,
+  DashboardButtonAction,
   DashboardButtonLink,
   DashboardLogo,
   Dialog,
@@ -110,35 +110,41 @@ function PageProfile() {
 
             <dl className="settings">
               <div>
-                <dt>Username</dt>
-                <dd>
-                  <span>{user.username}</span>
-                  <DashboardButton
-                    onClick={() => setIsChangeUsernameOpen(true)}
-                    text="Change username"
-                  />
+                <dt>Display name</dt>
+                <dd className="settingsList__item">
+                  <span className="settingsList__name">{user.displayName}</span>
+                  <span className="settingsList__action">
+                    <DashboardButtonAction
+                      onClick={() => setIsChangeDisplayNameOpen(true)}
+                      text="Change display name"
+                    />
+                  </span>
                 </dd>
               </div>
 
               <div>
-                <dt>Display name</dt>
-                <dd>
-                  <span>{user.displayName}</span>
-                  <DashboardButton
-                    onClick={() => setIsChangeDisplayNameOpen(true)}
-                    text="Change display name"
-                  />
+                <dt>Username</dt>
+                <dd className="settingsList__item">
+                  <span className="settingsList__name">{user.username}</span>
+                  <span className="settingsList__action">
+                    <DashboardButtonAction
+                      onClick={() => setIsChangeUsernameOpen(true)}
+                      text="Change username"
+                    />
+                  </span>
                 </dd>
               </div>
 
               <div>
                 <dt>Email</dt>
-                <dd>
-                  <span>{user.email}</span>
-                  <DashboardButton
-                    onClick={() => setIsChangeEmailOpen(true)}
-                    text="Change email"
-                  />
+                <dd className="settingsList__item">
+                  <span className="settingsList__name">{user.email}</span>
+                  <span className="settingsList__action">
+                    <DashboardButtonAction
+                      onClick={() => setIsChangeEmailOpen(true)}
+                      text="Change email"
+                    />
+                  </span>
                 </dd>
               </div>
             </dl>
@@ -149,16 +155,19 @@ function PageProfile() {
             <dl className="settings">
               <div>
                 <dt>Password</dt>
-                <dd>
-                  <span>************</span>
-                  <DashboardButton
-                    onClick={() => setIsChangePasswordOpen(true)}
-                    text="Change password"
-                  />
+                <dd className="settingsList__item">
+                  <span className="settingsList__name">************</span>
+                  <span className="settingsList__action">
+                    <DashboardButtonAction
+                      onClick={() => setIsChangePasswordOpen(true)}
+                      text="Change password"
+                    />
+                  </span>
                 </dd>
               </div>
             </dl>
           </Stack>
+
           <hr />
           <Stack gap={1}>
             <Heading level={2} text="Sessions" />
@@ -166,7 +175,7 @@ function PageProfile() {
               <li className="settingsList__item">
                 <span className="settingsList__name">Session name</span>
                 <span className="settingsList__action">
-                  <DashboardButton
+                  <DashboardButtonAction
                     onClick={() => setIsChangeUsernameOpen(true)}
                     text="Revoke session"
                   />
@@ -178,7 +187,7 @@ function PageProfile() {
                   Doloremque? Lorem ipsum dolor sit amet.
                 </span>
                 <span className="settingsList__action">
-                  <DashboardButton
+                  <DashboardButtonAction
                     onClick={() => setIsChangeUsernameOpen(true)}
                     text="Revoke session"
                   />
@@ -188,6 +197,7 @@ function PageProfile() {
 
             <Button text="Delete all sessions" />
           </Stack>
+
           <hr />
           <Stack gap={1}>
             <Heading level={2} text="API Tokens" />
@@ -195,7 +205,7 @@ function PageProfile() {
               <li className="settingsList__item">
                 <span className="settingsList__name">Token name</span>
                 <span className="settingsList__action">
-                  <DashboardButton
+                  <DashboardButtonAction
                     onClick={() => setIsChangeUsernameOpen(true)}
                     text="Delete token"
                   />
@@ -207,7 +217,7 @@ function PageProfile() {
                   Doloremque? Lorem ipsum dolor sit amet.
                 </span>
                 <span className="settingsList__action">
-                  <DashboardButton
+                  <DashboardButtonAction
                     onClick={() => setIsChangeUsernameOpen(true)}
                     text="Delete token"
                   />
@@ -216,7 +226,9 @@ function PageProfile() {
             </ul>
             <Button text="Delete all tokens" />
           </Stack>
+
           <hr />
+
           <Stack gap={1}>
             <Heading level={2} text="Delete your account" />
             <p>

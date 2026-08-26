@@ -259,16 +259,48 @@ p {
   justify-content: space-between;
   gap: 1lh;
   min-width: 0;
+  /* background-color: lime; */
+
+  --bg-color: transparent;
+  --bg-s-size: 2px;
+  --bg-s-color-light: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
+  --bg-s-color-dark: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
+  --bg-s-color: light-dark(var(--bg-s-color-light), var(--bg-s-color-dark));
+  --bg-size: 1lh;
+
+  background-image: conic-gradient(
+    at var(--bg-s-size) var(--bg-s-size),
+    #0000 75%,
+    var(--bg-s-color) 0
+  );
+  background-size: 0.5lh var(--bg-size);
+  background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
 }
 
 .settingsList__name {
-  flex: 1;
+  /* flex: 1; */
   min-width: 0;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  background-color: var(--color-bg-content);
+  padding-inline-end: 0.5lh;
 }
 
 .settingsList__action {
+  background-color: var(--color-bg-content);
   flex-shrink: 0;
+  padding-inline-start: 0.5lh;
+}
+
+hr {
+  border: none;
+  height: 1rlh;
+  background-image: linear-gradient(
+    to bottom,
+    transparent 50%,
+    var(--color-border) 50%,
+    var(--color-border) calc(50% + 1px),
+    transparent calc(50% + 1px)
+  );
 }

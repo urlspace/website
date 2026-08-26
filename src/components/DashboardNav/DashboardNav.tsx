@@ -7,7 +7,6 @@ import {
   DashboardButtonLink,
   DashboardList,
   DashboardMenu,
-  Truncate,
 } from "..";
 import Icon from "../Icons/Icons";
 import Stack from "../Stack/Stack";
@@ -158,7 +157,11 @@ function DashboardNav({
                     deleteCollection.variables === c.id
                   }
                 >
-                  <Truncate>
+                  <div
+                    style={{
+                      minWidth: 0,
+                    }}
+                  >
                     <DashboardButton
                       icon={<Icon.Folder />}
                       onClick={() =>
@@ -170,7 +173,7 @@ function DashboardNav({
                       text={c.name}
                       counter={c.count}
                     />
-                  </Truncate>
+                  </div>
                   {editModeCollections ? (
                     <DashboardMenu fadeIn order={arr.length - index}>
                       <DashboardMenu.Li>
@@ -224,9 +227,13 @@ function DashboardNav({
                       deleteTag.isPending && deleteTag.variables === t.id
                     }
                   >
-                    <Truncate>
+                    <div
+                      style={{
+                        minWidth: 0,
+                      }}
+                    >
                       <DashboardButton
-                        icon={<Icon.Tag />}
+                        // icon={<Icon.Tag />}
                         onClick={() =>
                           setSelectedTags((prev) =>
                             prev.includes(t.id)
@@ -238,7 +245,7 @@ function DashboardNav({
                         text={t.name}
                         counter={t.count}
                       />
-                    </Truncate>
+                    </div>
 
                     {editModeTags ? (
                       <DashboardMenu fadeIn order={arr.length - index}>

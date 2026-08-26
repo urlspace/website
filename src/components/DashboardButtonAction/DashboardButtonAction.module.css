@@ -1,26 +1,28 @@
 .button {
-	color: inherit;
-	font: inherit;
-	background-color: transparent;
-	border: none;
-	text-decoration-thickness: 2px;
-	text-underline-offset: 4px;
+  color: inherit;
+  font: inherit;
+  background-color: transparent;
+  border: none;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  font-size: 0.875rem;
+  vertical-align: top;
 
-	&:hover {
-		@media (hover: hover) and (pointer: fine) {
-			color: var(--color-link);
-			text-decoration-line: underline;
-		}
-	}
+  &:hover {
+    @media (hover: hover) and (pointer: fine) {
+      color: var(--color-link);
+      text-decoration-line: underline;
+    }
+  }
 
-	&[aria-pressed="true"] {
-		text-decoration-line: underline;
-		font-weight: 500;
-	}
+  &[aria-pressed="true"] {
+    text-decoration-line: underline;
+    font-weight: 500;
+  }
 }
 
 .destructive:hover {
-	@media (hover: hover) and (pointer: fine) {
-		color: light-dark(oklch(51.4% 0.222 16.935), oklch(71.2% 0.194 13.428));
-	}
+  @media (hover: hover) and (pointer: fine) {
+    color: light-dark(oklch(51.4% 0.222 16.935), oklch(71.2% 0.194 13.428));
+  }
 }
