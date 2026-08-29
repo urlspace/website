@@ -4,7 +4,10 @@ import Icon from "../Icons/Icons";
 import { useFieldIds } from "./context";
 import styles from "./Form.module.css";
 
-const TAG_PATTERN = /^[a-z0-9-]{2,50}$/;
+// Mirrors the backend's tag name rule: lowercase letters/digits/hyphens,
+// 2-50 chars, no leading/trailing or consecutive hyphens. Each hyphen must
+// be followed by an alnum run, so "-tag", "tag-", "ta--g" can't match.
+const TAG_PATTERN = /^(?=.{2,50}$)[a-z0-9]+(-[a-z0-9]+)*$/;
 
 function TagsInput({
 	description,
