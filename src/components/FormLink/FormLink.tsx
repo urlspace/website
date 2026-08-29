@@ -1,5 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { linksQueryKey } from "#/queries/links.ts";
+import { tagsQueryOptions } from "#/queries/tags.ts";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
 type LinkRow = {
@@ -88,8 +90,8 @@ function FormLink({
 			}
 
 			await Promise.all([
-				queryClient.invalidateQueries({ queryKey: ["links"] }),
-				queryClient.invalidateQueries({ queryKey: ["tags"] }),
+				queryClient.invalidateQueries({ queryKey: linksQueryKey }),
+				queryClient.invalidateQueries({ queryKey: tagsQueryOptions.queryKey }),
 			]);
 
 			if (!isEdit) {

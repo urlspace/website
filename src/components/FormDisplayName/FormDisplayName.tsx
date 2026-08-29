@@ -1,27 +1,17 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { linksQueryKey } from "#/queries/links.ts";
-import { tagsQueryOptions } from "#/queries/tags.ts";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
-function FormTag({
+function FormDisplayName({
 	onClose,
-	tag,
-	tags,
+	displayName,
 }: {
 	onClose: () => void;
-	tag: {
-		id: string;
-		name: string;
-	};
-	tags: Array<{
-		id: string;
-		name: string;
-	}>;
+	displayName: string;
 }) {
 	const queryClient = useQueryClient();
 
-	const [name, setName] = useState(tag.name);
+	const [value, setValue] = useState(displayName);
 
 	async function handleSubmit(
 		e: React.SubmitEvent<HTMLFormElement>,
@@ -29,34 +19,23 @@ function FormTag({
 	) {
 		e.preventDefault();
 
-		// Catch duplicate names, but allow keeping the existing tag name.
-		if (
-			tags.some(
-				(t) =>
-					t.id !== tag.id && t.name.toLowerCase() === name.trim().toLowerCase(),
-			)
-		) {
-			setError("You already have a tag with that name.");
-			return;
-		}
-
 		setError(null);
 		setLoading(true);
 		try {
 			const res = await fetch(
-				`${import.meta.env.VITE_API_URL}/tags/${tag.id}`,
+				`${import.meta.env.VITE_API_URL}/me/update-display-name`,
 				{
-					method: "PUT",
+					method: "POST",
 					credentials: "include",
 					headers: { "content-type": "application/json" },
-					body: JSON.stringify({ name: name.trim() }),
+					body: JSON.stringify({ displayName: value.trim() }),
 				},
 			);
 
 			if (!res.ok) {
 				switch (res.status) {
 					case 400:
-						setError("Incorrect body.");
+						setError("Please check your input and try again.");
 						break;
 					case 429:
 						setError("Too many attempts. Try again in a moment.");
@@ -67,10 +46,7 @@ function FormTag({
 				return;
 			}
 
-			await Promise.all([
-				queryClient.invalidateQueries({ queryKey: tagsQueryOptions.queryKey }),
-				queryClient.invalidateQueries({ queryKey: linksQueryKey }),
-			]);
+			await queryClient.invalidateQueries({ queryKey: ["me"] });
 
 			onClose();
 		} catch {
@@ -83,21 +59,20 @@ function FormTag({
 	return (
 		<Form onSubmit={handleSubmit}>
 			<Form.Input
-				label="Tag name"
-				name="tag-name"
-				onChange={setName}
-				placeholder="keto-diet"
+				autoComplete="nickname"
+				label="Display name"
+				name="display-name"
+				onChange={setValue}
+				placeholder="Rocky"
 				required
 				type="text"
-				value={name}
-				minLength={2}
+				value={value}
+				minLength={1}
 				maxLength={50}
-				pattern="[a-z0-9\-]{2,50}"
-				description="Lowercase letters, numbers, and hyphens only. Between 2 and 50 characters."
 			/>
 			<Form.Submit text="Save changes" textLoading="Saving..." />
 		</Form>
 	);
 }
 
-export default FormTag;
+export default FormDisplayName;

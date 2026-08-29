@@ -1,6 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { collectionsQueryOptions } from "#/queries/collections.ts";
+import { linksQueryKey } from "#/queries/links.ts";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
 function FormCollection({
@@ -83,8 +85,10 @@ function FormCollection({
 			}
 
 			await Promise.all([
-				queryClient.invalidateQueries({ queryKey: ["collections"] }),
-				queryClient.invalidateQueries({ queryKey: ["links"] }),
+				queryClient.invalidateQueries({
+					queryKey: collectionsQueryOptions.queryKey,
+				}),
+				queryClient.invalidateQueries({ queryKey: linksQueryKey }),
 			]);
 
 			if (!isEdit) {
