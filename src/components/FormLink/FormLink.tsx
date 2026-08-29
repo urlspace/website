@@ -4,6 +4,20 @@ import { linksQueryKey } from "#/queries/links.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
+// Mirrors the backend's ValidateURL: only http/https, no embedded credentials.
+function isValidLinkUrl(value: string): boolean {
+	try {
+		const parsed = new URL(value);
+		return (
+			(parsed.protocol === "http:" || parsed.protocol === "https:") &&
+			!parsed.username &&
+			!parsed.password
+		);
+	} catch {
+		return false;
+	}
+}
+
 type LinkRow = {
 	id: string;
 	title: string;
@@ -50,6 +64,11 @@ function FormLink({
 		{ setError, setLoading }: SubmitHelpers,
 	) {
 		e.preventDefault();
+
+		if (!isValidLinkUrl(url)) {
+			setError("URL must start with http:// or https:// and contain no credentials.");
+			return;
+		}
 
 		setError(null);
 		setLoading(true);
