@@ -3,6 +3,16 @@ import { useState } from "react";
 import { Form, Heading, Page, Stack } from "#/components";
 import type { SubmitHelpers } from "#/components/Form/Form";
 
+const minContextualLen = 4;
+
+function containsContext(password: string, ...values: string[]): boolean {
+	const p = password.toLowerCase();
+	return values.some((v) => {
+		const trimmed = v.trim().toLowerCase();
+		return trimmed.length >= minContextualLen && p.includes(trimmed);
+	});
+}
+
 export const Route = createFileRoute("/_public/auth/signup/")({
 	beforeLoad: ({ context }) => {
 		if (context.hasSession)
@@ -34,6 +44,13 @@ function SignUp() {
 
 		setError(null);
 		setLoading(true);
+
+		const emailLocalPart = email.split("@")[0] ?? "";
+		if (containsContext(password, username, emailLocalPart)) {
+			setError("Password cannot contain your username or email.");
+			setLoading(false);
+			return;
+		}
 
 		try {
 			const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
@@ -103,7 +120,7 @@ function SignUp() {
 								maxLength={254}
 								name="email"
 								onChange={setEmail}
-								pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
+								pattern="[^\s@]{1,64}@[^\s@]+\.[^\s@]+"
 								placeholder="sylvester@stallone.com"
 								required
 								type="email"

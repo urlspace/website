@@ -81,7 +81,7 @@ function ResendVerification() {
 							maxLength={254}
 							name="email"
 							onChange={setEmail}
-							pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
+							pattern="[^\s@]{1,64}@[^\s@]+\.[^\s@]+"
 							placeholder="sylvester@stallone.com"
 							required
 							type="email"
