@@ -70,6 +70,12 @@ function FormLink({
 			return;
 		}
 
+		const trimmedTitle = title.trim();
+		if (trimmedTitle.length < 3) {
+			setError("Title must be at least 3 characters.");
+			return;
+		}
+
 		setError(null);
 		setLoading(true);
 
@@ -83,7 +89,7 @@ function FormLink({
 					credentials: "include",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({
-						title,
+						title: trimmedTitle,
 						url,
 						description: description.trim(),
 						collectionId: collection || null,
@@ -142,6 +148,7 @@ function FormLink({
 				value={title}
 				minLength={3}
 				maxLength={255}
+				pattern="[^\p{Cc}]{3,255}"
 			/>
 			<Form.Input
 				label="URL"
@@ -161,6 +168,7 @@ function FormLink({
 				type="text"
 				value={description}
 				maxLength={512}
+				pattern="[^\p{Cc}]{0,512}"
 			/>
 			<Form.Combobox
 				label="Collection"
