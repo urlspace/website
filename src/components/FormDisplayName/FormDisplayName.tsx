@@ -19,6 +19,12 @@ function FormDisplayName({
 	) {
 		e.preventDefault();
 
+		const trimmedValue = value.trim();
+		if (trimmedValue.length < 1) {
+			setError("Display name is required.");
+			return;
+		}
+
 		setError(null);
 		setLoading(true);
 		try {
@@ -28,7 +34,7 @@ function FormDisplayName({
 					method: "POST",
 					credentials: "include",
 					headers: { "content-type": "application/json" },
-					body: JSON.stringify({ displayName: value.trim() }),
+					body: JSON.stringify({ displayName: trimmedValue }),
 				},
 			);
 
