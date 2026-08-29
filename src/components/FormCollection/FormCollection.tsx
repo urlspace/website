@@ -26,6 +26,7 @@ function FormCollection({
 }) {
 	const queryClient = useQueryClient();
 	const isEdit = !!collection;
+	const duplicateNameError = "You already have a collection with that name.";
 
 	const [name, setName] = useState(collection?.name ?? "");
 	const [description, setDescription] = useState(collection?.description ?? "");
@@ -44,10 +45,10 @@ function FormCollection({
 			collections.some(
 				(c) =>
 					c.id !== collection?.id &&
-					c.name.toLowerCase() === name.trim().toLowerCase(),
+					c.name.trim().toLowerCase() === name.trim().toLowerCase(),
 			)
 		) {
-			setError("You already have a collection with that name.");
+			setError(duplicateNameError);
 			return;
 		}
 
@@ -74,6 +75,9 @@ function FormCollection({
 				switch (res.status) {
 					case 400:
 						setError("Incorrect body.");
+						break;
+					case 409:
+						setError(duplicateNameError);
 						break;
 					case 429:
 						setError("Too many attempts. Try again in a moment.");
