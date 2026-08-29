@@ -4,6 +4,11 @@ import { linksQueryKey } from "#/queries/links.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
+// Mirrors the backend's tag name rule: lowercase letters/digits/hyphens,
+// 2-50 chars, no leading/trailing or consecutive hyphens. Each hyphen must
+// be followed by an alnum run, so "-tag", "tag-", "ta--g" can't match.
+const tagNamePattern = "(?=.{2,50}$)[a-z0-9]+(-[a-z0-9]+)*";
+
 function FormTag({
 	onClose,
 	tag,
@@ -20,6 +25,7 @@ function FormTag({
 	}>;
 }) {
 	const queryClient = useQueryClient();
+	const duplicateNameError = "You already have a tag with that name.";
 
 	const [name, setName] = useState(tag.name);
 
@@ -36,7 +42,7 @@ function FormTag({
 					t.id !== tag.id && t.name.toLowerCase() === name.trim().toLowerCase(),
 			)
 		) {
-			setError("You already have a tag with that name.");
+			setError(duplicateNameError);
 			return;
 		}
 
@@ -57,6 +63,9 @@ function FormTag({
 				switch (res.status) {
 					case 400:
 						setError("Incorrect body.");
+						break;
+					case 409:
+						setError(duplicateNameError);
 						break;
 					case 429:
 						setError("Too many attempts. Try again in a moment.");
@@ -92,7 +101,7 @@ function FormTag({
 				value={name}
 				minLength={2}
 				maxLength={50}
-				pattern="[a-z0-9\-]{2,50}"
+				pattern={tagNamePattern}
 				description="Lowercase letters, numbers, and hyphens only. Between 2 and 50 characters."
 			/>
 			<Form.Submit text="Save changes" textLoading="Saving..." />
