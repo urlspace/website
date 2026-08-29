@@ -40,12 +40,18 @@ function FormCollection({
 	) {
 		e.preventDefault();
 
+		const trimmedName = name.trim();
+		if (trimmedName.length < 2) {
+			setError("Collection name must be at least 2 characters.");
+			return;
+		}
+
 		// Catch duplicate names, but allow editing the existing collection.
 		if (
 			collections.some(
 				(c) =>
 					c.id !== collection?.id &&
-					c.name.trim().toLowerCase() === name.trim().toLowerCase(),
+					c.name.trim().toLowerCase() === trimmedName.toLowerCase(),
 			)
 		) {
 			setError(duplicateNameError);
@@ -64,7 +70,7 @@ function FormCollection({
 					credentials: "include",
 					headers: { "content-type": "application/json" },
 					body: JSON.stringify({
-						name,
+						name: trimmedName,
 						description: description.trim(),
 						public: publicCollection,
 					}),
