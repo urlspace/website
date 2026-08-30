@@ -17,6 +17,7 @@ import FormDisplayName from "./FormDisplayName/FormDisplayName.tsx";
 import FormJoin from "./FormJoin/FormJoin.tsx";
 import FormLink from "./FormLink/FormLink.tsx";
 import FormTag from "./FormTag/FormTag.tsx";
+import FormUsername from "./FormUsername/FormUsername.tsx";
 import Heading from "./Heading/Heading.tsx";
 import Icon from "./Icons/Icons.tsx";
 import Intro from "./Intro/Intro.tsx";
@@ -48,6 +49,7 @@ export {
   FormJoin,
   FormLink,
   FormTag,
+  FormUsername,
   Heading,
   Icon,
   Intro,

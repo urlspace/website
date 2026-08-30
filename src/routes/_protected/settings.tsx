@@ -8,6 +8,7 @@ import {
 	DashboardLogo,
 	Dialog,
 	FormDisplayName,
+	FormUsername,
 	Heading,
 	Icon,
 	Stack,
@@ -194,7 +195,10 @@ function PageProfile() {
 				onClose={() => setIsChangeUsernameOpen(false)}
 				title="Change username"
 			>
-				change username form
+				<FormUsername
+					username={user.username}
+					onClose={() => setIsChangeUsernameOpen(false)}
+				/>
 			</Dialog>
 
 			<Dialog
