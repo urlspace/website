@@ -10,20 +10,24 @@ import {
   FormDisplayName,
   FormEmail,
   FormPassword,
+  FormToken,
   FormUsername,
   Heading,
   Icon,
   SessionsList,
   Stack,
+  TokensList,
 } from "#/components/index.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { sessionsQueryOptions } from "#/queries/sessions.ts";
+import { tokensQueryOptions } from "#/queries/tokens.ts";
 
 export const Route = createFileRoute("/_protected/settings")({
   loader: async ({ context }) => {
     await Promise.all([
       context.queryClient.ensureQueryData(meQueryOptions),
       context.queryClient.ensureQueryData(sessionsQueryOptions),
+      context.queryClient.ensureQueryData(tokensQueryOptions),
     ]);
   },
   component: PageProfile,
@@ -43,6 +47,8 @@ function PageProfile() {
   const [isChangeDisplayNameOpen, setIsChangeDisplayNameOpen] = useState(false);
   const [isChangeEmailOpen, setIsChangeEmailOpen] = useState(false);
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [isCreateTokenOpen, setIsCreateTokenOpen] = useState(false);
+  const [createTokenKey, setCreateTokenKey] = useState(0);
 
   if (!user) return null;
 
@@ -132,30 +138,14 @@ function PageProfile() {
           <hr />
           <Stack gap={1}>
             <Heading level={2} text="API Tokens" />
-            <ul className="settingsList">
-              <li className="settingsList__item">
-                <span className="settingsList__name">Token name</span>
-                <span className="settingsList__action">
-                  <DashboardButtonAction
-                    onClick={() => setIsChangeUsernameOpen(true)}
-                    text="Delete token"
-                  />
-                </span>
-              </li>
-              <li className="settingsList__item">
-                <span className="settingsList__name">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Doloremque? Lorem ipsum dolor sit amet.
-                </span>
-                <span className="settingsList__action">
-                  <DashboardButtonAction
-                    onClick={() => setIsChangeUsernameOpen(true)}
-                    text="Delete token"
-                  />
-                </span>
-              </li>
-            </ul>
-            <Button text="Delete all tokens" />
+            <TokensList />
+            <Button
+              onClick={() => {
+                setCreateTokenKey((k) => k + 1);
+                setIsCreateTokenOpen(true);
+              }}
+              text="Create token"
+            />
           </Stack>
 
           <hr />
@@ -209,6 +199,17 @@ function PageProfile() {
         title="Change password"
       >
         <FormPassword onClose={() => setIsChangePasswordOpen(false)} />
+      </Dialog>
+
+      <Dialog
+        open={isCreateTokenOpen}
+        onClose={() => setIsCreateTokenOpen(false)}
+        title="Create token"
+      >
+        <FormToken
+          key={createTokenKey}
+          onClose={() => setIsCreateTokenOpen(false)}
+        />
       </Dialog>
     </div>
   );
