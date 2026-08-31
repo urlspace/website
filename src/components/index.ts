@@ -17,12 +17,14 @@ import FormDisplayName from "./FormDisplayName/FormDisplayName.tsx";
 import FormEmail from "./FormEmail/FormEmail.tsx";
 import FormJoin from "./FormJoin/FormJoin.tsx";
 import FormLink from "./FormLink/FormLink.tsx";
+import FormPassword from "./FormPassword/FormPassword.tsx";
 import FormTag from "./FormTag/FormTag.tsx";
 import FormUsername from "./FormUsername/FormUsername.tsx";
 import Heading from "./Heading/Heading.tsx";
 import Icon from "./Icons/Icons.tsx";
 import Intro from "./Intro/Intro.tsx";
 import Page from "./Page/Page.tsx";
+import SessionsList from "./SessionsList/SessionsList.tsx";
 import Stack from "./Stack/Stack.tsx";
 import Truncate from "./Truncate/Truncate.tsx";
 import { Button, ButtonLink, ButtonLinkLike } from "./Button/Button.tsx";
@@ -50,12 +52,14 @@ export {
   FormEmail,
   FormJoin,
   FormLink,
+  FormPassword,
   FormTag,
   FormUsername,
   Heading,
   Icon,
   Intro,
   Page,
+  SessionsList,
   Stack,
   Truncate,
 };
