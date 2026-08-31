@@ -14,6 +14,7 @@ import Drawer from "./Drawer/Drawer.tsx";
 import Form from "./Form/Form.tsx";
 import FormCollection from "./FormCollection/FormCollection.tsx";
 import FormDisplayName from "./FormDisplayName/FormDisplayName.tsx";
+import FormEmail from "./FormEmail/FormEmail.tsx";
 import FormJoin from "./FormJoin/FormJoin.tsx";
 import FormLink from "./FormLink/FormLink.tsx";
 import FormTag from "./FormTag/FormTag.tsx";
@@ -46,6 +47,7 @@ export {
   Form,
   FormCollection,
   FormDisplayName,
+  FormEmail,
   FormJoin,
   FormLink,
   FormTag,

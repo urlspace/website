@@ -8,6 +8,7 @@ import {
 	DashboardLogo,
 	Dialog,
 	FormDisplayName,
+	FormEmail,
 	FormUsername,
 	Heading,
 	Icon,
@@ -217,7 +218,7 @@ function PageProfile() {
 				onClose={() => setIsChangeEmailOpen(false)}
 				title="Change email"
 			>
-				change email
+				<FormEmail onClose={() => setIsChangeEmailOpen(false)} />
 			</Dialog>
 
 			<Dialog

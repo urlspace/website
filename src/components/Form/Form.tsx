@@ -54,6 +54,7 @@ function Input({
 	autoComplete,
 	description,
 	disabled,
+	inputMode,
 	label,
 	maxLength,
 	minLength,
@@ -68,6 +69,7 @@ function Input({
 	autoComplete?: string;
 	description?: ReactNode;
 	disabled?: boolean;
+	inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
 	label: string;
 	maxLength?: number;
 	minLength?: number;
@@ -101,6 +103,7 @@ function Input({
 				className={styles.input}
 				disabled={disabled || loading}
 				id={inputId}
+				inputMode={inputMode}
 				maxLength={maxLength}
 				minLength={minLength}
 				name={name}
