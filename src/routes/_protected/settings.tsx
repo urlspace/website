@@ -7,6 +7,7 @@ import {
   DashboardButtonLink,
   DashboardLogo,
   Dialog,
+  FormDeleteAccount,
   FormDisplayName,
   FormEmail,
   FormPassword,
@@ -49,6 +50,7 @@ function PageProfile() {
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
   const [isCreateTokenOpen, setIsCreateTokenOpen] = useState(false);
   const [createTokenKey, setCreateTokenKey] = useState(0);
+  const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
 
   if (!user) return null;
 
@@ -158,7 +160,10 @@ function PageProfile() {
               line at <a href="mailto:mail@url.space">mail@url.space</a> and
               share your rason please.
             </p>
-            <Button text="Delete your account" />
+            <Button
+              onClick={() => setIsDeleteAccountOpen(true)}
+              text="Delete your account"
+            />
           </Stack>
         </Stack>
       </main>
@@ -210,6 +215,14 @@ function PageProfile() {
           key={createTokenKey}
           onClose={() => setIsCreateTokenOpen(false)}
         />
+      </Dialog>
+
+      <Dialog
+        open={isDeleteAccountOpen}
+        onClose={() => setIsDeleteAccountOpen(false)}
+        title="Delete your account"
+      >
+        <FormDeleteAccount onClose={() => setIsDeleteAccountOpen(false)} />
       </Dialog>
     </div>
   );

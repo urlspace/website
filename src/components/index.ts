@@ -13,6 +13,7 @@ import Dialog from "./Dialog/Dialog.tsx";
 import Drawer from "./Drawer/Drawer.tsx";
 import Form from "./Form/Form.tsx";
 import FormCollection from "./FormCollection/FormCollection.tsx";
+import FormDeleteAccount from "./FormDeleteAccount/FormDeleteAccount.tsx";
 import FormDisplayName from "./FormDisplayName/FormDisplayName.tsx";
 import FormEmail from "./FormEmail/FormEmail.tsx";
 import FormJoin from "./FormJoin/FormJoin.tsx";
@@ -50,6 +51,7 @@ export {
   Drawer,
   Form,
   FormCollection,
+  FormDeleteAccount,
   FormDisplayName,
   FormEmail,
   FormJoin,
