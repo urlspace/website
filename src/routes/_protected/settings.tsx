@@ -69,7 +69,7 @@ function PageProfile() {
           <Heading level={1} text="Settings" />
 
           <Stack gap={1}>
-            <Heading level={2} text="Profile" />
+            <Heading level={2} text="Account details" />
 
             <dl className="settings">
               <div>
@@ -110,12 +110,7 @@ function PageProfile() {
                   </span>
                 </dd>
               </div>
-            </dl>
-          </Stack>
-          <hr />
-          <Stack gap={1}>
-            <Heading level={2} text="Security" />
-            <dl className="settings">
+
               <div>
                 <dt>Password</dt>
                 <dd className="settingsList__item">
@@ -130,16 +125,24 @@ function PageProfile() {
               </div>
             </dl>
           </Stack>
-
           <hr />
           <Stack gap={1}>
             <Heading level={2} text="Sessions" />
+            <p>
+              These are the devices and browsers currently signed in to your
+              account. If you spot one you don't recognise, sign it out below.
+            </p>
             <SessionsList />
           </Stack>
 
           <hr />
           <Stack gap={1}>
             <Heading level={2} text="API Tokens" />
+            <p>
+              Tokens let other apps and scripts access your account without
+              using your password. Only create one for tools you trust, and
+              remove it if you stop using it.
+            </p>
             <TokensList />
             <Button
               onClick={() => {

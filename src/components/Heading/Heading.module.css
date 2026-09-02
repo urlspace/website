@@ -13,7 +13,7 @@
   );
   background-size: var(--bg-size) var(--bg-size);
   background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
-  text-wrap-style: pretty;
+  text-wrap-style: balance;
 }
 
 .inner {
