@@ -42,7 +42,7 @@ function SessionsList() {
         setRevokeCurrentSessionId(null);
         void handleSelfLogoutSuccess();
       } else {
-        queryClient.invalidateQueries({ queryKey: sessionsQueryKey });
+        return queryClient.invalidateQueries({ queryKey: sessionsQueryKey });
       }
     },
     onError: (_error, variables) => {

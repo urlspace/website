@@ -11,6 +11,7 @@ import { Button, DashboardButtonAction, Dialog, Stack } from "..";
 function TokensList() {
   const queryClient = useQueryClient();
   const { data: tokens } = useSuspenseQuery(tokensQueryOptions);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [tokenToRevoke, setTokenToRevoke] = useState<{
     id: string;
     description: string;
@@ -28,10 +29,20 @@ function TokensList() {
       setTokenToRevoke(null);
       queryClient.invalidateQueries({ queryKey: tokensQueryKey });
     },
+    onError: () => {
+      setTokenToRevoke(null);
+      setErrorMessage("We couldn't revoke that token. Please try again.");
+    },
   });
 
   return (
     <>
+      {errorMessage ? (
+        <p role="alert" className="settings__error">
+          {errorMessage}
+        </p>
+      ) : null}
+
       {/* biome-ignore lint/a11y/noRedundantRoles: preserve semantics when CSS removes list markers */}
       <ul className="settings" role="list">
         {tokens.length === 0 ? (
@@ -53,12 +64,13 @@ function TokensList() {
               <span className="settings__action">
                 <DashboardButtonAction
                   ariaLabel={`Revoke token: ${token.description}`}
-                  onClick={() =>
+                  onClick={() => {
+                    setErrorMessage(null);
                     setTokenToRevoke({
                       id: token.id,
                       description: token.description,
-                    })
-                  }
+                    });
+                  }}
                   text="Revoke token"
                   destructive
                 />
