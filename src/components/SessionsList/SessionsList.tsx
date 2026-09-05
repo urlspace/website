@@ -17,6 +17,7 @@ function SessionsList() {
     string | null
   >(null);
   const [isDeleteAllOpen, setIsDeleteAllOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function handleSelfLogoutSuccess() {
     queryClient.clear();
@@ -43,6 +44,14 @@ function SessionsList() {
         queryClient.invalidateQueries({ queryKey: sessionsQueryKey });
       }
     },
+    onError: (_error, variables) => {
+      if (variables.isCurrent) {
+        setRevokeCurrentSessionId(null);
+        setErrorMessage("We couldn't sign you out. Please try again.");
+      } else {
+        setErrorMessage("We couldn't sign out that device. Please try again.");
+      }
+    },
   });
 
   const deleteAllSessions = useMutation({
@@ -57,44 +66,78 @@ function SessionsList() {
       setIsDeleteAllOpen(false);
       void handleSelfLogoutSuccess();
     },
+    onError: () => {
+      setIsDeleteAllOpen(false);
+      setErrorMessage("We couldn't sign out on all devices. Please try again.");
+    },
   });
 
   return (
     <>
-      <ul className="settingsList">
+      {errorMessage ? (
+        <p role="alert" className="settings__error">
+          {errorMessage}
+        </p>
+      ) : null}
+
+      <ul className="settings" role="list">
         {sessions.length === 0 ? (
-          <li className="settingsList__item">
-            <span className="settingsList__name">No active sessions.</span>
+          <li className="settings__item">
+            <span className="settings__name">No active sessions.</span>
           </li>
         ) : null}
         {sessions.map((session) => (
-          <li className="settingsList__item" key={session.id}>
-            <span className="settingsList__name">
-              {session.current ? "Current session: " : null}
-              {session.description ?? "Unknown device"}
-            </span>
-            <span className="settingsList__action">
-              <DashboardButtonAction
-                onClick={() =>
-                  session.current
-                    ? setRevokeCurrentSessionId(session.id)
-                    : deleteSession.mutate({ id: session.id, isCurrent: false })
-                }
-                text={
-                  deleteSession.isPending &&
-                  deleteSession.variables?.id === session.id
-                    ? "Revoking..."
-                    : "Revoke session"
-                }
-                destructive
-              />
-            </span>
+          <li key={session.id} className="settings__item">
+            <div className="settings__row">
+              <span className="settings__value">
+                {session.description ?? "Unknown device"}
+                {session.current ? ", current device" : ""}
+              </span>
+              <span className="settings__action">
+                <DashboardButtonAction
+                  ariaLabel={`Revoke session: ${
+                    session.description ?? "Unknown device"
+                  }`}
+                  onClick={() => {
+                    setErrorMessage(null);
+                    if (session.current) {
+                      setRevokeCurrentSessionId(session.id);
+                    } else {
+                      deleteSession.mutate({
+                        id: session.id,
+                        isCurrent: false,
+                      });
+                    }
+                  }}
+                  text={
+                    deleteSession.isPending &&
+                    deleteSession.variables?.id === session.id
+                      ? "Revoking..."
+                      : "Revoke session"
+                  }
+                  destructive
+                />
+              </span>
+            </div>
+            <dl className="settings__details">
+              <div className="settings__detail">
+                <dt className="settings__prop">Signed in</dt>
+                <dd className="settings__propvalue">
+                  <time dateTime={session.createdAt}>
+                    {session.createdAt.slice(0, 10).replaceAll("-", ".")}
+                  </time>
+                </dd>
+              </div>
+            </dl>
           </li>
         ))}
       </ul>
 
       <Button
-        onClick={() => setIsDeleteAllOpen(true)}
+        onClick={() => {
+          setErrorMessage(null);
+          setIsDeleteAllOpen(true);
+        }}
         text="Delete all sessions and sign out"
       />
 
