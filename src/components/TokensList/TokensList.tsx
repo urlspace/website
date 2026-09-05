@@ -1,52 +1,113 @@
 import {
-	useMutation,
-	useQueryClient,
-	useSuspenseQuery,
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
 } from "@tanstack/react-query";
+import { useState } from "react";
 import { tokensQueryKey, tokensQueryOptions } from "#/queries/tokens.ts";
-import { DashboardButtonAction } from "..";
+import { Button, DashboardButtonAction, Dialog, Stack } from "..";
 
 function TokensList() {
-	const queryClient = useQueryClient();
-	const { data: tokens } = useSuspenseQuery(tokensQueryOptions);
+  const queryClient = useQueryClient();
+  const { data: tokens } = useSuspenseQuery(tokensQueryOptions);
+  const [tokenToRevoke, setTokenToRevoke] = useState<{
+    id: string;
+    description: string;
+  } | null>(null);
 
-	const deleteToken = useMutation({
-		mutationFn: async (id: string) => {
-			const res = await fetch(`${import.meta.env.VITE_API_URL}/tokens/${id}`, {
-				method: "DELETE",
-				credentials: "include",
-			});
-			if (!res.ok) throw new Error(`delete token failed: ${res.status}`);
-		},
-		onSuccess: () =>
-			queryClient.invalidateQueries({ queryKey: tokensQueryKey }),
-	});
+  const revokeToken = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/tokens/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (!res.ok) throw new Error(`revoke token failed: ${res.status}`);
+    },
+    onSuccess: () => {
+      setTokenToRevoke(null);
+      queryClient.invalidateQueries({ queryKey: tokensQueryKey });
+    },
+  });
 
-	return (
-		<ul className="settingsList">
-			{tokens.length === 0 ? (
-				<li className="settingsList__item">
-					<span className="settingsList__name">No API tokens.</span>
-				</li>
-			) : null}
-			{tokens.map((token) => (
-				<li className="settingsList__item" key={token.id}>
-					<span className="settingsList__name">{token.description}</span>
-					<span className="settingsList__action">
-						<DashboardButtonAction
-							onClick={() => deleteToken.mutate(token.id)}
-							text={
-								deleteToken.isPending && deleteToken.variables === token.id
-									? "Deleting..."
-									: "Delete token"
-							}
-							destructive
-						/>
-					</span>
-				</li>
-			))}
-		</ul>
-	);
+  return (
+    <>
+      {/* biome-ignore lint/a11y/noRedundantRoles: preserve semantics when CSS removes list markers */}
+      <ul className="settings" role="list">
+        {tokens.length === 0 ? (
+          <li className="settings__item">
+            <span className="settingsList__name">No API tokens.</span>
+          </li>
+        ) : null}
+        {tokens.map((token) => (
+          <li className="settings__item" key={token.id}>
+            <div className="settings__row">
+              <span className="settings__value settings__value--token">{`urlspace_${"•".repeat(8)}${token.tokenSuffix ? token.tokenSuffix : "•".repeat(6)}`}</span>
+              <span className="settings__action">
+                <DashboardButtonAction
+                  ariaLabel={`Revoke token: ${token.description}`}
+                  onClick={() =>
+                    setTokenToRevoke({
+                      id: token.id,
+                      description: token.description,
+                    })
+                  }
+                  text="Revoke token"
+                  destructive
+                />
+              </span>
+            </div>
+            <dl className="settings__details">
+              <div className="settings__detail">
+                <dt className="settings__prop">Description</dt>
+                <dd className="settings__propvalue">{token.description}</dd>
+              </div>
+              <div className="settings__detail">
+                <dt className="settings__prop">Created at</dt>
+                <dd className="settings__propvalue">
+                  <time dateTime={token.createdAt}>
+                    {token.createdAt.slice(0, 10).replaceAll("-", ".")}
+                  </time>
+                </dd>
+              </div>
+              <div className="settings__detail">
+                <dt className="settings__prop">Last used</dt>
+                <dd className="settings__propvalue">
+                  {token.lastUsedAt === token.createdAt ? (
+                    "Never"
+                  ) : (
+                    <time dateTime={token.lastUsedAt}>
+                      {token.lastUsedAt.slice(0, 10).replaceAll("-", ".")}
+                    </time>
+                  )}
+                </dd>
+              </div>
+            </dl>
+          </li>
+        ))}
+      </ul>
+
+      <Dialog
+        open={tokenToRevoke !== null}
+        onClose={() => setTokenToRevoke(null)}
+        title="Revoke token?"
+      >
+        {tokenToRevoke ? (
+          <Stack>
+            <p>
+              Revoking <strong>{tokenToRevoke.description}</strong> will
+              immediately prevent apps and scripts using it from accessing your
+              account. This cannot be undone.
+            </p>
+            <Button
+              disabled={revokeToken.isPending}
+              onClick={() => revokeToken.mutate(tokenToRevoke.id)}
+              text={revokeToken.isPending ? "Revoking..." : "Revoke token"}
+            />
+          </Stack>
+        ) : null}
+      </Dialog>
+    </>
+  );
 }
 
 export default TokensList;
