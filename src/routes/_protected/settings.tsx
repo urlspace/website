@@ -47,6 +47,7 @@ function PageProfile() {
   const [isChangeUsernameOpen, setIsChangeUsernameOpen] = useState(false);
   const [isChangeDisplayNameOpen, setIsChangeDisplayNameOpen] = useState(false);
   const [isChangeEmailOpen, setIsChangeEmailOpen] = useState(false);
+  const [changeEmailKey, setChangeEmailKey] = useState(0);
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
   const [isCreateTokenOpen, setIsCreateTokenOpen] = useState(false);
   const [createTokenKey, setCreateTokenKey] = useState(0);
@@ -72,11 +73,11 @@ function PageProfile() {
             <Heading level={2} text="Account details" />
 
             <dl className="settings">
-              <div>
-                <dt>Display name</dt>
-                <dd className="settingsList__item">
-                  <span className="settingsList__name">{user.displayName}</span>
-                  <span className="settingsList__action">
+              <div className="settings__item">
+                <dt className="settings__term">Display name</dt>
+                <dd className="settings__row">
+                  <span className="settings__value">{user.displayName}</span>
+                  <span className="settings__action">
                     <DashboardButtonAction
                       onClick={() => setIsChangeDisplayNameOpen(true)}
                       text="Change display name"
@@ -85,11 +86,11 @@ function PageProfile() {
                 </dd>
               </div>
 
-              <div>
-                <dt>Username</dt>
-                <dd className="settingsList__item">
-                  <span className="settingsList__name">{user.username}</span>
-                  <span className="settingsList__action">
+              <div className="settings__item">
+                <dt className="settings__term">Username</dt>
+                <dd className="settings__row">
+                  <span className="settings__value">{user.username}</span>
+                  <span className="settings__action">
                     <DashboardButtonAction
                       onClick={() => setIsChangeUsernameOpen(true)}
                       text="Change username"
@@ -98,24 +99,27 @@ function PageProfile() {
                 </dd>
               </div>
 
-              <div>
-                <dt>Email</dt>
-                <dd className="settingsList__item">
-                  <span className="settingsList__name">{user.email}</span>
-                  <span className="settingsList__action">
+              <div className="settings__item">
+                <dt className="settings__term">Email</dt>
+                <dd className="settings__row">
+                  <span className="settings__value">{user.email}</span>
+                  <span className="settings__action">
                     <DashboardButtonAction
-                      onClick={() => setIsChangeEmailOpen(true)}
+                      onClick={() => {
+                        setChangeEmailKey((key) => key + 1);
+                        setIsChangeEmailOpen(true);
+                      }}
                       text="Change email"
                     />
                   </span>
                 </dd>
               </div>
 
-              <div>
-                <dt>Password</dt>
-                <dd className="settingsList__item">
-                  <span className="settingsList__name">************</span>
-                  <span className="settingsList__action">
+              <div className="settings__item">
+                <dt className="settings__term">Password</dt>
+                <dd className="settings__row">
+                  <span className="settings__value">•••••••••••••••</span>
+                  <span className="settings__action">
                     <DashboardButtonAction
                       onClick={() => setIsChangePasswordOpen(true)}
                       text="Change password"
@@ -125,17 +129,9 @@ function PageProfile() {
               </div>
             </dl>
           </Stack>
-          <hr />
-          <Stack gap={1}>
-            <Heading level={2} text="Sessions" />
-            <p>
-              These are the devices and browsers currently signed in to your
-              account. If you spot one you don't recognise, sign it out below.
-            </p>
-            <SessionsList />
-          </Stack>
 
           <hr />
+
           <Stack gap={1}>
             <Heading level={2} text="API Tokens" />
             <p>
@@ -151,6 +147,17 @@ function PageProfile() {
               }}
               text="Create token"
             />
+          </Stack>
+
+          <hr />
+
+          <Stack gap={1}>
+            <Heading level={2} text="Sessions" />
+            <p>
+              These are the devices and browsers currently signed in to your
+              account. If you spot one you don't recognise, sign it out below.
+            </p>
+            <SessionsList />
           </Stack>
 
           <hr />
@@ -198,7 +205,10 @@ function PageProfile() {
         onClose={() => setIsChangeEmailOpen(false)}
         title="Change email"
       >
-        <FormEmail onClose={() => setIsChangeEmailOpen(false)} />
+        <FormEmail
+          key={changeEmailKey}
+          onClose={() => setIsChangeEmailOpen(false)}
+        />
       </Dialog>
 
       <Dialog

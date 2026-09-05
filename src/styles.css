@@ -238,59 +238,68 @@ p {
 .settings {
   display: grid;
   gap: 1rlh;
-
-  dt {
-    font-weight: 700;
-    font-size: 0.875rem;
-  }
-
-  dd {
-    display: flex;
-    justify-content: space-between;
-  }
+  list-style: none;
 }
 
-.settingsList {
-  display: grid;
+.settings__item {
+  min-width: 0;
 }
 
-.settingsList__item {
+.settings__term {
+  font-size: 0.875rem;
+}
+
+.settings__row {
   display: flex;
   justify-content: space-between;
   gap: 1lh;
-  min-width: 0;
-  /* background-color: lime; */
-
-  --bg-color: transparent;
-  --bg-s-size: 2px;
-  --bg-s-color-light: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
-  --bg-s-color-dark: color-mix(in oklab, var(--color-bg) 90%, var(--color-fg));
-  --bg-s-color: light-dark(var(--bg-s-color-light), var(--bg-s-color-dark));
-  --bg-size: 1lh;
-
-  background-image: conic-gradient(
-    at var(--bg-s-size) var(--bg-s-size),
-    #0000 75%,
-    var(--bg-s-color) 0
-  );
-  background-size: 0.5lh var(--bg-size);
-  background-position: center calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
+  /* min-width: 0; */
 }
 
-.settingsList__name {
-  /* flex: 1; */
+.settings__value {
+  font-weight: 700;
   min-width: 0;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  background-color: var(--color-bg-content);
-  padding-inline-end: 0.5lh;
 }
 
-.settingsList__action {
-  background-color: var(--color-bg-content);
+.settings__value--token {
+  /* Without this, the values like */
+  /* urlspace_••••••••••••••BIOULo */
+  /* renders super weirdly using Inter font */
+  font-variant-ligatures: none;
+}
+
+.settings__action {
   flex-shrink: 0;
+}
+
+.settings__details {
+  font-size: 0.875rem;
+  color: color-mix(in srgb, var(--color-fg) 75%, transparent);
+}
+
+.settings__detail {
+  display: flex;
+}
+
+.settings__prop::after {
+  content: ":\00a0";
+}
+
+.settings__propvalue {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.settings__error {
+  --color: light-dark(oklch(57.7% 0.245 27.325), oklch(70.4% 0.191 22.216));
+
+  color: var(--color);
   padding-inline-start: 0.5lh;
+  border-inline-start: 4px solid var(--color);
 }
 
 hr {
