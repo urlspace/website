@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import styles from "./Dialog.module.css";
 import Icon from "../Icons/Icons";
 
@@ -14,6 +14,7 @@ function Dialog({
 	title: string;
 }) {
 	const ref = useRef<HTMLDialogElement>(null);
+	const titleId = useId();
 
 	useEffect(() => {
 		const el = ref.current;
@@ -27,13 +28,16 @@ function Dialog({
 		<dialog
 			ref={ref}
 			className={styles.dialog}
+			aria-labelledby={titleId}
 			onClose={onClose}
 			onClick={(e) => {
 				if (e.target === ref.current) onClose();
 			}}
 		>
 			<div className={styles.header}>
-				<span className={styles.title}>{title}</span>
+				<span id={titleId} className={styles.title}>
+					{title}
+				</span>
 				<button
 					type="button"
 					className={styles.close}
