@@ -70,6 +70,9 @@ function FormToken({ onClose }: { onClose: () => void }) {
           <Button text={copied ? "Copied!" : "Copy"} onClick={handleCopy} />
           <Button text="Done" onClick={onClose} />
         </Stack>
+        <span className="visually-hidden" role="status">
+          {copied ? "Token copied." : ""}
+        </span>
       </Stack>
     );
   }

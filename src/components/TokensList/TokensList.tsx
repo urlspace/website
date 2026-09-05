@@ -41,7 +41,14 @@ function TokensList() {
         {tokens.map((token) => (
           <li className="settings__item" key={token.id}>
             <div className="settings__row">
-              <span className="settings__value settings__value--token">{`urlspace_${"•".repeat(8)}${token.tokenSuffix ? token.tokenSuffix : "•".repeat(6)}`}</span>
+              <span className="settings__value settings__value--token">
+                <span aria-hidden="true">{`urlspace_${"•".repeat(8)}${token.tokenSuffix ? token.tokenSuffix : "•".repeat(6)}`}</span>
+                <span className="visually-hidden">
+                  {token.tokenSuffix
+                    ? `Token ending in ${token.tokenSuffix}`
+                    : "Token value hidden"}
+                </span>
+              </span>
               <span className="settings__action">
                 <DashboardButtonAction
                   ariaLabel={`Revoke token: ${token.description}`}

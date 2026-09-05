@@ -118,7 +118,10 @@ function PageProfile() {
               <div className="settings__item">
                 <dt className="settings__term">Password</dt>
                 <dd className="settings__row">
-                  <span className="settings__value">•••••••••••••••</span>
+                  <span className="settings__value">
+                    <span aria-hidden="true">•••••••••••••••</span>
+                    <span className="visually-hidden">Password is set</span>
+                  </span>
                   <span className="settings__action">
                     <DashboardButtonAction
                       onClick={() => setIsChangePasswordOpen(true)}
