@@ -2,11 +2,13 @@ import styles from "./DashboardButtonAction.module.css";
 
 function DashbrardButtonAction({
 	ariaPressed,
+	ariaLabel,
 	text,
 	onClick,
 	destructive,
 }: {
 	ariaPressed?: boolean;
+	ariaLabel?: string;
 	text: string;
 	onClick: () => void;
 	destructive?: boolean;
@@ -19,6 +21,7 @@ function DashbrardButtonAction({
 				.join(" ")}
 			onClick={onClick}
 			aria-pressed={ariaPressed}
+			aria-label={ariaLabel}
 		>
 			{text}
 		</button>
