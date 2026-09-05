@@ -72,6 +72,8 @@ function SessionsList() {
     },
   });
 
+  const isDeleting = deleteSession.isPending || deleteAllSessions.isPending;
+
   return (
     <>
       {errorMessage ? (
@@ -95,6 +97,7 @@ function SessionsList() {
               </span>
               <span className="settings__action">
                 <DashboardButtonAction
+                  disabled={isDeleting}
                   ariaLabel={`Revoke session: ${
                     session.description ?? "Unknown device"
                   }`}
@@ -134,6 +137,7 @@ function SessionsList() {
       </ul>
 
       <Button
+        disabled={isDeleting}
         onClick={() => {
           setErrorMessage(null);
           setIsDeleteAllOpen(true);
@@ -152,6 +156,7 @@ function SessionsList() {
             immediately.
           </p>
           <Button
+            disabled={isDeleting}
             text={
               deleteSession.isPending ? "Revoking..." : "Revoke and sign out"
             }
@@ -175,6 +180,7 @@ function SessionsList() {
         <Stack>
           <p>This will sign you out of every device, including this one.</p>
           <Button
+            disabled={isDeleting}
             text={
               deleteAllSessions.isPending
                 ? "Deleting..."

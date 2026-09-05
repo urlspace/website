@@ -6,12 +6,14 @@ function DashbrardButtonAction({
 	text,
 	onClick,
 	destructive,
+	disabled,
 }: {
 	ariaPressed?: boolean;
 	ariaLabel?: string;
 	text: string;
 	onClick: () => void;
 	destructive?: boolean;
+	disabled?: boolean;
 }) {
 	return (
 		<button
@@ -20,6 +22,7 @@ function DashbrardButtonAction({
 				.filter(Boolean)
 				.join(" ")}
 			onClick={onClick}
+			disabled={disabled}
 			aria-pressed={ariaPressed}
 			aria-label={ariaLabel}
 		>
