@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { linksQueryKey } from "#/queries/links.ts";
+import { formatDate } from "#/utils.ts";
 import { DashboardButtonAction, DashboardMenu } from "..";
 import Truncate from "../Truncate/Truncate";
 import styles from "./DashboardLink.module.css";
@@ -132,7 +133,12 @@ function DashbrardLink({
 
 			<div className={styles.meta}>
 				<div>
-					<span>Added: {link.createdAt.slice(0, 10).replaceAll("-", ".")}</span>
+					<span>
+						Added:{" "}
+						<time dateTime={link.createdAt}>
+							{formatDate(link.createdAt)}
+						</time>
+					</span>
 				</div>
 
 				{collection ? (

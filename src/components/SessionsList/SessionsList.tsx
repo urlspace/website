@@ -6,6 +6,7 @@ import {
 import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { sessionsQueryKey, sessionsQueryOptions } from "#/queries/sessions.ts";
+import { formatDate } from "#/utils.ts";
 import { Button, DashboardButtonAction, Dialog, Stack } from "..";
 
 function SessionsList() {
@@ -85,7 +86,7 @@ function SessionsList() {
       <ul className="settings" role="list">
         {sessions.length === 0 ? (
           <li className="settings__item">
-            <span className="settings__name">No active sessions.</span>
+            <span className="settings__name">No signed-in devices.</span>
           </li>
         ) : null}
         {sessions.map((session) => (
@@ -98,7 +99,7 @@ function SessionsList() {
               <span className="settings__action">
                 <DashboardButtonAction
                   disabled={isDeleting}
-                  ariaLabel={`Revoke session: ${
+                  ariaLabel={`Sign out: ${
                     session.description ?? "Unknown device"
                   }`}
                   onClick={() => {
@@ -115,8 +116,8 @@ function SessionsList() {
                   text={
                     deleteSession.isPending &&
                     deleteSession.variables?.id === session.id
-                      ? "Revoking..."
-                      : "Revoke session"
+                      ? "Signing out..."
+                      : "Sign out"
                   }
                   destructive
                 />
@@ -127,7 +128,7 @@ function SessionsList() {
                 <dt className="settings__prop">Signed in</dt>
                 <dd className="settings__propvalue">
                   <time dateTime={session.createdAt}>
-                    {session.createdAt.slice(0, 10).replaceAll("-", ".")}
+                    {formatDate(session.createdAt)}
                   </time>
                 </dd>
               </div>
@@ -142,23 +143,20 @@ function SessionsList() {
           setErrorMessage(null);
           setIsDeleteAllOpen(true);
         }}
-        text="Delete all sessions and sign out"
+        text="Sign out on all devices"
       />
 
       <Dialog
         open={revokeCurrentSessionId !== null}
         onClose={() => setRevokeCurrentSessionId(null)}
-        title="Revoke this session?"
+        title="Sign out on this device?"
       >
         <Stack>
-          <p>
-            This is your current session. Revoking it will sign you out
-            immediately.
-          </p>
+          <p>This will sign you out on this device immediately.</p>
           <Button
             disabled={isDeleting}
             text={
-              deleteSession.isPending ? "Revoking..." : "Revoke and sign out"
+              deleteSession.isPending ? "Signing out..." : "Sign out"
             }
             onClick={() => {
               if (revokeCurrentSessionId) {
@@ -175,7 +173,7 @@ function SessionsList() {
       <Dialog
         open={isDeleteAllOpen}
         onClose={() => setIsDeleteAllOpen(false)}
-        title="Delete all sessions?"
+        title="Sign out on all devices?"
       >
         <Stack>
           <p>This will sign you out of every device, including this one.</p>
@@ -183,8 +181,8 @@ function SessionsList() {
             disabled={isDeleting}
             text={
               deleteAllSessions.isPending
-                ? "Deleting..."
-                : "Delete all and sign out"
+                ? "Signing out..."
+                : "Sign out on all devices"
             }
             onClick={() => deleteAllSessions.mutate()}
           />

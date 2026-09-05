@@ -138,9 +138,10 @@ function PageProfile() {
           <Stack gap={1}>
             <Heading level={2} text="API Tokens" />
             <p>
-              Tokens let other apps and scripts access your account without
-              using your password. Only create one for tools you trust, and
-              remove it if you stop using it.
+              Access tokens let another app use your url.space account without
+              knowing your password. Most people do not need one. Only create a
+              token when a trusted app asks for it, and remove it when you no
+              longer use that app.
             </p>
             <TokensList />
             <Button
@@ -155,7 +156,7 @@ function PageProfile() {
           <hr />
 
           <Stack gap={1}>
-            <Heading level={2} text="Sessions" />
+            <Heading level={2} text="Signed-in devices" />
             <p>
               These are the devices and browsers currently signed in to your
               account. If you spot one you don't recognise, sign it out below.
@@ -168,10 +169,10 @@ function PageProfile() {
           <Stack gap={1}>
             <Heading level={2} text="Delete your account" />
             <p>
-              Deleting an account should be as easy as creating one, and we are
-              not going to stop you. We would appreciate if you could drop us a
-              line at <a href="mailto:mail@url.space">mail@url.space</a> and
-              share your rason please.
+              You can permanently delete your account at any time. If you would
+              like to tell us why you are leaving, email{" "}
+              <a href="mailto:mail@url.space">mail@url.space</a>. Sharing feedback
+              is optional.
             </p>
             <Button
               onClick={() => setIsDeleteAccountOpen(true)}

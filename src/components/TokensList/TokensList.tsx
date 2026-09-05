@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { useState } from "react";
 import { tokensQueryKey, tokensQueryOptions } from "#/queries/tokens.ts";
+import { formatDate } from "#/utils.ts";
 import { Button, DashboardButtonAction, Dialog, Stack } from "..";
 
 function TokensList() {
@@ -72,7 +73,7 @@ function TokensList() {
                 <dt className="settings__prop">Created at</dt>
                 <dd className="settings__propvalue">
                   <time dateTime={token.createdAt}>
-                    {token.createdAt.slice(0, 10).replaceAll("-", ".")}
+                    {formatDate(token.createdAt)}
                   </time>
                 </dd>
               </div>
@@ -83,7 +84,7 @@ function TokensList() {
                     "Never"
                   ) : (
                     <time dateTime={token.lastUsedAt}>
-                      {token.lastUsedAt.slice(0, 10).replaceAll("-", ".")}
+                      {formatDate(token.lastUsedAt)}
                     </time>
                   )}
                 </dd>
