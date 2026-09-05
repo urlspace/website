@@ -21,6 +21,7 @@
     "@tanstack/react-router-devtools": "latest",
     "@tanstack/react-router-ssr-query": "latest",
     "@tanstack/react-start": "latest",
+    "bowser": "^2.14.1",
     "downshift": "^9.4.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
