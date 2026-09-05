@@ -70,7 +70,7 @@ function TokensList() {
                 <dd className="settings__propvalue">{token.description}</dd>
               </div>
               <div className="settings__detail">
-                <dt className="settings__prop">Created at</dt>
+                <dt className="settings__prop">Created</dt>
                 <dd className="settings__propvalue">
                   <time dateTime={token.createdAt}>
                     {formatDate(token.createdAt)}
