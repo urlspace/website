@@ -171,12 +171,11 @@ function IconsSearch() {
   );
 }
 
-function IconsDashboard() {
+function IconsBack() {
   return (
     <IconBase>
-      <rect width="18" height="18" x="3" y="3" rx="2" />
-      <path d="M9 3v18" />
-      <path d="M15 3v18" />
+      <path d="m12 19-7-7 7-7" />
+      <path d="M19 12H5" />
     </IconBase>
   );
 }
@@ -198,6 +197,6 @@ Icon.Reload = IconsReload;
 Icon.Star = IconsStar;
 Icon.Extension = IconsExtension;
 Icon.Search = IconsSearch;
-Icon.Dashboard = IconsDashboard;
+Icon.Back = IconsBack;
 
 export default Icon;
