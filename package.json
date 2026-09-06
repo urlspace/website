@@ -27,17 +27,17 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.10",
-    "@cloudflare/vite-plugin": "^1.53.1",
+    "@biomejs/biome": "2.5.12",
+    "@cloudflare/vite-plugin": "^1.54.4",
     "@tanstack/devtools-vite": "latest",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.4.1",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.5",
-    "@vitejs/plugin-react": "^6.1.0",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "typescript": "^7.0.2",
     "vite": "^8.2.2",
-    "wrangler": "^4.125.0"
+    "wrangler": "^4.129.0"
   },
   "allowScripts": {
     "fsevents": true,
