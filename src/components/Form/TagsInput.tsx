@@ -1,8 +1,10 @@
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useRef, useState } from "react";
 import { useFieldIds } from "./context";
 import styles from "./Form.module.css";
-import { Button } from "../Button/Button";
 import { DashboardButtonAction, Icon } from "..";
+
+const tagNamePattern = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+const maxTags = 10;
 
 function TagsInput({
   description,
@@ -29,16 +31,44 @@ function TagsInput({
   );
   const isDisabled = disabled || loading;
   const listId = `${inputId}-options`;
+  const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState("");
+  const errorId = `${inputId}-error`;
 
   function addTag(rawValue: string) {
-    const tag = rawValue.trim();
-    if (!tag || isDisabled) return;
+    if (isDisabled) return;
 
-    if (!value.includes(tag)) {
-      onChange([...value, tag]);
+    const tag = rawValue.trim().toLowerCase();
+
+    if (tag.length < 2 || tag.length > 50) {
+      setError("Tag names must be between 2 and 50 characters.");
+      return;
     }
+
+    if (!tagNamePattern.test(tag)) {
+      setError(
+        "Use letters a–z, numbers, and single hyphens between words. Start and end with a letter or number.",
+      );
+      return;
+    }
+
+    if (value.some((selected) => selected.toLowerCase() === tag)) {
+      setInputValue("");
+      setError(null);
+      return;
+    }
+
+    if (value.length >= maxTags) {
+      setError(`You can add up to ${maxTags} tags. Remove one to add another.`);
+      return;
+    }
+
+    onChange([...value, tag]);
     setInputValue("");
+    setError(null);
+    setStatus(`Tag ${tag} added.`);
   }
 
   return (
@@ -54,17 +84,27 @@ function TagsInput({
 
       <div className={styles.fieldRow}>
         <input
-          aria-describedby={ariaDescribedBy}
+          aria-describedby={
+            [ariaDescribedBy, error ? errorId : null]
+              .filter(Boolean)
+              .join(" ") || undefined
+          }
+          aria-invalid={error ? true : undefined}
           className={styles.input}
           disabled={isDisabled}
           form=""
           id={inputId}
+          ref={inputRef}
           list={listId}
           name={name}
+          pattern="\s*(?=[A-Za-z0-9\-]{2,50}\s*$)[A-Za-z0-9]+(-[A-Za-z0-9]+)*\s*"
           placeholder={placeholder}
           type="text"
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+            setError(null);
+          }}
           onKeyUp={(e) => {
             if (e.key === "Enter" && !e.nativeEvent.isComposing) {
               addTag(e.currentTarget.value);
@@ -72,17 +112,32 @@ function TagsInput({
           }}
         />
         <datalist id={listId}>
-          {options.map((tag) => (
-            <option key={tag} value={tag} />
-          ))}
+          {options
+            .filter(
+              (tag) =>
+                !value.some(
+                  (selected) => selected.toLowerCase() === tag.toLowerCase(),
+                ),
+            )
+            .map((tag) => (
+              <option key={tag} value={tag} />
+            ))}
         </datalist>
         <DashboardButtonAction
-          onClick={() => addTag(inputValue)}
+          onClick={() => {
+            addTag(inputValue);
+            inputRef.current?.focus();
+          }}
           text="Add tag"
           disabled={isDisabled}
         />
       </div>
-      <ul className={styles.tagsList}>
+      {error ? (
+        <p id={errorId} className={styles.error} role="alert">
+          {error}
+        </p>
+      ) : null}
+      <ul className={styles.tagsList} role="list">
         {value.map((tag) => (
           <li key={tag} className={styles.tag}>
             {tag}
@@ -91,15 +146,20 @@ function TagsInput({
               type="button"
               aria-label={`Remove ${tag}`}
               disabled={isDisabled}
-              onClick={() =>
-                onChange(value.filter((selected) => selected !== tag))
-              }
+              onClick={() => {
+                onChange(value.filter((selected) => selected !== tag));
+                setError(null);
+                setStatus(`Tag ${tag} removed.`);
+              }}
             >
               <Icon.Close />
             </button>
           </li>
         ))}
       </ul>
+      <div className={styles.visuallyHidden} role="status" aria-atomic="true">
+        {status}
+      </div>
 
       {description ? (
         <p id={descriptionId} className={styles.description}>
