@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef } from "react";
-import styles from "./Dialog.module.css";
 import Icon from "../Icons/Icons";
+import styles from "./Dialog.module.css";
 
 function Dialog({
 	open,
@@ -35,9 +35,9 @@ function Dialog({
 			}}
 		>
 			<div className={styles.header}>
-				<span id={titleId} className={styles.title}>
+				<h2 id={titleId} className={styles.title}>
 					{title}
-				</span>
+				</h2>
 				<button
 					type="button"
 					className={styles.close}
