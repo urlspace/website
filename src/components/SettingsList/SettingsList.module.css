@@ -1,0 +1,65 @@
+.list {
+	display: grid;
+	gap: 1rlh;
+	list-style: none;
+}
+
+.item {
+	min-width: 0;
+}
+
+.term {
+	font-size: 0.875rem;
+}
+
+.row {
+	display: flex;
+	justify-content: space-between;
+	gap: 1lh;
+}
+
+.value {
+	font-weight: 700;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.valueToken {
+	/* Without this, the values like */
+	/* urlspace_••••••••••••••BIOULo */
+	/* renders super weirdly using Inter font */
+	font-variant-ligatures: none;
+}
+
+.action {
+	flex-shrink: 0;
+}
+
+.details {
+	font-size: 0.875rem;
+	color: color-mix(in srgb, var(--color-fg) 75%, transparent);
+}
+
+.detail {
+	display: flex;
+}
+
+.prop::after {
+	content: ":\00a0";
+}
+
+.propvalue {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.error {
+	--color: light-dark(oklch(57.7% 0.245 27.325), oklch(70.4% 0.191 22.216));
+
+	color: var(--color);
+	padding-inline-start: 0.5lh;
+	border-inline-start: 4px solid var(--color);
+}
