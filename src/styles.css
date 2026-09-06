@@ -22,7 +22,7 @@
 
   --size-container-max: min(100% - 2lh, 56lh);
   --transition-duration: 140ms;
-  --radius: 0.25lh;
+  --radius: 5px;
 
   @media (min-width: 1800px) {
     --size-container-max: 70lh;
@@ -52,7 +52,6 @@ html {
   text-size-adjust: none;
   hanging-punctuation: first allow-end last;
   line-height: 150%;
-  scroll-behavior: smooth;
   scrollbar-gutter: stable;
 
   &:has(dialog[open]) {
@@ -103,11 +102,6 @@ a {
 
   &:hover {
     color: var(--color-fg);
-  }
-
-  &:focus-visible {
-    outline: 4px dotted var(--color-link);
-    outline-offset: 4px;
   }
 }
 

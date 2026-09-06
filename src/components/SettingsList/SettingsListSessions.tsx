@@ -103,7 +103,7 @@ function SettingsListSessions() {
 									disabled={isDeleting}
 									ariaLabel={`Sign out: ${
 										session.description ?? "Unknown device"
-									}`}
+									}${session.current ? ", this device" : ""}`}
 									onClick={() => {
 										setErrorMessage(null);
 										if (session.current) {

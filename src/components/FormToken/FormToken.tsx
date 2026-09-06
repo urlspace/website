@@ -86,7 +86,7 @@ function FormToken({ onClose }: { onClose: () => void }) {
 				maxLength={255}
 				name="description"
 				onChange={setDescription}
-				placeholder="e.g. CI pipeline"
+				placeholder="e.g. browser extension"
 				required
 				type="text"
 				value={description}

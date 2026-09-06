@@ -8,15 +8,32 @@
   margin-block-end: 2lh;
 }
 
+.container {
+  display: block;
+  text-decoration: none;
+
+  &:focus-visible {
+    background-color: color-mix(in srgb, var(--color-link) 25%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-link) 25%, transparent);
+    outline: none;
+    border-radius: var(--radius);
+    outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
+    outline-offset: 6px;
+  }
+}
+
 .linkLoading {
   opacity: 0.5;
   pointer-events: none;
 }
 
 .title {
+  display: block;
   font-weight: 800;
   align-self: flex-start;
   text-wrap-style: pretty;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
 
   mark {
     /* background-color: color-mix(in srgb, var(--color-link) 30%, transparent); */
@@ -26,10 +43,15 @@
 }
 
 .linkA {
+  display: block;
   font-size: 0.875rem;
   text-decoration: none;
-  color: color-mix(in srgb, var(--color-fg) 75%, transparent);
+  color: color-mix(in srgb, var(--color-fg) 50%, transparent);
   vertical-align: bottom;
+  overflow-wrap: anywhere;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .meta {

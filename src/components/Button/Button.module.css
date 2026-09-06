@@ -18,8 +18,8 @@
   }
 
   &:focus-visible {
-    outline: 4px dotted var(--color-link);
-    outline-offset: 4px;
+    outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
+    outline-offset: 2px;
   }
 
   &:active {

@@ -2,21 +2,21 @@ import Icon from "../Icons/Icons";
 import styles from "./DashboardAccordion.module.css";
 
 function DashbrardAccordtion({
-	summary,
-	children,
+  summary,
+  children,
 }: {
-	summary: string;
-	children: React.ReactNode;
+  summary: string;
+  children: React.ReactNode;
 }) {
-	return (
-		<details className={styles.details} open>
-			<summary className={styles.summary}>
-				{summary}
-				<Icon.Expand />
-			</summary>
-			{children}
-		</details>
-	);
+  return (
+    <details open>
+      <summary className={styles.summary}>
+        {summary}
+        <Icon.Expand />
+      </summary>
+      {children}
+    </details>
+  );
 }
 
 export default DashbrardAccordtion;

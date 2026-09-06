@@ -20,8 +20,9 @@
   }
 
   &:focus-visible {
-    outline: 3px dotted var(--color-link);
-    outline-offset: 1px;
+    outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
+    outline-offset: 2px;
+    border-radius: var(--radius);
   }
 
   &[aria-pressed="true"],
