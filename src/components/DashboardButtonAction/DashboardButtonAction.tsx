@@ -1,6 +1,6 @@
 import styles from "./DashboardButtonAction.module.css";
 
-function DashbrardButtonAction({
+function DashboardButtonAction({
 	ariaPressed,
 	ariaLabel,
 	text,
@@ -31,4 +31,4 @@ function DashbrardButtonAction({
 	);
 }
 
-export default DashbrardButtonAction;
+export default DashboardButtonAction;
