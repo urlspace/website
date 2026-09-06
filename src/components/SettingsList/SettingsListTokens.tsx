@@ -32,7 +32,7 @@ function SettingsListTokens() {
 		},
 		onError: () => {
 			setTokenToRevoke(null);
-			setErrorMessage("We couldn't revoke that token. Please try again.");
+			setErrorMessage("We couldn't remove that token. Please try again.");
 		},
 	});
 
@@ -64,7 +64,7 @@ function SettingsListTokens() {
 							</span>
 							<span className={styles.action}>
 								<DashboardButtonAction
-									ariaLabel={`Revoke token: ${token.description}`}
+									ariaLabel={`Remove token: ${token.description}`}
 									onClick={() => {
 										setErrorMessage(null);
 										setTokenToRevoke({
@@ -72,7 +72,7 @@ function SettingsListTokens() {
 											description: token.description,
 										});
 									}}
-									text="Revoke token"
+									text="Remove token"
 									destructive
 								/>
 							</span>
@@ -110,19 +110,19 @@ function SettingsListTokens() {
 			<Dialog
 				open={tokenToRevoke !== null}
 				onClose={() => setTokenToRevoke(null)}
-				title="Revoke token?"
+				title="Remove token?"
 			>
 				{tokenToRevoke ? (
 					<Stack>
 						<p>
-							Revoking <strong>{tokenToRevoke.description}</strong> will
+							Removing <strong>{tokenToRevoke.description}</strong> will
 							immediately prevent apps and scripts using it from accessing your
 							account. This cannot be undone.
 						</p>
 						<Button
 							disabled={revokeToken.isPending}
 							onClick={() => revokeToken.mutate(tokenToRevoke.id)}
-							text={revokeToken.isPending ? "Revoking..." : "Revoke token"}
+							text={revokeToken.isPending ? "Removing..." : "Remove token"}
 						/>
 					</Stack>
 				) : null}
