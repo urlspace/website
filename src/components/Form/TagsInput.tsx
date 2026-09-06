@@ -1,207 +1,113 @@
-import { useCombobox, useMultipleSelection } from "downshift";
 import { type ReactNode, useState } from "react";
-import Icon from "../Icons/Icons";
 import { useFieldIds } from "./context";
 import styles from "./Form.module.css";
-
-// Mirrors the backend's tag name rule: lowercase letters/digits/hyphens,
-// 2-50 chars, no leading/trailing or consecutive hyphens. Each hyphen must
-// be followed by an alnum run, so "-tag", "tag-", "ta--g" can't match.
-const TAG_PATTERN = /^(?=.{2,50}$)[a-z0-9]+(-[a-z0-9]+)*$/;
+import { Button } from "../Button/Button";
+import { DashboardButtonAction, Icon } from "..";
 
 function TagsInput({
-	description,
-	disabled,
-	label,
-	name,
-	onChange,
-	options,
-	placeholder,
-	required,
-	value,
-	maxTags = 10,
+  description,
+  disabled,
+  label,
+  name,
+  onChange,
+  options,
+  placeholder,
+  value,
 }: {
-	description?: ReactNode;
-	disabled?: boolean;
-	label: string;
-	name: string;
-	onChange: (value: string[]) => void;
-	required?: boolean;
-	value: string[];
-	options: string[];
-	placeholder: string;
-	maxTags?: number;
+  description?: ReactNode;
+  disabled?: boolean;
+  label: string;
+  name: string;
+  onChange: (value: string[]) => void;
+  value: string[];
+  options: string[];
+  placeholder: string;
 }) {
-	const { inputId, descriptionId, ariaDescribedBy, loading } = useFieldIds(
-		name,
-		!!description,
-	);
-	const isDisabled = disabled || loading;
-	const atMax = value.length >= maxTags;
-	const [inputValue, setInputValue] = useState("");
+  const { inputId, descriptionId, ariaDescribedBy, loading } = useFieldIds(
+    name,
+    !!description,
+  );
+  const isDisabled = disabled || loading;
+  const listId = `${inputId}-options`;
+  const [inputValue, setInputValue] = useState("");
 
-	const query = inputValue.trim().toLowerCase();
-	const available = options.filter((o) => !value.includes(o));
-	const matches = query
-		? available.filter((o) => o.includes(query))
-		: available;
-	const canCreate =
-		TAG_PATTERN.test(query) &&
-		!options.includes(query) &&
-		!value.includes(query);
-	const items = canCreate ? [...matches, query] : matches;
+  function addTag(rawValue: string) {
+    const tag = rawValue.trim();
+    if (!tag || isDisabled) return;
 
-	const { getSelectedItemProps, getDropdownProps, removeSelectedItem } =
-		useMultipleSelection<string>({
-			selectedItems: value,
-			onStateChange({ selectedItems: next, type }) {
-				switch (type) {
-					case useMultipleSelection.stateChangeTypes
-						.SelectedItemKeyDownBackspace:
-					case useMultipleSelection.stateChangeTypes.SelectedItemKeyDownDelete:
-					case useMultipleSelection.stateChangeTypes.DropdownKeyDownBackspace:
-					case useMultipleSelection.stateChangeTypes.FunctionRemoveSelectedItem:
-						onChange(next ?? []);
-						break;
-					default:
-						break;
-				}
-			},
-		});
+    if (!value.includes(tag)) {
+      onChange([...value, tag]);
+    }
+    setInputValue("");
+  }
 
-	const {
-		isOpen,
-		getMenuProps,
-		getInputProps,
-		getItemProps,
-		highlightedIndex,
-	} = useCombobox<string>({
-		items,
-		inputValue,
-		selectedItem: null,
-		defaultHighlightedIndex: 0,
-		inputId,
-		stateReducer(_state, { changes, type }) {
-			switch (type) {
-				case useCombobox.stateChangeTypes.InputKeyDownEnter:
-				case useCombobox.stateChangeTypes.ItemClick:
-					// Keep the menu open and the first item highlighted so the user
-					// can add several tags in a row without re-opening.
-					return { ...changes, isOpen: true, highlightedIndex: 0 };
-				default:
-					return changes;
-			}
-		},
-		onStateChange({ inputValue: nextInput, type, selectedItem }) {
-			switch (type) {
-				case useCombobox.stateChangeTypes.InputKeyDownEnter:
-				case useCombobox.stateChangeTypes.ItemClick:
-					if (selectedItem && !atMax) {
-						onChange([...value, selectedItem]);
-						setInputValue("");
-					}
-					break;
-				case useCombobox.stateChangeTypes.InputChange:
-					setInputValue(nextInput ?? "");
-					break;
-				default:
-					break;
-			}
-		},
-	});
+  return (
+    <div className={styles.field}>
+      <label
+        className={[styles.label, isDisabled && styles.labelDisabled]
+          .filter(Boolean)
+          .join(" ")}
+        htmlFor={inputId}
+      >
+        {label}
+      </label>
 
-	return (
-		<div className={styles.field}>
-			<label
-				className={[styles.label, disabled && styles.labelDisabled]
-					.filter(Boolean)
-					.join(" ")}
-				htmlFor={inputId}
-			>
-				{label}
-				{required ? <span aria-hidden="true"> (required)</span> : null}
-			</label>
+      <div className={styles.fieldRow}>
+        <input
+          aria-describedby={ariaDescribedBy}
+          className={styles.input}
+          disabled={isDisabled}
+          form=""
+          id={inputId}
+          list={listId}
+          name={name}
+          placeholder={placeholder}
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyUp={(e) => {
+            if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+              addTag(e.currentTarget.value);
+            }
+          }}
+        />
+        <datalist id={listId}>
+          {options.map((tag) => (
+            <option key={tag} value={tag} />
+          ))}
+        </datalist>
+        <DashboardButtonAction
+          onClick={() => addTag(inputValue)}
+          text="Add tag"
+          disabled={isDisabled}
+        />
+      </div>
+      <ul className={styles.tagsList}>
+        {value.map((tag) => (
+          <li key={tag} className={styles.tag}>
+            {tag}
+            <button
+              className={styles.tagRemove}
+              type="button"
+              aria-label={`Remove ${tag}`}
+              disabled={isDisabled}
+              onClick={() =>
+                onChange(value.filter((selected) => selected !== tag))
+              }
+            >
+              <Icon.Close />
+            </button>
+          </li>
+        ))}
+      </ul>
 
-			<div className={styles.comboboxWrapper}>
-				<div className={styles.tagsInputGroup}>
-					{value.map((tag, index) => (
-						<span
-							key={tag}
-							className={styles.tag}
-							{...getSelectedItemProps({ selectedItem: tag, index })}
-						>
-							{tag}
-							<button
-								type="button"
-								className={styles.tagRemove}
-								aria-label={`Remove ${tag}`}
-								disabled={isDisabled}
-								onClick={(e) => {
-									e.stopPropagation();
-									removeSelectedItem(tag);
-								}}
-							>
-								<Icon.Close />
-							</button>
-						</span>
-					))}
-					<input
-						{...getInputProps(
-							getDropdownProps({
-								"aria-describedby": ariaDescribedBy,
-								className: styles.tagsInput,
-								disabled: isDisabled,
-								hidden: atMax,
-								name,
-								placeholder,
-								preventKeyAction: isOpen,
-								onKeyDown: (e) => {
-									// Space commits the current text as a tag (no spaces allowed
-									// in tags), matching the Apple Notes/Reminders convention.
-									if (e.key === " ") {
-										e.preventDefault();
-										if (canCreate && !atMax) {
-											onChange([...value, query]);
-											setInputValue("");
-										}
-									}
-								},
-							}),
-						)}
-					/>
-				</div>
-
-				<ul
-					{...getMenuProps({
-						className: styles.comboboxPopup,
-						hidden: !isOpen || atMax,
-					})}
-				>
-					{isOpen && !atMax && items.length === 0 ? (
-						<li className={styles.comboboxEmpty}>No matching tags</li>
-					) : null}
-					{isOpen && !atMax
-						? items.map((item, index) => (
-								<li
-									key={item}
-									{...getItemProps({ item, index })}
-									data-highlighted={highlightedIndex === index ? "" : undefined}
-									className={styles.comboboxItem}
-								>
-									{options.includes(item) ? item : `Add new tag "${item}"`}
-								</li>
-							))
-						: null}
-				</ul>
-			</div>
-
-			{description ? (
-				<p id={descriptionId} className={styles.description}>
-					{description}
-				</p>
-			) : null}
-		</div>
-	);
+      {description ? (
+        <p id={descriptionId} className={styles.description}>
+          {description}
+        </p>
+      ) : null}
+    </div>
+  );
 }
 
 export default TagsInput;

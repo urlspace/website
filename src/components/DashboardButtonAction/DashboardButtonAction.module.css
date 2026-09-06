@@ -7,6 +7,7 @@
   text-underline-offset: 4px;
   font-size: 0.875rem;
   vertical-align: top;
+  text-wrap: nowrap;
 
   &:hover {
     @media (hover: hover) and (pointer: fine) {

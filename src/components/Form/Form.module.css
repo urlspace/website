@@ -32,18 +32,6 @@
   align-self: flex-start;
 }
 
-.badge {
-  position: absolute;
-  inset: 0 0 auto auto;
-  font-size: 0.875rem;
-}
-
-@media (hover: none) or (pointer: coarse) {
-  .badge {
-    display: none;
-  }
-}
-
 .labelDisabled {
   opacity: 0.75;
   cursor: not-allowed;
@@ -317,37 +305,6 @@
   color: color-mix(in srgb, var(--color-fg) 50%, transparent);
 }
 
-.tagsInputGroup {
-  --outline-color: var(--color-border-input);
-
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.25lh;
-  padding: 0.5lh;
-  border: none;
-  background-color: var(--color-bg-content);
-  outline: 1px solid var(--outline-color);
-  outline-offset: -3px;
-  transition: outline-color var(--transition-duration);
-  border-radius: var(--radius);
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
-
-  &:focus-within {
-    --outline-color: var(--color-fg);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-link) 50%, transparent);
-  }
-
-  &:has(:disabled) {
-    --outline-color: transparent;
-    opacity: 0.75;
-    cursor: not-allowed;
-  }
-}
-
 .tagsInput {
   font: inherit;
   flex: 1;
@@ -362,6 +319,34 @@
   }
 }
 
+.searchInputInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25lh;
+  padding-block: 0.5lh;
+  flex: 1;
+  min-width: 0;
+}
+
+.fieldRow {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap);
+
+  input {
+    width: 100%;
+  }
+}
+
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25lh;
+  margin-block-start: 0.5lh;
+  list-style: none;
+}
+
 .tag {
   display: inline-flex;
   align-items: center;
@@ -373,6 +358,10 @@
   /* font-weight: 600; */
   white-space: nowrap;
   border-radius: 4px;
+
+  &:focus-within {
+    box-shadow: inset 0 0 0 1px var(--color-link);
+  }
 }
 
 .tagRemove {
@@ -383,14 +372,10 @@
   cursor: pointer;
   color: inherit;
   padding: 0;
-}
+  border-radius: var(--radius);
+  outline: none;
 
-.searchInputInner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.25lh;
-  padding-block: 0.5lh;
-  flex: 1;
-  min-width: 0;
+  &:focus-visible {
+    color: var(--color-link);
+  }
 }
