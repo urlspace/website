@@ -9,8 +9,9 @@
 }
 
 .container {
-  display: block;
+  display: inline-block;
   text-decoration: none;
+  max-width: 100%;
 
   &:focus-visible {
     background-color: color-mix(in srgb, var(--color-link) 25%, transparent);
