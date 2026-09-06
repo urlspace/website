@@ -48,7 +48,7 @@ function SettingsListTokens() {
 			<ul className={styles.list} role="list">
 				{tokens.length === 0 ? (
 					<li className={styles.item}>
-						<span className={styles.value}>No API tokens.</span>
+						<span className={styles.value}>No access tokens.</span>
 					</li>
 				) : null}
 				{tokens.map((token) => (
