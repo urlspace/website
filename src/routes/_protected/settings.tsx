@@ -101,8 +101,8 @@ function PageProfile() {
 					<Stack gap={1}>
 						<Heading level={2} text="Delete your account" />
 						<p>
-							You can permanently delete your account at any time. If you would
-							like to tell us why you are leaving, email{" "}
+							Deleting your account is permanent and cannot be undone. If you
+							would like to tell us why you are leaving, email{" "}
 							<a href="mailto:mail@url.space">mail@url.space</a>. Sharing
 							feedback is optional.
 						</p>

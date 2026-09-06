@@ -56,8 +56,10 @@ function FormDeleteAccount({ onClose }: { onClose: () => void }) {
 	return (
 		<Form onSubmit={handleSubmit}>
 			<p>
-				This will permanently delete your account and all your links, tags,
-				collections, sessions, and access tokens. This cannot be undone.
+				This will permanently delete your account and all your saved links,
+				tags, and collections. You’ll also be signed out on all devices, and
+				apps using your access tokens will lose access to your account. This
+				cannot be undone.
 			</p>
 
 			<Form.Input
