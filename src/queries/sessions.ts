@@ -5,7 +5,7 @@ import Bowser from "bowser";
 
 export type SessionRow = {
 	id: string;
-	description: string | null;
+	description: string;
 	current: boolean;
 	expiresAt: string;
 	createdAt: string;
@@ -19,19 +19,17 @@ const getSessions = createServerFn().handler(async () => {
 	});
 	if (!res.ok) throw new Error(`/sessions failed: ${res.status}`);
 	const json = (await res.json()) as {
-		data: Array<
-			Omit<SessionRow, "description"> & { description: string | null }
-		>;
+		data: Array<Omit<SessionRow, "description"> & { userAgent: string | null }>;
 	};
 
 	return json.data
 		.sort((a, b) => Number(b.current) - Number(a.current))
-		.map((session) => {
-			if (!session.description) {
+		.map(({ userAgent, ...session }): SessionRow => {
+			if (!userAgent) {
 				return { ...session, description: "Unknown device" };
 			}
 
-			const { browser, os, platform } = Bowser.parse(session.description);
+			const { browser, os, platform } = Bowser.parse(userAgent);
 			const browserDescription = [browser.name, browser.version?.split(".")[0]]
 				.filter(Boolean)
 				.join(" ");

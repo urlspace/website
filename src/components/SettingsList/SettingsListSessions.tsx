@@ -95,15 +95,13 @@ function SettingsListSessions() {
 					<li key={session.id} className={styles.item}>
 						<div className={styles.row}>
 							<span className={styles.value}>
-								{session.description ?? "Unknown device"}
+								{session.description}
 								{session.current ? ", current device" : ""}
 							</span>
 							<span className={styles.action}>
 								<DashboardButtonAction
 									disabled={isDeleting}
-									ariaLabel={`Sign out: ${
-										session.description ?? "Unknown device"
-									}${session.current ? ", this device" : ""}`}
+									ariaLabel={`Sign out: ${session.description}${session.current ? ", this device" : ""}`}
 									onClick={() => {
 										setErrorMessage(null);
 										if (session.current) {
