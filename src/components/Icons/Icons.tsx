@@ -180,6 +180,15 @@ function IconsBack() {
   );
 }
 
+function IconsReturn() {
+  return (
+    <IconBase>
+      <path d="M20 4v7a4 4 0 0 1-4 4H4" />
+      <path d="m9 10-5 5 5 5" />
+    </IconBase>
+  );
+}
+
 Icon.Filter = IconsFilter;
 Icon.Plus = IconsPlus;
 Icon.Edit = IconsEdit;
@@ -198,5 +207,6 @@ Icon.Star = IconsStar;
 Icon.Extension = IconsExtension;
 Icon.Search = IconsSearch;
 Icon.Back = IconsBack;
+Icon.Return = IconsReturn;
 
 export default Icon;

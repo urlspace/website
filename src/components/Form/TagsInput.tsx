@@ -1,7 +1,7 @@
 import { type ReactNode, useRef, useState } from "react";
 import { useFieldIds } from "./context";
 import styles from "./Form.module.css";
-import { DashboardButtonAction, Icon } from "..";
+import { DashboardButton, Icon } from "..";
 
 const tagNamePattern = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const maxTags = 10;
@@ -41,6 +41,7 @@ function TagsInput({
     if (isDisabled) return;
 
     const tag = rawValue.trim().toLowerCase();
+    if (!tag) return;
 
     if (tag.length < 2 || tag.length > 50) {
       setError("Tag names must be between 2 and 50 characters.");
@@ -123,14 +124,16 @@ function TagsInput({
               <option key={tag} value={tag} />
             ))}
         </datalist>
-        <DashboardButtonAction
-          onClick={() => {
-            addTag(inputValue);
-            inputRef.current?.focus();
-          }}
-          text="Add tag"
-          disabled={isDisabled}
-        />
+        <div>
+          <DashboardButton
+            onClick={() => {
+              addTag(inputValue);
+              inputRef.current?.focus();
+            }}
+            text="Add tag"
+            icon={<Icon.Return />}
+          />
+        </div>
       </div>
       {error ? (
         <p id={errorId} className={styles.error} role="alert">
