@@ -172,13 +172,13 @@ function FormLink({
         maxLength={512}
         pattern="[^\p{Cc}]{0,512}"
       />
-      <Form.Combobox
+      <Form.Select
         label="Collection"
         name="collection"
         onChange={setCollection}
         value={collection}
-        options={[...collections.map((c) => ({ name: c.name, value: c.id }))]}
-        placeholder="Select a collection"
+        options={collections.map((c) => ({ name: c.name, value: c.id }))}
+        placeholder="No collection"
       />
       <Form.TagsInput
         label="Tags"

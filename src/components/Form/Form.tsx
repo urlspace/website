@@ -1,5 +1,4 @@
 import { type ReactNode, useId, useState } from "react";
-import Combobox from "./Combobox";
 import {
 	FormContext,
 	type SubmitHelpers,
@@ -8,6 +7,7 @@ import {
 } from "./context";
 import styles from "./Form.module.css";
 import SearchInput from "./SearchInput";
+import Select from "./Select";
 import TagsInput from "./TagsInput";
 
 export type { SubmitHelpers };
@@ -193,7 +193,7 @@ function Row({ children }: { children: React.ReactNode }) {
 }
 
 Form.Input = Input;
-Form.Combobox = Combobox;
+Form.Select = Select;
 Form.TagsInput = TagsInput;
 Form.SearchInput = SearchInput;
 Form.Checkbox = Checkbox;
