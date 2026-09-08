@@ -9,6 +9,7 @@ function FormCollection({
 	collection,
 	collections,
 	isPro,
+	isAdmin,
 	onClose,
 }: {
 	collection?: {
@@ -22,16 +23,18 @@ function FormCollection({
 		name: string;
 	}>;
 	isPro: boolean;
+	isAdmin: boolean;
 	onClose: () => void;
 }) {
 	const queryClient = useQueryClient();
 	const isEdit = !!collection;
+	const canPublish = isPro || isAdmin;
 	const duplicateNameError = "You already have a collection with that name.";
 
 	const [name, setName] = useState(collection?.name ?? "");
 	const [description, setDescription] = useState(collection?.description ?? "");
 	const [publicCollection, setPublicCollection] = useState(
-		isPro ? (collection?.public ?? false) : false,
+		canPublish ? (collection?.public ?? false) : false,
 	);
 
 	async function handleSubmit(
@@ -72,7 +75,7 @@ function FormCollection({
 					body: JSON.stringify({
 						name: trimmedName,
 						description: description.trim(),
-						public: publicCollection,
+						public: canPublish && publicCollection,
 					}),
 				},
 			);
@@ -146,10 +149,10 @@ function FormCollection({
 				label="Public collection"
 				name="public"
 				onChange={setPublicCollection}
-				value={publicCollection}
-				disabled={!isPro}
+				value={canPublish && publicCollection}
+				disabled={!canPublish}
 				description={
-					isPro ? null : (
+					canPublish ? null : (
 						<>
 							Available only to pro users. {
 								// TODO: change to /upgrade when the page is ready

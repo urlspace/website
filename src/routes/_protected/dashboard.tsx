@@ -378,6 +378,7 @@ function PageDashboard() {
 				<FormCollection
 					onClose={() => setIsAddCollectionOpen(false)}
 					isPro={user.isPro}
+					isAdmin={user.isAdmin}
 					collections={collections}
 				/>
 			</Dialog>
@@ -393,6 +394,7 @@ function PageDashboard() {
 						collection={editingCollection}
 						collections={collections}
 						isPro={user.isPro}
+						isAdmin={user.isAdmin}
 						onClose={() => setEditingCollection(null)}
 					/>
 				) : null}
