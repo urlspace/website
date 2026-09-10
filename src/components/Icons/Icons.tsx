@@ -91,10 +91,20 @@ function IconsFolder() {
     </IconBase>
   );
 }
+
 function IconsFolderPublic() {
   return (
     <IconBase>
       <path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2" />
+    </IconBase>
+  );
+}
+
+function IconsCopy() {
+  return (
+    <IconBase>
+      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
     </IconBase>
   );
 }
@@ -217,5 +227,6 @@ Icon.Extension = IconsExtension;
 Icon.Search = IconsSearch;
 Icon.Back = IconsBack;
 Icon.Return = IconsReturn;
+Icon.Copy = IconsCopy;
 
 export default Icon;
