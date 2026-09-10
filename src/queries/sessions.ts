@@ -1,6 +1,8 @@
+import { redirect } from "@tanstack/react-router";
 import { queryOptions } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
+import { clearSession } from "#/queries/session.ts";
 import Bowser from "bowser";
 
 export type SessionRow = {
@@ -17,6 +19,14 @@ const getSessions = createServerFn().handler(async () => {
 	const res = await fetch(`${import.meta.env.VITE_API_URL}/sessions`, {
 		headers: { cookie },
 	});
+	if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+		await clearSession();
+		throw redirect({
+			to: "/auth/signin",
+			reloadDocument: true,
+			replace: true,
+		});
+	}
 	if (!res.ok) throw new Error(`/sessions failed: ${res.status}`);
 	const json = (await res.json()) as {
 		data: Array<Omit<SessionRow, "description"> & { userAgent: string | null }>;

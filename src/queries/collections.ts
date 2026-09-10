@@ -1,6 +1,8 @@
+import { redirect } from "@tanstack/react-router";
 import { queryOptions } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
+import { clearSession } from "#/queries/session.ts";
 
 export type CollectionRow = {
 	id: string;
@@ -17,6 +19,14 @@ const getCollections = createServerFn().handler(async () => {
 	const res = await fetch(`${import.meta.env.VITE_API_URL}/collections`, {
 		headers: { cookie },
 	});
+	if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+		await clearSession();
+		throw redirect({
+			to: "/auth/signin",
+			reloadDocument: true,
+			replace: true,
+		});
+	}
 	if (!res.ok) throw new Error(`/collections failed: ${res.status}`);
 	const json = (await res.json()) as { data: CollectionRow[] };
 	return json.data ?? [];

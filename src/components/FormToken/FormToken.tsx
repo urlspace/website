@@ -28,12 +28,19 @@ function FormToken({ onClose }: { onClose: () => void }) {
 				body: JSON.stringify({ password, description }),
 			});
 
+			// Reload so the route guard can clear the invalid session and cached data.
+			if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+				window.location.reload();
+				return;
+			}
+
 			if (!res.ok) {
 				switch (res.status) {
 					case 400:
 						setError("Please check your input and try again.");
 						break;
 					case 401:
+						// Incorrect passwords keep the session; "unauthorized" reloads above.
 						setError("Incorrect password.");
 						break;
 					case 429:

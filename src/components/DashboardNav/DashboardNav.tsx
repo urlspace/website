@@ -78,6 +78,12 @@ function DashboardNav({
         `${import.meta.env.VITE_API_URL}/collections/${id}`,
         { method: "DELETE", credentials: "include" },
       );
+      // Reload so the route guard can clear the invalid session and cached data.
+      if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+        window.location.reload();
+        throw new Error("Session expired.");
+      }
+
       if (!res.ok)
         throw new Error(`DELETE /collections/${id} failed: ${res.status}`);
     },
@@ -98,6 +104,12 @@ function DashboardNav({
         method: "DELETE",
         credentials: "include",
       });
+      // Reload so the route guard can clear the invalid session and cached data.
+      if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+        window.location.reload();
+        throw new Error("Session expired.");
+      }
+
       if (!res.ok) throw new Error(`DELETE /tags/${id} failed: ${res.status}`);
     },
     onSuccess: async (_, id) => {

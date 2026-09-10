@@ -36,6 +36,12 @@ function SettingsListSessions() {
 					credentials: "include",
 				},
 			);
+			// Reload so the route guard can clear the invalid session and cached data.
+			if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+				window.location.reload();
+				throw new Error("Session expired.");
+			}
+
 			if (!res.ok) throw new Error(`delete session failed: ${res.status}`);
 		},
 		onSuccess: (_data, variables) => {
@@ -62,6 +68,12 @@ function SettingsListSessions() {
 				method: "DELETE",
 				credentials: "include",
 			});
+			// Reload so the route guard can clear the invalid session and cached data.
+			if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+				window.location.reload();
+				throw new Error("Session expired.");
+			}
+
 			if (!res.ok) throw new Error(`delete all sessions failed: ${res.status}`);
 		},
 		onSuccess: () => {

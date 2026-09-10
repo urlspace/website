@@ -75,6 +75,12 @@ function DashbrardLink({
           }),
         },
       );
+      // Reload so the route guard can clear the invalid session and cached data.
+      if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+        window.location.reload();
+        throw new Error("Session expired.");
+      }
+
       if (!res.ok)
         throw new Error(`PUT /links/${link.id} failed: ${res.status}`);
     },
@@ -90,6 +96,12 @@ function DashbrardLink({
           credentials: "include",
         },
       );
+      // Reload so the route guard can clear the invalid session and cached data.
+      if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+        window.location.reload();
+        throw new Error("Session expired.");
+      }
+
       if (!res.ok)
         throw new Error(`DELETE /links/${link.id} failed: ${res.status}`);
     },
