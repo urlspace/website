@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import {
   createFileRoute,
-  useLoaderData,
+  useRouteContext,
   useRouter,
 } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
@@ -53,7 +53,7 @@ export const Route = createFileRoute("/_protected/dashboard")({
 });
 
 function PageDashboard() {
-  const { user } = useLoaderData({ from: "/_protected" });
+  const { user } = useRouteContext({ from: "/_protected" });
   const { data: collections } = useSuspenseQuery(collectionsQueryOptions);
   const { data: tags } = useSuspenseQuery(tagsQueryOptions);
   const [value, setValue] = useState<string>("");
