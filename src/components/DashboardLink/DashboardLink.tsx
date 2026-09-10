@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { linksQueryKey } from "#/queries/links.ts";
 import { formatDate } from "#/utils.ts";
 import { DashboardButtonAction, DashboardMenu } from "..";
-import Truncate from "../Truncate/Truncate";
 import styles from "./DashboardLink.module.css";
 
 function highlight(text: string, query: string): React.ReactNode {

@@ -23,6 +23,7 @@
     "@tanstack/react-start": "latest",
     "bowser": "^2.14.1",
     "downshift": "^9.4.0",
+    "oxc-transform-react": "^0.145.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
