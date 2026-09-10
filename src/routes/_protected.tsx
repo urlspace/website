@@ -1,17 +1,6 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
-import { deleteCookie } from "@tanstack/react-start/server";
 import { meQueryOptions } from "#/queries/me.ts";
-
-const clearSession = createServerFn({ method: "POST" }).handler(() => {
-	deleteCookie("session", {
-		path: "/",
-		secure: true,
-		domain: import.meta.env.VITE_API_URL.includes("localhost")
-			? ""
-			: ".url.space",
-	});
-});
+import { clearSession } from "#/queries/session.ts";
 
 export const Route = createFileRoute("/_protected")({
 	beforeLoad: async ({ context }) => {

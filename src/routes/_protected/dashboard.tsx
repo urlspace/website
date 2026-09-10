@@ -40,6 +40,7 @@ import {
   linksQueryOptions,
 } from "#/queries/links.ts";
 import { type TagRow, tagsQueryOptions } from "#/queries/tags.ts";
+import { clearSession } from "#/queries/session.ts";
 
 export const Route = createFileRoute("/_protected/dashboard")({
   loader: async ({ context }) => {
@@ -131,22 +132,34 @@ function PageDashboard() {
   const [editingCollection, setEditingCollection] =
     useState<CollectionRow | null>(null);
   const [renamingTag, setRenamingTag] = useState<TagRow | null>(null);
+  const signingOut = useRef(false);
+  const [signOutError, setSignOutError] = useState<string | null>(null);
 
   async function handleSignOut() {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signout`, {
-      method: "POST",
-      credentials: "include",
-    });
+    if (signingOut.current) return;
+    signingOut.current = true;
+    setSignOutError(null);
 
-    // TODO: bug, what if the authentication fails on the sighout click,
-    // user should still be moved away from the dashboard, anc cookie should be cleard
-    // somethign similar that we do on the _protected file with clearing cookies,
-    //  maybe this should run on server, i dont know
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signout`, {
+        method: "POST",
+        credentials: "include",
+      });
 
-    if (res.ok) {
+      if (!res.ok && res.status !== 401) {
+        setSignOutError("We couldn't sign you out. Please try again.");
+        return;
+      }
+
+      await clearSession();
       queryClient.clear();
+      router.clearCache();
       await router.invalidate();
-      await router.navigate({ to: "/auth/signin" });
+      await router.navigate({ to: "/auth/signin", replace: true });
+    } catch {
+      setSignOutError("We couldn't finish signing you out. Please try again.");
+    } finally {
+      signingOut.current = false;
     }
   }
 
@@ -245,6 +258,17 @@ function PageDashboard() {
         />
       </Dashboard.Aside>
       <Dashboard.Main>
+        {signOutError ? (
+          <p
+            role="alert"
+            style={{
+              marginBlockEnd: "3rlh",
+            }}
+          >
+            {signOutError}
+          </p>
+        ) : null}
+
         {selectedCollectionObj ? (
           <DashboardCollectionInfo collection={selectedCollectionObj} />
         ) : null}
