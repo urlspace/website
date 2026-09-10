@@ -36,4 +36,5 @@ export const tokensQueryKey = ["tokens"] as const;
 export const tokensQueryOptions = queryOptions({
   queryKey: tokensQueryKey,
   queryFn: () => getTokens(),
+  staleTime: 0,
 });

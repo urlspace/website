@@ -58,4 +58,5 @@ export const sessionsQueryKey = ["sessions"] as const;
 export const sessionsQueryOptions = queryOptions({
 	queryKey: sessionsQueryKey,
 	queryFn: () => getSessions(),
+	staleTime: 0,
 });

@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
+import { meQueryOptions } from "#/queries/me.ts";
 
 function FormEmail({ onClose }: { onClose: () => void }) {
   const queryClient = useQueryClient();
@@ -111,7 +112,7 @@ function FormEmail({ onClose }: { onClose: () => void }) {
         return;
       }
 
-      await queryClient.invalidateQueries({ queryKey: ["me"] });
+      await queryClient.invalidateQueries({ queryKey: meQueryOptions.queryKey });
       setEmail("");
       setPassword("");
       setCode("");

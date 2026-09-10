@@ -36,4 +36,5 @@ const getUser = createServerFn().handler(async () => {
 export const meQueryOptions = queryOptions({
 	queryKey: ["me"],
 	queryFn: () => getUser(),
+	staleTime: 0,
 });
