@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import {
 	createFileRoute,
 	Link,
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/_public/auth/signin")({
 });
 
 function SignIn() {
+	const queryClient = useQueryClient();
 	const router = useRouter();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -68,6 +70,8 @@ function SignIn() {
 				return;
 			}
 
+			queryClient.clear();
+			router.clearCache();
 			await router.invalidate();
 			await router.navigate({ to: "/dashboard" });
 		} catch {

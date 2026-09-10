@@ -15,16 +15,18 @@ const clearSession = createServerFn({ method: "POST" }).handler(() => {
 
 export const Route = createFileRoute("/_protected")({
 	beforeLoad: async ({ context }) => {
-		if (!context.hasSession)
+		if (!context.hasSession) {
+			context.queryClient.clear();
 			throw redirect({
 				to: "/auth/signin",
 			});
+		}
 		const user = await context.queryClient.fetchQuery({
 			...meQueryOptions,
 			staleTime: 0,
 		});
 		if (!user) {
-			context.queryClient.removeQueries({ queryKey: meQueryOptions.queryKey });
+			context.queryClient.clear();
 			await clearSession();
 			throw redirect({
 				to: "/auth/signin",
