@@ -347,11 +347,13 @@ function PageDashboard() {
 				onClose={() => setIsAddLinkOpen(false)}
 				title="Add new link"
 			>
-				<FormLink
-					onClose={() => setIsAddLinkOpen(false)}
-					collections={collections}
-					tags={tags}
-				/>
+				{isAddLinkOpen ? (
+					<FormLink
+						onClose={() => setIsAddLinkOpen(false)}
+						collections={collections}
+						tags={tags}
+					/>
+				) : null}
 			</Dialog>
 
 			<Dialog
@@ -375,12 +377,14 @@ function PageDashboard() {
 				onClose={() => setIsAddCollectionOpen(false)}
 				title="Add new collection"
 			>
-				<FormCollection
-					onClose={() => setIsAddCollectionOpen(false)}
-					isPro={user.isPro}
-					isAdmin={user.isAdmin}
-					collections={collections}
-				/>
+				{isAddCollectionOpen ? (
+					<FormCollection
+						onClose={() => setIsAddCollectionOpen(false)}
+						isPro={user.isPro}
+						isAdmin={user.isAdmin}
+						collections={collections}
+					/>
+				) : null}
 			</Dialog>
 
 			<Dialog
