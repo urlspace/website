@@ -44,8 +44,6 @@ function PageProfile() {
 	const [createTokenKey, setCreateTokenKey] = useState(0);
 	const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
 
-	if (!user) return null;
-
 	return (
 		<div className="page">
 			<header className="page__header">

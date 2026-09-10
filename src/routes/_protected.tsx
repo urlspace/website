@@ -1,6 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { meQueryOptions } from "#/queries/me.ts";
-import { clearSession } from "#/queries/session.ts";
 
 export const Route = createFileRoute("/_protected")({
 	beforeLoad: async ({ context }) => {
@@ -14,13 +13,6 @@ export const Route = createFileRoute("/_protected")({
 			...meQueryOptions,
 			staleTime: 0,
 		});
-		if (!user) {
-			context.queryClient.clear();
-			await clearSession();
-			throw redirect({
-				to: "/auth/signin",
-			});
-		}
 		return { user };
 	},
 	staleTime: 5 * 60 * 1000,

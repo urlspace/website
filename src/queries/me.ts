@@ -1,6 +1,8 @@
+import { redirect } from "@tanstack/react-router";
 import { queryOptions } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
+import { clearSession } from "#/queries/session.ts";
 
 export type User = {
 	id: string;
@@ -18,7 +20,14 @@ const getUser = createServerFn().handler(async () => {
 	const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
 		headers: { cookie },
 	});
-	if (res.status === 401) return null;
+	if (res.status === 401) {
+		await clearSession();
+		throw redirect({
+			to: "/auth/signin",
+			reloadDocument: true,
+			replace: true,
+		});
+	}
 	if (!res.ok) throw new Error(`/me failed: ${res.status}`);
 	const json = (await res.json()) as { data: User };
 	return json.data;
