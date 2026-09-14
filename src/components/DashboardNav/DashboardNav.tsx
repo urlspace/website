@@ -79,7 +79,10 @@ function DashboardNav({
         { method: "DELETE", credentials: "include" },
       );
       // Reload so the route guard can clear the invalid session and cached data.
-      if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+      if (
+        res.status === 401 &&
+        ((await res.clone().json()) as { data: string }).data === "unauthorized"
+      ) {
         window.location.reload();
         throw new Error("Session expired.");
       }
@@ -105,7 +108,10 @@ function DashboardNav({
         credentials: "include",
       });
       // Reload so the route guard can clear the invalid session and cached data.
-      if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+      if (
+        res.status === 401 &&
+        ((await res.clone().json()) as { data: string }).data === "unauthorized"
+      ) {
         window.location.reload();
         throw new Error("Session expired.");
       }
@@ -187,7 +193,7 @@ function DashboardNav({
                         )
                       }
                       ariaPressed={selectedCollection === c.id}
-                      text={c.public ? `${c.name} (public)` : c.name}
+                      text={c.name}
                       counter={c.count}
                     />
                   </div>
