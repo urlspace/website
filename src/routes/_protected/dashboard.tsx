@@ -257,6 +257,7 @@ function PageDashboard() {
           tags={tags}
         />
       </Dashboard.Aside>
+      <Dashboard.Filter>{totalCount}</Dashboard.Filter>
       <Dashboard.Main>
         {signOutError ? (
           <p

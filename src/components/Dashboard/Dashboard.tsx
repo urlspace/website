@@ -28,6 +28,11 @@ function DashboardFiltersTrigger({ children }: { children: React.ReactNode }) {
 function DashboardMain({ children }: { children: React.ReactNode }) {
   return <main className={styles.main}>{children}</main>;
 }
+
+function DashboardFilter({ children }: { children: React.ReactNode }) {
+  return <div className={styles.filter}>{children}</div>;
+}
+
 function Aside({ children }: { children: React.ReactNode }) {
   return <div className={styles.aside}>{children}</div>;
 }
@@ -40,6 +45,7 @@ Dashboard.Header = DashboardHeader;
 Dashboard.HeaderActions = DashboardHeaderActions;
 Dashboard.HeaderFilters = DashboardHeaderFilters;
 Dashboard.HeaderTrigger = DashboardFiltersTrigger;
+Dashboard.Filter = DashboardFilter;
 Dashboard.Main = DashboardMain;
 Dashboard.Aside = Aside;
 Dashboard.AsideStats = AsideStats;
