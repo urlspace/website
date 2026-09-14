@@ -1,0 +1,46 @@
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25lh;
+  /* margin-block-start: 0.5lh; */
+  list-style: none;
+}
+
+.tagsListNoWrap {
+  flex-wrap: nowrap;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  padding-inline-start: 0.25lh;
+  gap: 0.25lh;
+  box-shadow: inset 0 0 0 1px var(--color-border);
+  color: var(--color-fg);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  border-radius: 4px;
+  overflow: clip;
+
+  &:focus-within {
+    box-shadow: inset 0 0 0 1px var(--color-link);
+  }
+}
+
+.tagRemove {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 4px;
+  outline: none;
+  box-shadow: inset 1px 0 0 0 var(--color-border);
+
+  &:focus-visible {
+    color: var(--color-bg);
+    background-color: var(--color-link);
+    box-shadow: none;
+  }
+}

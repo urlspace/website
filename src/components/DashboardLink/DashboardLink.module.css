@@ -6,6 +6,8 @@
   min-width: 1px;
   transition: opacity 60ms ease;
   margin-block-end: 2lh;
+
+  overflow-x: clip;
 }
 
 .container {

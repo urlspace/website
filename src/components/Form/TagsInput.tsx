@@ -1,7 +1,7 @@
 import { type ReactNode, useRef, useState } from "react";
 import { useFieldIds } from "./context";
 import styles from "./Form.module.css";
-import { DashboardButton, Icon } from "..";
+import { DashboardButton, Icon, Pills } from "..";
 
 const tagNamePattern = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const maxTags = 10;
@@ -140,26 +140,20 @@ function TagsInput({
           {error}
         </p>
       ) : null}
-      <ul className={styles.tagsList} role="list">
-        {value.map((tag) => (
-          <li key={tag} className={styles.tag}>
-            {tag}
-            <button
-              className={styles.tagRemove}
-              type="button"
-              aria-label={`Remove ${tag}`}
-              disabled={isDisabled}
-              onClick={() => {
-                onChange(value.filter((selected) => selected !== tag));
-                setError(null);
-                setStatus(`Tag ${tag} removed.`);
-              }}
-            >
-              <Icon.Close />
-            </button>
-          </li>
-        ))}
-      </ul>
+      <div className={styles.pillsWrapper}>
+        <Pills
+          disabled={isDisabled}
+          items={value.map((tag) => ({
+            id: tag,
+            label: tag,
+            onRemove: () => {
+              onChange(value.filter((selected) => selected !== tag));
+              setError(null);
+              setStatus(`Tag ${tag} removed.`);
+            },
+          }))}
+        />
+      </div>
       <div className={styles.visuallyHidden} role="status" aria-atomic="true">
         {status}
       </div>

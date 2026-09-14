@@ -322,28 +322,18 @@
   color: color-mix(in srgb, var(--color-fg) 50%, transparent);
 }
 
-.tagsInput {
+.searchInput {
   font: inherit;
   flex: 1;
-  min-width: 6ch;
+  min-width: 0;
   border: none;
   outline: none;
   background: transparent;
-  padding: 0;
+  padding: 0.5lh 0;
 
   &::placeholder {
     color: color-mix(in srgb, var(--color-fg) 50%, transparent);
   }
-}
-
-.searchInputInner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.25lh;
-  padding-block: 0.5lh;
-  flex: 1;
-  min-width: 0;
 }
 
 .fieldRow {
@@ -357,46 +347,6 @@
   }
 }
 
-.tagsList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25lh;
+.pillsWrapper {
   margin-block-start: 0.5lh;
-  list-style: none;
-}
-
-.tag {
-  display: flex;
-  align-items: center;
-  padding-inline-start: 0.25lh;
-  gap: 0.25lh;
-  box-shadow: inset 0 0 0 1px var(--color-border-input);
-  color: var(--color-fg);
-  font-size: 0.8125rem;
-  /* font-weight: 600; */
-  white-space: nowrap;
-  border-radius: 4px;
-  overflow: clip;
-
-  &:focus-within {
-    box-shadow: inset 0 0 0 1px var(--color-link);
-  }
-}
-
-.tagRemove {
-  display: inline-flex;
-  align-items: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: inherit;
-  padding: 4px;
-  outline: none;
-  box-shadow: inset 1px 0 0 0 var(--color-border-input);
-
-  &:focus-visible {
-    color: var(--color-bg);
-    background-color: var(--color-link);
-    box-shadow: none;
-  }
 }

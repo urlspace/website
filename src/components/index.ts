@@ -28,6 +28,7 @@ import Heading from "./Heading/Heading.tsx";
 import Icon from "./Icons/Icons.tsx";
 import Intro from "./Intro/Intro.tsx";
 import Page from "./Page/Page.tsx";
+import Pills from "./Pills/Pills.tsx";
 import SettingsListAccount from "./SettingsList/SettingsListAccount.tsx";
 import SettingsListSessions from "./SettingsList/SettingsListSessions.tsx";
 import SettingsListTokens from "./SettingsList/SettingsListTokens.tsx";
@@ -67,6 +68,7 @@ export {
 	Icon,
 	Intro,
 	Page,
+	Pills,
 	SettingsListAccount,
 	SettingsListSessions,
 	SettingsListTokens,

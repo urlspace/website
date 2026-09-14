@@ -13,6 +13,8 @@ import {
   Button,
   Dashboard,
   DashboardButton,
+  DashboardButtonAction,
+  DashboardButtonLink,
   DashboardCollectionInfo,
   DashboardEmpty,
   DashboardLink,
@@ -25,6 +27,7 @@ import {
   FormLink,
   FormTag,
   Icon,
+  Pills,
   Stack,
 } from "#/components/index.ts";
 import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
@@ -167,6 +170,49 @@ function PageDashboard() {
     (c) => c.id === selectedCollection,
   );
 
+  const filterPills = [
+    ...(favourite
+      ? [
+          {
+            id: "favourite",
+            label: "Favourite",
+            onRemove: () => setFavourite(false),
+          },
+        ]
+      : []),
+    ...(forLater
+      ? [
+          {
+            id: "forLater",
+            label: "For later",
+            onRemove: () => setForLater(false),
+          },
+        ]
+      : []),
+    ...(selectedCollectionObj
+      ? [
+          {
+            id: `collection:${selectedCollectionObj.id}`,
+            label: `Collection: ${selectedCollectionObj.name}`,
+            onRemove: () => setSelectedCollection(null),
+          },
+        ]
+      : []),
+    ...selectedTags.map((id) => ({
+      id: `tag:${id}`,
+      label: `#${tags.find((tag) => tag.id === id)?.name ?? id}`,
+      onRemove: () => {
+        setSelectedTags((selected) => selected.filter((tag) => tag !== id));
+      },
+    })),
+  ].map((pill) => ({
+    ...pill,
+    onRemove: () => {
+      pill.onRemove();
+      setPage(1);
+    },
+  }));
+
   return (
     <Dashboard>
       <Dashboard.Header>
@@ -196,7 +242,6 @@ function PageDashboard() {
               setSelectedTags(updater);
               setPage(1);
             }}
-            selectedCollection={selectedCollection}
             onSelectedCollectionChange={(updater) => {
               setSelectedCollection(updater);
               setPage(1);
@@ -221,6 +266,27 @@ function PageDashboard() {
           </Dashboard.HeaderTrigger>
         </Dashboard.HeaderFilters>
       </Dashboard.Header>
+      <Dashboard.Filter
+        show={
+          selectedCollection !== null ||
+          selectedTags.length !== 0 ||
+          favourite ||
+          forLater
+        }
+      >
+        <Dashboard.FilterContent>
+          <Pills items={filterPills} noWrap />
+        </Dashboard.FilterContent>
+        <Dashboard.FilterButton
+          onClick={() => {
+            setFavourite(false);
+            setForLater(false);
+            setSelectedCollection(null);
+            setSelectedTags([]);
+            setPage(1);
+          }}
+        />
+      </Dashboard.Filter>
       <Dashboard.Aside>
         <DashboardNav
           collections={collections}
@@ -257,7 +323,6 @@ function PageDashboard() {
           tags={tags}
         />
       </Dashboard.Aside>
-      <Dashboard.Filter>{totalCount}</Dashboard.Filter>
       <Dashboard.Main>
         {signOutError ? (
           <p

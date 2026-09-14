@@ -67,7 +67,6 @@ function SearchInput({
   onSelectedTagsChange,
   onValueChange,
   placeholder,
-  selectedCollection,
   selectedTags,
   tags,
   value,
@@ -84,7 +83,6 @@ function SearchInput({
   onSelectedTagsChange: React.Dispatch<React.SetStateAction<string[]>>;
   onValueChange: (v: string) => void;
   placeholder: string;
-  selectedCollection: string | null;
   selectedTags: string[];
   tags: TagRow[];
   value: string;
@@ -149,13 +147,6 @@ function SearchInput({
             })
           : [];
 
-  const collectionPill = selectedCollection
-    ? (collections.find((c) => c.id === selectedCollection) ?? null)
-    : null;
-  const tagPills = selectedTags
-    .map((id) => tags.find((t) => t.id === id))
-    .filter((t): t is TagRow => t !== undefined);
-
   function updateRawAndValue(next: string) {
     setRawInput(next);
     const nextFree = parseInput(next).freeText.trim();
@@ -177,27 +168,8 @@ function SearchInput({
     }
   }
 
-  function removeTag(id: string) {
-    onSelectedTagsChange((prev) => prev.filter((t) => t !== id));
-  }
-
-  function removeCollection() {
-    onSelectedCollectionChange(null);
-  }
-
-  const hasAnyFilter =
-    rawInput.trim() !== "" ||
-    favourite ||
-    forLater ||
-    collectionPill !== null ||
-    tagPills.length > 0;
-
-  function clearAll() {
+  function clearSearch() {
     updateRawAndValue("");
-    onSelectedTagsChange([]);
-    onSelectedCollectionChange(null);
-    onFavouriteChange(false);
-    onForLaterChange(false);
     setEscapeClosed(false);
   }
 
@@ -243,24 +215,6 @@ function SearchInput({
       },
     });
 
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Backspace" && rawInput === "") {
-      if (tagPills.length > 0) {
-        e.preventDefault();
-        removeTag(tagPills[tagPills.length - 1].id);
-      } else if (collectionPill) {
-        e.preventDefault();
-        removeCollection();
-      } else if (forLater) {
-        e.preventDefault();
-        onForLaterChange(false);
-      } else if (favourite) {
-        e.preventDefault();
-        onFavouriteChange(false);
-      }
-    }
-  }
-
   return (
     <div className={styles.field}>
       <label {...getLabelProps({ className: styles.visuallyHidden })}>
@@ -271,73 +225,18 @@ function SearchInput({
           <div className={styles.searchIcon}>
             <Icon.Search />
           </div>
-          <div className={styles.searchInputInner}>
-            {favourite ? (
-              <span className={styles.tag}>
-                Favourite
-                <button
-                  type="button"
-                  className={styles.tagRemove}
-                  aria-label="Remove Favourite filter"
-                  onClick={() => onFavouriteChange(false)}
-                >
-                  <Icon.Close />
-                </button>
-              </span>
-            ) : null}
-            {forLater ? (
-              <span className={styles.tag}>
-                For later
-                <button
-                  type="button"
-                  className={styles.tagRemove}
-                  aria-label="Remove For later filter"
-                  onClick={() => onForLaterChange(false)}
-                >
-                  <Icon.Close />
-                </button>
-              </span>
-            ) : null}
-            {collectionPill ? (
-              <span className={styles.tag}>
-                Collection: {collectionPill.name}
-                <button
-                  type="button"
-                  className={styles.tagRemove}
-                  aria-label={`Remove collection ${collectionPill.name}`}
-                  onClick={removeCollection}
-                >
-                  <Icon.Close />
-                </button>
-              </span>
-            ) : null}
-            {tagPills.map((tag) => (
-              <span key={tag.id} className={styles.tag}>
-                #{tag.name}
-                <button
-                  type="button"
-                  className={styles.tagRemove}
-                  aria-label={`Remove ${tag.name}`}
-                  onClick={() => removeTag(tag.id)}
-                >
-                  <Icon.Close />
-                </button>
-              </span>
-            ))}
-            <input
-              {...getInputProps({
-                className: styles.tagsInput,
-                placeholder,
-                onKeyDown: handleKeyDown,
-              })}
-            />
-          </div>
-          {hasAnyFilter ? (
+          <input
+            {...getInputProps({
+              className: styles.searchInput,
+              placeholder,
+            })}
+          />
+          {rawInput !== "" ? (
             <button
               type="button"
               className={styles.searchClear}
-              aria-label="Clear all filters"
-              onClick={clearAll}
+              aria-label="Clear search"
+              onClick={clearSearch}
             >
               <Icon.Close />
             </button>

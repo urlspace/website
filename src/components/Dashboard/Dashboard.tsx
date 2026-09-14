@@ -1,3 +1,4 @@
+import Icon from "../Icons/Icons";
 import styles from "./Dashboard.module.css";
 
 function Dashboard({
@@ -29,8 +30,38 @@ function DashboardMain({ children }: { children: React.ReactNode }) {
   return <main className={styles.main}>{children}</main>;
 }
 
-function DashboardFilter({ children }: { children: React.ReactNode }) {
-  return <div className={styles.filter}>{children}</div>;
+function DashboardFilter({
+  children,
+  show,
+}: {
+  children: React.ReactNode;
+  show: boolean;
+}) {
+  return (
+    <div
+      className={[styles.filters, show && styles.filtersShow]
+        .filter(Boolean)
+        .join(" ")}
+    >
+      {children}
+    </div>
+  );
+}
+
+function DashboardFilterContent({ children }: { children: React.ReactNode }) {
+  return <div className={styles.filtersContent}>{children}</div>;
+}
+
+function DashboardFilterButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      className={styles.filtersButton}
+      onClick={onClick}
+      aria-label="Close filters"
+    >
+      <Icon.Close />
+    </button>
+  );
 }
 
 function Aside({ children }: { children: React.ReactNode }) {
@@ -46,6 +77,8 @@ Dashboard.HeaderActions = DashboardHeaderActions;
 Dashboard.HeaderFilters = DashboardHeaderFilters;
 Dashboard.HeaderTrigger = DashboardFiltersTrigger;
 Dashboard.Filter = DashboardFilter;
+Dashboard.FilterContent = DashboardFilterContent;
+Dashboard.FilterButton = DashboardFilterButton;
 Dashboard.Main = DashboardMain;
 Dashboard.Aside = Aside;
 Dashboard.AsideStats = AsideStats;
