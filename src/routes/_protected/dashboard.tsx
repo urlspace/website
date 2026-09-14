@@ -266,27 +266,26 @@ function PageDashboard() {
           </Dashboard.HeaderTrigger>
         </Dashboard.HeaderFilters>
       </Dashboard.Header>
-      <Dashboard.Filter
-        show={
-          selectedCollection !== null ||
-          selectedTags.length !== 0 ||
-          favourite ||
-          forLater
-        }
-      >
-        <Dashboard.FilterContent>
-          <Pills items={filterPills} noWrap />
-        </Dashboard.FilterContent>
-        <Dashboard.FilterButton
-          onClick={() => {
-            setFavourite(false);
-            setForLater(false);
-            setSelectedCollection(null);
-            setSelectedTags([]);
-            setPage(1);
-          }}
-        />
-      </Dashboard.Filter>
+      {selectedCollection !== null ||
+      selectedTags.length !== 0 ||
+      favourite ||
+      forLater ? (
+        <Dashboard.Filter>
+          <Dashboard.FilterContent>
+            <Pills items={filterPills} noWrap />
+          </Dashboard.FilterContent>
+          <Dashboard.FilterButton
+            onClick={() => {
+              setFavourite(false);
+              setForLater(false);
+              setSelectedCollection(null);
+              setSelectedTags([]);
+              setPage(1);
+            }}
+          />
+        </Dashboard.Filter>
+      ) : null}
+
       <Dashboard.Aside>
         <DashboardNav
           collections={collections}

@@ -30,22 +30,8 @@ function DashboardMain({ children }: { children: React.ReactNode }) {
   return <main className={styles.main}>{children}</main>;
 }
 
-function DashboardFilter({
-  children,
-  show,
-}: {
-  children: React.ReactNode;
-  show: boolean;
-}) {
-  return (
-    <div
-      className={[styles.filters, show && styles.filtersShow]
-        .filter(Boolean)
-        .join(" ")}
-    >
-      {children}
-    </div>
-  );
+function DashboardFilter({ children }: { children: React.ReactNode }) {
+  return <div className={styles.filters}>{children}</div>;
 }
 
 function DashboardFilterContent({ children }: { children: React.ReactNode }) {
