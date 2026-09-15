@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useId } from "react";
 import { linksQueryKey } from "#/queries/links.ts";
 import { formatDate } from "#/utils.ts";
 import { DashboardButtonAction, DashboardMenu } from "..";
@@ -53,6 +54,8 @@ function DashbrardLink({
   query: string;
 }) {
   const queryClient = useQueryClient();
+  const titleId = useId();
+  const newTabHintId = useId();
 
   const updateLink = useMutation({
     mutationFn: async (patch: { favourite?: boolean; forLater?: boolean }) => {
@@ -75,7 +78,10 @@ function DashbrardLink({
         },
       );
       // Reload so the route guard can clear the invalid session and cached data.
-      if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+      if (
+        res.status === 401 &&
+        ((await res.clone().json()) as { data: string }).data === "unauthorized"
+      ) {
         window.location.reload();
         throw new Error("Session expired.");
       }
@@ -96,7 +102,10 @@ function DashbrardLink({
         },
       );
       // Reload so the route guard can clear the invalid session and cached data.
-      if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+      if (
+        res.status === 401 &&
+        ((await res.clone().json()) as { data: string }).data === "unauthorized"
+      ) {
         window.location.reload();
         throw new Error("Session expired.");
       }
@@ -118,6 +127,8 @@ function DashbrardLink({
     <article
       className={[styles.link, isPending && styles.linkLoading].join(" ")}
       key={link.id}
+      aria-labelledby={titleId}
+      aria-busy={isPending}
     >
       <div>
         <a
@@ -125,52 +136,74 @@ function DashbrardLink({
           target="_blank"
           rel="noopener noreferrer"
           className={styles.container}
+          aria-describedby={newTabHintId}
         >
-          <span className={styles.title}>{highlight(link.title, query)}</span>
+          <h2 id={titleId} className={styles.title}>
+            {highlight(link.title, query)}
+          </h2>
           <span className={styles.linkA}>{link.url}</span>
         </a>
+        <span id={newTabHintId} className="visually-hidden">
+          Opens in a new tab.
+        </span>
       </div>
 
       {link.description.length > 0 ? <p>{link.description}</p> : null}
 
       <div className={styles.meta}>
-        <div>
-          <span>
-            Added:{" "}
-            <time dateTime={link.createdAt}>{formatDate(link.createdAt)}</time>
-          </span>
-        </div>
-
-        {collection ? (
-          <div>
-            Collection:{" "}
-            <DashboardButtonAction
-              onClick={() => onCollectionClick(collection.id)}
-              text={collection.name}
-            />
+        <dl>
+          <div className={styles.metaItem}>
+            <dt>{"Added: "}</dt>
+            <dd>
+              <time dateTime={link.createdAt}>{formatDate(link.createdAt)}</time>
+            </dd>
           </div>
-        ) : null}
 
-        {link.tags.length > 0 ? (
-          <div>
-            Tags:{" "}
-            <ul className={styles.tags}>
-              {link.tags.map((tag) => (
-                <li key={tag.id} className={styles.tag}>
-                  <DashboardButtonAction
-                    onClick={() => onTagClick(tag.id)}
-                    text={`#${tag.name}`}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : null}
+          {collection ? (
+            <div className={styles.metaItem}>
+              <dt>{"Collection: "}</dt>
+              <dd>
+                <button
+                  type="button"
+                  className={styles.metaButton}
+                  disabled={isPending}
+                  onClick={() => onCollectionClick(collection.id)}
+                >
+                  {collection.name}
+                </button>
+              </dd>
+            </div>
+          ) : null}
+
+          {link.tags.length > 0 ? (
+            <div className={styles.metaItem}>
+              <dt>{"Tags: "}</dt>
+              <dd>
+                <ul className={styles.tags}>
+                  {link.tags.map((tag) => (
+                    <li key={tag.id} className={styles.tag}>
+                      <button
+                        type="button"
+                        className={styles.metaButton}
+                        disabled={isPending}
+                        onClick={() => onTagClick(tag.id)}
+                      >
+                        {`#${tag.name}`}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          ) : null}
+        </dl>
 
         <DashboardMenu>
           <DashboardMenu.Li>
             <DashboardButtonAction
               ariaPressed={link.favourite}
+              ariaLabel={`Favourite: ${link.title}`}
+              disabled={isPending}
               onClick={() => updateLink.mutate({ favourite: !link.favourite })}
               text="Favourite"
             />
@@ -178,16 +211,25 @@ function DashbrardLink({
           <DashboardMenu.Li>
             <DashboardButtonAction
               ariaPressed={link.forLater}
+              ariaLabel={`For later: ${link.title}`}
+              disabled={isPending}
               onClick={() => updateLink.mutate({ forLater: !link.forLater })}
               text="For later"
             />
           </DashboardMenu.Li>
           <DashboardMenu.Li>
-            <DashboardButtonAction text="Edit" onClick={() => onEdit(link)} />
+            <DashboardButtonAction
+              text="Edit"
+              ariaLabel={`Edit ${link.title}`}
+              disabled={isPending}
+              onClick={() => onEdit(link)}
+            />
           </DashboardMenu.Li>
           <DashboardMenu.Li>
             <DashboardButtonAction
               text="Delete"
+              ariaLabel={`Delete ${link.title}`}
+              disabled={isPending}
               onClick={() => deleteLink.mutate()}
               destructive
             />

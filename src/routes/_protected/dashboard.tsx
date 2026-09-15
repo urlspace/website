@@ -320,6 +320,7 @@ function PageDashboard() {
         />
       </Dashboard.Aside>
       <Dashboard.Main>
+        <h1 className="visually-hidden">Saved links</h1>
         {signOutError ? (
           <p
             role="alert"
