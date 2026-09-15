@@ -54,7 +54,6 @@ function DashbrardLink({
   query: string;
 }) {
   const queryClient = useQueryClient();
-  const titleId = useId();
   const newTabHintId = useId();
 
   const updateLink = useMutation({
@@ -127,7 +126,7 @@ function DashbrardLink({
     <article
       className={[styles.link, isPending && styles.linkLoading].join(" ")}
       key={link.id}
-      aria-labelledby={titleId}
+      aria-labelledby={link.id}
       aria-busy={isPending}
     >
       <div>
@@ -138,7 +137,7 @@ function DashbrardLink({
           className={styles.container}
           aria-describedby={newTabHintId}
         >
-          <h2 id={titleId} className={styles.title}>
+          <h2 id={link.id} className={styles.title}>
             {highlight(link.title, query)}
           </h2>
           <span className={styles.linkA}>{link.url}</span>
@@ -155,7 +154,9 @@ function DashbrardLink({
           <div className={styles.metaItem}>
             <dt>{"Added: "}</dt>
             <dd>
-              <time dateTime={link.createdAt}>{formatDate(link.createdAt)}</time>
+              <time dateTime={link.createdAt}>
+                {formatDate(link.createdAt)}
+              </time>
             </dd>
           </div>
 
