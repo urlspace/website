@@ -13,8 +13,6 @@ import {
   Button,
   Dashboard,
   DashboardButton,
-  DashboardButtonAction,
-  DashboardButtonLink,
   DashboardCollectionInfo,
   DashboardEmpty,
   DashboardLink,
@@ -94,7 +92,6 @@ function PageDashboard() {
     linksQueryOptions(filters),
   );
   const links = linksResponse?.data ?? [];
-  const totalCount = linksResponse?.pagination.totalCount ?? 0;
   const totalPages = linksResponse?.pagination.totalPages ?? 1;
 
   // Empty payload can mean a brand-new account or filters with no matches.
@@ -229,7 +226,7 @@ function PageDashboard() {
             text="Add collection"
           />
         </Dashboard.HeaderActions>
-        <Dashboard.HeaderFilters>
+        <Dashboard.HeaderSearch>
           <Form.SearchInput
             label="Search"
             placeholder="Search for..."
@@ -264,17 +261,17 @@ function PageDashboard() {
               text="Menu"
             />
           </Dashboard.HeaderTrigger>
-        </Dashboard.HeaderFilters>
+        </Dashboard.HeaderSearch>
       </Dashboard.Header>
       {selectedCollection !== null ||
       selectedTags.length !== 0 ||
       favourite ||
       forLater ? (
-        <Dashboard.Filter>
-          <Dashboard.FilterContent>
+        <Dashboard.Pills>
+          <Dashboard.PillsContent>
             <Pills items={filterPills} noWrap />
-          </Dashboard.FilterContent>
-          <Dashboard.FilterButton
+          </Dashboard.PillsContent>
+          <Dashboard.PillsButton
             onClick={() => {
               setFavourite(false);
               setForLater(false);
@@ -283,7 +280,7 @@ function PageDashboard() {
               setPage(1);
             }}
           />
-        </Dashboard.Filter>
+        </Dashboard.Pills>
       ) : null}
 
       <Dashboard.Aside>
@@ -399,15 +396,6 @@ function PageDashboard() {
           </nav>
         ) : null}
       </Dashboard.Main>
-      <Dashboard.AsideStats>
-        <ul>
-          <li>total count: {totalCount}</li>
-          <li>
-            page {page}/{totalPages}{" "}
-          </li>
-          <li>query time: {linksResponse?.meta.durationMs}ms</li>
-        </ul>
-      </Dashboard.AsideStats>
 
       <Drawer open={isNavOpen} onClose={() => setIsNavOpen(false)} title="Menu">
         <DashboardNav

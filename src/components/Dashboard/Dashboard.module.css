@@ -59,7 +59,6 @@
 
   @media (width >= 900px) {
     grid-column: 3 / 4;
-    /* order: 3; */
   }
 
   @media (width >= 1100px) {
@@ -67,7 +66,8 @@
     order: 3;
   }
 }
-.headerFilters {
+
+.headerSearch {
   display: flex;
   gap: 0.5lh;
   align-items: center;
@@ -76,7 +76,6 @@
   @media (width >= 1100px) {
     grid-column: 3 / 4;
     order: 2;
-    /* padding-inline: clamp(1lh, (100% - 740px) / 2, 100%); */
   }
 }
 
@@ -86,19 +85,15 @@
   }
 }
 
-.filters {
+.pills {
   grid-column: 1 / -1;
-
   grid-row: 2 / 3;
-  background-color: lime;
-
   background-color: var(--color-bg-content);
   padding: 0.5rlh 1rlh;
   box-shadow: inset 0 -1px 0 0 var(--color-border);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 1lh;
+  gap: 0.5lh;
 
   @media (height >= 600px) {
     --h: 3lh;
@@ -117,7 +112,7 @@
   }
 }
 
-.filtersContent {
+.pillsContent {
   flex-grow: 1;
   overflow: auto;
   scrollbar-width: none;
@@ -126,18 +121,18 @@
     black calc(100% - 2rlh),
     transparent 100%
   );
+
+  /* without this one, the padding is not taken into account  */
+  display: flex;
+  padding-inline-end: 2rlh;
 }
 
-.filtersButton {
+.pillsButton {
   color: inherit;
   font: inherit;
   background-color: transparent;
   border: none;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
   font-size: 0.875rem;
-  vertical-align: top;
-  text-wrap: nowrap;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -147,7 +142,6 @@
   &:hover {
     @media (hover: hover) and (pointer: fine) {
       color: var(--color-link);
-      text-decoration-line: underline;
     }
   }
 
@@ -155,11 +149,6 @@
     outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
     outline-offset: 2px;
     border-radius: var(--radius);
-  }
-
-  &[aria-pressed="true"] {
-    text-decoration-line: underline;
-    font-weight: 500;
   }
 }
 
@@ -190,48 +179,9 @@
   scrollbar-width: none;
   background-color: var(--color-bg-content);
   box-shadow: inset -1px 0 0 0 var(--color-border);
-}
 
-.aside {
   @media (width >= 900px) {
     display: block;
     grid-row: 2 / 4;
-  }
-}
-
-.asideStats {
-  --h: 3lh;
-
-  display: none;
-  position: sticky;
-  top: var(--h);
-  height: calc(100dvh - var(--h));
-  overflow-y: scroll;
-  scrollbar-width: none;
-  padding: 1lh;
-
-  ul {
-    margin-block-start: auto;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
-  li {
-    font-size: 0.625rem;
-    line-height: 0.5lh;
-    border-radius: var(--radius);
-    font-family: ui-monospace;
-    opacity: 0.5;
-    font-weight: 700;
-  }
-}
-
-.asideStats {
-  @media (width >= 1100px) {
-    display: flex;
-    justify-content: flex-end;
-    grid-column: 5 / 6;
   }
 }

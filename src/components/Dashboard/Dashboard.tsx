@@ -15,33 +15,33 @@ function DashboardHeader({ children }: { children: React.ReactNode }) {
 }
 
 function DashboardHeaderActions({ children }: { children: React.ReactNode }) {
-  return <header className={styles.headerActions}>{children}</header>;
+  return <div className={styles.headerActions}>{children}</div>;
 }
 
-function DashboardHeaderFilters({ children }: { children: React.ReactNode }) {
-  return <header className={styles.headerFilters}>{children}</header>;
+function DashboardHeaderSearch({ children }: { children: React.ReactNode }) {
+  return <div className={styles.headerSearch}>{children}</div>;
 }
 
 function DashboardFiltersTrigger({ children }: { children: React.ReactNode }) {
-  return <header className={styles.headerTrigger}>{children}</header>;
+  return <div className={styles.headerTrigger}>{children}</div>;
 }
 
 function DashboardMain({ children }: { children: React.ReactNode }) {
   return <main className={styles.main}>{children}</main>;
 }
 
-function DashboardFilter({ children }: { children: React.ReactNode }) {
-  return <div className={styles.filters}>{children}</div>;
+function DashboardPills({ children }: { children: React.ReactNode }) {
+  return <div className={styles.pills}>{children}</div>;
 }
 
-function DashboardFilterContent({ children }: { children: React.ReactNode }) {
-  return <div className={styles.filtersContent}>{children}</div>;
+function DashboardPillsContent({ children }: { children: React.ReactNode }) {
+  return <div className={styles.pillsContent}>{children}</div>;
 }
 
-function DashboardFilterButton({ onClick }: { onClick: () => void }) {
+function DashboardPillsButton({ onClick }: { onClick: () => void }) {
   return (
     <button
-      className={styles.filtersButton}
+      className={styles.pillsButton}
       onClick={onClick}
       aria-label="Close filters"
     >
@@ -51,22 +51,17 @@ function DashboardFilterButton({ onClick }: { onClick: () => void }) {
 }
 
 function Aside({ children }: { children: React.ReactNode }) {
-  return <div className={styles.aside}>{children}</div>;
-}
-
-function AsideStats({ children }: { children: React.ReactNode }) {
-  return <div className={styles.asideStats}>{children}</div>;
+  return <aside className={styles.aside}>{children}</aside>;
 }
 
 Dashboard.Header = DashboardHeader;
 Dashboard.HeaderActions = DashboardHeaderActions;
-Dashboard.HeaderFilters = DashboardHeaderFilters;
+Dashboard.HeaderSearch = DashboardHeaderSearch;
 Dashboard.HeaderTrigger = DashboardFiltersTrigger;
-Dashboard.Filter = DashboardFilter;
-Dashboard.FilterContent = DashboardFilterContent;
-Dashboard.FilterButton = DashboardFilterButton;
+Dashboard.Pills = DashboardPills;
+Dashboard.PillsContent = DashboardPillsContent;
+Dashboard.PillsButton = DashboardPillsButton;
 Dashboard.Main = DashboardMain;
 Dashboard.Aside = Aside;
-Dashboard.AsideStats = AsideStats;
 
 export default Dashboard;
