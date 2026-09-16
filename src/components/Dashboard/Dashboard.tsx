@@ -34,6 +34,10 @@ function DashboardPills({ children }: { children: React.ReactNode }) {
   return <div className={styles.pills}>{children}</div>;
 }
 
+function DashboardPillsStats({ children }: { children: React.ReactNode }) {
+  return <div className={styles.pillsStats}>{children}</div>;
+}
+
 function DashboardPillsContent({ children }: { children: React.ReactNode }) {
   return <div className={styles.pillsContent}>{children}</div>;
 }
@@ -59,6 +63,7 @@ Dashboard.HeaderActions = DashboardHeaderActions;
 Dashboard.HeaderSearch = DashboardHeaderSearch;
 Dashboard.HeaderTrigger = DashboardFiltersTrigger;
 Dashboard.Pills = DashboardPills;
+Dashboard.PillsStats = DashboardPillsStats;
 Dashboard.PillsContent = DashboardPillsContent;
 Dashboard.PillsButton = DashboardPillsButton;
 Dashboard.Main = DashboardMain;

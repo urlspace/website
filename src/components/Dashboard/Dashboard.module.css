@@ -112,6 +112,11 @@
   }
 }
 
+.pillsStats {
+  font-size: 0.8125rem;
+  text-wrap: nowrap;
+}
+
 .pillsContent {
   flex-grow: 1;
   overflow: auto;
@@ -154,9 +159,9 @@
 
 .main {
   grid-column: 1 / -1;
-  padding-block: 4lh;
+  padding-block: 2lh;
   padding-inline: 1lh;
-  grid-row: 2 / 4;
+  grid-row: 3 / 4;
 
   @media (width >= 900px) {
     grid-column: 2 / 4;

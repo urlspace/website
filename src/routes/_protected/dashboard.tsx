@@ -27,6 +27,7 @@ import {
   Icon,
   Pills,
   Stack,
+  Stats,
 } from "#/components/index.ts";
 import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
 import {
@@ -92,7 +93,10 @@ function PageDashboard() {
     linksQueryOptions(filters),
   );
   const links = linksResponse?.data ?? [];
-  const totalPages = linksResponse?.pagination.totalPages ?? 1;
+  const totalResults = linksResponse?.pagination.totalCount;
+  const currentPage = linksResponse?.pagination.currentPage;
+  const totalPages = linksResponse?.pagination.totalPages;
+  const linkResponseMs = linksResponse?.meta.durationMs;
 
   // Empty payload can mean a brand-new account or filters with no matches.
   // Read the loader's unfiltered cache to tell them apart.
@@ -263,25 +267,28 @@ function PageDashboard() {
           </Dashboard.HeaderTrigger>
         </Dashboard.HeaderSearch>
       </Dashboard.Header>
-      {selectedCollection !== null ||
-      selectedTags.length !== 0 ||
-      favourite ||
-      forLater ? (
-        <Dashboard.Pills>
-          <Dashboard.PillsContent>
-            <Pills items={filterPills} noWrap />
-          </Dashboard.PillsContent>
-          <Dashboard.PillsButton
-            onClick={() => {
-              setFavourite(false);
-              setForLater(false);
-              setSelectedCollection(null);
-              setSelectedTags([]);
-              setPage(1);
-            }}
+      <Dashboard.Pills>
+        <Dashboard.PillsStats>
+          <Stats
+            totalResults={totalResults}
+            totalPages={totalPages}
+            currentPage={currentPage}
+            linksResponse={linkResponseMs}
           />
-        </Dashboard.Pills>
-      ) : null}
+        </Dashboard.PillsStats>
+        <Dashboard.PillsContent>
+          <Pills items={filterPills} noWrap />
+        </Dashboard.PillsContent>
+        <Dashboard.PillsButton
+          onClick={() => {
+            setFavourite(false);
+            setForLater(false);
+            setSelectedCollection(null);
+            setSelectedTags([]);
+            setPage(1);
+          }}
+        />
+      </Dashboard.Pills>
 
       <Dashboard.Aside>
         <DashboardNav
@@ -369,7 +376,7 @@ function PageDashboard() {
           )}
         </section>
 
-        {totalPages > 1 ? (
+        {totalPages && totalPages > 1 ? (
           <nav aria-label="Pagination">
             <Stack direction="row" spaceBetween alignCenter>
               {page > 1 ? (

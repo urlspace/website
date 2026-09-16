@@ -1,0 +1,30 @@
+.stats {
+  display: flex;
+  flex-wrap: nowrap;
+  text-wrap: nowrap;
+}
+
+.item {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.itemExtra {
+  display: none;
+
+  &::before {
+    content: "·";
+    margin-inline: 0.25rem;
+  }
+
+  @media (width >= 1100px) {
+    display: flex;
+  }
+}
+
+.term {
+  &::after {
+    content: ": ";
+    white-space: pre;
+  }
+}
