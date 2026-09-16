@@ -20,7 +20,9 @@ function Stats({
         </div>
       ) : null}
 
-      {currentPage !== undefined && totalPages !== undefined ? (
+      {currentPage !== undefined &&
+      totalPages !== undefined &&
+      totalPages > 1 ? (
         <div className={[styles.item, styles.itemExtra].join(" ")}>
           <dt className={styles.term}>Pages</dt>
           <dd>
