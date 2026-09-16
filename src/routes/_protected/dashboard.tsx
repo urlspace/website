@@ -214,6 +214,8 @@ function PageDashboard() {
     },
   }));
 
+  const showPills = filterPills.length > 0;
+
   return (
     <Dashboard>
       <Dashboard.Header>
@@ -276,18 +278,22 @@ function PageDashboard() {
             linksResponse={linkResponseMs}
           />
         </Dashboard.PillsStats>
-        <Dashboard.PillsContent>
-          <Pills items={filterPills} noWrap />
-        </Dashboard.PillsContent>
-        <Dashboard.PillsButton
-          onClick={() => {
-            setFavourite(false);
-            setForLater(false);
-            setSelectedCollection(null);
-            setSelectedTags([]);
-            setPage(1);
-          }}
-        />
+        {showPills ? (
+          <>
+            <Dashboard.PillsContent>
+              <Pills items={filterPills} noWrap />
+            </Dashboard.PillsContent>
+            <Dashboard.PillsButton
+              onClick={() => {
+                setFavourite(false);
+                setForLater(false);
+                setSelectedCollection(null);
+                setSelectedTags([]);
+                setPage(1);
+              }}
+            />
+          </>
+        ) : null}
       </Dashboard.Pills>
 
       <Dashboard.Aside>
