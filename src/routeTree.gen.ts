@@ -19,6 +19,7 @@ import { Route as PublicBlogRouteImport } from './routes/_public/blog'
 import { Route as ProtectedSettingsRouteImport } from './routes/_protected/settings'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as DotwellKnownChangePasswordRouteImport } from './routes/[.]well-known.change-password'
+import { Route as PublicCollectionCollectionIdRouteImport } from './routes/_public/collection/$collectionId'
 import { Route as PublicAuthSigninRouteImport } from './routes/_public/auth/signin'
 import { Route as PublicAuthResendVerificationRouteImport } from './routes/_public/auth/resend-verification'
 import { Route as PublicAuthSignupIndexRouteImport } from './routes/_public/auth/signup/index'
@@ -75,6 +76,12 @@ const DotwellKnownChangePasswordRoute =
     path: '/.well-known/change-password',
     getParentRoute: () => rootRouteImport,
   } as any)
+const PublicCollectionCollectionIdRoute =
+  PublicCollectionCollectionIdRouteImport.update({
+    id: '/collection/$collectionId',
+    path: '/collection/$collectionId',
+    getParentRoute: () => PublicRoute,
+  } as any)
 const PublicAuthSigninRoute = PublicAuthSigninRouteImport.update({
   id: '/auth/signin',
   path: '/auth/signin',
@@ -120,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/auth/signin': typeof PublicAuthSigninRoute
+  '/collection/$collectionId': typeof PublicCollectionCollectionIdRoute
   '/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/auth/signup/$token': typeof PublicAuthSignupTokenRoute
   '/auth/reset-password/': typeof PublicAuthResetPasswordIndexRoute
@@ -136,6 +144,7 @@ export interface FileRoutesByTo {
   '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/auth/signin': typeof PublicAuthSigninRoute
+  '/collection/$collectionId': typeof PublicCollectionCollectionIdRoute
   '/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/auth/signup/$token': typeof PublicAuthSignupTokenRoute
   '/auth/reset-password': typeof PublicAuthResetPasswordIndexRoute
@@ -155,6 +164,7 @@ export interface FileRoutesById {
   '/_public/': typeof PublicIndexRoute
   '/_public/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/_public/auth/signin': typeof PublicAuthSigninRoute
+  '/_public/collection/$collectionId': typeof PublicCollectionCollectionIdRoute
   '/_public/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/_public/auth/signup/$token': typeof PublicAuthSignupTokenRoute
   '/_public/auth/reset-password/': typeof PublicAuthResetPasswordIndexRoute
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
     | '/terms-of-service'
     | '/auth/resend-verification'
     | '/auth/signin'
+    | '/collection/$collectionId'
     | '/auth/reset-password/$token'
     | '/auth/signup/$token'
     | '/auth/reset-password/'
@@ -189,6 +200,7 @@ export interface FileRouteTypes {
     | '/terms-of-service'
     | '/auth/resend-verification'
     | '/auth/signin'
+    | '/collection/$collectionId'
     | '/auth/reset-password/$token'
     | '/auth/signup/$token'
     | '/auth/reset-password'
@@ -207,6 +219,7 @@ export interface FileRouteTypes {
     | '/_public/'
     | '/_public/auth/resend-verification'
     | '/_public/auth/signin'
+    | '/_public/collection/$collectionId'
     | '/_public/auth/reset-password/$token'
     | '/_public/auth/signup/$token'
     | '/_public/auth/reset-password/'
@@ -291,6 +304,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DotwellKnownChangePasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_public/collection/$collectionId': {
+      id: '/_public/collection/$collectionId'
+      path: '/collection/$collectionId'
+      fullPath: '/collection/$collectionId'
+      preLoaderRoute: typeof PublicCollectionCollectionIdRouteImport
+      parentRoute: typeof PublicRoute
+    }
     '/_public/auth/signin': {
       id: '/_public/auth/signin'
       path: '/auth/signin'
@@ -358,6 +378,7 @@ interface PublicRouteChildren {
   PublicIndexRoute: typeof PublicIndexRoute
   PublicAuthResendVerificationRoute: typeof PublicAuthResendVerificationRoute
   PublicAuthSigninRoute: typeof PublicAuthSigninRoute
+  PublicCollectionCollectionIdRoute: typeof PublicCollectionCollectionIdRoute
   PublicAuthResetPasswordTokenRoute: typeof PublicAuthResetPasswordTokenRoute
   PublicAuthSignupTokenRoute: typeof PublicAuthSignupTokenRoute
   PublicAuthResetPasswordIndexRoute: typeof PublicAuthResetPasswordIndexRoute
@@ -372,6 +393,7 @@ const PublicRouteChildren: PublicRouteChildren = {
   PublicIndexRoute: PublicIndexRoute,
   PublicAuthResendVerificationRoute: PublicAuthResendVerificationRoute,
   PublicAuthSigninRoute: PublicAuthSigninRoute,
+  PublicCollectionCollectionIdRoute: PublicCollectionCollectionIdRoute,
   PublicAuthResetPasswordTokenRoute: PublicAuthResetPasswordTokenRoute,
   PublicAuthSignupTokenRoute: PublicAuthSignupTokenRoute,
   PublicAuthResetPasswordIndexRoute: PublicAuthResetPasswordIndexRoute,
