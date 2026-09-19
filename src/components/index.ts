@@ -8,7 +8,7 @@ import DashboardCollectionInfo from "./DashboardCollectionInfo/DashboardCollecti
 import DashboardEmpty from "./DashboardEmpty/DashboardEmpty.tsx";
 import DashboardLink from "./DashboardLink/DashboardLink.tsx";
 import DashboardList from "./DashboardList/DashboardList.tsx";
-import DashboardLogo from "./DashboardLogo/DashboardLogo.tsx";
+import Logo from "./Logo/Logo.tsx";
 import DashboardMenu from "./DashboardMenu/DashboardMenu.tsx";
 import DashboardNav from "./DashboardNav/DashboardNav.tsx";
 import Dialog from "./Dialog/Dialog.tsx";
@@ -29,6 +29,8 @@ import Icon from "./Icons/Icons.tsx";
 import Intro from "./Intro/Intro.tsx";
 import Page from "./Page/Page.tsx";
 import Pills from "./Pills/Pills.tsx";
+import PublicFooter from "./PublicFooter/PublicFooter.tsx";
+import PublicHeader from "./PublicHeader/PublicHeader.tsx";
 import SettingsListAccount from "./SettingsList/SettingsListAccount.tsx";
 import SettingsListSessions from "./SettingsList/SettingsListSessions.tsx";
 import SettingsListTokens from "./SettingsList/SettingsListTokens.tsx";
@@ -49,7 +51,6 @@ export {
   DashboardEmpty,
   DashboardLink,
   DashboardList,
-  DashboardLogo,
   DashboardMenu,
   DashboardNav,
   Dialog,
@@ -68,8 +69,11 @@ export {
   Heading,
   Icon,
   Intro,
+  Logo,
   Page,
   Pills,
+  PublicFooter,
+  PublicHeader,
   SettingsListAccount,
   SettingsListSessions,
   SettingsListTokens,

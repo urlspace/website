@@ -1,0 +1,11 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1lh;
+}
+
+.navList {
+  display: flex;
+  gap: 1lh;
+  list-style: none;
+}

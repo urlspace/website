@@ -3,7 +3,9 @@
   width: 100%;
   max-width: 640px;
   background-color: var(--color-bg-content);
-  padding: 6rlh 2rlh;
-  min-height: 100dvh;
-  border: 1px solid var(--color-border);
+  padding: 4rlh 1rlh;
+  box-shadow:
+    1px 0 0 0 var(--color-border),
+    -1px 0 0 0 var(--color-border);
+  height: 100%;
 }

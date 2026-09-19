@@ -16,7 +16,7 @@ import {
   DashboardCollectionInfo,
   DashboardEmpty,
   DashboardLink,
-  DashboardLogo,
+  Logo,
   DashboardNav,
   Dialog,
   Drawer,
@@ -219,7 +219,7 @@ function PageDashboard() {
   return (
     <Dashboard>
       <Dashboard.Header>
-        <DashboardLogo />
+        <Logo to="/dashboard" />
         <Dashboard.HeaderActions>
           <DashboardButton
             icon={<Icon.Plus />}
