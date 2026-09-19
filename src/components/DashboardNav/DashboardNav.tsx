@@ -172,50 +172,105 @@ function DashboardNav({
         <DashboardAccordion summary="Collections">
           <Stack gap={0.5}>
             <DashboardList>
-              {collections.map((c, index, arr) => (
-                <DashboardList.Li
-                  key={c.id}
-                  loading={
-                    deleteCollection.isPending &&
-                    deleteCollection.variables === c.id
-                  }
-                >
-                  <div
-                    style={{
-                      minWidth: 0,
-                    }}
+              {collections
+                .filter((c) => !c.public)
+                .map((c, index, arr) => (
+                  <DashboardList.Li
+                    key={c.id}
+                    loading={
+                      deleteCollection.isPending &&
+                      deleteCollection.variables === c.id
+                    }
                   >
-                    <DashboardButton
-                      icon={c.public ? <Icon.FolderPublic /> : <Icon.Folder />}
-                      onClick={() =>
-                        setSelectedCollection((prev) =>
-                          prev === c.id ? null : c.id,
-                        )
-                      }
-                      ariaPressed={selectedCollection === c.id}
-                      text={c.name}
-                      counter={c.count}
-                    />
-                  </div>
-                  {editModeCollections ? (
-                    <DashboardMenu fadeIn order={arr.length - index}>
-                      <DashboardMenu.Li>
-                        <DashboardButtonAction
-                          text="Edit"
-                          onClick={() => onEditCollection(c)}
-                        />
-                      </DashboardMenu.Li>
-                      <DashboardMenu.Li>
-                        <DashboardButtonAction
-                          text="Delete"
-                          onClick={() => deleteCollection.mutate(c.id)}
-                          destructive
-                        />
-                      </DashboardMenu.Li>
-                    </DashboardMenu>
-                  ) : null}
-                </DashboardList.Li>
-              ))}
+                    <div
+                      style={{
+                        minWidth: 0,
+                      }}
+                    >
+                      <DashboardButton
+                        icon={
+                          c.public ? <Icon.FolderPublic /> : <Icon.Folder />
+                        }
+                        onClick={() =>
+                          setSelectedCollection((prev) =>
+                            prev === c.id ? null : c.id,
+                          )
+                        }
+                        ariaPressed={selectedCollection === c.id}
+                        text={c.name}
+                        counter={c.count}
+                      />
+                    </div>
+                    {editModeCollections ? (
+                      <DashboardMenu fadeIn order={arr.length - index}>
+                        <DashboardMenu.Li>
+                          <DashboardButtonAction
+                            text="Edit"
+                            onClick={() => onEditCollection(c)}
+                          />
+                        </DashboardMenu.Li>
+                        <DashboardMenu.Li>
+                          <DashboardButtonAction
+                            text="Delete"
+                            onClick={() => deleteCollection.mutate(c.id)}
+                            destructive
+                          />
+                        </DashboardMenu.Li>
+                      </DashboardMenu>
+                    ) : null}
+                  </DashboardList.Li>
+                ))}
+            </DashboardList>
+
+            <DashboardList>
+              {collections
+                .filter((c) => c.public)
+                .map((c, index, arr) => (
+                  <DashboardList.Li
+                    key={c.id}
+                    loading={
+                      deleteCollection.isPending &&
+                      deleteCollection.variables === c.id
+                    }
+                  >
+                    <div
+                      style={{
+                        minWidth: 0,
+                      }}
+                    >
+                      <DashboardButton
+                        icon={
+                          c.public ? <Icon.FolderPublic /> : <Icon.Folder />
+                        }
+                        onClick={() =>
+                          setSelectedCollection((prev) =>
+                            prev === c.id ? null : c.id,
+                          )
+                        }
+                        ariaPressed={selectedCollection === c.id}
+                        text={c.name}
+                        counter={c.count}
+                      />
+                    </div>
+                    {editModeCollections ? (
+                      <DashboardMenu fadeIn order={arr.length - index}>
+                        <DashboardMenu.Li>
+                          <DashboardButtonAction
+                            text="Edit"
+                            onClick={() => onEditCollection(c)}
+                          />
+                        </DashboardMenu.Li>
+                        <DashboardMenu.Li>
+                          <DashboardButtonAction
+                            text="Delete"
+                            onClick={() => deleteCollection.mutate(c.id)}
+                            destructive
+                          />
+                        </DashboardMenu.Li>
+                      </DashboardMenu>
+                    ) : null}
+                  </DashboardList.Li>
+                ))}
             </DashboardList>
 
             <div>
