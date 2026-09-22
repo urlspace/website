@@ -254,6 +254,8 @@ hr {
 }
 
 .collection {
+  display: grid;
+  grid-template-rows: auto 1fr;
   width: min(100% - 1lh, 1400px);
   background-color: var(--color-bg-content);
   margin-inline: auto;
