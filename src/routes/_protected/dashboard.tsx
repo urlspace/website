@@ -350,36 +350,38 @@ function PageDashboard() {
         ) : null}
 
         <section>
-          {links.length ? (
-            links.map((link) => (
-              <DashboardLink
-                key={link.id}
-                link={link}
-                loading={isPlaceholderData}
-                query={debouncedQuery}
-                onEdit={setEditingLink}
-                onTagClick={(tagId) => {
-                  setFavourite(false);
-                  setForLater(false);
-                  setSelectedCollection(null);
-                  setSelectedTags([tagId]);
-                  setPage(1);
-                }}
-                onCollectionClick={(collectionId) => {
-                  setFavourite(false);
-                  setForLater(false);
-                  setSelectedCollection(collectionId);
-                  setSelectedTags([]);
-                  setPage(1);
-                }}
+          <Stack gap={2}>
+            {links.length ? (
+              links.map((link) => (
+                <DashboardLink
+                  key={link.id}
+                  link={link}
+                  loading={isPlaceholderData}
+                  query={debouncedQuery}
+                  onEdit={setEditingLink}
+                  onTagClick={(tagId) => {
+                    setFavourite(false);
+                    setForLater(false);
+                    setSelectedCollection(null);
+                    setSelectedTags([tagId]);
+                    setPage(1);
+                  }}
+                  onCollectionClick={(collectionId) => {
+                    setFavourite(false);
+                    setForLater(false);
+                    setSelectedCollection(collectionId);
+                    setSelectedTags([]);
+                    setPage(1);
+                  }}
+                />
+              ))
+            ) : (
+              <DashboardEmpty
+                newAccount={newAccount}
+                setIsAddLinkOpen={setIsAddLinkOpen}
               />
-            ))
-          ) : (
-            <DashboardEmpty
-              newAccount={newAccount}
-              setIsAddLinkOpen={setIsAddLinkOpen}
-            />
-          )}
+            )}
+          </Stack>
         </section>
 
         {totalPages && totalPages > 1 ? (

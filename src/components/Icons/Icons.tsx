@@ -207,6 +207,27 @@ function IconsReturn() {
   );
 }
 
+function IconsMasonry() {
+  return (
+    <IconBase>
+      <rect width="7" height="9" x="3" y="3" rx="1" />
+      <rect width="7" height="5" x="14" y="3" rx="1" />
+      <rect width="7" height="9" x="14" y="12" rx="1" />
+      <rect width="7" height="5" x="3" y="16" rx="1" />
+    </IconBase>
+  );
+}
+
+function IconsRss() {
+  return (
+    <IconBase>
+      <path d="M4 11a9 9 0 0 1 9 9" />
+      <path d="M4 4a16 16 0 0 1 16 16" />
+      <circle cx="5" cy="19" r="1" />
+    </IconBase>
+  );
+}
+
 Icon.Filter = IconsFilter;
 Icon.Plus = IconsPlus;
 Icon.Edit = IconsEdit;
@@ -228,5 +249,7 @@ Icon.Search = IconsSearch;
 Icon.Back = IconsBack;
 Icon.Return = IconsReturn;
 Icon.Copy = IconsCopy;
+Icon.Masonry = IconsMasonry;
+Icon.Rss = IconsRss;
 
 export default Icon;
