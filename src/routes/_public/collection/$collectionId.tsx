@@ -32,6 +32,7 @@ export const Route = createFileRoute("/_public/collection/$collectionId")({
 function PagePublicCollection() {
   const [layout, setLayout] = React.useState<Layout>("list");
   const collection = Route.useLoaderData();
+  const { collectionId } = Route.useParams();
 
   React.useEffect(() => {
     try {
@@ -90,7 +91,12 @@ function PagePublicCollection() {
             />
           </div>
           <div className="collection__option">
-            <DashboardButtonLink text="Feed" to="/" icon={<Icon.Rss />} />
+            <DashboardButtonLink
+              text="Feed"
+              to={`/collection/${encodeURIComponent(collectionId)}/feed.xml`}
+              icon={<Icon.Rss />}
+              reloadDocument
+            />
           </div>
         </div>
       </header>

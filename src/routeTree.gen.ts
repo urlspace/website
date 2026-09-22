@@ -19,6 +19,7 @@ import { Route as PublicBlogRouteImport } from './routes/_public/blog'
 import { Route as ProtectedSettingsRouteImport } from './routes/_protected/settings'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as DotwellKnownChangePasswordRouteImport } from './routes/[.]well-known.change-password'
+import { Route as CollectionCollectionIdFeedDotxmlRouteImport } from './routes/collection.$collectionId.feed[.]xml'
 import { Route as PublicUserUsernameRouteImport } from './routes/_public/user/$username'
 import { Route as PublicCollectionCollectionIdRouteImport } from './routes/_public/collection/$collectionId'
 import { Route as PublicAuthSigninRouteImport } from './routes/_public/auth/signin'
@@ -75,6 +76,12 @@ const DotwellKnownChangePasswordRoute =
   DotwellKnownChangePasswordRouteImport.update({
     id: '/.well-known/change-password',
     path: '/.well-known/change-password',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const CollectionCollectionIdFeedDotxmlRoute =
+  CollectionCollectionIdFeedDotxmlRouteImport.update({
+    id: '/collection/$collectionId/feed.xml',
+    path: '/collection/$collectionId/feed.xml',
     getParentRoute: () => rootRouteImport,
   } as any)
 const PublicUserUsernameRoute = PublicUserUsernameRouteImport.update({
@@ -135,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/auth/signin': typeof PublicAuthSigninRoute
   '/collection/$collectionId': typeof PublicCollectionCollectionIdRoute
   '/user/$username': typeof PublicUserUsernameRoute
+  '/collection/$collectionId/feed.xml': typeof CollectionCollectionIdFeedDotxmlRoute
   '/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/auth/signup/$token': typeof PublicAuthSignupTokenRoute
   '/auth/reset-password/': typeof PublicAuthResetPasswordIndexRoute
@@ -153,6 +161,7 @@ export interface FileRoutesByTo {
   '/auth/signin': typeof PublicAuthSigninRoute
   '/collection/$collectionId': typeof PublicCollectionCollectionIdRoute
   '/user/$username': typeof PublicUserUsernameRoute
+  '/collection/$collectionId/feed.xml': typeof CollectionCollectionIdFeedDotxmlRoute
   '/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/auth/signup/$token': typeof PublicAuthSignupTokenRoute
   '/auth/reset-password': typeof PublicAuthResetPasswordIndexRoute
@@ -174,6 +183,7 @@ export interface FileRoutesById {
   '/_public/auth/signin': typeof PublicAuthSigninRoute
   '/_public/collection/$collectionId': typeof PublicCollectionCollectionIdRoute
   '/_public/user/$username': typeof PublicUserUsernameRoute
+  '/collection/$collectionId/feed.xml': typeof CollectionCollectionIdFeedDotxmlRoute
   '/_public/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/_public/auth/signup/$token': typeof PublicAuthSignupTokenRoute
   '/_public/auth/reset-password/': typeof PublicAuthResetPasswordIndexRoute
@@ -194,6 +204,7 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/collection/$collectionId'
     | '/user/$username'
+    | '/collection/$collectionId/feed.xml'
     | '/auth/reset-password/$token'
     | '/auth/signup/$token'
     | '/auth/reset-password/'
@@ -212,6 +223,7 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/collection/$collectionId'
     | '/user/$username'
+    | '/collection/$collectionId/feed.xml'
     | '/auth/reset-password/$token'
     | '/auth/signup/$token'
     | '/auth/reset-password'
@@ -232,6 +244,7 @@ export interface FileRouteTypes {
     | '/_public/auth/signin'
     | '/_public/collection/$collectionId'
     | '/_public/user/$username'
+    | '/collection/$collectionId/feed.xml'
     | '/_public/auth/reset-password/$token'
     | '/_public/auth/signup/$token'
     | '/_public/auth/reset-password/'
@@ -242,6 +255,7 @@ export interface RootRouteChildren {
   ProtectedRoute: typeof ProtectedRouteWithChildren
   PublicRoute: typeof PublicRouteWithChildren
   DotwellKnownChangePasswordRoute: typeof DotwellKnownChangePasswordRoute
+  CollectionCollectionIdFeedDotxmlRoute: typeof CollectionCollectionIdFeedDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -314,6 +328,13 @@ declare module '@tanstack/react-router' {
       path: '/.well-known/change-password'
       fullPath: '/.well-known/change-password'
       preLoaderRoute: typeof DotwellKnownChangePasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/collection/$collectionId/feed.xml': {
+      id: '/collection/$collectionId/feed.xml'
+      path: '/collection/$collectionId/feed.xml'
+      fullPath: '/collection/$collectionId/feed.xml'
+      preLoaderRoute: typeof CollectionCollectionIdFeedDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_public/user/$username': {
@@ -428,6 +449,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProtectedRoute: ProtectedRouteWithChildren,
   PublicRoute: PublicRouteWithChildren,
   DotwellKnownChangePasswordRoute: DotwellKnownChangePasswordRoute,
+  CollectionCollectionIdFeedDotxmlRoute: CollectionCollectionIdFeedDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
