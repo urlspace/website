@@ -12,6 +12,9 @@ import {
 } from "#/components/index.ts";
 import React from "react";
 
+type Layout = "list" | "masonry";
+const layoutStorageKey = "public-collection-layout";
+
 export const Route = createFileRoute("/_public/collection/$collectionId")({
   loader: async ({ params }) => {
     const collection = await getPublicCollection({
@@ -27,8 +30,29 @@ export const Route = createFileRoute("/_public/collection/$collectionId")({
 });
 
 function PagePublicCollection() {
-  const [layout, setLayout] = React.useState<"list" | "masonry">("list");
+  const [layout, setLayout] = React.useState<Layout>("list");
   const collection = Route.useLoaderData();
+
+  React.useEffect(() => {
+    try {
+      const savedLayout = window.localStorage.getItem(layoutStorageKey);
+      if (savedLayout === "list" || savedLayout === "masonry") {
+        setLayout(savedLayout);
+      }
+    } catch {
+      return;
+    }
+  }, []);
+
+  function changeLayout(nextLayout: Layout) {
+    setLayout(nextLayout);
+
+    try {
+      window.localStorage.setItem(layoutStorageKey, nextLayout);
+    } catch {
+      return;
+    }
+  }
 
   return (
     <main className="collection">
@@ -49,19 +73,25 @@ function PagePublicCollection() {
           </time>
         </p>
         <div className="collection__options">
-          <DashboardButton
-            text="List"
-            onClick={() => setLayout("list")}
-            icon={<Icon.List />}
-            ariaPressed={layout === "list"}
-          />
-          <DashboardButton
-            text="Waterfall"
-            onClick={() => setLayout("masonry")}
-            icon={<Icon.Masonry />}
-            ariaPressed={layout === "masonry"}
-          />
-          <DashboardButtonLink text="Feed" to="/" icon={<Icon.Rss />} />
+          <div className="collection__option collection__option--layout">
+            <DashboardButton
+              text="List"
+              onClick={() => changeLayout("list")}
+              icon={<Icon.List />}
+              ariaPressed={layout === "list"}
+            />
+          </div>
+          <div className="collection__option collection__option--layout">
+            <DashboardButton
+              text="Waterfall"
+              onClick={() => changeLayout("masonry")}
+              icon={<Icon.Masonry />}
+              ariaPressed={layout === "masonry"}
+            />
+          </div>
+          <div className="collection__option">
+            <DashboardButtonLink text="Feed" to="/" icon={<Icon.Rss />} />
+          </div>
         </div>
       </header>
       {layout === "masonry" ? (
