@@ -3,6 +3,7 @@ import { getPublicCollection } from "#/queries/collections.ts";
 import { formatDate } from "#/utils.ts";
 import {
   Button,
+  ButtonLink,
   CollectionLink,
   DashboardButton,
   DashboardButtonLink,
@@ -24,6 +25,32 @@ export const Route = createFileRoute("/_public/collection/$collectionId")({
     return collection;
   },
   staleTime: 5 * 60 * 1000,
+  head: ({ loaderData, params }) => {
+    if (!loaderData) return { meta: [] };
+
+    const title = `${loaderData.name} by ${loaderData.author.displayName} | url.space`;
+    const description = loaderData.description.trim();
+    const collectionUrl = `https://url.space/collection/${encodeURIComponent(params.collectionId)}`;
+
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: collectionUrl },
+      ],
+      links: [
+        { rel: "canonical", href: collectionUrl },
+        {
+          rel: "alternate",
+          type: "application/rss+xml",
+          title,
+          href: `${collectionUrl}/feed.xml`,
+        },
+      ],
+    };
+  },
   gcTime: 5 * 60 * 1000,
   preloadStaleTime: 5 * 60 * 1000,
   component: PagePublicCollection,
@@ -33,6 +60,30 @@ function PagePublicCollection() {
   const [layout, setLayout] = React.useState<Layout>("list");
   const collection = Route.useLoaderData();
   const { collectionId } = Route.useParams();
+  const { hasSession } = Route.useRouteContext();
+
+  const cloneSection = (
+    <>
+      <Heading
+        level={3}
+        text={hasSession ? "Clone this collection" : "Keep these links"}
+      />
+      <p>
+        {hasSession
+          ? "Copy this collection and all its links to your account. Your copy is private and yours to edit."
+          : "Create a free account to save a private copy of this collection. Organise it your way."}
+      </p>
+      {hasSession ? (
+        <Button
+          text="Clone collection"
+          type="button"
+          onClick={() => console.log("clone")}
+        />
+      ) : (
+        <ButtonLink text="Sign up and clone collection" to="/auth/signup" />
+      )}
+    </>
+  );
 
   React.useEffect(() => {
     try {
@@ -126,17 +177,7 @@ function PagePublicCollection() {
             )}
           </main>
           <aside className="collection__viewMasonryAside">
-            <Heading level={3} text="Clone this collectoin" />
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
-              eveniet libero nesciunt aperiam quibusdam cupiditate
-              exercitationem deleniti nobis officia sint!
-            </p>
-            <Button
-              text="Clone collection"
-              type="button"
-              onClick={() => console.log("clone")}
-            />
+            {cloneSection}
           </aside>
         </div>
       ) : (
@@ -163,17 +204,7 @@ function PagePublicCollection() {
             </Stack>
           </main>
           <aside className="collection__viewListAside">
-            <Heading level={3} text="Clone this collectoin" />
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
-              eveniet libero nesciunt aperiam quibusdam cupiditate
-              exercitationem deleniti nobis officia sint!
-            </p>
-            <Button
-              text="Clone collection"
-              type="button"
-              onClick={() => console.log("clone")}
-            />
+            {cloneSection}
           </aside>
         </div>
       )}

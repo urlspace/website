@@ -43,7 +43,7 @@ export const Route = createFileRoute("/collection/$collectionId/feed.xml")({
 			<title>${escapeXml(link.title || link.url)}</title>
 			<link>${escapeXml(link.url)}</link>
 			<description>${escapeXml(escapeXml(link.description))}</description>
-			<guid isPermaLink="false">${escapeXml(`${collectionUrl}#${link.id}`)}</guid>
+			<guid isPermaLink="false">${escapeXml(link.id)}</guid>
 			${publicationDate(link.createdAt)}
 		</item>`,
 					)
@@ -52,7 +52,7 @@ export const Route = createFileRoute("/collection/$collectionId/feed.xml")({
 				const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
-		<title>${escapeXml(collection.name)}</title>
+		<title>${escapeXml(`${collection.name} by ${collection.author.displayName} | url.space`)}</title>
 		<link>${escapeXml(collectionUrl)}</link>
 		<description>${escapeXml(collection.description || `Links from ${collection.name}`)}</description>
 		<atom:link href="${escapeXml(feedUrl)}" rel="self" type="application/rss+xml" />
