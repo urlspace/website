@@ -54,7 +54,7 @@ function FormCollection({
 			collections.some(
 				(c) =>
 					c.id !== collection?.id &&
-					c.name.trim().toLowerCase() === trimmedName.toLowerCase(),
+					c.name === trimmedName,
 			)
 		) {
 			setError(duplicateNameError);
