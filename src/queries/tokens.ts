@@ -18,10 +18,7 @@ const getTokens = createServerFn().handler(async () => {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/tokens`, {
     headers: { cookie },
   });
-  if (
-    (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") ||
-    res.status === 403
-  ) {
+  if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
     await clearSession();
     throw redirect({
       to: "/auth/signin",

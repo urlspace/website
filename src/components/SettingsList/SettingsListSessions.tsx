@@ -37,10 +37,7 @@ function SettingsListSessions() {
 				},
 			);
 			// Reload so the route guard can clear the invalid session and cached data.
-			if (
-				(res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") ||
-				res.status === 403
-			) {
+			if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
 				window.location.reload();
 				throw new Error("Session expired.");
 			}
@@ -72,10 +69,7 @@ function SettingsListSessions() {
 				credentials: "include",
 			});
 			// Reload so the route guard can clear the invalid session and cached data.
-			if (
-				(res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") ||
-				res.status === 403
-			) {
+			if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
 				window.location.reload();
 				throw new Error("Session expired.");
 			}

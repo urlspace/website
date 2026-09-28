@@ -20,7 +20,7 @@ const getUser = createServerFn().handler(async () => {
 	const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
 		headers: { cookie },
 	});
-	if (res.status === 401 || res.status === 403) {
+	if (res.status === 401) {
 		await clearSession();
 		throw redirect({
 			to: "/auth/signin",

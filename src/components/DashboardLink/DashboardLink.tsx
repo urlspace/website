@@ -78,9 +78,8 @@ function DashbrardLink({
       );
       // Reload so the route guard can clear the invalid session and cached data.
       if (
-        (res.status === 401 &&
-          ((await res.clone().json()) as { data: string }).data === "unauthorized") ||
-        res.status === 403
+        res.status === 401 &&
+        ((await res.clone().json()) as { data: string }).data === "unauthorized"
       ) {
         window.location.reload();
         throw new Error("Session expired.");
@@ -103,9 +102,8 @@ function DashbrardLink({
       );
       // Reload so the route guard can clear the invalid session and cached data.
       if (
-        (res.status === 401 &&
-          ((await res.clone().json()) as { data: string }).data === "unauthorized") ||
-        res.status === 403
+        res.status === 401 &&
+        ((await res.clone().json()) as { data: string }).data === "unauthorized"
       ) {
         window.location.reload();
         throw new Error("Session expired.");
