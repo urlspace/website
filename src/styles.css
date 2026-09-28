@@ -1,14 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
-
-/* // <weight>: Use a value from 100 to 900 */
-/* // <uniquifier>: Use a unique and descriptive class name */
-/**/
-/* .inter-<uniquifier> { */
-/*   font-family: "Inter", sans-serif; */
-/*   font-optical-sizing: auto; */
-/*   font-weight: <weight>; */
-/*   font-style: normal; */
-/* } */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap");
 
 :root {
   --color-fg: light-dark(oklch(0.2 0.005 65), oklch(0.92 0.008 285));
@@ -74,8 +64,7 @@ body {
   color: var(--color-fg);
   background-color: var(--color-bg);
 
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
+  font-family: "IBM Plex Sans", sans-serif;
   font-weight: 400;
   font-style: normal;
 
