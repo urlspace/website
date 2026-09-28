@@ -116,10 +116,29 @@ function PagePublicCollection() {
 
       if (!res.ok) {
         switch (res.status) {
-          case 403:
-            setIsOwnCollection(true);
-            setCloneError("You cannot clone your own collection.");
+          case 403: {
+            // Ambiguous: 403 also covers "cannot clone your own collection",
+            // so check the body before treating it as a blocked account.
+            const body = (await res.clone().json()) as { data: string };
+            if (body.data === "account blocked") {
+              setSessionExpired(true);
+              setCloneError("Your account has been blocked.");
+              queryClient.clear();
+
+              try {
+                await clearSession();
+                await router.invalidate();
+              } catch {
+                setCloneError(
+                  "Your account was blocked, but we couldn't refresh your sign-in state. Reload the page and sign in again.",
+                );
+              }
+            } else {
+              setIsOwnCollection(true);
+              setCloneError("You cannot clone your own collection.");
+            }
             break;
+          }
           case 404:
             setCloneError("This collection is no longer available to clone.");
             break;

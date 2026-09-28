@@ -81,7 +81,14 @@ function FormCollection({
 			);
 
 			// Reload so the route guard can clear the invalid session and cached data.
-			if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+			// (403 is ambiguous here — it also covers "public collections need Pro" —
+			// so only reload when the body confirms the account is blocked.)
+			if (
+				(res.status === 401 || res.status === 403) &&
+				["unauthorized", "account blocked"].includes(
+					((await res.clone().json()) as { data: string }).data,
+				)
+			) {
 				window.location.reload();
 				return;
 			}
@@ -90,6 +97,9 @@ function FormCollection({
 				switch (res.status) {
 					case 400:
 						setError("Incorrect body.");
+						break;
+					case 403:
+						setError("Public collections are available only to Pro users.");
 						break;
 					case 409:
 						setError(duplicateNameError);

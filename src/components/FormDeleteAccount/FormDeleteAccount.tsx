@@ -26,7 +26,10 @@ function FormDeleteAccount({ onClose }: { onClose: () => void }) {
 			});
 
 			// Reload so the route guard can clear the invalid session and cached data.
-			if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+			if (
+				(res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") ||
+				res.status === 403
+			) {
 				window.location.reload();
 				return;
 			}

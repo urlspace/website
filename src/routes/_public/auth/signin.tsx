@@ -58,9 +58,17 @@ function SignIn() {
           case 401:
             setError("Invalid email or password.");
             break;
-          case 403:
-            setError("Your account is not verified. Check your inbox.");
+          case 403: {
+            const error = (await res.json()) as { data: string };
+            if (error.data === "account blocked") {
+              setError("Your account has been blocked.");
+            } else if (error.data === "invalid email or password") {
+              setError("Your account is not verified. Check your inbox.");
+            } else {
+              setError("Something went wrong. Try again in a moment.");
+            }
             break;
+          }
           case 429:
             setError("Too many attempts. Try again in a moment.");
             break;

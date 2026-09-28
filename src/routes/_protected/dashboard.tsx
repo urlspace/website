@@ -150,7 +150,7 @@ function PageDashboard() {
         credentials: "include",
       });
 
-      if (!res.ok && res.status !== 401) {
+      if (!res.ok && res.status !== 401 && res.status !== 403) {
         setSignOutError("We couldn't sign you out. Please try again.");
         return;
       }

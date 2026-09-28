@@ -65,7 +65,10 @@ const getLinks = createServerFn()
 		const res = await fetch(`${import.meta.env.VITE_API_URL}/links?${params}`, {
 			headers: { cookie },
 		});
-		if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+		if (
+			(res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") ||
+			res.status === 403
+		) {
 			await clearSession();
 			throw redirect({
 				to: "/auth/signin",
