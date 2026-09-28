@@ -11,7 +11,7 @@
 
   @media (width >= 1100px) {
     grid-template-columns:
-      340px minmax(1rlh, 1fr) minmax(0, 700px) minmax(1rlh, 1fr)
+      340px minmax(1rlh, 1fr) minmax(0, 640px) minmax(1rlh, 1fr)
       260px;
   }
 
@@ -188,5 +188,14 @@
   @media (width >= 900px) {
     display: block;
     grid-row: 2 / 4;
+  }
+
+  @media (width >= 1100px) {
+    /* im lovet the behaviour of this, but unfortunatelly i can add it only on the */
+    /* viewpirt > 1100px because only above thsi resulution we have a fixed header */
+    /* height. on lower resolution the header is sticky and scrolls partially.  */
+    /* we will nened to wait for the ::sticked pseud class or something like that */
+    /* to be able to have this behaviour on lower resolution. */
+    overscroll-behavior: contain;
   }
 }
