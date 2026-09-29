@@ -229,8 +229,14 @@ function SearchInput({
             {...getInputProps({
               className: styles.searchInput,
               placeholder,
+              "aria-keyshortcuts": "/",
             })}
           />
+          {rawInput === "" ? (
+            <span className={styles.searchHint} aria-hidden="true">
+              Press <kbd>/</kbd> to search
+            </span>
+          ) : null}
           {rawInput !== "" ? (
             <button
               type="button"

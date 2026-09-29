@@ -262,6 +262,28 @@
   color: var(--color-border-input);
 }
 
+.searchHint {
+  display: none;
+  flex-shrink: 0;
+  margin-inline: 0.5rlh;
+  font-size: 0.75rem;
+  color: color-mix(in srgb, var(--color-fg) 50%, transparent);
+  white-space: nowrap;
+  pointer-events: none;
+
+  @media (hover: hover) and (pointer: fine) and (width >= 900px) {
+    display: block;
+  }
+
+  .searchInput:focus + & {
+    display: none;
+  }
+
+  kbd {
+    font: inherit;
+  }
+}
+
 .searchClear {
   display: flex;
   padding: 0.25rlh;
