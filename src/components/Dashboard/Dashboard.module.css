@@ -42,7 +42,7 @@
   /* then the link is loading, the opacity is modified so the component */
   /* temporarily is rendered on top of the header  */
   /* this one is here to make sure that the header is always on top  */
-  z-index: 1;
+  z-index: 2;
   gap: 1lh;
 
   @media (width >= 1100px) {
