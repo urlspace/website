@@ -80,6 +80,25 @@ function PagePublicCollection() {
   const { hasSession, queryClient } = Route.useRouteContext();
   const canClone = hasSession && !sessionExpired;
 
+  async function handleShare() {
+    if (!navigator.share) {
+      window.alert("Sharing is not supported in this browser.");
+      return;
+    }
+
+    try {
+      await navigator.share({
+        title: `${collection.name} by ${collection.author.displayName} | url.space`,
+        url: window.location.href,
+      });
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return;
+      }
+      window.alert("Unable to share this page. Please try again.");
+    }
+  }
+
   async function handleClone() {
     if (!canClone || isCloning || isCloned || isOwnCollection) return;
 
@@ -244,6 +263,13 @@ function PagePublicCollection() {
               to={`/collection/${encodeURIComponent(collectionId)}/feed.xml`}
               icon={<Icon.Rss />}
               reloadDocument
+            />
+          </div>
+          <div className="collection__option">
+            <DashboardButton
+              text="Share"
+              onClick={handleShare}
+              icon={<Icon.Share />}
             />
           </div>
         </div>

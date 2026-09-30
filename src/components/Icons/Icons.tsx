@@ -236,6 +236,16 @@ function IconsRss() {
   );
 }
 
+function IconsShare() {
+  return (
+    <IconBase>
+      <path d="M12 2v13" />
+      <path d="m16 6-4-4-4 4" />
+      <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+    </IconBase>
+  );
+}
+
 Icon.Filter = IconsFilter;
 Icon.Plus = IconsPlus;
 Icon.Edit = IconsEdit;
@@ -260,5 +270,6 @@ Icon.Copy = IconsCopy;
 Icon.Check = IconsCheck;
 Icon.Masonry = IconsMasonry;
 Icon.Rss = IconsRss;
+Icon.Share = IconsShare;
 
 export default Icon;

@@ -49,6 +49,25 @@ function PagePublicUser() {
 	const user = Route.useLoaderData();
 	const { hasSession } = Route.useRouteContext();
 
+	async function handleShare() {
+		if (!navigator.share) {
+			window.alert("Sharing is not supported in this browser.");
+			return;
+		}
+
+		try {
+			await navigator.share({
+				title: `${user.displayName} | url.space`,
+				url: window.location.href,
+			});
+		} catch (error) {
+			if (error instanceof DOMException && error.name === "AbortError") {
+				return;
+			}
+			window.alert("Unable to share this page. Please try again.");
+		}
+	}
+
 	const asideContent = (
 		<>
 			<Heading
@@ -156,6 +175,13 @@ function PagePublicUser() {
 							onClick={() => changeLayout("masonry")}
 							icon={<Icon.Masonry />}
 							ariaPressed={layout === "masonry"}
+						/>
+					</div>
+					<div className="collection__option">
+						<DashboardButton
+							text="Share"
+							onClick={handleShare}
+							icon={<Icon.Share />}
 						/>
 					</div>
 				</div>
