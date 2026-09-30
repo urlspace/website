@@ -7,7 +7,7 @@ function DashboardCollectionInfo({
 }: {
   collection: CollectionRow;
 }) {
-  const url = `https://url.space/collection/${collection.id}`;
+  const url = `${window.location.origin}/collection/${collection.id}`;
 
   return (
     <section>
