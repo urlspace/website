@@ -94,6 +94,11 @@
   display: flex;
   align-items: center;
   gap: 0.5lh;
+  /* this is important */
+  /* then the link is loading, the opacity is modified so the component */
+  /* temporarily is rendered on top of the header  */
+  /* this one is here to make sure that the header is always on top  */
+  z-index: 1;
 
   @media (height >= 600px) {
     --h: 3lh;
