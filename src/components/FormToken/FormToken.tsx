@@ -1,16 +1,15 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { tokensQueryKey } from "#/queries/tokens.ts";
-import { Button, Stack } from "..";
+import { CopyBox, Stack } from "..";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
-function FormToken({ onClose }: { onClose: () => void }) {
+function FormToken() {
 	const queryClient = useQueryClient();
 
 	const [password, setPassword] = useState("");
 	const [description, setDescription] = useState("");
 	const [rawToken, setRawToken] = useState<string | null>(null);
-	const [copied, setCopied] = useState(false);
 
 	async function handleSubmit(
 		e: React.SubmitEvent<HTMLFormElement>,
@@ -62,24 +61,11 @@ function FormToken({ onClose }: { onClose: () => void }) {
 		}
 	}
 
-	async function handleCopy() {
-		if (!rawToken) return;
-		await navigator.clipboard.writeText(rawToken);
-		setCopied(true);
-	}
-
 	if (rawToken) {
 		return (
 			<Stack>
 				<p>Copy this token now — you won't be able to see it again.</p>
-				<code>{rawToken}</code>
-				<Stack direction="row">
-					<Button text={copied ? "Copied!" : "Copy"} onClick={handleCopy} />
-					<Button text="Done" onClick={onClose} />
-				</Stack>
-				<span className="visually-hidden" role="status">
-					{copied ? "Token copied." : ""}
-				</span>
+				<CopyBox value={rawToken} label="API token" />
 			</Stack>
 		);
 	}

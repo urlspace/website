@@ -109,6 +109,14 @@ function IconsCopy() {
   );
 }
 
+function IconsCheck() {
+  return (
+    <IconBase>
+      <path d="M20 6 9 17l-5-5" />
+    </IconBase>
+  );
+}
+
 function IconsTag() {
   return (
     <IconBase>
@@ -249,6 +257,7 @@ Icon.Search = IconsSearch;
 Icon.Back = IconsBack;
 Icon.Return = IconsReturn;
 Icon.Copy = IconsCopy;
+Icon.Check = IconsCheck;
 Icon.Masonry = IconsMasonry;
 Icon.Rss = IconsRss;
 

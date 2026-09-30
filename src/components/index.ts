@@ -1,4 +1,5 @@
 import CollectionLink from "./CollctionLink/CollectionLink.tsx";
+import CopyBox from "./CopyBox/CopyBox.tsx";
 import Dashboard from "./Dashboard/Dashboard.tsx";
 import DashboardAccordion from "./DashboardAccordion/DashboardAccordion.tsx";
 import DashboardButton from "./DashboardButton/DashboardButton.tsx";
@@ -44,6 +45,7 @@ export {
   ButtonLink,
   ButtonLinkLike,
   CollectionLink,
+  CopyBox,
   Dashboard,
   DashboardAccordion,
   DashboardButton,

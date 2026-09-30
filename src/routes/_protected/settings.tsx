@@ -117,10 +117,7 @@ function PageProfile() {
         onClose={() => setIsCreateTokenOpen(false)}
         title="Create token"
       >
-        <FormToken
-          key={createTokenKey}
-          onClose={() => setIsCreateTokenOpen(false)}
-        />
+        <FormToken key={createTokenKey} />
       </Dialog>
 
       <Dialog
