@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { Page, PublicFooter, PublicHeader } from "../components";
 
 export const Route = createFileRoute("/_public")({

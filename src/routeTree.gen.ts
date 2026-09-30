@@ -15,7 +15,6 @@ import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicTermsOfServiceRouteImport } from './routes/_public/terms-of-service'
 import { Route as PublicPrivacyPolicyRouteImport } from './routes/_public/privacy-policy'
 import { Route as PublicDocsRouteImport } from './routes/_public/docs'
-import { Route as PublicBlogRouteImport } from './routes/_public/blog'
 import { Route as ProtectedSettingsRouteImport } from './routes/_protected/settings'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as DotwellKnownChangePasswordRouteImport } from './routes/[.]well-known.change-password'
@@ -55,11 +54,6 @@ const PublicPrivacyPolicyRoute = PublicPrivacyPolicyRouteImport.update({
 const PublicDocsRoute = PublicDocsRouteImport.update({
   id: '/docs',
   path: '/docs',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicBlogRoute = PublicBlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
   getParentRoute: () => PublicRoute,
 } as any)
 const ProtectedSettingsRoute = ProtectedSettingsRouteImport.update({
@@ -134,7 +128,6 @@ export interface FileRoutesByFullPath {
   '/.well-known/change-password': typeof DotwellKnownChangePasswordRoute
   '/dashboard': typeof ProtectedDashboardRoute
   '/settings': typeof ProtectedSettingsRoute
-  '/blog': typeof PublicBlogRoute
   '/docs': typeof PublicDocsRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
@@ -153,7 +146,6 @@ export interface FileRoutesByTo {
   '/.well-known/change-password': typeof DotwellKnownChangePasswordRoute
   '/dashboard': typeof ProtectedDashboardRoute
   '/settings': typeof ProtectedSettingsRoute
-  '/blog': typeof PublicBlogRoute
   '/docs': typeof PublicDocsRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
@@ -174,7 +166,6 @@ export interface FileRoutesById {
   '/.well-known/change-password': typeof DotwellKnownChangePasswordRoute
   '/_protected/dashboard': typeof ProtectedDashboardRoute
   '/_protected/settings': typeof ProtectedSettingsRoute
-  '/_public/blog': typeof PublicBlogRoute
   '/_public/docs': typeof PublicDocsRoute
   '/_public/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/_public/terms-of-service': typeof PublicTermsOfServiceRoute
@@ -196,7 +187,6 @@ export interface FileRouteTypes {
     | '/.well-known/change-password'
     | '/dashboard'
     | '/settings'
-    | '/blog'
     | '/docs'
     | '/privacy-policy'
     | '/terms-of-service'
@@ -215,7 +205,6 @@ export interface FileRouteTypes {
     | '/.well-known/change-password'
     | '/dashboard'
     | '/settings'
-    | '/blog'
     | '/docs'
     | '/privacy-policy'
     | '/terms-of-service'
@@ -235,7 +224,6 @@ export interface FileRouteTypes {
     | '/.well-known/change-password'
     | '/_protected/dashboard'
     | '/_protected/settings'
-    | '/_public/blog'
     | '/_public/docs'
     | '/_public/privacy-policy'
     | '/_public/terms-of-service'
@@ -300,13 +288,6 @@ declare module '@tanstack/react-router' {
       path: '/docs'
       fullPath: '/docs'
       preLoaderRoute: typeof PublicDocsRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/blog': {
-      id: '/_public/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof PublicBlogRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_protected/settings': {
@@ -411,7 +392,6 @@ const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
 )
 
 interface PublicRouteChildren {
-  PublicBlogRoute: typeof PublicBlogRoute
   PublicDocsRoute: typeof PublicDocsRoute
   PublicPrivacyPolicyRoute: typeof PublicPrivacyPolicyRoute
   PublicTermsOfServiceRoute: typeof PublicTermsOfServiceRoute
@@ -427,7 +407,6 @@ interface PublicRouteChildren {
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
-  PublicBlogRoute: PublicBlogRoute,
   PublicDocsRoute: PublicDocsRoute,
   PublicPrivacyPolicyRoute: PublicPrivacyPolicyRoute,
   PublicTermsOfServiceRoute: PublicTermsOfServiceRoute,
