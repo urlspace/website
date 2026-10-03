@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useId } from "react";
 import { linksQueryKey } from "#/queries/links.ts";
 import { formatDate } from "#/utils.ts";
 import { DashboardButtonAction, DashboardMenu } from "..";
-import styles from "./DashboardLink.module.css";
+import styles from "./Link.module.css";
 
 function highlight(text: string, query: string): React.ReactNode {
   const needle = query.trim();
@@ -38,7 +37,7 @@ type LinkRow = {
   updatedAt: string;
 };
 
-function DashbrardLink({
+function Link({
   link,
   onTagClick,
   onCollectionClick,
@@ -54,7 +53,6 @@ function DashbrardLink({
   query: string;
 }) {
   const queryClient = useQueryClient();
-  const newTabHintId = useId();
 
   const updateLink = useMutation({
     mutationFn: async (patch: { favourite?: boolean; forLater?: boolean }) => {
@@ -124,27 +122,24 @@ function DashbrardLink({
 
   return (
     <article
-      className={[styles.link, isPending && styles.linkLoading].join(" ")}
-      key={link.id}
+      className={[styles.link, isPending && styles.linkLoading]
+        .filter(Boolean)
+        .join(" ")}
       aria-labelledby={link.id}
-      aria-busy={isPending}
+      aria-busy={isPending || undefined}
     >
       <div>
-        <a
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.container}
-          aria-describedby={newTabHintId}
-        >
-          <h2 id={link.id} className={styles.title}>
+        <h2 id={link.id} className={styles.title}>
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noreferrer"
+            aria-description="Opens in a new tab"
+          >
             {highlight(link.title, query)}
-          </h2>
-          <span className={styles.linkA}>{link.url}</span>
-        </a>
-        <span id={newTabHintId} className="visually-hidden">
-          Opens in a new tab.
-        </span>
+          </a>
+        </h2>
+        <p className={styles.linkA}>{link.url}</p>
       </div>
 
       {link.description.length > 0 ? <p>{link.description}</p> : null}
@@ -241,4 +236,4 @@ function DashbrardLink({
   );
 }
 
-export default DashbrardLink;
+export default Link;

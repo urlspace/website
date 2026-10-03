@@ -2,24 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.5lh;
-  background-color: var(--color-bg);
   min-width: 1px;
   transition: opacity 60ms ease;
-}
-
-.container {
-  display: inline-block;
-  text-decoration: none;
-  max-width: 100%;
-
-  &:focus-visible {
-    background-color: color-mix(in srgb, var(--color-link) 25%, transparent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-link) 25%, transparent);
-    outline: none;
-    border-radius: var(--radius);
-    outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
-    outline-offset: 6px;
-  }
 }
 
 .linkLoading {
@@ -27,25 +11,28 @@
 }
 
 .title {
-  display: block;
   font-size: inherit;
-  font-weight: 700;
-  align-self: flex-start;
   text-wrap-style: pretty;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
+
+  a {
+    font-weight: 700;
+
+    &:focus-visible {
+      outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
+      outline-offset: 2px;
+      border-radius: var(--radius);
+    }
+  }
 
   mark {
-    /* background-color: color-mix(in srgb, var(--color-link) 30%, transparent); */
-    background-color: var(--color-link);
-    color: var(--color-bg);
+    background-color: color-mix(in srgb, var(--color-link) 25%, transparent);
+    color: inherit;
   }
 }
 
 .linkA {
   display: block;
   font-size: 0.875rem;
-  text-decoration: none;
   color: color-mix(in srgb, var(--color-fg) 50%, transparent);
   vertical-align: bottom;
   overflow-wrap: anywhere;

@@ -1,12 +1,20 @@
+.wrapper {
+  padding: 2rlh 1rlh;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  box-shadow: inset 0 -1px 0 0 var(--color-border);
+}
+
 .list {
+  grid-column: 1 / -1;
   display: grid;
   gap: 0.5rlh;
   list-style: none;
-  margin-block-end: 2rlh;
-  padding: 1lh;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  background-color: var(--color-bg-content);
+
+  @media (width >= 1300px) {
+    grid-column: 2 / 3;
+  }
 }
 
 .item {

@@ -10,7 +10,7 @@ function DashboardCollectionInfo({
   const url = `${window.location.origin}/collection/${collection.id}`;
 
   return (
-    <section>
+    <section className={styles.wrapper}>
       <dl className={styles.list}>
         <div className={styles.item}>
           <dt className={styles.term}>Collection</dt>
