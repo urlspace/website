@@ -7,7 +7,6 @@ import DashboardButtonAction from "./DashboardButtonAction/DashboardButtonAction
 import DashboardButtonLink from "./DashboardButton/DashboardButtonLink.tsx";
 import DashboardCollectionInfo from "./DashboardCollectionInfo/DashboardCollectionInfo.tsx";
 import DashboardEmpty from "./DashboardEmpty/DashboardEmpty.tsx";
-import DashboardLink from "./DashboardLink/DashboardLink.tsx";
 import DashboardList from "./DashboardList/DashboardList.tsx";
 import DashboardMenu from "./DashboardMenu/DashboardMenu.tsx";
 import DashboardNav from "./DashboardNav/DashboardNav.tsx";
@@ -38,6 +37,7 @@ import SettingsListTokens from "./SettingsList/SettingsListTokens.tsx";
 import Stack from "./Stack/Stack.tsx";
 import Stats from "./Stats/Stats.tsx";
 import Truncate from "./Truncate/Truncate.tsx";
+import Link from "./Link/Link.tsx";
 import { Button, ButtonLink, ButtonLinkLike } from "./Button/Button.tsx";
 
 export {
@@ -53,7 +53,6 @@ export {
   DashboardButtonLink,
   DashboardCollectionInfo,
   DashboardEmpty,
-  DashboardLink,
   DashboardList,
   DashboardMenu,
   DashboardNav,
@@ -84,4 +83,5 @@ export {
   Stack,
   Stats,
   Truncate,
+  Link,
 };

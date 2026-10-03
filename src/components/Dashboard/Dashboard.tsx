@@ -10,6 +10,7 @@ function Dashboard({
   return <div className={styles.wrapper}>{children}</div>;
 }
 
+// header
 function DashboardHeader({ children }: { children: React.ReactNode }) {
   return <header className={styles.header}>{children}</header>;
 }
@@ -22,27 +23,41 @@ function DashboardHeaderSearch({ children }: { children: React.ReactNode }) {
   return <div className={styles.headerSearch}>{children}</div>;
 }
 
-function DashboardFiltersTrigger({ children }: { children: React.ReactNode }) {
+function DashboardHeaderFiltersTrigger({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return <div className={styles.headerTrigger}>{children}</div>;
 }
 
-function DashboardMain({ children }: { children: React.ReactNode }) {
-  return <main className={styles.main}>{children}</main>;
+// aside
+function Aside({ children }: { children: React.ReactNode }) {
+  return <aside className={styles.aside}>{children}</aside>;
 }
 
-function DashboardPills({ children }: { children: React.ReactNode }) {
+// main
+function DashboardMain({ children }: { children: React.ReactNode }) {
+  return <div className={styles.main}>{children}</div>;
+}
+
+function DashboardMainPills({ children }: { children: React.ReactNode }) {
   return <div className={styles.pills}>{children}</div>;
 }
 
-function DashboardPillsStats({ children }: { children: React.ReactNode }) {
+function DashboardMainPillsStats({ children }: { children: React.ReactNode }) {
   return <div className={styles.pillsStats}>{children}</div>;
 }
 
-function DashboardPillsContent({ children }: { children: React.ReactNode }) {
+function DashboardMainPillsContent({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return <div className={styles.pillsContent}>{children}</div>;
 }
 
-function DashboardPillsButton({ onClick }: { onClick: () => void }) {
+function DashboardMainPillsButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       className={styles.pillsButton}
@@ -54,19 +69,47 @@ function DashboardPillsButton({ onClick }: { onClick: () => void }) {
   );
 }
 
-function Aside({ children }: { children: React.ReactNode }) {
-  return <aside className={styles.aside}>{children}</aside>;
+function DashboardMainCritical({ errorMessage }: { errorMessage: string }) {
+  return (
+    <p className={styles.critical} role="alert">
+      {errorMessage}
+    </p>
+  );
+}
+
+function DashboardMainLinks({ children }: { children: React.ReactNode }) {
+  return (
+    <main className={styles.links} aria-labelledby="saved-links">
+      <h1 className="visually-hidden" id="saved-links">
+        Saved links
+      </h1>
+      {children}
+    </main>
+  );
+}
+
+function DashboardMainLinksList({ children }: { children: React.ReactNode }) {
+  return (
+    <ul className={styles.list} role="list">
+      {children}
+    </ul>
+  );
 }
 
 Dashboard.Header = DashboardHeader;
 Dashboard.HeaderActions = DashboardHeaderActions;
 Dashboard.HeaderSearch = DashboardHeaderSearch;
-Dashboard.HeaderTrigger = DashboardFiltersTrigger;
-Dashboard.Pills = DashboardPills;
-Dashboard.PillsStats = DashboardPillsStats;
-Dashboard.PillsContent = DashboardPillsContent;
-Dashboard.PillsButton = DashboardPillsButton;
-Dashboard.Main = DashboardMain;
+Dashboard.HeaderTrigger = DashboardHeaderFiltersTrigger;
+
 Dashboard.Aside = Aside;
+
+Dashboard.Main = DashboardMain;
+Dashboard.MainPills = DashboardMainPills;
+Dashboard.MainPillsStats = DashboardMainPillsStats;
+Dashboard.MainPillsContent = DashboardMainPillsContent;
+Dashboard.MainPillsButton = DashboardMainPillsButton;
+Dashboard.MainCritical = DashboardMainCritical;
+Dashboard.MainLinks = DashboardMainLinks;
+Dashboard.MainLinksList = DashboardMainLinksList;
 
 export default Dashboard;

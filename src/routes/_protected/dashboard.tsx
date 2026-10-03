@@ -28,6 +28,7 @@ import {
   Pills,
   Stack,
   Stats,
+  Link,
 } from "#/components/index.ts";
 import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
 import {
@@ -214,24 +215,10 @@ function PageDashboard() {
     },
   }));
 
-  const showPills = filterPills.length > 0;
-
   return (
     <Dashboard>
       <Dashboard.Header>
         <Logo to="/dashboard" />
-        <Dashboard.HeaderActions>
-          <DashboardButton
-            icon={<Icon.Plus />}
-            onClick={() => setIsAddLinkOpen(true)}
-            text="Add link"
-          />
-          <DashboardButton
-            icon={<Icon.Plus />}
-            onClick={() => setIsAddCollectionOpen(true)}
-            text="Add collection"
-          />
-        </Dashboard.HeaderActions>
         <Dashboard.HeaderSearch>
           <Form.SearchInput
             label="Search"
@@ -268,33 +255,19 @@ function PageDashboard() {
             />
           </Dashboard.HeaderTrigger>
         </Dashboard.HeaderSearch>
-      </Dashboard.Header>
-      <Dashboard.Pills>
-        <Dashboard.PillsStats>
-          <Stats
-            totalResults={totalResults}
-            totalPages={totalPages}
-            currentPage={currentPage}
-            linksResponse={linkResponseMs}
+        <Dashboard.HeaderActions>
+          <DashboardButton
+            icon={<Icon.Plus />}
+            onClick={() => setIsAddLinkOpen(true)}
+            text="Add link"
           />
-        </Dashboard.PillsStats>
-        {showPills ? (
-          <>
-            <Dashboard.PillsContent>
-              <Pills items={filterPills} noWrap />
-            </Dashboard.PillsContent>
-            <Dashboard.PillsButton
-              onClick={() => {
-                setFavourite(false);
-                setForLater(false);
-                setSelectedCollection(null);
-                setSelectedTags([]);
-                setPage(1);
-              }}
-            />
-          </>
-        ) : null}
-      </Dashboard.Pills>
+          <DashboardButton
+            icon={<Icon.Plus />}
+            onClick={() => setIsAddCollectionOpen(true)}
+            text="Add collection"
+          />
+        </Dashboard.HeaderActions>
+      </Dashboard.Header>
 
       <Dashboard.Aside>
         <DashboardNav
@@ -332,60 +305,86 @@ function PageDashboard() {
           tags={tags}
         />
       </Dashboard.Aside>
+
       <Dashboard.Main>
-        <h1 className="visually-hidden">Saved links</h1>
+        <Dashboard.MainPills>
+          <Dashboard.MainPillsStats>
+            <Stats
+              totalResults={totalResults}
+              totalPages={totalPages}
+              currentPage={currentPage}
+              linksResponse={linkResponseMs}
+            />
+          </Dashboard.MainPillsStats>
+          {filterPills.length > 0 ? (
+            <>
+              <Dashboard.MainPillsContent>
+                <Pills items={filterPills} noWrap />
+              </Dashboard.MainPillsContent>
+              <Dashboard.MainPillsButton
+                onClick={() => {
+                  setFavourite(false);
+                  setForLater(false);
+                  setSelectedCollection(null);
+                  setSelectedTags([]);
+                  setPage(1);
+                }}
+              />
+            </>
+          ) : null}
+        </Dashboard.MainPills>
+
         {signOutError ? (
-          <p
-            role="alert"
-            style={{
-              marginBlockEnd: "3rlh",
-            }}
-          >
-            {signOutError}
-          </p>
+          <Dashboard.MainCritical errorMessage={signOutError} />
         ) : null}
 
         {selectedCollectionObj ? (
           <DashboardCollectionInfo collection={selectedCollectionObj} />
         ) : null}
 
-        <section>
-          <Stack gap={2}>
-            {links.length ? (
-              links.map((link) => (
-                <DashboardLink
-                  key={link.id}
-                  link={link}
-                  loading={isPlaceholderData}
-                  query={debouncedQuery}
-                  onEdit={setEditingLink}
-                  onTagClick={(tagId) => {
-                    setFavourite(false);
-                    setForLater(false);
-                    setSelectedCollection(null);
-                    setSelectedTags([tagId]);
-                    setPage(1);
-                  }}
-                  onCollectionClick={(collectionId) => {
-                    setFavourite(false);
-                    setForLater(false);
-                    setSelectedCollection(collectionId);
-                    setSelectedTags([]);
-                    setPage(1);
-                  }}
-                />
-              ))
-            ) : (
-              <DashboardEmpty
-                newAccount={newAccount}
-                setIsAddLinkOpen={setIsAddLinkOpen}
-              />
-            )}
-          </Stack>
-        </section>
+        <Dashboard.MainLinks>
+          {links.length ? (
+            <Dashboard.MainLinksList>
+              {links.map((link) => (
+                <li key={link.id}>
+                  <Link
+                    link={link}
+                    loading={isPlaceholderData}
+                    query={debouncedQuery}
+                    onEdit={setEditingLink}
+                    onTagClick={(tagId) => {
+                      setFavourite(false);
+                      setForLater(false);
+                      setSelectedCollection(null);
+                      setSelectedTags([tagId]);
+                      setPage(1);
+                    }}
+                    onCollectionClick={(collectionId) => {
+                      setFavourite(false);
+                      setForLater(false);
+                      setSelectedCollection(collectionId);
+                      setSelectedTags([]);
+                      setPage(1);
+                    }}
+                  />
+                </li>
+              ))}
+            </Dashboard.MainLinksList>
+          ) : (
+            <DashboardEmpty
+              newAccount={newAccount}
+              setIsAddLinkOpen={setIsAddLinkOpen}
+            />
+          )}
+        </Dashboard.MainLinks>
 
         {totalPages && totalPages > 1 ? (
-          <nav aria-label="Pagination">
+          <nav
+            aria-label="Pagination"
+            style={{
+              gridColumn: "1 / -1",
+            }}
+          >
             <Stack direction="row" spaceBetween alignCenter>
               {page > 1 ? (
                 <Button
