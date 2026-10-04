@@ -1,4 +1,3 @@
-import CollectionLink from "./CollctionLink/CollectionLink.tsx";
 import CopyBox from "./CopyBox/CopyBox.tsx";
 import Dashboard from "./Dashboard/Dashboard.tsx";
 import DashboardAccordion from "./DashboardAccordion/DashboardAccordion.tsx";
@@ -38,13 +37,13 @@ import Stack from "./Stack/Stack.tsx";
 import Stats from "./Stats/Stats.tsx";
 import Truncate from "./Truncate/Truncate.tsx";
 import LinkCard from "./LinkCard/LinkCard.tsx";
+import LinkCardSlim from "./LinkCard/LinkCardSlim.tsx";
 import { Button, ButtonLink, ButtonLinkLike } from "./Button/Button.tsx";
 
 export {
   Button,
   ButtonLink,
   ButtonLinkLike,
-  CollectionLink,
   CopyBox,
   Dashboard,
   DashboardAccordion,
@@ -84,4 +83,5 @@ export {
   Stats,
   Truncate,
   LinkCard,
+  LinkCardSlim,
 };

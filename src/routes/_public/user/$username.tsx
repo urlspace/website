@@ -1,15 +1,14 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import React from "react";
-import styles from "#/components/CollctionLink/CollectionLink.module.css";
 import {
 	ButtonLink,
 	DashboardButton,
 	Heading,
 	Icon,
+	LinkCardSlim,
 	Stack,
 } from "#/components/index.ts";
 import { getPublicUser } from "#/queries/user.ts";
-import { formatDate } from "#/utils.ts";
 
 type Layout = "list" | "masonry";
 const layoutStorageKey = "public-collection-layout";
@@ -121,37 +120,14 @@ function PagePublicUser() {
 		) : (
 			user.collections.map((collection) => (
 				<div key={collection.id}>
-					<article
-						className={styles.link}
-						aria-labelledby={`collection-${collection.id}`}
-					>
-						<div>
-							<Link
-								to="/collection/$collectionId"
-								params={{ collectionId: collection.id }}
-								className={styles.container}
-							>
-								<h3 id={`collection-${collection.id}`} className={styles.title}>
-									{collection.name}
-								</h3>
-							</Link>
-						</div>
-						{collection.description.length > 0 ? (
-							<p>{collection.description}</p>
-						) : null}
-						<div className={styles.meta}>
-							<dl>
-								<div className={styles.metaItem}>
-									<dt>{"Added: "}</dt>
-									<dd>
-										<time dateTime={collection.createdAt}>
-											{formatDate(collection.createdAt)}
-										</time>
-									</dd>
-								</div>
-							</dl>
-						</div>
-					</article>
+					<LinkCardSlim
+						id={`collection-${collection.id}`}
+						title={collection.name}
+						description={collection.description}
+						createdAt={collection.createdAt}
+						url={`/collection/${collection.id}`}
+						internal
+					/>
 				</div>
 			))
 		);

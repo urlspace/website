@@ -14,11 +14,11 @@ import { formatDate } from "#/utils.ts";
 import {
   Button,
   ButtonLink,
-  CollectionLink,
   DashboardButton,
   DashboardButtonLink,
   Heading,
   Icon,
+  LinkCardSlim,
   Stack,
 } from "#/components/index.ts";
 import React from "react";
@@ -287,8 +287,8 @@ function PagePublicCollection() {
               <p>No links yet.</p>
             ) : (
               collection.links.map((link) => (
-                <div>
-                  <CollectionLink
+                <div key={link.id}>
+                  <LinkCardSlim
                     title={link.title}
                     description={link.description}
                     id={link.id}
@@ -313,7 +313,7 @@ function PagePublicCollection() {
                 <p>No links yet.</p>
               ) : (
                 collection.links.map((link) => (
-                  <CollectionLink
+                  <LinkCardSlim
                     key={link.id}
                     title={link.title}
                     description={link.description}
