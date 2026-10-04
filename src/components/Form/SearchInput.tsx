@@ -61,6 +61,7 @@ function SearchInput({
   favourite,
   forLater,
   label,
+  onEnter,
   onFavouriteChange,
   onForLaterChange,
   onSelectedCollectionChange,
@@ -75,6 +76,7 @@ function SearchInput({
   favourite: boolean;
   forLater: boolean;
   label: string;
+  onEnter: () => void;
   onFavouriteChange: React.Dispatch<React.SetStateAction<boolean>>;
   onForLaterChange: React.Dispatch<React.SetStateAction<boolean>>;
   onSelectedCollectionChange: React.Dispatch<
@@ -230,6 +232,12 @@ function SearchInput({
               className: styles.searchInput,
               placeholder,
               "aria-keyshortcuts": "/",
+              onKeyDown: (e) => {
+                if (e.key !== "Enter" || isOpen || e.nativeEvent.isComposing)
+                  return;
+                e.preventDefault();
+                onEnter();
+              },
             })}
           />
           {rawInput === "" ? (

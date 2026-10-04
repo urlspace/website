@@ -77,9 +77,15 @@ function DashboardMainCritical({ errorMessage }: { errorMessage: string }) {
   );
 }
 
-function DashboardMainLinks({ children }: { children: React.ReactNode }) {
+function DashboardMainLinks({
+  children,
+  ref,
+}: {
+  children: React.ReactNode;
+  ref?: React.Ref<HTMLElement>;
+}) {
   return (
-    <main className={styles.links} aria-labelledby="saved-links">
+    <main ref={ref} className={styles.links} aria-labelledby="saved-links">
       <h1 className="visually-hidden" id="saved-links">
         Saved links
       </h1>

@@ -94,6 +94,9 @@ function PageDashboard() {
     linksQueryOptions(filters),
   );
   const links = linksResponse?.data ?? [];
+
+  const linksRef = useRef<HTMLElement>(null);
+
   const totalResults = linksResponse?.pagination.totalCount;
   const currentPage = linksResponse?.pagination.currentPage;
   const totalPages = linksResponse?.pagination.totalPages;
@@ -225,6 +228,16 @@ function PageDashboard() {
             placeholder="Search for..."
             value={value}
             onValueChange={setValue}
+            onEnter={() => {
+              // Enter jumps from search straight to the first result, skipping
+              // the sidebar in tab order. Ignored while a search is in flight
+              // (debounce pending or placeholder data shown), otherwise focus
+              // would land on a stale result that unmounts when data arrives.
+              if (debouncedQuery !== value || isPlaceholderData) return;
+              linksRef.current
+                ?.querySelector<HTMLElement>("li a[href]")
+                ?.focus();
+            }}
             tags={tags}
             collections={collections}
             selectedTags={selectedTags}
@@ -342,7 +355,7 @@ function PageDashboard() {
           <DashboardCollectionInfo collection={selectedCollectionObj} />
         ) : null}
 
-        <Dashboard.MainLinks>
+        <Dashboard.MainLinks ref={linksRef}>
           {links.length ? (
             <Dashboard.MainLinksList>
               {links.map((link) => (
