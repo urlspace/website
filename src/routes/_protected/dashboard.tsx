@@ -28,7 +28,7 @@ import {
   Pills,
   Stack,
   Stats,
-  Link,
+  LinkCard,
 } from "#/components/index.ts";
 import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
 import {
@@ -347,7 +347,7 @@ function PageDashboard() {
             <Dashboard.MainLinksList>
               {links.map((link) => (
                 <li key={link.id}>
-                  <Link
+                  <LinkCard
                     link={link}
                     loading={isPlaceholderData}
                     query={debouncedQuery}

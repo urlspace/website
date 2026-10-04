@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { linksQueryKey } from "#/queries/links.ts";
 import { formatDate } from "#/utils.ts";
 import { DashboardButtonAction, DashboardMenu } from "..";
-import styles from "./Link.module.css";
+import styles from "./LinkCard.module.css";
 
 function highlight(text: string, query: string): React.ReactNode {
   const needle = query.trim();
@@ -37,7 +37,7 @@ type LinkRow = {
   updatedAt: string;
 };
 
-function Link({
+function LinkCard({
   link,
   onTagClick,
   onCollectionClick,
@@ -115,7 +115,17 @@ function Link({
 
   const isPending = updateLink.isPending || deleteLink.isPending || loading;
 
-  const { collection, id, url, title, description, createdAt } = link;
+  const {
+    collection,
+    id,
+    url,
+    title,
+    description,
+    createdAt,
+    tags,
+    favourite,
+    forLater,
+  } = link;
 
   return (
     <article
@@ -136,7 +146,7 @@ function Link({
             {highlight(title, query)}
           </a>
         </h2>
-        <p className={styles.linkA}>{url}</p>
+        <p className={styles.url}>{url}</p>
       </div>
 
       {description.length > 0 ? <p>{description}</p> : null}
@@ -157,8 +167,12 @@ function Link({
                 <button
                   type="button"
                   className={styles.metaButton}
-                  disabled={isPending}
-                  onClick={() => onCollectionClick(collection.id)}
+                  aria-disabled={isPending || undefined}
+                  onClick={
+                    isPending
+                      ? undefined
+                      : () => onCollectionClick(collection.id)
+                  }
                 >
                   {collection.name}
                 </button>
@@ -166,18 +180,20 @@ function Link({
             </div>
           ) : null}
 
-          {link.tags.length > 0 ? (
+          {tags.length > 0 ? (
             <div className={styles.metaItem}>
               <dt>{"Tags: "}</dt>
               <dd>
                 <ul className={styles.tags}>
-                  {link.tags.map((tag) => (
+                  {tags.map((tag) => (
                     <li key={tag.id} className={styles.tag}>
                       <button
                         type="button"
                         className={styles.metaButton}
-                        disabled={isPending}
-                        onClick={() => onTagClick(tag.id)}
+                        aria-disabled={isPending || undefined}
+                        onClick={
+                          isPending ? undefined : () => onTagClick(tag.id)
+                        }
                       >
                         {`#${tag.name}`}
                       </button>
@@ -192,26 +208,26 @@ function Link({
         <DashboardMenu>
           <DashboardMenu.Li>
             <DashboardButtonAction
-              ariaPressed={link.favourite}
-              ariaLabel={`Favourite: ${link.title}`}
+              ariaPressed={favourite}
+              ariaLabel={`Favourite "${title}"`}
               disabled={isPending}
-              onClick={() => updateLink.mutate({ favourite: !link.favourite })}
+              onClick={() => updateLink.mutate({ favourite: !favourite })}
               text="Favourite"
             />
           </DashboardMenu.Li>
           <DashboardMenu.Li>
             <DashboardButtonAction
-              ariaPressed={link.forLater}
-              ariaLabel={`For later: ${link.title}`}
+              ariaPressed={forLater}
+              ariaLabel={`For later "${title}"`}
               disabled={isPending}
-              onClick={() => updateLink.mutate({ forLater: !link.forLater })}
+              onClick={() => updateLink.mutate({ forLater: !forLater })}
               text="For later"
             />
           </DashboardMenu.Li>
           <DashboardMenu.Li>
             <DashboardButtonAction
               text="Edit"
-              ariaLabel={`Edit ${link.title}`}
+              ariaLabel={`Edit "${title}"`}
               disabled={isPending}
               onClick={() => onEdit(link)}
             />
@@ -219,7 +235,7 @@ function Link({
           <DashboardMenu.Li>
             <DashboardButtonAction
               text="Delete"
-              ariaLabel={`Delete ${link.title}`}
+              ariaLabel={`Delete "${title}"`}
               disabled={isPending}
               onClick={() => deleteLink.mutate()}
               destructive
@@ -231,4 +247,4 @@ function Link({
   );
 }
 
-export default Link;
+export default LinkCard;
