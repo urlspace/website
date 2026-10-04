@@ -97,6 +97,17 @@ function PageDashboard() {
 
   const linksRef = useRef<HTMLElement>(null);
 
+  // Used by Enter in search and the "Skip to results" link to jump straight to
+  // the first result, skipping the sidebar in tab order. Ignored while a search
+  // is in flight (debounce pending or placeholder data shown), otherwise focus
+  // would land on a stale result that unmounts when data arrives.
+  function focusFirstResult() {
+    if (debouncedQuery !== value || isPlaceholderData) {
+      return;
+    }
+    linksRef.current?.querySelector<HTMLElement>("li a[href]")?.focus();
+  }
+
   // j/k move focus between link card titles (Gmail/GitHub style). Arrows are
   // left alone so they keep scrolling the page. Ignored while typing and when
   // a modifier is held, so browser shortcuts like Ctrl+K keep working.
@@ -266,18 +277,7 @@ function PageDashboard() {
             placeholder="Search for..."
             value={value}
             onValueChange={setValue}
-            onEnter={() => {
-              // Enter jumps from search straight to the first result, skipping
-              // the sidebar in tab order. Ignored while a search is in flight
-              // (debounce pending or placeholder data shown), otherwise focus
-              // would land on a stale result that unmounts when data arrives.
-              if (debouncedQuery !== value || isPlaceholderData) {
-                return;
-              }
-              linksRef.current
-                ?.querySelector<HTMLElement>("li a[href]")
-                ?.focus();
-            }}
+            onEnter={focusFirstResult}
             tags={tags}
             collections={collections}
             selectedTags={selectedTags}
@@ -300,6 +300,7 @@ function PageDashboard() {
               setPage(1);
             }}
           />
+          <Dashboard.HeaderSkipButton onClick={focusFirstResult} />
           <Dashboard.HeaderTrigger>
             <DashboardButton
               icon={<Icon.Filter />}
