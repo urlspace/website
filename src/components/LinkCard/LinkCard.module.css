@@ -100,6 +100,11 @@
 .tag {
   display: inline;
 
+  > button::before {
+    content: "#";
+    content: "#" / "";
+  }
+
   &::after {
     content: " ";
     white-space: pre;

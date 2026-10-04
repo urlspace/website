@@ -165,7 +165,7 @@ function LinkCard({
             <div className={styles.metaItem}>
               <dt>{"Tags: "}</dt>
               <dd>
-                <ul className={styles.tags}>
+                <ul className={styles.tags} role="list">
                   {tags.map((tag) => (
                     <li key={tag.id} className={styles.tag}>
                       <button
@@ -176,7 +176,7 @@ function LinkCard({
                           isPending ? undefined : () => onTagClick(tag.id)
                         }
                       >
-                        {`#${tag.name}`}
+                        {tag.name}
                       </button>
                     </li>
                   ))}
