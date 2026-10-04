@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { linksQueryKey } from "#/queries/links.ts";
+import { type LinkRow, linksQueryKey } from "#/queries/links.ts";
 import { formatDate } from "#/utils.ts";
 import { DashboardButtonAction, DashboardMenu } from "..";
 import styles from "./LinkCard.module.css";
@@ -17,25 +17,6 @@ function highlight(text: string, query: string): React.ReactNode {
     i % 2 === 1 ? <mark key={i}>{part}</mark> : part,
   );
 }
-
-type LinkRow = {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  tags: Array<{
-    id: string;
-    name: string;
-  }>;
-  collection: {
-    id: string;
-    name: string;
-  } | null;
-  favourite: boolean;
-  forLater: boolean;
-  createdAt: string;
-  updatedAt: string;
-};
 
 function LinkCard({
   link,
