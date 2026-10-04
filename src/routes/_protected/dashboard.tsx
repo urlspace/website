@@ -97,6 +97,44 @@ function PageDashboard() {
 
   const linksRef = useRef<HTMLElement>(null);
 
+  // j/k move focus between link card titles (Gmail/GitHub style). Arrows are
+  // left alone so they keep scrolling the page. Ignored while typing and when
+  // a modifier is held, so browser shortcuts like Ctrl+K keep working.
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key !== "j" && e.key !== "k") {
+        return;
+      }
+      if (e.ctrlKey || e.metaKey || e.altKey) {
+        return;
+      }
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT" ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+      const titles = [
+        ...(linksRef.current?.querySelectorAll<HTMLElement>("article h2 a") ??
+          []),
+      ];
+      if (!titles.length) {
+        return;
+      }
+      const current = titles.findIndex((a) =>
+        a.closest("article")?.contains(target),
+      );
+      const next = current === -1 ? 0 : current + (e.key === "j" ? 1 : -1);
+      e.preventDefault();
+      titles[Math.max(0, Math.min(next, titles.length - 1))].focus();
+    }
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
+
   const totalResults = linksResponse?.pagination.totalCount;
   const currentPage = linksResponse?.pagination.currentPage;
   const totalPages = linksResponse?.pagination.totalPages;
@@ -233,7 +271,9 @@ function PageDashboard() {
               // the sidebar in tab order. Ignored while a search is in flight
               // (debounce pending or placeholder data shown), otherwise focus
               // would land on a stale result that unmounts when data arrives.
-              if (debouncedQuery !== value || isPlaceholderData) return;
+              if (debouncedQuery !== value || isPlaceholderData) {
+                return;
+              }
               linksRef.current
                 ?.querySelector<HTMLElement>("li a[href]")
                 ?.focus();
