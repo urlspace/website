@@ -9,7 +9,7 @@
   vertical-align: top;
   text-wrap: nowrap;
 
-  &:hover {
+  &:hover:not([aria-disabled="true"]) {
     @media (hover: hover) and (pointer: fine) {
       color: var(--color-link);
       text-decoration-line: underline;
@@ -22,13 +22,17 @@
     border-radius: var(--radius);
   }
 
+  &[aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
   &[aria-pressed="true"] {
     text-decoration-line: underline;
     font-weight: 500;
   }
 }
 
-.destructive:hover {
+.destructive:hover:not([aria-disabled="true"]) {
   @media (hover: hover) and (pointer: fine) {
     color: light-dark(oklch(51.4% 0.222 16.935), oklch(71.2% 0.194 13.428));
   }

@@ -21,8 +21,8 @@ function DashboardButtonAction({
 			className={[styles.button, destructive ? styles.destructive : null]
 				.filter(Boolean)
 				.join(" ")}
-			onClick={onClick}
-			disabled={disabled}
+			onClick={disabled ? undefined : onClick}
+			aria-disabled={disabled || undefined}
 			aria-pressed={ariaPressed}
 			aria-label={ariaLabel}
 		>
