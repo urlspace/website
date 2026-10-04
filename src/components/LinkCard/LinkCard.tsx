@@ -130,7 +130,7 @@ function LinkCard({
         <p className={styles.url}>{url}</p>
       </div>
 
-      {description.length > 0 ? <p>{description}</p> : null}
+      {description.trim().length > 0 ? <p>{description}</p> : null}
 
       <div className={styles.meta}>
         <dl>
