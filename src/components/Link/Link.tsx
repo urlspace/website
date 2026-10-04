@@ -46,7 +46,7 @@ function Link({
   query,
 }: {
   link: LinkRow;
-  onTagClick: (tag: string) => void;
+  onTagClick: (tagId: string) => void;
   onCollectionClick: (collectionId: string) => void;
   onEdit: (link: LinkRow) => void;
   loading: boolean;
@@ -115,43 +115,38 @@ function Link({
 
   const isPending = updateLink.isPending || deleteLink.isPending || loading;
 
-  // im not destructuring other props because im lazy,
-  // this is needed to avoid a type error because
-  // narrowing doesn't survive across function boundaries
-  const { collection } = link;
+  const { collection, id, url, title, description, createdAt } = link;
 
   return (
     <article
       className={[styles.link, isPending && styles.linkLoading]
         .filter(Boolean)
         .join(" ")}
-      aria-labelledby={link.id}
+      aria-labelledby={id}
       aria-busy={isPending || undefined}
     >
       <div>
-        <h2 id={link.id} className={styles.title}>
+        <h2 id={id} className={styles.title}>
           <a
-            href={link.url}
+            href={url}
             target="_blank"
             rel="noreferrer"
             aria-description="Opens in a new tab"
           >
-            {highlight(link.title, query)}
+            {highlight(title, query)}
           </a>
         </h2>
-        <p className={styles.linkA}>{link.url}</p>
+        <p className={styles.linkA}>{url}</p>
       </div>
 
-      {link.description.length > 0 ? <p>{link.description}</p> : null}
+      {description.length > 0 ? <p>{description}</p> : null}
 
       <div className={styles.meta}>
         <dl>
           <div className={styles.metaItem}>
             <dt>{"Added: "}</dt>
             <dd>
-              <time dateTime={link.createdAt}>
-                {formatDate(link.createdAt)}
-              </time>
+              <time dateTime={createdAt}>{formatDate(createdAt)}</time>
             </dd>
           </div>
 
