@@ -35,7 +35,6 @@ import SettingsListSessions from "./SettingsList/SettingsListSessions.tsx";
 import SettingsListTokens from "./SettingsList/SettingsListTokens.tsx";
 import Stack from "./Stack/Stack.tsx";
 import Stats from "./Stats/Stats.tsx";
-import Truncate from "./Truncate/Truncate.tsx";
 import LinkCard from "./LinkCard/LinkCard.tsx";
 import LinkCardSlim from "./LinkCard/LinkCardSlim.tsx";
 import { Button, ButtonLink, ButtonLinkLike } from "./Button/Button.tsx";
@@ -81,7 +80,6 @@ export {
   SettingsListTokens,
   Stack,
   Stats,
-  Truncate,
   LinkCard,
   LinkCardSlim,
 };
