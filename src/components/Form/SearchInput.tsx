@@ -233,8 +233,9 @@ function SearchInput({
               placeholder,
               "aria-keyshortcuts": "/",
               onKeyDown: (e) => {
-                if (e.key !== "Enter" || isOpen || e.nativeEvent.isComposing)
+                if (e.key !== "Enter" || isOpen || e.nativeEvent.isComposing) {
                   return;
+                }
                 e.preventDefault();
                 onEnter();
               },
