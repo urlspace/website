@@ -228,6 +228,15 @@ function SearchInput({
               className: styles.searchInput,
               placeholder,
               "aria-keyshortcuts": "/",
+              // Downshift sets aria-activedescendant="" when nothing is
+              // highlighted, and keeps pointing at item 0 (defaultHighlightedIndex)
+              // even when the list is empty. Empty or dangling IDREFs are invalid
+              // ARIA and screen readers handle them inconsistently, so drop the
+              // attribute unless it points at a rendered option. Only override
+              // in that case, otherwise the valid id from Downshift is wiped out.
+              ...(isOpen && highlightedIndex > -1 && highlightedIndex < items.length
+                ? {}
+                : { "aria-activedescendant": undefined }),
               onChange: (e) => {
                 setEscapeClosed(false);
                 updateRawAndValue(e.currentTarget.value);
