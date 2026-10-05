@@ -214,7 +214,7 @@ function SearchInput({
     });
 
   return (
-    <div className={styles.field}>
+    <search className={styles.field}>
       <label {...getLabelProps({ className: styles.visuallyHidden })}>
         {label}
       </label>
@@ -287,7 +287,7 @@ function SearchInput({
             : null}
         </ul>
       </div>
-    </div>
+    </search>
   );
 }
 
