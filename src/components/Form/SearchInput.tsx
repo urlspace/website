@@ -173,6 +173,7 @@ function SearchInput({
   function clearSearch() {
     updateRawAndValue("");
     setEscapeClosed(false);
+    document.getElementById(inputId)?.focus();
   }
 
   const {
