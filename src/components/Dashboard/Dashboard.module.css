@@ -29,10 +29,10 @@
 
 /* this is the height of the header + pills, used to set the scroll-padding-top */
 :global(html):has(.wrapper) {
-  scroll-padding-top: 5rlh;
+  scroll-padding-top: 6rlh;
 
   @media (height >= 600px) {
-    scroll-padding-top: 8rlh;
+    scroll-padding-top: 9rlh;
   }
 }
 

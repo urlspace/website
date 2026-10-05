@@ -14,12 +14,18 @@
     transition: none;
   }
 
-  &:has(.title a:focus-visible) {
-    background-color: color-mix(
-      in srgb,
-      var(--color-link) 9%,
-      var(--color-bg-content)
-    );
+  @media (any-pointer: fine) {
+    &:has(.title a:focus-visible) {
+      background-color: color-mix(
+        in srgb,
+        var(--color-link) 10%,
+        var(--color-bg-content)
+      );
+
+      @media (prefers-contrast: more) {
+        outline: 2px solid var(--color-link);
+      }
+    }
   }
 }
 
