@@ -72,6 +72,15 @@ function DashboardNav({
   const [editModeCollections, setEditModeCollections] = useState(false);
   const [editModeTags, setEditModeTags] = useState(false);
 
+  function focusTargetAfterDelete(button: HTMLElement) {
+    const item = button.closest("menu")?.closest("li");
+    const sibling = item?.nextElementSibling ?? item?.previousElementSibling;
+    return (
+      sibling?.querySelector<HTMLElement>("button") ??
+      item?.closest("details")?.querySelector<HTMLElement>("summary")
+    );
+  }
+
   const deleteCollection = useMutation({
     mutationFn: async (id: string) => {
       const res = await fetch(
@@ -214,7 +223,14 @@ function DashboardNav({
                           <DashboardButtonAction
                             text="Delete"
                             ariaLabel={`Delete collection "${c.name}"`}
-                            onClick={() => deleteCollection.mutate(c.id)}
+                            onClick={(e) => {
+                              const target = focusTargetAfterDelete(
+                                e.currentTarget,
+                              );
+                              deleteCollection.mutate(c.id, {
+                                onSuccess: () => target?.focus(),
+                              });
+                            }}
                             destructive
                           />
                         </DashboardMenu.Li>
@@ -267,7 +283,14 @@ function DashboardNav({
                           <DashboardButtonAction
                             text="Delete"
                             ariaLabel={`Delete collection "${c.name}"`}
-                            onClick={() => deleteCollection.mutate(c.id)}
+                            onClick={(e) => {
+                              const target = focusTargetAfterDelete(
+                                e.currentTarget,
+                              );
+                              deleteCollection.mutate(c.id, {
+                                onSuccess: () => target?.focus(),
+                              });
+                            }}
                             destructive
                           />
                         </DashboardMenu.Li>
@@ -338,7 +361,14 @@ function DashboardNav({
                           <DashboardButtonAction
                             text="Delete"
                             ariaLabel={`Delete tag "${t.name}"`}
-                            onClick={() => deleteTag.mutate(t.id)}
+                            onClick={(e) => {
+                              const target = focusTargetAfterDelete(
+                                e.currentTarget,
+                              );
+                              deleteTag.mutate(t.id, {
+                                onSuccess: () => target?.focus(),
+                              });
+                            }}
                             destructive
                           />
                         </DashboardMenu.Li>

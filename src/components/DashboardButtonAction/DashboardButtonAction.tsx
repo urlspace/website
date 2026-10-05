@@ -11,7 +11,7 @@ function DashboardButtonAction({
 	ariaPressed?: boolean;
 	ariaLabel?: string;
 	text: string;
-	onClick: () => void;
+	onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 	destructive?: boolean;
 	disabled?: boolean;
 }) {
