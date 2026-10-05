@@ -40,6 +40,7 @@ function DashboardNav({
   handleClearCache,
   handleSignOut,
   onEditCollection,
+  onError,
   onRenameTag,
   selectedCollection,
   selectedTags,
@@ -57,6 +58,7 @@ function DashboardNav({
   handleClearCache: () => void;
   handleSignOut: () => void;
   onEditCollection: (collection: CollectionRow) => void;
+  onError: (message: string | null) => void;
   onRenameTag: (tag: TagRow) => void;
   selectedCollection: string | null;
   selectedTags: string[];
@@ -229,8 +231,13 @@ function DashboardNav({
                                   const target = focusTargetAfterDelete(
                                     e.currentTarget,
                                   );
+                                  onError(null);
                                   deleteCollection.mutate(c.id, {
                                     onSuccess: () => target?.focus(),
+                                    onError: () =>
+                                      onError(
+                                        `We couldn't delete collection "${c.name}". Please try again.`,
+                                      ),
                                   });
                                 }}
                                 destructive
@@ -293,8 +300,13 @@ function DashboardNav({
                                   const target = focusTargetAfterDelete(
                                     e.currentTarget,
                                   );
+                                  onError(null);
                                   deleteCollection.mutate(c.id, {
                                     onSuccess: () => target?.focus(),
+                                    onError: () =>
+                                      onError(
+                                        `We couldn't delete collection "${c.name}". Please try again.`,
+                                      ),
                                   });
                                 }}
                                 destructive
@@ -374,8 +386,13 @@ function DashboardNav({
                                 const target = focusTargetAfterDelete(
                                   e.currentTarget,
                                 );
+                                onError(null);
                                 deleteTag.mutate(t.id, {
                                   onSuccess: () => target?.focus(),
+                                  onError: () =>
+                                    onError(
+                                      `We couldn't delete tag "${t.name}". Please try again.`,
+                                    ),
                                 });
                               }}
                               destructive

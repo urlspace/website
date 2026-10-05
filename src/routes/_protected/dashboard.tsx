@@ -190,12 +190,12 @@ function PageDashboard() {
     useState<CollectionRow | null>(null);
   const [renamingTag, setRenamingTag] = useState<TagRow | null>(null);
   const signingOut = useRef(false);
-  const [signOutError, setSignOutError] = useState<string | null>(null);
+  const [criticalError, setCriticalError] = useState<string | null>(null);
 
   async function handleSignOut() {
     if (signingOut.current) return;
     signingOut.current = true;
-    setSignOutError(null);
+    setCriticalError(null);
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signout`, {
@@ -204,7 +204,7 @@ function PageDashboard() {
       });
 
       if (!res.ok && res.status !== 401) {
-        setSignOutError("We couldn't sign you out. Please try again.");
+        setCriticalError("We couldn't sign you out. Please try again.");
         return;
       }
 
@@ -214,7 +214,7 @@ function PageDashboard() {
       await router.invalidate();
       await router.navigate({ to: "/auth/signin", replace: true });
     } catch {
-      setSignOutError("We couldn't finish signing you out. Please try again.");
+      setCriticalError("We couldn't finish signing you out. Please try again.");
     } finally {
       signingOut.current = false;
     }
@@ -330,6 +330,7 @@ function PageDashboard() {
           forLater={forLater}
           handleClearCache={handleClearCache}
           handleSignOut={handleSignOut}
+          onError={setCriticalError}
           onEditCollection={setEditingCollection}
           onRenameTag={setRenamingTag}
           selectedCollection={selectedCollection}
@@ -388,8 +389,8 @@ function PageDashboard() {
           ) : null}
         </Dashboard.MainPills>
 
-        {signOutError ? (
-          <Dashboard.MainCritical errorMessage={signOutError} />
+        {criticalError ? (
+          <Dashboard.MainCritical errorMessage={criticalError} />
         ) : null}
 
         {selectedCollectionObj ? (
@@ -473,6 +474,7 @@ function PageDashboard() {
           forLater={forLater}
           handleClearCache={handleClearCache}
           handleSignOut={handleSignOut}
+          onError={setCriticalError}
           onEditCollection={setEditingCollection}
           onRenameTag={setRenamingTag}
           selectedCollection={selectedCollection}
