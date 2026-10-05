@@ -141,7 +141,7 @@ function DashboardNav({
     <div className={styles.nav}>
       <Stack gap={1.5}>
         <Stack gap={0.5}>
-          <DashboardList>
+          <DashboardList ariaLabel="Quick filters">
             <DashboardList.Li>
               <DashboardButton
                 icon={<Icon.List />}
@@ -324,7 +324,7 @@ function DashboardNav({
         {tags.length ? (
           <DashboardAccordion summary="Tags">
             <Stack gap={0.5}>
-              <DashboardList>
+              <DashboardList ariaLabel="Tags">
                 {tags.map((t, index, arr) => {
                   const isDeleting =
                     deleteTag.isPending && deleteTag.variables === t.id;
@@ -395,7 +395,7 @@ function DashboardNav({
             </Stack>
           </DashboardAccordion>
         ) : null}
-        <DashboardList>
+        <DashboardList ariaLabel="Account">
           <DashboardList.Li>
             <DashboardButtonLink
               icon={<Icon.User />}
