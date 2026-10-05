@@ -3,7 +3,24 @@
   flex-direction: column;
   gap: 0.5lh;
   min-width: 0;
-  transition: opacity 60ms ease;
+  margin: -1rlh;
+  padding: 1rlh;
+  border-radius: var(--radius);
+  transition:
+    opacity 60ms ease,
+    background-color var(--transition-duration) ease;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &:has(.title a:focus-visible) {
+    background-color: color-mix(
+      in srgb,
+      var(--color-link) 9%,
+      var(--color-bg-content)
+    );
+  }
 }
 
 .linkLoading {
@@ -18,9 +35,7 @@
     font-weight: 700;
 
     &:focus-visible {
-      outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
-      outline-offset: 2px;
-      border-radius: var(--radius);
+      outline: none;
     }
   }
 
