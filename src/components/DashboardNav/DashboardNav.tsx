@@ -206,12 +206,14 @@ function DashboardNav({
                         <DashboardMenu.Li>
                           <DashboardButtonAction
                             text="Edit"
+                            ariaLabel={`Edit collection "${c.name}"`}
                             onClick={() => onEditCollection(c)}
                           />
                         </DashboardMenu.Li>
                         <DashboardMenu.Li>
                           <DashboardButtonAction
                             text="Delete"
+                            ariaLabel={`Delete collection "${c.name}"`}
                             onClick={() => deleteCollection.mutate(c.id)}
                             destructive
                           />
@@ -257,12 +259,14 @@ function DashboardNav({
                         <DashboardMenu.Li>
                           <DashboardButtonAction
                             text="Edit"
+                            ariaLabel={`Edit collection "${c.name}"`}
                             onClick={() => onEditCollection(c)}
                           />
                         </DashboardMenu.Li>
                         <DashboardMenu.Li>
                           <DashboardButtonAction
                             text="Delete"
+                            ariaLabel={`Delete collection "${c.name}"`}
                             onClick={() => deleteCollection.mutate(c.id)}
                             destructive
                           />
@@ -326,12 +330,14 @@ function DashboardNav({
                         <DashboardMenu.Li>
                           <DashboardButtonAction
                             text="Rename"
+                            ariaLabel={`Rename tag "${t.name}"`}
                             onClick={() => onRenameTag(t)}
                           />
                         </DashboardMenu.Li>
                         <DashboardMenu.Li>
                           <DashboardButtonAction
                             text="Delete"
+                            ariaLabel={`Delete tag "${t.name}"`}
                             onClick={() => deleteTag.mutate(t.id)}
                             destructive
                           />
