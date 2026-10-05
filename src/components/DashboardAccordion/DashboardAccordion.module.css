@@ -11,4 +11,17 @@
     outline-offset: 2px;
     border-radius: var(--radius);
   }
+
+  & svg {
+    transition: rotate var(--transition-duration);
+    transition-timing-function: cubic-bezier(0.36, 0, 0.64, 1);
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  details:not([open]) > & svg {
+    rotate: -90deg;
+  }
 }

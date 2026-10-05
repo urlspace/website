@@ -12,7 +12,7 @@ function DashbrardAccordtion({
     <details open>
       <summary className={styles.summary}>
         {summary}
-        <Icon.Expand />
+        <Icon.ChevronDown />
       </summary>
       {children}
     </details>

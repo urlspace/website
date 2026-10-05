@@ -75,11 +75,10 @@ function IconsCoffee() {
   );
 }
 
-function IconsExpand() {
+function IconsChevronDown() {
   return (
     <IconBase>
-      <path d="m7 15 5 5 5-5" />
-      <path d="m7 9 5-5 5 5" />
+      <path d="m6 9 6 6 6-6" />
     </IconBase>
   );
 }
@@ -252,7 +251,7 @@ Icon.Edit = IconsEdit;
 Icon.List = IconsList;
 Icon.Heart = IconsHeart;
 Icon.Coffee = IconsCoffee;
-Icon.Expand = IconsExpand;
+Icon.ChevronDown = IconsChevronDown;
 Icon.Folder = IconsFolder;
 Icon.FolderPublic = IconsFolderPublic;
 Icon.Tag = IconsTag;
