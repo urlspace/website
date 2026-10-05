@@ -24,7 +24,13 @@ function DashbrardButton({
       <span className={styles.text}>
         {text}{" "}
         {counter || counter === 0 ? (
-          <span className={styles.counter}>({counter}) </span>
+          <span className={styles.counter}>
+            ({counter}
+            <span className="visually-hidden">
+              {counter === 1 ? " link" : " links"}
+            </span>
+            ){" "}
+          </span>
         ) : null}
         {
           // this space at the end of the span is intentional
