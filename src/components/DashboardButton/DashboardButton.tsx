@@ -4,6 +4,7 @@ function DashbrardButton({
   ariaPressed,
   text,
   counter,
+  disabled,
   icon,
   onClick,
 }: {
@@ -11,13 +12,15 @@ function DashbrardButton({
   icon?: React.ReactNode;
   text: string;
   counter?: number;
+  disabled?: boolean;
   onClick: () => void;
 }) {
   return (
     <button
       type="button"
       className={styles.button}
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
+      aria-disabled={disabled || undefined}
       aria-pressed={ariaPressed}
     >
       {icon ? <span className={styles.icon}>{icon}</span> : null}

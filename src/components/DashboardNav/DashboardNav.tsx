@@ -183,121 +183,125 @@ function DashboardNav({
             <DashboardList ariaLabel="Private collections">
               {collections
                 .filter((c) => !c.public)
-                .map((c, index, arr) => (
-                  <DashboardList.Li
-                    key={c.id}
-                    loading={
-                      deleteCollection.isPending &&
-                      deleteCollection.variables === c.id
-                    }
-                  >
-                    <div
-                      style={{
-                        minWidth: 0,
-                      }}
-                    >
-                      <DashboardButton
-                        icon={
-                          c.public ? <Icon.FolderPublic /> : <Icon.Folder />
-                        }
-                        onClick={() =>
-                          setSelectedCollection((prev) =>
-                            prev === c.id ? null : c.id,
-                          )
-                        }
-                        ariaPressed={selectedCollection === c.id}
-                        text={c.name}
-                        counter={c.count}
-                      />
-                    </div>
-                    {editModeCollections ? (
-                      <DashboardMenu fadeIn order={arr.length - index}>
-                        <DashboardMenu.Li>
-                          <DashboardButtonAction
-                            text="Edit"
-                            ariaLabel={`Edit collection "${c.name}"`}
-                            onClick={() => onEditCollection(c)}
-                          />
-                        </DashboardMenu.Li>
-                        <DashboardMenu.Li>
-                          <DashboardButtonAction
-                            text="Delete"
-                            ariaLabel={`Delete collection "${c.name}"`}
-                            onClick={(e) => {
-                              const target = focusTargetAfterDelete(
-                                e.currentTarget,
-                              );
-                              deleteCollection.mutate(c.id, {
-                                onSuccess: () => target?.focus(),
-                              });
-                            }}
-                            destructive
-                          />
-                        </DashboardMenu.Li>
-                      </DashboardMenu>
-                    ) : null}
-                  </DashboardList.Li>
-                ))}
+                .map((c, index, arr) => {
+                  const isDeleting =
+                    deleteCollection.isPending &&
+                    deleteCollection.variables === c.id;
+                  return (
+                    <DashboardList.Li key={c.id} loading={isDeleting}>
+                      <div
+                        style={{
+                          minWidth: 0,
+                        }}
+                      >
+                        <DashboardButton
+                          icon={
+                            c.public ? <Icon.FolderPublic /> : <Icon.Folder />
+                          }
+                          onClick={() =>
+                            setSelectedCollection((prev) =>
+                              prev === c.id ? null : c.id,
+                            )
+                          }
+                          ariaPressed={selectedCollection === c.id}
+                          disabled={isDeleting}
+                          text={c.name}
+                          counter={c.count}
+                        />
+                      </div>
+                      {editModeCollections ? (
+                        <DashboardMenu fadeIn order={arr.length - index}>
+                          <DashboardMenu.Li>
+                            <DashboardButtonAction
+                              text="Edit"
+                              ariaLabel={`Edit collection "${c.name}"`}
+                              disabled={isDeleting}
+                              onClick={() => onEditCollection(c)}
+                            />
+                          </DashboardMenu.Li>
+                          <DashboardMenu.Li>
+                            <DashboardButtonAction
+                              text="Delete"
+                              ariaLabel={`Delete collection "${c.name}"`}
+                              disabled={isDeleting}
+                              onClick={(e) => {
+                                const target = focusTargetAfterDelete(
+                                  e.currentTarget,
+                                );
+                                deleteCollection.mutate(c.id, {
+                                  onSuccess: () => target?.focus(),
+                                });
+                              }}
+                              destructive
+                            />
+                          </DashboardMenu.Li>
+                        </DashboardMenu>
+                      ) : null}
+                    </DashboardList.Li>
+                  );
+                })}
             </DashboardList>
 
             <DashboardList ariaLabel="Public collections">
               {collections
                 .filter((c) => c.public)
-                .map((c, index, arr) => (
-                  <DashboardList.Li
-                    key={c.id}
-                    loading={
-                      deleteCollection.isPending &&
-                      deleteCollection.variables === c.id
-                    }
-                  >
-                    <div
-                      style={{
-                        minWidth: 0,
-                      }}
-                    >
-                      <DashboardButton
-                        icon={
-                          c.public ? <Icon.FolderPublic /> : <Icon.Folder />
-                        }
-                        onClick={() =>
-                          setSelectedCollection((prev) =>
-                            prev === c.id ? null : c.id,
-                          )
-                        }
-                        ariaPressed={selectedCollection === c.id}
-                        text={c.name}
-                        counter={c.count}
-                      />
-                    </div>
-                    {editModeCollections ? (
-                      <DashboardMenu fadeIn order={arr.length - index}>
-                        <DashboardMenu.Li>
-                          <DashboardButtonAction
-                            text="Edit"
-                            ariaLabel={`Edit collection "${c.name}"`}
-                            onClick={() => onEditCollection(c)}
-                          />
-                        </DashboardMenu.Li>
-                        <DashboardMenu.Li>
-                          <DashboardButtonAction
-                            text="Delete"
-                            ariaLabel={`Delete collection "${c.name}"`}
-                            onClick={(e) => {
-                              const target = focusTargetAfterDelete(
-                                e.currentTarget,
-                              );
-                              deleteCollection.mutate(c.id, {
-                                onSuccess: () => target?.focus(),
-                              });
-                            }}
-                            destructive
-                          />
-                        </DashboardMenu.Li>
-                      </DashboardMenu>
-                    ) : null}
-                  </DashboardList.Li>
-                ))}
+                .map((c, index, arr) => {
+                  const isDeleting =
+                    deleteCollection.isPending &&
+                    deleteCollection.variables === c.id;
+                  return (
+                    <DashboardList.Li key={c.id} loading={isDeleting}>
+                      <div
+                        style={{
+                          minWidth: 0,
+                        }}
+                      >
+                        <DashboardButton
+                          icon={
+                            c.public ? <Icon.FolderPublic /> : <Icon.Folder />
+                          }
+                          onClick={() =>
+                            setSelectedCollection((prev) =>
+                              prev === c.id ? null : c.id,
+                            )
+                          }
+                          ariaPressed={selectedCollection === c.id}
+                          disabled={isDeleting}
+                          text={c.name}
+                          counter={c.count}
+                        />
+                      </div>
+                      {editModeCollections ? (
+                        <DashboardMenu fadeIn order={arr.length - index}>
+                          <DashboardMenu.Li>
+                            <DashboardButtonAction
+                              text="Edit"
+                              ariaLabel={`Edit collection "${c.name}"`}
+                              disabled={isDeleting}
+                              onClick={() => onEditCollection(c)}
+                            />
+                          </DashboardMenu.Li>
+                          <DashboardMenu.Li>
+                            <DashboardButtonAction
+                              text="Delete"
+                              ariaLabel={`Delete collection "${c.name}"`}
+                              disabled={isDeleting}
+                              onClick={(e) => {
+                                const target = focusTargetAfterDelete(
+                                  e.currentTarget,
+                                );
+                                deleteCollection.mutate(c.id, {
+                                  onSuccess: () => target?.focus(),
+                                });
+                              }}
+                              destructive
+                            />
+                          </DashboardMenu.Li>
+                        </DashboardMenu>
+                      ) : null}
+                    </DashboardList.Li>
+                  );
+                })}
             </DashboardList>
 
             <div>
@@ -321,61 +325,63 @@ function DashboardNav({
           <DashboardAccordion summary="Tags">
             <Stack gap={0.5}>
               <DashboardList>
-                {tags.map((t, index, arr) => (
-                  <DashboardList.Li
-                    key={t.id}
-                    loading={
-                      deleteTag.isPending && deleteTag.variables === t.id
-                    }
-                  >
-                    <div
-                      style={{
-                        minWidth: 0,
-                      }}
-                    >
-                      <DashboardButton
-                        icon={<Icon.Tag />}
-                        onClick={() =>
-                          setSelectedTags((prev) =>
-                            prev.includes(t.id)
-                              ? prev.filter((id) => id !== t.id)
-                              : [...prev, t.id],
-                          )
-                        }
-                        ariaPressed={selectedTags.includes(t.id)}
-                        text={t.name}
-                        counter={t.count}
-                      />
-                    </div>
+                {tags.map((t, index, arr) => {
+                  const isDeleting =
+                    deleteTag.isPending && deleteTag.variables === t.id;
+                  return (
+                    <DashboardList.Li key={t.id} loading={isDeleting}>
+                      <div
+                        style={{
+                          minWidth: 0,
+                        }}
+                      >
+                        <DashboardButton
+                          icon={<Icon.Tag />}
+                          onClick={() =>
+                            setSelectedTags((prev) =>
+                              prev.includes(t.id)
+                                ? prev.filter((id) => id !== t.id)
+                                : [...prev, t.id],
+                            )
+                          }
+                          ariaPressed={selectedTags.includes(t.id)}
+                          disabled={isDeleting}
+                          text={t.name}
+                          counter={t.count}
+                        />
+                      </div>
 
-                    {editModeTags ? (
-                      <DashboardMenu fadeIn order={arr.length - index}>
-                        <DashboardMenu.Li>
-                          <DashboardButtonAction
-                            text="Rename"
-                            ariaLabel={`Rename tag "${t.name}"`}
-                            onClick={() => onRenameTag(t)}
-                          />
-                        </DashboardMenu.Li>
-                        <DashboardMenu.Li>
-                          <DashboardButtonAction
-                            text="Delete"
-                            ariaLabel={`Delete tag "${t.name}"`}
-                            onClick={(e) => {
-                              const target = focusTargetAfterDelete(
-                                e.currentTarget,
-                              );
-                              deleteTag.mutate(t.id, {
-                                onSuccess: () => target?.focus(),
-                              });
-                            }}
-                            destructive
-                          />
-                        </DashboardMenu.Li>
-                      </DashboardMenu>
-                    ) : null}
-                  </DashboardList.Li>
-                ))}
+                      {editModeTags ? (
+                        <DashboardMenu fadeIn order={arr.length - index}>
+                          <DashboardMenu.Li>
+                            <DashboardButtonAction
+                              text="Rename"
+                              ariaLabel={`Rename tag "${t.name}"`}
+                              disabled={isDeleting}
+                              onClick={() => onRenameTag(t)}
+                            />
+                          </DashboardMenu.Li>
+                          <DashboardMenu.Li>
+                            <DashboardButtonAction
+                              text="Delete"
+                              ariaLabel={`Delete tag "${t.name}"`}
+                              disabled={isDeleting}
+                              onClick={(e) => {
+                                const target = focusTargetAfterDelete(
+                                  e.currentTarget,
+                                );
+                                deleteTag.mutate(t.id, {
+                                  onSuccess: () => target?.focus(),
+                                });
+                              }}
+                              destructive
+                            />
+                          </DashboardMenu.Li>
+                        </DashboardMenu>
+                      ) : null}
+                    </DashboardList.Li>
+                  );
+                })}
               </DashboardList>
 
               <div>
