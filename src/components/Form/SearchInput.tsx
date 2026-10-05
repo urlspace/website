@@ -198,12 +198,8 @@ function SearchInput({
             return changes;
         }
       },
-      onStateChange({ inputValue: nextInput, type, selectedItem }) {
+      onStateChange({ type, selectedItem }) {
         switch (type) {
-          case useCombobox.stateChangeTypes.InputChange:
-            setEscapeClosed(false);
-            updateRawAndValue(nextInput ?? "");
-            break;
           case useCombobox.stateChangeTypes.InputKeyDownEnter:
           case useCombobox.stateChangeTypes.ItemClick:
             if (selectedItem) commit(selectedItem);
@@ -232,6 +228,10 @@ function SearchInput({
               className: styles.searchInput,
               placeholder,
               "aria-keyshortcuts": "/",
+              onChange: (e) => {
+                setEscapeClosed(false);
+                updateRawAndValue(e.currentTarget.value);
+              },
               onKeyDown: (e) => {
                 if (e.key !== "Enter" || isOpen || e.nativeEvent.isComposing) {
                   return;
