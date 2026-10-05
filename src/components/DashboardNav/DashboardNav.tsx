@@ -284,11 +284,7 @@ function DashboardNav({
                   ariaPressed={editModeCollections}
                   icon={<Icon.Edit />}
                   onClick={() => setEditModeCollections((prev) => !prev)}
-                  text={
-                    editModeCollections
-                      ? "Disable edit mode"
-                      : "Edit collections"
-                  }
+                  text="Edit collections"
                 />
               ) : null}
             </div>
@@ -350,7 +346,7 @@ function DashboardNav({
                 <DashboardButton
                   ariaPressed={editModeTags}
                   icon={<Icon.Edit />}
-                  text={editModeTags ? "Disable edit mode" : "Edit tags"}
+                  text="Edit tags"
                   onClick={() => setEditModeTags((prev) => !prev)}
                 />
               </div>
