@@ -14,8 +14,8 @@ function DashbrardButtonLink({
 }) {
   return (
     <Link to={to} reloadDocument={reloadDocument} className={styles.button}>
-      {icon ? <div className={styles.icon}>{icon}</div> : null}
-      <div className={styles.text}>{text} </div>
+      {icon ? <span className={styles.icon}>{icon}</span> : null}
+      <span className={styles.text}>{text} </span>
     </Link>
   );
 }

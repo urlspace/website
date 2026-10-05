@@ -20,8 +20,8 @@ function DashbrardButton({
       onClick={onClick}
       aria-pressed={ariaPressed}
     >
-      {icon ? <div className={styles.icon}>{icon}</div> : null}
-      <div className={styles.text}>
+      {icon ? <span className={styles.icon}>{icon}</span> : null}
+      <span className={styles.text}>
         {text}{" "}
         {counter || counter === 0 ? (
           <span className={styles.counter}>({counter}) </span>
@@ -33,7 +33,7 @@ function DashbrardButton({
           // awful bug, and maybe one day i will have a better solutoin but for know
           // adding extra space is the simplext fix in this case
         }
-      </div>
+      </span>
     </button>
   );
 }
