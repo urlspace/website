@@ -39,9 +39,13 @@ function DashboardHeaderSkipButton({ onClick }: { onClick: () => void }) {
   );
 }
 
-// aside
-function Aside({ children }: { children: React.ReactNode }) {
-  return <aside className={styles.aside}>{children}</aside>;
+// filters
+function Filters({ children }: { children: React.ReactNode }) {
+  return (
+    <aside className={styles.aside} aria-label="Filters">
+      {children}
+    </aside>
+  );
 }
 
 // main
@@ -116,7 +120,7 @@ Dashboard.HeaderSearch = DashboardHeaderSearch;
 Dashboard.HeaderTrigger = DashboardHeaderFiltersTrigger;
 Dashboard.HeaderSkipButton = DashboardHeaderSkipButton;
 
-Dashboard.Aside = Aside;
+Dashboard.Filters = Filters;
 
 Dashboard.Main = DashboardMain;
 Dashboard.MainPills = DashboardMainPills;

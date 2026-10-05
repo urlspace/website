@@ -11,6 +11,7 @@ function DashbrardMenu({
 }) {
 	return (
 		<menu
+			role="list"
 			className={[styles.list, fadeIn && styles.fadeIn]
 				.filter(Boolean)
 				.join(" ")}

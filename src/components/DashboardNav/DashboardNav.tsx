@@ -129,7 +129,7 @@ function DashboardNav({
   });
 
   return (
-    <nav className={styles.nav}>
+    <div className={styles.nav}>
       <Stack gap={1.5}>
         <Stack gap={0.5}>
           <DashboardList>
@@ -171,7 +171,7 @@ function DashboardNav({
         </Stack>
         <DashboardAccordion summary="Collections">
           <Stack gap={0.5}>
-            <DashboardList>
+            <DashboardList ariaLabel="Private collections">
               {collections
                 .filter((c) => !c.public)
                 .map((c, index, arr) => (
@@ -222,7 +222,7 @@ function DashboardNav({
                 ))}
             </DashboardList>
 
-            <DashboardList>
+            <DashboardList ariaLabel="Public collections">
               {collections
                 .filter((c) => c.public)
                 .map((c, index, arr) => (
@@ -404,7 +404,7 @@ function DashboardNav({
           </DashboardList.Li>
         </DashboardList>
       </Stack>
-    </nav>
+    </div>
   );
 }
 

@@ -1,7 +1,17 @@
 import styles from "./DashboardList.module.css";
 
-function DashbrardList({ children }: { children: React.ReactNode }) {
-  return <ul className={styles.list}>{children}</ul>;
+function DashbrardList({
+  ariaLabel,
+  children,
+}: {
+  ariaLabel?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <ul className={styles.list} role="list" aria-label={ariaLabel}>
+      {children}
+    </ul>
+  );
 }
 
 function DashbrardListLi({

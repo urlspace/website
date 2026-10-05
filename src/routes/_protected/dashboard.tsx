@@ -323,7 +323,7 @@ function PageDashboard() {
         </Dashboard.HeaderActions>
       </Dashboard.Header>
 
-      <Dashboard.Aside>
+      <Dashboard.Filters>
         <DashboardNav
           collections={collections}
           favourite={favourite}
@@ -358,7 +358,7 @@ function PageDashboard() {
           }}
           tags={tags}
         />
-      </Dashboard.Aside>
+      </Dashboard.Filters>
 
       <Dashboard.Main>
         <Dashboard.MainPills>
