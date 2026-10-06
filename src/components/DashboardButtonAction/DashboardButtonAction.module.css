@@ -32,8 +32,33 @@
   }
 }
 
-.destructive:hover:not([aria-disabled="true"]) {
-  @media (hover: hover) and (pointer: fine) {
+.destructive {
+  position: relative;
+
+  &:hover:not([aria-disabled="true"]) {
+    @media (hover: hover) and (pointer: fine) {
+      color: light-dark(oklch(51.4% 0.222 16.935), oklch(71.2% 0.194 13.428));
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    height: 2px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--hold-ms) linear;
+    transition-timing-function: cubic-bezier(0.61, 1, 0.87, 1);
+  }
+
+  &.holding {
     color: light-dark(oklch(51.4% 0.222 16.935), oklch(71.2% 0.194 13.428));
+
+    &::after {
+      transform: scaleX(1);
+    }
   }
 }

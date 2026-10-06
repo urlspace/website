@@ -1,8 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { type LinkRow, linksQueryKey } from "#/queries/links.ts";
 import { formatDate } from "#/utils.ts";
 import { DashboardButtonAction, DashboardMenu } from "..";
 import styles from "./LinkCard.module.css";
+
+const HOLD_TO_DELETE_MS = 700;
 
 function highlight(text: string, query: string): React.ReactNode {
   const needle = query.trim();
@@ -95,6 +98,27 @@ function LinkCard({
   });
 
   const isPending = updateLink.isPending || deleteLink.isPending || loading;
+  const [isHolding, setIsHolding] = useState(false);
+
+  // Hold-to-delete: deletes after HOLD_TO_DELETE_MS of holding d. Window blur
+  // cancels, since the keyup would never arrive.
+  useEffect(() => {
+    if (!isHolding) {
+      return;
+    }
+    const timeout = window.setTimeout(() => {
+      setIsHolding(false);
+      deleteLink.mutate();
+    }, HOLD_TO_DELETE_MS);
+    function cancel() {
+      setIsHolding(false);
+    }
+    window.addEventListener("blur", cancel);
+    return () => {
+      window.clearTimeout(timeout);
+      window.removeEventListener("blur", cancel);
+    };
+  }, [isHolding, deleteLink.mutate]);
 
   const {
     collection,
@@ -108,6 +132,43 @@ function LinkCard({
     forLater,
   } = link;
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLElement>) {
+    if (e.ctrlKey || e.metaKey || e.altKey || e.repeat || isPending) {
+      return;
+    }
+    switch (e.key) {
+      case "f":
+        updateLink.mutate({ favourite: !favourite });
+        break;
+      case "l":
+        updateLink.mutate({ forLater: !forLater });
+        break;
+      case "e":
+        onEdit(link);
+        break;
+      case "d":
+        setIsHolding(true);
+        break;
+      default:
+        return;
+    }
+    e.preventDefault();
+  }
+
+  function handleKeyUp(e: React.KeyboardEvent<HTMLElement>) {
+    if (e.key.toLowerCase() === "d") {
+      setIsHolding(false);
+    }
+  }
+
+  // Cancel the hold when focus leaves the card (j/k, Tab, click), otherwise
+  // the d keyup lands elsewhere and the card we left gets deleted.
+  function handleBlur(e: React.FocusEvent<HTMLElement>) {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setIsHolding(false);
+    }
+  }
+
   return (
     <article
       className={[styles.link, isPending && styles.linkLoading]
@@ -115,6 +176,10 @@ function LinkCard({
         .join(" ")}
       aria-labelledby={id}
       aria-busy={isPending || undefined}
+      style={{ "--hold-ms": `${HOLD_TO_DELETE_MS}ms` } as React.CSSProperties}
+      onKeyDown={handleKeyDown}
+      onKeyUp={handleKeyUp}
+      onBlur={handleBlur}
     >
       <div>
         <h2 id={id} className={styles.title}>
@@ -148,6 +213,7 @@ function LinkCard({
                 <button
                   type="button"
                   className={styles.metaButton}
+                  aria-description="Show all links in this collection"
                   aria-disabled={isPending || undefined}
                   onClick={
                     isPending
@@ -171,6 +237,7 @@ function LinkCard({
                       <button
                         type="button"
                         className={styles.metaButton}
+                        aria-description="Show all links with this tag"
                         aria-disabled={isPending || undefined}
                         onClick={
                           isPending ? undefined : () => onTagClick(tag.id)
@@ -191,6 +258,7 @@ function LinkCard({
             <DashboardButtonAction
               ariaPressed={favourite}
               ariaLabel={`Favourite "${title}"`}
+              ariaKeyShortcuts="f"
               disabled={isPending}
               onClick={() => updateLink.mutate({ favourite: !favourite })}
               text="Favourite"
@@ -200,6 +268,7 @@ function LinkCard({
             <DashboardButtonAction
               ariaPressed={forLater}
               ariaLabel={`For later "${title}"`}
+              ariaKeyShortcuts="l"
               disabled={isPending}
               onClick={() => updateLink.mutate({ forLater: !forLater })}
               text="For later"
@@ -209,6 +278,7 @@ function LinkCard({
             <DashboardButtonAction
               text="Edit"
               ariaLabel={`Edit "${title}"`}
+              ariaKeyShortcuts="e"
               disabled={isPending}
               onClick={() => onEdit(link)}
             />
@@ -217,9 +287,11 @@ function LinkCard({
             <DashboardButtonAction
               text="Delete"
               ariaLabel={`Delete "${title}"`}
+              ariaKeyShortcuts="d"
               disabled={isPending}
               onClick={() => deleteLink.mutate()}
               destructive
+              holding={isHolding}
             />
           </DashboardMenu.Li>
         </DashboardMenu>
