@@ -208,28 +208,19 @@ function PageDashboard() {
       linksQueryOptions({ page: 1 }).queryKey,
     )?.pagination.totalCount ?? 0) === 0;
 
-  // Mobile-only: snapshot active filters when the nav drawer opens, compare
-  // on close, and scroll to top if anything changed so the user lands on the
-  // start of the re-filtered list. On desktop the nav lives in the always-open
-  // sidebar, so isNavOpen never flips and this effect never fires.
-  const filtersAtOpenRef = useRef<string | null>(null);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: only react to drawer open/close
+  // Any change to what defines the list lands the user at its top, no matter
+  // where the change came from. Skips the first render so it never fights the
+  // browser's scroll restoration.
+  const tagsKey = [...selectedTags].sort().join();
+  const isFirstListRenderRef = useRef(true);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: only react to filter and page changes
   useEffect(() => {
-    const key = JSON.stringify({
-      favourite,
-      forLater,
-      selectedCollection,
-      selectedTags: [...selectedTags].sort(),
-    });
-    if (isNavOpen) {
-      filtersAtOpenRef.current = key;
-    } else if (filtersAtOpenRef.current !== null) {
-      if (filtersAtOpenRef.current !== key) {
-        window.scrollTo({ top: 0, behavior: "instant" });
-      }
-      filtersAtOpenRef.current = null;
+    if (isFirstListRenderRef.current) {
+      isFirstListRenderRef.current = false;
+      return;
     }
-  }, [isNavOpen]);
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [debouncedQuery, selectedCollection, tagsKey, favourite, forLater, page]);
 
   const lastFocusedRef = useRef<{ id: string; index: number } | null>(null);
 
@@ -400,24 +391,20 @@ function PageDashboard() {
           setFavourite={(v) => {
             setFavourite(v);
             setPage(1);
-            window.scrollTo({ top: 0, behavior: "instant" });
           }}
           setForLater={(v) => {
             setForLater(v);
             setPage(1);
-            window.scrollTo({ top: 0, behavior: "instant" });
           }}
           setIsAddCollectionkOpen={setIsAddCollectionOpen}
           setIsAddLinkOpen={setIsAddLinkOpen}
           setSelectedCollection={(v) => {
             setSelectedCollection(v);
             setPage(1);
-            window.scrollTo({ top: 0, behavior: "instant" });
           }}
           setSelectedTags={(v) => {
             setSelectedTags(v);
             setPage(1);
-            window.scrollTo({ top: 0, behavior: "instant" });
           }}
           tags={tags}
         />
@@ -496,7 +483,6 @@ function PageDashboard() {
                       setPage(1);
                       (document.activeElement as HTMLElement | null)?.blur();
                       lastFocusedRef.current = null;
-                      window.scrollTo({ top: 0, behavior: "instant" });
                     }}
                     onCollectionClick={(collectionId) => {
                       setFavourite(false);
@@ -506,7 +492,6 @@ function PageDashboard() {
                       setPage(1);
                       (document.activeElement as HTMLElement | null)?.blur();
                       lastFocusedRef.current = null;
-                      window.scrollTo({ top: 0, behavior: "instant" });
                     }}
                   />
                 </li>
@@ -533,7 +518,6 @@ function PageDashboard() {
                   text="Previous"
                   onClick={() => {
                     setPage(page - 1);
-                    window.scrollTo({ top: 0, behavior: "instant" });
                   }}
                 />
               ) : null}
@@ -545,7 +529,6 @@ function PageDashboard() {
                   text="Next"
                   onClick={() => {
                     setPage(page + 1);
-                    window.scrollTo({ top: 0, behavior: "instant" });
                   }}
                 />
               ) : null}
