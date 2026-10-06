@@ -319,7 +319,7 @@ hr {
   @media (width >= 900px) {
     padding: 2rlh;
     position: sticky;
-    top: 0;
+    top: 3rlh;
     align-self: start;
   }
 }
