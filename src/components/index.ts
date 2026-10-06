@@ -25,6 +25,7 @@ import FormUsername from "./FormUsername/FormUsername.tsx";
 import Heading from "./Heading/Heading.tsx";
 import Icon from "./Icons/Icons.tsx";
 import Intro from "./Intro/Intro.tsx";
+import KeyboardShortcuts from "./KeyboardShortcuts/KeyboardShortcuts.tsx";
 import Logo from "./Logo/Logo.tsx";
 import Page from "./Page/Page.tsx";
 import Pills from "./Pills/Pills.tsx";
@@ -70,6 +71,7 @@ export {
   Heading,
   Icon,
   Intro,
+  KeyboardShortcuts,
   Logo,
   Page,
   Pills,

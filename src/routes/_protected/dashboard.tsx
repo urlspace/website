@@ -24,6 +24,7 @@ import {
   FormLink,
   FormTag,
   Icon,
+  KeyboardShortcuts,
   Pills,
   Stack,
   Stats,
@@ -86,6 +87,7 @@ function PageDashboard() {
 
   // new link/collection dialogs
   const [isAddLinkOpen, setIsAddLinkOpen] = useState(false);
+  const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
   const [isAddCollectionOpen, setIsAddCollectionOpen] = useState(false);
 
   // editing link/collection/tag dialogs
@@ -136,15 +138,16 @@ function PageDashboard() {
   }
 
   // j/k move focus between link card titles (Gmail/GitHub style), G jumps to
-  // the last one and gg to the first (Vim style). Ignored while typing and
-  // when a modifier is held, so browser shortcuts like Ctrl+K keep working.
+  // the last one and gg to the first (Vim style), ? opens the shortcuts
+  // dialog. Ignored while typing and when a modifier is held, so browser
+  // shortcuts like Ctrl+K keep working.
   useEffect(() => {
     let lastG = Number.NEGATIVE_INFINITY;
     function handleKey(e: KeyboardEvent) {
       if (e.key !== "g") {
         lastG = Number.NEGATIVE_INFINITY;
       }
-      if (!["j", "k", "g", "G"].includes(e.key)) {
+      if (!["j", "k", "g", "G", "?"].includes(e.key)) {
         return;
       }
       // ignore modifiers so browser shortcuts like Ctrl+K keeps working
@@ -163,6 +166,14 @@ function PageDashboard() {
         target.tagName === "SELECT" ||
         target.isContentEditable
       ) {
+        return;
+      }
+
+      if (e.key === "?") {
+        if (!target.closest("dialog")) {
+          e.preventDefault();
+          setIsShortcutsOpen(true);
+        }
         return;
       }
 
@@ -398,6 +409,7 @@ function PageDashboard() {
           }}
           setIsAddCollectionkOpen={setIsAddCollectionOpen}
           setIsAddLinkOpen={setIsAddLinkOpen}
+          setIsShortcutsOpen={setIsShortcutsOpen}
           setSelectedCollection={(v) => {
             setSelectedCollection(v);
             setPage(1);
@@ -559,6 +571,7 @@ function PageDashboard() {
           }}
           setIsAddCollectionkOpen={setIsAddCollectionOpen}
           setIsAddLinkOpen={setIsAddLinkOpen}
+          setIsShortcutsOpen={setIsShortcutsOpen}
           setSelectedCollection={(v) => {
             setSelectedCollection(v);
             setPage(1);
@@ -570,6 +583,14 @@ function PageDashboard() {
           tags={tags}
         />
       </Drawer>
+
+      <Dialog
+        open={isShortcutsOpen}
+        onClose={() => setIsShortcutsOpen(false)}
+        title="Keyboard shortcuts"
+      >
+        <KeyboardShortcuts />
+      </Dialog>
 
       <Dialog
         open={isAddLinkOpen}

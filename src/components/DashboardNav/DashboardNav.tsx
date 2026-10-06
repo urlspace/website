@@ -48,6 +48,7 @@ function DashboardNav({
   setForLater,
   setIsAddCollectionkOpen,
   setIsAddLinkOpen,
+  setIsShortcutsOpen,
   setSelectedCollection,
   setSelectedTags,
   tags,
@@ -66,6 +67,7 @@ function DashboardNav({
   setForLater: React.Dispatch<React.SetStateAction<boolean>>;
   setIsAddCollectionkOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsAddLinkOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsShortcutsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedCollection: React.Dispatch<React.SetStateAction<string | null>>;
   setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
   tags: TagRow[];
@@ -440,6 +442,13 @@ function DashboardNav({
             //   />
             // </DashboardList.Li>
           }
+          <DashboardList.Li>
+            <DashboardButton
+              icon={<Icon.Keyboard />}
+              onClick={() => setIsShortcutsOpen(true)}
+              text="Keyboard shortcuts"
+            />
+          </DashboardList.Li>
           <DashboardList.Li>
             <DashboardButton
               icon={<Icon.Star />}

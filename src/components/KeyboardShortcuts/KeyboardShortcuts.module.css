@@ -1,0 +1,42 @@
+.wrapper {
+  display: grid;
+  gap: 1lh;
+}
+
+.group {
+  display: grid;
+  gap: 0.5lh;
+}
+
+.heading {
+  font-size: 1rem;
+}
+
+.list {
+  display: grid;
+  /* gap: 0.25rlh; */
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1lh;
+
+  > dd {
+    flex-shrink: 0;
+  }
+
+  kbd {
+    display: inline-block;
+    font-family: ui-monospace, monospace;
+    font-size: 0.8125rem;
+    box-shadow: inset 0 0 0 1px var(--color-border);
+    min-inline-size: 1rlh;
+    min-block-size: 1rlh;
+    padding: 0.25rlh;
+    text-box: trim-both cap alphabetic;
+    text-align: center;
+    border-radius: var(--radius);
+    background-color: var(--color-bg);
+  }
+}
