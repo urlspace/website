@@ -494,6 +494,9 @@ function PageDashboard() {
                       setSelectedCollection(null);
                       setSelectedTags([tagId]);
                       setPage(1);
+                      (document.activeElement as HTMLElement | null)?.blur();
+                      lastFocusedRef.current = null;
+                      window.scrollTo({ top: 0, behavior: "instant" });
                     }}
                     onCollectionClick={(collectionId) => {
                       setFavourite(false);
@@ -501,6 +504,9 @@ function PageDashboard() {
                       setSelectedCollection(collectionId);
                       setSelectedTags([]);
                       setPage(1);
+                      (document.activeElement as HTMLElement | null)?.blur();
+                      lastFocusedRef.current = null;
+                      window.scrollTo({ top: 0, behavior: "instant" });
                     }}
                   />
                 </li>
