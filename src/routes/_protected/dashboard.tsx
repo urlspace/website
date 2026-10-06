@@ -15,7 +15,6 @@ import {
   DashboardButton,
   DashboardCollectionInfo,
   DashboardEmpty,
-  DashboardLink,
   Logo,
   DashboardNav,
   Dialog,
@@ -45,6 +44,12 @@ import {
 import { type TagRow, tagsQueryOptions } from "#/queries/tags.ts";
 import { clearSession } from "#/queries/session.ts";
 
+const G_SEQUENCE_MS = 500;
+
+function getTitles(container: HTMLElement | null) {
+  return [...(container?.querySelectorAll<HTMLElement>("article h2 a") ?? [])];
+}
+
 export const Route = createFileRoute("/_protected/dashboard")({
   loader: async ({ context }) => {
     await Promise.all([
@@ -57,9 +62,14 @@ export const Route = createFileRoute("/_protected/dashboard")({
 });
 
 function PageDashboard() {
+  // tanstack stuff
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const { user } = useRouteContext({ from: "/_protected" });
   const { data: collections } = useSuspenseQuery(collectionsQueryOptions);
   const { data: tags } = useSuspenseQuery(tagsQueryOptions);
+
+  // filters
   const [value, setValue] = useState<string>("");
   const [favourite, setFavourite] = useState(false);
   const [forLater, setForLater] = useState(false);
@@ -67,9 +77,26 @@ function PageDashboard() {
   const [selectedCollection, setSelectedCollection] = useState<string | null>(
     null,
   );
+
+  // pagination
   const [page, setPage] = useState(1);
-  const router = useRouter();
-  const queryClient = useQueryClient();
+
+  // mobile nav
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  // new link/collection dialogs
+  const [isAddLinkOpen, setIsAddLinkOpen] = useState(false);
+  const [isAddCollectionOpen, setIsAddCollectionOpen] = useState(false);
+
+  // editing link/collection/tag dialogs
+  const [editingLink, setEditingLink] = useState<LinkRow | null>(null);
+  const [editingCollection, setEditingCollection] =
+    useState<CollectionRow | null>(null);
+  const [editingTag, setEditingTag] = useState<TagRow | null>(null);
+
+  // additional global state
+  const signingOut = useRef(false);
+  const [criticalError, setCriticalError] = useState<string | null>(null);
 
   const debouncedQuery = useDebouncedValue(value, 250, () => setPage(1));
 
@@ -108,18 +135,28 @@ function PageDashboard() {
     linksRef.current?.querySelector<HTMLElement>("li a[href]")?.focus();
   }
 
-  // j/k move focus between link card titles (Gmail/GitHub style). Arrows are
-  // left alone so they keep scrolling the page. Ignored while typing and when
-  // a modifier is held, so browser shortcuts like Ctrl+K keep working.
+  // j/k move focus between link card titles (Gmail/GitHub style), G jumps to
+  // the last one and gg to the first (Vim style). Ignored while typing and
+  // when a modifier is held, so browser shortcuts like Ctrl+K keep working.
   useEffect(() => {
+    let lastG = Number.NEGATIVE_INFINITY;
     function handleKey(e: KeyboardEvent) {
-      if (e.key !== "j" && e.key !== "k") {
+      if (e.key !== "g") {
+        lastG = Number.NEGATIVE_INFINITY;
+      }
+      if (!["j", "k", "g", "G"].includes(e.key)) {
         return;
       }
+      // ignore modifiers so browser shortcuts like Ctrl+K keeps working
       if (e.ctrlKey || e.metaKey || e.altKey) {
         return;
       }
+      // prevent holding down g to trigger gg
+      if (e.key === "g" && e.repeat) {
+        return;
+      }
       const target = e.target as HTMLElement;
+      // ignore typing in the fields
       if (
         target.tagName === "INPUT" ||
         target.tagName === "TEXTAREA" ||
@@ -128,18 +165,31 @@ function PageDashboard() {
       ) {
         return;
       }
-      const titles = [
-        ...(linksRef.current?.querySelectorAll<HTMLElement>("article h2 a") ??
-          []),
-      ];
+
+      const titles = getTitles(linksRef.current);
       if (!titles.length) {
         return;
       }
-      const current = titles.findIndex((a) =>
-        a.closest("article")?.contains(target),
-      );
-      const next = current === -1 ? 0 : current + (e.key === "j" ? 1 : -1);
+
+      let next: number;
+      if (e.key === "G") {
+        next = titles.length - 1;
+      } else if (e.key === "g") {
+        if (e.timeStamp - lastG > G_SEQUENCE_MS) {
+          lastG = e.timeStamp;
+          return;
+        }
+        lastG = Number.NEGATIVE_INFINITY;
+        next = 0;
+      } else {
+        const current = titles.findIndex((a) =>
+          a.closest("article")?.contains(target),
+        );
+        next = current === -1 ? 0 : current + (e.key === "j" ? 1 : -1);
+      }
       e.preventDefault();
+
+      // clamp so the j and k do not go out of bounds
       titles[Math.max(0, Math.min(next, titles.length - 1))].focus();
     }
     window.addEventListener("keydown", handleKey);
@@ -157,8 +207,6 @@ function PageDashboard() {
     (queryClient.getQueryData<LinksResponse>(
       linksQueryOptions({ page: 1 }).queryKey,
     )?.pagination.totalCount ?? 0) === 0;
-
-  const [isNavOpen, setIsNavOpen] = useState(false);
 
   // Mobile-only: snapshot active filters when the nav drawer opens, compare
   // on close, and scroll to top if anything changed so the user lands on the
@@ -183,14 +231,28 @@ function PageDashboard() {
     }
   }, [isNavOpen]);
 
-  const [isAddLinkOpen, setIsAddLinkOpen] = useState(false);
-  const [isAddCollectionOpen, setIsAddCollectionOpen] = useState(false);
-  const [editingLink, setEditingLink] = useState<LinkRow | null>(null);
-  const [editingCollection, setEditingCollection] =
-    useState<CollectionRow | null>(null);
-  const [renamingTag, setRenamingTag] = useState<TagRow | null>(null);
-  const signingOut = useRef(false);
-  const [criticalError, setCriticalError] = useState<string | null>(null);
+  const lastFocusedRef = useRef<{ id: string; index: number } | null>(null);
+
+  // When the focused card unmounts, the browser drops focus to <body> and the
+  // next j would start from the top. This moves focus to the card now at the
+  // same position instead (the next one, or the new last one). Covers delete,
+  // f/l under a matching filter, mouse clicks on card buttons, and edits that
+  // move the link out of the current filter. In that last case the native
+  // dialog's focus restore targets the removed card, so we wait for
+  // editingLink to clear and take over. Bails out while the last focused link
+  // is still in the list, since nothing needs restoring.
+  useEffect(() => {
+    const last = lastFocusedRef.current;
+    if (!last || editingLink || links.some((link) => link.id === last.id)) {
+      return;
+    }
+    if (document.activeElement && document.activeElement !== document.body) {
+      return;
+    }
+    const titles = getTitles(linksRef.current);
+    lastFocusedRef.current = null;
+    titles[Math.min(last.index, titles.length - 1)]?.focus();
+  }, [links, editingLink]);
 
   async function handleSignOut() {
     if (signingOut.current) return;
@@ -332,7 +394,7 @@ function PageDashboard() {
           handleSignOut={handleSignOut}
           onError={setCriticalError}
           onEditCollection={setEditingCollection}
-          onRenameTag={setRenamingTag}
+          onRenameTag={setEditingTag}
           selectedCollection={selectedCollection}
           selectedTags={selectedTags}
           setFavourite={(v) => {
@@ -400,8 +462,27 @@ function PageDashboard() {
         <Dashboard.MainLinks ref={linksRef}>
           {links.length ? (
             <Dashboard.MainLinksList>
-              {links.map((link) => (
-                <li key={link.id}>
+              {links.map((link, index) => (
+                <li
+                  key={link.id}
+                  onFocus={() => {
+                    lastFocusedRef.current = { id: link.id, index };
+                  }}
+                  onBlur={(e) => {
+                    // Keep: null (card removed), another card, or a dialog.
+                    // Clear: focus left the list on purpose.
+                    const next = e.relatedTarget as HTMLElement | null;
+                    if (
+                      next &&
+                      // Moving to another card: its onFocus takes over.
+                      !linksRef.current?.contains(next) &&
+                      // Edit dialog: keep in case the edit filters the link out.
+                      !next.closest("dialog")
+                    ) {
+                      lastFocusedRef.current = null;
+                    }
+                  }}
+                >
                   <LinkCard
                     link={link}
                     loading={isPlaceholderData}
@@ -476,7 +557,7 @@ function PageDashboard() {
           handleSignOut={handleSignOut}
           onError={setCriticalError}
           onEditCollection={setEditingCollection}
-          onRenameTag={setRenamingTag}
+          onRenameTag={setEditingTag}
           selectedCollection={selectedCollection}
           selectedTags={selectedTags}
           setFavourite={(v) => {
@@ -564,16 +645,16 @@ function PageDashboard() {
       </Dialog>
 
       <Dialog
-        open={!!renamingTag}
-        onClose={() => setRenamingTag(null)}
+        open={!!editingTag}
+        onClose={() => setEditingTag(null)}
         title="Rename tag"
       >
-        {renamingTag ? (
+        {editingTag ? (
           <FormTag
-            key={renamingTag.id}
-            tag={renamingTag}
+            key={editingTag.id}
+            tag={editingTag}
             tags={tags}
-            onClose={() => setRenamingTag(null)}
+            onClose={() => setEditingTag(null)}
           />
         ) : null}
       </Dialog>
