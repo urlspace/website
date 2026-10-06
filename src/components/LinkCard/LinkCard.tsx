@@ -5,7 +5,8 @@ import { formatDate } from "#/utils.ts";
 import { DashboardButtonAction, DashboardMenu } from "..";
 import styles from "./LinkCard.module.css";
 
-const HOLD_TO_DELETE_MS = 700;
+// Because 7 is the best number 🫶
+const HOLD_TO_DELETE_MS = 777;
 
 function highlight(text: string, query: string): React.ReactNode {
   const needle = query.trim();
