@@ -100,6 +100,7 @@ function LinkCard({
 
   const isPending = updateLink.isPending || deleteLink.isPending || loading;
   const [isHolding, setIsHolding] = useState(false);
+  const [isHoldComplete, setIsHoldComplete] = useState(false);
 
   // Hold-to-delete: deletes after HOLD_TO_DELETE_MS of holding d. Window blur
   // cancels, since the keyup would never arrive.
@@ -109,7 +110,10 @@ function LinkCard({
     }
     const timeout = window.setTimeout(() => {
       setIsHolding(false);
-      deleteLink.mutate();
+      setIsHoldComplete(true);
+      deleteLink.mutate(undefined, {
+        onError: () => setIsHoldComplete(false),
+      });
     }, HOLD_TO_DELETE_MS);
     function cancel() {
       setIsHolding(false);
@@ -292,7 +296,7 @@ function LinkCard({
               disabled={isPending}
               onClick={() => deleteLink.mutate()}
               destructive
-              holding={isHolding}
+              holding={isHolding || isHoldComplete}
             />
           </DashboardMenu.Li>
         </DashboardMenu>
