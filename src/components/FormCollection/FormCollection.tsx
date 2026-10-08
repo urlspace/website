@@ -5,6 +5,10 @@ import { collectionsQueryOptions } from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
+function normalizeName(name: string) {
+	return name.normalize("NFC").trim().replace(/\s+/g, " ").toLowerCase();
+}
+
 function FormCollection({
 	collection,
 	collections,
@@ -50,11 +54,12 @@ function FormCollection({
 		}
 
 		// Catch duplicate names, but allow editing the existing collection.
+		// Mirrors the API's case-insensitive check; the 409 catches edge cases.
 		if (
 			collections.some(
 				(c) =>
 					c.id !== collection?.id &&
-					c.name === trimmedName,
+					normalizeName(c.name) === normalizeName(trimmedName),
 			)
 		) {
 			setError(duplicateNameError);
@@ -134,9 +139,9 @@ function FormCollection({
 				type="text"
 				value={name}
 				minLength={2}
-				maxLength={255}
-				pattern="[^\p{Cc}]{2,255}"
-				description="Between 2 and 255 characters."
+				maxLength={128}
+				pattern="[^\p{Cc}]{2,128}"
+				description="Between 2 and 128 characters."
 			/>
 
 			<Form.Input
@@ -146,9 +151,9 @@ function FormCollection({
 				placeholder="What a cool description"
 				type="text"
 				value={description}
-				maxLength={512}
-				pattern="[^\p{Cc}]{0,512}"
-				description="Up to 512 characters."
+				maxLength={1024}
+				pattern="[^\p{Cc}]{0,1024}"
+				description="Up to 1024 characters."
 			/>
 
 			<Form.Checkbox
