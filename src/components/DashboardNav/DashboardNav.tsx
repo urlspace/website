@@ -18,6 +18,7 @@ import styles from "./DashboardNav.module.css";
 type CollectionRow = {
   id: string;
   name: string;
+  slug: string;
   description: string;
   public: boolean;
   createdAt: string;

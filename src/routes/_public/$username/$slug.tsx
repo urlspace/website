@@ -2,6 +2,7 @@ import {
   createFileRoute,
   Link,
   notFound,
+  redirect,
   useRouter,
 } from "@tanstack/react-router";
 import {
@@ -26,10 +27,23 @@ import React from "react";
 type Layout = "list" | "masonry";
 const layoutStorageKey = "public-collection-layout";
 
-export const Route = createFileRoute("/_public/collection/$collectionId")({
+export const Route = createFileRoute("/_public/$username/$slug")({
+  // Usernames and slugs are stored lowercase. Mixed-case links redirect so
+  // every collection has exactly one URL.
+  beforeLoad: ({ params }) => {
+    const username = params.username.toLowerCase();
+    const slug = params.slug.toLowerCase();
+    if (params.username !== username || params.slug !== slug) {
+      throw redirect({
+        to: "/$username/$slug",
+        params: { username, slug },
+        statusCode: 301,
+      });
+    }
+  },
   loader: async ({ params }) => {
     const collection = await getPublicCollection({
-      data: params.collectionId,
+      data: { username: params.username, slug: params.slug },
     });
     if (collection === null) throw notFound({ routeId: "__root__" });
     return collection;
@@ -40,7 +54,7 @@ export const Route = createFileRoute("/_public/collection/$collectionId")({
 
     const title = `${loaderData.name} by ${loaderData.author.displayName} | url.space`;
     const description = loaderData.description.trim();
-    const collectionUrl = `https://url.space/collection/${encodeURIComponent(params.collectionId)}`;
+    const collectionUrl = `https://url.space/${encodeURIComponent(params.username)}/${encodeURIComponent(params.slug)}`;
 
     return {
       meta: [
@@ -63,7 +77,7 @@ export const Route = createFileRoute("/_public/collection/$collectionId")({
   },
   gcTime: 5 * 60 * 1000,
   preloadStaleTime: 5 * 60 * 1000,
-  remountDeps: ({ params }) => params.collectionId,
+  remountDeps: ({ params }) => `${params.username}/${params.slug}`,
   component: PagePublicCollection,
 });
 
@@ -76,7 +90,7 @@ function PagePublicCollection() {
   const [cloneError, setCloneError] = React.useState<string | null>(null);
   const [sessionExpired, setSessionExpired] = React.useState(false);
   const collection = Route.useLoaderData();
-  const { collectionId } = Route.useParams();
+  const { username, slug } = Route.useParams();
   const { hasSession, queryClient } = Route.useRouteContext();
   const canClone = hasSession && !sessionExpired;
 
@@ -107,7 +121,7 @@ function PagePublicCollection() {
 
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/collections/${encodeURIComponent(collectionId)}/clone`,
+        `${import.meta.env.VITE_API_URL}/collections/${encodeURIComponent(collection.id)}/clone`,
         {
           method: "POST",
           credentials: "include",
@@ -143,7 +157,12 @@ function PagePublicCollection() {
             setCloneError("This collection is no longer available to clone.");
             break;
           case 409:
-            setCloneError("You already have a collection with that name.");
+            setCloneError(
+              ((await res.json()) as { data: string }).data ===
+                "slug is already taken"
+                ? "You already have a collection with that slug."
+                : "You already have a collection with that name.",
+            );
             break;
           case 429:
             setCloneError("Too many attempts. Try again in a moment.");
@@ -230,7 +249,7 @@ function PagePublicCollection() {
         <p className="collection__author">
           Created by{" "}
           <Link
-            to="/user/$username"
+            to="/$username"
             params={{ username: collection.author.username }}
           >
             {collection.author.displayName}
@@ -260,7 +279,7 @@ function PagePublicCollection() {
           <div className="collection__option">
             <DashboardButtonLink
               text="Feed"
-              to={`/collection/${encodeURIComponent(collectionId)}/feed.xml`}
+              to={`/${encodeURIComponent(username)}/${encodeURIComponent(slug)}/feed.xml`}
               icon={<Icon.Rss />}
               reloadDocument
             />

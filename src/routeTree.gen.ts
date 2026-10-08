@@ -18,11 +18,11 @@ import { Route as PublicDocsRouteImport } from './routes/_public/docs'
 import { Route as ProtectedSettingsRouteImport } from './routes/_protected/settings'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as DotwellKnownChangePasswordRouteImport } from './routes/[.]well-known.change-password'
-import { Route as CollectionCollectionIdFeedDotxmlRouteImport } from './routes/collection.$collectionId.feed[.]xml'
-import { Route as PublicUserUsernameRouteImport } from './routes/_public/user/$username'
-import { Route as PublicCollectionCollectionIdRouteImport } from './routes/_public/collection/$collectionId'
+import { Route as PublicUsernameIndexRouteImport } from './routes/_public/$username/index'
 import { Route as PublicAuthSigninRouteImport } from './routes/_public/auth/signin'
 import { Route as PublicAuthResendVerificationRouteImport } from './routes/_public/auth/resend-verification'
+import { Route as PublicUsernameSlugRouteImport } from './routes/_public/$username/$slug'
+import { Route as UsernameSlugFeedDotxmlRouteImport } from './routes/$username.$slug.feed[.]xml'
 import { Route as PublicAuthSignupIndexRouteImport } from './routes/_public/auth/signup/index'
 import { Route as PublicAuthResetPasswordIndexRouteImport } from './routes/_public/auth/reset-password/index'
 import { Route as PublicAuthSignupTokenRouteImport } from './routes/_public/auth/signup/$token'
@@ -72,23 +72,11 @@ const DotwellKnownChangePasswordRoute =
     path: '/.well-known/change-password',
     getParentRoute: () => rootRouteImport,
   } as any)
-const CollectionCollectionIdFeedDotxmlRoute =
-  CollectionCollectionIdFeedDotxmlRouteImport.update({
-    id: '/collection/$collectionId/feed.xml',
-    path: '/collection/$collectionId/feed.xml',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const PublicUserUsernameRoute = PublicUserUsernameRouteImport.update({
-  id: '/user/$username',
-  path: '/user/$username',
+const PublicUsernameIndexRoute = PublicUsernameIndexRouteImport.update({
+  id: '/$username/',
+  path: '/$username/',
   getParentRoute: () => PublicRoute,
 } as any)
-const PublicCollectionCollectionIdRoute =
-  PublicCollectionCollectionIdRouteImport.update({
-    id: '/collection/$collectionId',
-    path: '/collection/$collectionId',
-    getParentRoute: () => PublicRoute,
-  } as any)
 const PublicAuthSigninRoute = PublicAuthSigninRouteImport.update({
   id: '/auth/signin',
   path: '/auth/signin',
@@ -100,6 +88,16 @@ const PublicAuthResendVerificationRoute =
     path: '/auth/resend-verification',
     getParentRoute: () => PublicRoute,
   } as any)
+const PublicUsernameSlugRoute = PublicUsernameSlugRouteImport.update({
+  id: '/$username/$slug',
+  path: '/$username/$slug',
+  getParentRoute: () => PublicRoute,
+} as any)
+const UsernameSlugFeedDotxmlRoute = UsernameSlugFeedDotxmlRouteImport.update({
+  id: '/$username/$slug/feed.xml',
+  path: '/$username/$slug/feed.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PublicAuthSignupIndexRoute = PublicAuthSignupIndexRouteImport.update({
   id: '/auth/signup/',
   path: '/auth/signup/',
@@ -131,11 +129,11 @@ export interface FileRoutesByFullPath {
   '/docs': typeof PublicDocsRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
+  '/$username/$slug/feed.xml': typeof UsernameSlugFeedDotxmlRoute
+  '/$username/$slug': typeof PublicUsernameSlugRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/auth/signin': typeof PublicAuthSigninRoute
-  '/collection/$collectionId': typeof PublicCollectionCollectionIdRoute
-  '/user/$username': typeof PublicUserUsernameRoute
-  '/collection/$collectionId/feed.xml': typeof CollectionCollectionIdFeedDotxmlRoute
+  '/$username/': typeof PublicUsernameIndexRoute
   '/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/auth/signup/$token': typeof PublicAuthSignupTokenRoute
   '/auth/reset-password/': typeof PublicAuthResetPasswordIndexRoute
@@ -149,11 +147,11 @@ export interface FileRoutesByTo {
   '/docs': typeof PublicDocsRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
+  '/$username/$slug/feed.xml': typeof UsernameSlugFeedDotxmlRoute
+  '/$username/$slug': typeof PublicUsernameSlugRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/auth/signin': typeof PublicAuthSigninRoute
-  '/collection/$collectionId': typeof PublicCollectionCollectionIdRoute
-  '/user/$username': typeof PublicUserUsernameRoute
-  '/collection/$collectionId/feed.xml': typeof CollectionCollectionIdFeedDotxmlRoute
+  '/$username': typeof PublicUsernameIndexRoute
   '/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/auth/signup/$token': typeof PublicAuthSignupTokenRoute
   '/auth/reset-password': typeof PublicAuthResetPasswordIndexRoute
@@ -170,11 +168,11 @@ export interface FileRoutesById {
   '/_public/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/_public/terms-of-service': typeof PublicTermsOfServiceRoute
   '/_public/': typeof PublicIndexRoute
+  '/$username/$slug/feed.xml': typeof UsernameSlugFeedDotxmlRoute
+  '/_public/$username/$slug': typeof PublicUsernameSlugRoute
   '/_public/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/_public/auth/signin': typeof PublicAuthSigninRoute
-  '/_public/collection/$collectionId': typeof PublicCollectionCollectionIdRoute
-  '/_public/user/$username': typeof PublicUserUsernameRoute
-  '/collection/$collectionId/feed.xml': typeof CollectionCollectionIdFeedDotxmlRoute
+  '/_public/$username/': typeof PublicUsernameIndexRoute
   '/_public/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/_public/auth/signup/$token': typeof PublicAuthSignupTokenRoute
   '/_public/auth/reset-password/': typeof PublicAuthResetPasswordIndexRoute
@@ -190,11 +188,11 @@ export interface FileRouteTypes {
     | '/docs'
     | '/privacy-policy'
     | '/terms-of-service'
+    | '/$username/$slug/feed.xml'
+    | '/$username/$slug'
     | '/auth/resend-verification'
     | '/auth/signin'
-    | '/collection/$collectionId'
-    | '/user/$username'
-    | '/collection/$collectionId/feed.xml'
+    | '/$username/'
     | '/auth/reset-password/$token'
     | '/auth/signup/$token'
     | '/auth/reset-password/'
@@ -208,11 +206,11 @@ export interface FileRouteTypes {
     | '/docs'
     | '/privacy-policy'
     | '/terms-of-service'
+    | '/$username/$slug/feed.xml'
+    | '/$username/$slug'
     | '/auth/resend-verification'
     | '/auth/signin'
-    | '/collection/$collectionId'
-    | '/user/$username'
-    | '/collection/$collectionId/feed.xml'
+    | '/$username'
     | '/auth/reset-password/$token'
     | '/auth/signup/$token'
     | '/auth/reset-password'
@@ -228,11 +226,11 @@ export interface FileRouteTypes {
     | '/_public/privacy-policy'
     | '/_public/terms-of-service'
     | '/_public/'
+    | '/$username/$slug/feed.xml'
+    | '/_public/$username/$slug'
     | '/_public/auth/resend-verification'
     | '/_public/auth/signin'
-    | '/_public/collection/$collectionId'
-    | '/_public/user/$username'
-    | '/collection/$collectionId/feed.xml'
+    | '/_public/$username/'
     | '/_public/auth/reset-password/$token'
     | '/_public/auth/signup/$token'
     | '/_public/auth/reset-password/'
@@ -243,7 +241,7 @@ export interface RootRouteChildren {
   ProtectedRoute: typeof ProtectedRouteWithChildren
   PublicRoute: typeof PublicRouteWithChildren
   DotwellKnownChangePasswordRoute: typeof DotwellKnownChangePasswordRoute
-  CollectionCollectionIdFeedDotxmlRoute: typeof CollectionCollectionIdFeedDotxmlRoute
+  UsernameSlugFeedDotxmlRoute: typeof UsernameSlugFeedDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -311,25 +309,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DotwellKnownChangePasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/collection/$collectionId/feed.xml': {
-      id: '/collection/$collectionId/feed.xml'
-      path: '/collection/$collectionId/feed.xml'
-      fullPath: '/collection/$collectionId/feed.xml'
-      preLoaderRoute: typeof CollectionCollectionIdFeedDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_public/user/$username': {
-      id: '/_public/user/$username'
-      path: '/user/$username'
-      fullPath: '/user/$username'
-      preLoaderRoute: typeof PublicUserUsernameRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/collection/$collectionId': {
-      id: '/_public/collection/$collectionId'
-      path: '/collection/$collectionId'
-      fullPath: '/collection/$collectionId'
-      preLoaderRoute: typeof PublicCollectionCollectionIdRouteImport
+    '/_public/$username/': {
+      id: '/_public/$username/'
+      path: '/$username'
+      fullPath: '/$username/'
+      preLoaderRoute: typeof PublicUsernameIndexRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/auth/signin': {
@@ -345,6 +329,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/resend-verification'
       preLoaderRoute: typeof PublicAuthResendVerificationRouteImport
       parentRoute: typeof PublicRoute
+    }
+    '/_public/$username/$slug': {
+      id: '/_public/$username/$slug'
+      path: '/$username/$slug'
+      fullPath: '/$username/$slug'
+      preLoaderRoute: typeof PublicUsernameSlugRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/$username/$slug/feed.xml': {
+      id: '/$username/$slug/feed.xml'
+      path: '/$username/$slug/feed.xml'
+      fullPath: '/$username/$slug/feed.xml'
+      preLoaderRoute: typeof UsernameSlugFeedDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_public/auth/signup/': {
       id: '/_public/auth/signup/'
@@ -396,10 +394,10 @@ interface PublicRouteChildren {
   PublicPrivacyPolicyRoute: typeof PublicPrivacyPolicyRoute
   PublicTermsOfServiceRoute: typeof PublicTermsOfServiceRoute
   PublicIndexRoute: typeof PublicIndexRoute
+  PublicUsernameSlugRoute: typeof PublicUsernameSlugRoute
   PublicAuthResendVerificationRoute: typeof PublicAuthResendVerificationRoute
   PublicAuthSigninRoute: typeof PublicAuthSigninRoute
-  PublicCollectionCollectionIdRoute: typeof PublicCollectionCollectionIdRoute
-  PublicUserUsernameRoute: typeof PublicUserUsernameRoute
+  PublicUsernameIndexRoute: typeof PublicUsernameIndexRoute
   PublicAuthResetPasswordTokenRoute: typeof PublicAuthResetPasswordTokenRoute
   PublicAuthSignupTokenRoute: typeof PublicAuthSignupTokenRoute
   PublicAuthResetPasswordIndexRoute: typeof PublicAuthResetPasswordIndexRoute
@@ -411,10 +409,10 @@ const PublicRouteChildren: PublicRouteChildren = {
   PublicPrivacyPolicyRoute: PublicPrivacyPolicyRoute,
   PublicTermsOfServiceRoute: PublicTermsOfServiceRoute,
   PublicIndexRoute: PublicIndexRoute,
+  PublicUsernameSlugRoute: PublicUsernameSlugRoute,
   PublicAuthResendVerificationRoute: PublicAuthResendVerificationRoute,
   PublicAuthSigninRoute: PublicAuthSigninRoute,
-  PublicCollectionCollectionIdRoute: PublicCollectionCollectionIdRoute,
-  PublicUserUsernameRoute: PublicUserUsernameRoute,
+  PublicUsernameIndexRoute: PublicUsernameIndexRoute,
   PublicAuthResetPasswordTokenRoute: PublicAuthResetPasswordTokenRoute,
   PublicAuthSignupTokenRoute: PublicAuthSignupTokenRoute,
   PublicAuthResetPasswordIndexRoute: PublicAuthResetPasswordIndexRoute,
@@ -428,7 +426,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProtectedRoute: ProtectedRouteWithChildren,
   PublicRoute: PublicRouteWithChildren,
   DotwellKnownChangePasswordRoute: DotwellKnownChangePasswordRoute,
-  CollectionCollectionIdFeedDotxmlRoute: CollectionCollectionIdFeedDotxmlRoute,
+  UsernameSlugFeedDotxmlRoute: UsernameSlugFeedDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

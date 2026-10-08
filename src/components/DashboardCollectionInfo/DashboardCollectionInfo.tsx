@@ -4,10 +4,12 @@ import styles from "./DashboardCollectionInfo.module.css";
 
 function DashboardCollectionInfo({
   collection,
+  username,
 }: {
   collection: CollectionRow;
+  username: string;
 }) {
-  const url = `${window.location.origin}/collection/${collection.id}`;
+  const url = `${window.location.origin}/${username}/${collection.slug}`;
 
   return (
     <section className={styles.wrapper}>

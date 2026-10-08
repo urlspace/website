@@ -192,12 +192,21 @@ function Row({ children }: { children: React.ReactNode }) {
 	return <div className={styles.row}>{children}</div>;
 }
 
+function Warning({ children }: { children: React.ReactNode }) {
+	return (
+		<p className={styles.warning} role="status">
+			{children}
+		</p>
+	);
+}
+
 Form.Input = Input;
 Form.Select = Select;
 Form.TagsInput = TagsInput;
 Form.SearchInput = SearchInput;
 Form.Checkbox = Checkbox;
 Form.Row = Row;
+Form.Warning = Warning;
 Form.Submit = Submit;
 
 export default Form;

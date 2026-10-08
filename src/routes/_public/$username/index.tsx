@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
 import React from "react";
 import {
 	ButtonLink,
@@ -13,7 +13,19 @@ import { getPublicUser } from "#/queries/user.ts";
 type Layout = "list" | "masonry";
 const layoutStorageKey = "public-collection-layout";
 
-export const Route = createFileRoute("/_public/user/$username")({
+export const Route = createFileRoute("/_public/$username/")({
+	// Usernames are stored lowercase. Mixed-case links redirect so every
+	// profile has exactly one URL.
+	beforeLoad: ({ params }) => {
+		const username = params.username.toLowerCase();
+		if (params.username !== username) {
+			throw redirect({
+				to: "/$username",
+				params: { username },
+				statusCode: 301,
+			});
+		}
+	},
 	loader: async ({ params }) => {
 		const user = await getPublicUser({ data: params.username });
 		if (user === null) throw notFound({ routeId: "__root__" });
@@ -25,7 +37,7 @@ export const Route = createFileRoute("/_public/user/$username")({
 
 		const title = `${loaderData.displayName} | url.space`;
 		const description = `Explore public collections of links curated by ${loaderData.displayName} on url.space.`;
-		const userUrl = `https://url.space/user/${encodeURIComponent(params.username)}`;
+		const userUrl = `https://url.space/${encodeURIComponent(params.username)}`;
 
 		return {
 			meta: [
@@ -46,6 +58,7 @@ export const Route = createFileRoute("/_public/user/$username")({
 function PagePublicUser() {
 	const [layout, setLayout] = React.useState<Layout>("list");
 	const user = Route.useLoaderData();
+	const { username } = Route.useParams();
 	const { hasSession } = Route.useRouteContext();
 
 	async function handleShare() {
@@ -125,7 +138,7 @@ function PagePublicUser() {
 						title={collection.name}
 						description={collection.description}
 						createdAt={collection.createdAt}
-						url={`/collection/${collection.id}`}
+						url={`/${encodeURIComponent(username)}/${encodeURIComponent(collection.slug)}`}
 						internal
 					/>
 				</div>

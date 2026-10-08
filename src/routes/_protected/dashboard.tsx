@@ -455,7 +455,10 @@ function PageDashboard() {
         ) : null}
 
         {selectedCollectionObj ? (
-          <DashboardCollectionInfo collection={selectedCollectionObj} />
+          <DashboardCollectionInfo
+            collection={selectedCollectionObj}
+            username={user.username}
+          />
         ) : null}
 
         <Dashboard.MainLinks ref={linksRef}>
@@ -632,6 +635,7 @@ function PageDashboard() {
             onClose={() => setIsAddCollectionOpen(false)}
             isPro={user.isPro}
             isAdmin={user.isAdmin}
+            username={user.username}
             collections={collections}
           />
         ) : null}
@@ -649,6 +653,7 @@ function PageDashboard() {
             collections={collections}
             isPro={user.isPro}
             isAdmin={user.isAdmin}
+            username={user.username}
             onClose={() => setEditingCollection(null)}
           />
         ) : null}

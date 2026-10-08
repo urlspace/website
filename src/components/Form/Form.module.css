@@ -27,6 +27,13 @@
   margin-block-start: 0.5lh;
 }
 
+.warning {
+  --color: light-dark(oklch(76.9% 0.188 70.08), oklch(82.8% 0.189 84.429));
+
+  padding-inline-start: 0.5lh;
+  border-inline-start: 4px solid var(--color);
+}
+
 .label {
   font-size: 0.9375rem;
   font-weight: 500;

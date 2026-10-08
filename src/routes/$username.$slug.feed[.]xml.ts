@@ -17,12 +17,24 @@ function publicationDate(value: string) {
 		: `<pubDate>${date.toUTCString()}</pubDate>`;
 }
 
-export const Route = createFileRoute("/collection/$collectionId/feed.xml")({
+export const Route = createFileRoute("/$username/$slug/feed.xml")({
 	server: {
 		handlers: {
 			GET: async ({ request, params }) => {
+				const username = params.username.toLowerCase();
+				const slug = params.slug.toLowerCase();
+				if (params.username !== username || params.slug !== slug) {
+					return Response.redirect(
+						new URL(
+							`/${encodeURIComponent(username)}/${encodeURIComponent(slug)}/feed.xml`,
+							request.url,
+						),
+						301,
+					);
+				}
+
 				const collection = await getPublicCollection({
-					data: params.collectionId,
+					data: { username: params.username, slug: params.slug },
 				});
 				if (collection === null) {
 					return new Response("Collection not found", {
@@ -32,7 +44,7 @@ export const Route = createFileRoute("/collection/$collectionId/feed.xml")({
 				}
 
 				const collectionUrl = new URL(
-					`/collection/${encodeURIComponent(params.collectionId)}`,
+					`/${encodeURIComponent(params.username)}/${encodeURIComponent(params.slug)}`,
 					request.url,
 				).href;
 				const feedUrl = `${collectionUrl}/feed.xml`;
