@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { collectionsQueryOptions } from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
-import { slugify } from "#/utils.ts";
+import { siteUrl, slugify } from "#/utils.ts";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 import { Button } from "../Button/Button.tsx";
 import CopyBox from "../CopyBox/CopyBox.tsx";
@@ -162,7 +162,9 @@ function FormCollection({
 
       // Public collections stay in the dialog to show the saved address.
       if (saved.public) {
-        setSavedUrl(`${window.location.origin}/${username}/${saved.slug}`);
+        setSavedUrl(
+          `${siteUrl || window.location.origin}/${username}/${saved.slug}`,
+        );
         return;
       }
       onClose();

@@ -1,3 +1,16 @@
+// Pages for signed-out visitors live on the site (url.space), the signed-in app
+// on my.url.space. Locally both point at the same host.
+export const siteUrl: string = import.meta.env.VITE_SITE_URL ?? "";
+export const dashboardUrl: string = import.meta.env.VITE_DASHBOARD_URL ?? "";
+
+const dashboardPaths = ["/dashboard", "/settings"];
+
+export function isDashboardPath(pathname: string) {
+  return dashboardPaths.some(
+    (path) => pathname === path || pathname.startsWith(`${path}/`),
+  );
+}
+
 const dateFormatter = new Intl.DateTimeFormat("en-GB", {
   dateStyle: "long",
   timeZone: "UTC",

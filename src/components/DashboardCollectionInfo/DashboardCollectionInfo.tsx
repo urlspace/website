@@ -1,4 +1,5 @@
 import type { CollectionRow } from "#/queries/collections.ts";
+import { siteUrl } from "#/utils.ts";
 import { CopyBox } from "..";
 import styles from "./DashboardCollectionInfo.module.css";
 
@@ -9,7 +10,7 @@ function DashboardCollectionInfo({
   collection: CollectionRow;
   username: string;
 }) {
-  const url = `${window.location.origin}/${username}/${collection.slug}`;
+  const url = `${siteUrl || window.location.origin}/${username}/${collection.slug}`;
 
   return (
     <section className={styles.wrapper}>

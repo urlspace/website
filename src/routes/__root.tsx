@@ -3,23 +3,46 @@ import type { QueryClient } from "@tanstack/react-query";
 import {
 	createRootRouteWithContext,
 	HeadContent,
+	redirect,
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
-import { getCookie } from "@tanstack/react-start/server";
+import { getCookie, getRequest } from "@tanstack/react-start/server";
+import { dashboardUrl, isDashboardPath, siteUrl } from "#/utils.ts";
 
 import appCss from "../styles.css?url";
 
+// Also reports the origin the request arrived on. Server functions run on the
+// host the visitor is on, so this works for page loads and client navigation.
 const checkSession = createServerFn().handler(() => ({
 	hasSession: getCookie("session") !== undefined,
+	origin: new URL(getRequest().url).origin,
 }));
 
 export const Route = createRootRouteWithContext<{
 	hasSession: boolean;
 	queryClient: QueryClient;
 }>()({
-	beforeLoad: () => checkSession(),
+	// Signed-in pages (dashboard, settings) belong on my.url.space, everything
+	// else on url.space. Any navigation to the wrong host is sent to the right
+	// one, so plain relative links keep working across the two. Locally both
+	// URLs are the same and nothing redirects.
+	beforeLoad: async ({ location }) => {
+		const { hasSession, origin } = await checkSession();
+		if (siteUrl !== dashboardUrl) {
+			if (origin === dashboardUrl && location.pathname === "/") {
+				throw redirect({ href: `${dashboardUrl}/dashboard` });
+			}
+			const target = isDashboardPath(location.pathname)
+				? dashboardUrl
+				: siteUrl;
+			if (origin !== target) {
+				throw redirect({ href: `${target}${location.href}` });
+			}
+		}
+		return { hasSession };
+	},
 	shellComponent: RootDocument,
 	notFoundComponent: NotFound,
 	errorComponent: GenericError,

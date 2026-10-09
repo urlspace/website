@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getCookie } from "@tanstack/react-start/server";
+import { dashboardUrl } from "#/utils.ts";
 
 export const Route = createFileRoute("/.well-known/change-password")({
 	server: {
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/.well-known/change-password")({
 					status: 302,
 					headers: {
 						Location: hasSession
-							? "/settings"
+							? `${dashboardUrl}/settings`
 							: "/auth/reset-password",
 						"Cache-Control": "no-store",
 					},
