@@ -98,16 +98,28 @@ export const Route = createRootRouteWithContext<{
 				rel: "stylesheet",
 				href: appCss,
 			},
-			{
-				rel: "icon",
-				href: "/favicon.ico",
-				sizes: "32x32",
-			},
-			{
-				rel: "icon",
-				href: "/favicon.svg",
-				type: "image/svg+xml",
-			},
+			// Local development gets an orange icon, so its tabs stand out from
+			// production ones.
+			...(import.meta.env.DEV
+				? [
+						{
+							rel: "icon",
+							href: "/favicon-dev.svg",
+							type: "image/svg+xml",
+						},
+					]
+				: [
+						{
+							rel: "icon",
+							href: "/favicon.ico",
+							sizes: "32x32",
+						},
+						{
+							rel: "icon",
+							href: "/favicon.svg",
+							type: "image/svg+xml",
+						},
+					]),
 			{
 				rel: "apple-touch-icon",
 				href: "/apple-touch-icon.png",
