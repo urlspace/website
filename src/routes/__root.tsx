@@ -9,7 +9,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
 import { getCookie, getRequest } from "@tanstack/react-start/server";
-import { dashboardUrl, isDashboardPath, siteUrl } from "#/utils.ts";
+import { hasSeparateDashboard, toPublicUrl } from "#/utils.ts";
 
 import appCss from "../styles.css?url";
 
@@ -24,21 +24,17 @@ export const Route = createRootRouteWithContext<{
 	hasSession: boolean;
 	queryClient: QueryClient;
 }>()({
-	// Signed-in pages (dashboard, settings) belong on my.url.space, everything
-	// else on url.space. Any navigation to the wrong host is sent to the right
-	// one, so plain relative links keep working across the two. Locally both
-	// URLs are the same and nothing redirects.
+	// Links already point at the right host (see the router's rewrite). This
+	// catches addresses typed or shared on the wrong host, like
+	// url.space/dashboard or my.url.space/dashboard, and sends them to the one
+	// canonical address. Locally both hosts are the same and nothing redirects.
 	beforeLoad: async ({ location }) => {
 		const { hasSession, origin } = await checkSession();
-		if (siteUrl !== dashboardUrl) {
-			if (origin === dashboardUrl && location.pathname === "/") {
-				throw redirect({ href: `${dashboardUrl}/dashboard` });
-			}
-			const target = isDashboardPath(location.pathname)
-				? dashboardUrl
-				: siteUrl;
-			if (origin !== target) {
-				throw redirect({ href: `${target}${location.href}` });
+		if (hasSeparateDashboard) {
+			const current = new URL(location.publicHref, origin);
+			const canonical = toPublicUrl(new URL(location.href, origin));
+			if (current.href !== canonical.href) {
+				throw redirect({ href: canonical.href });
 			}
 		}
 		return { hasSession };

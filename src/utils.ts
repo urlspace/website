@@ -11,6 +11,32 @@ export function isDashboardPath(pathname: string) {
   );
 }
 
+export const hasSeparateDashboard =
+  siteUrl !== "" && dashboardUrl !== "" && siteUrl !== dashboardUrl;
+
+// Router path → address shown to visitors: dashboard pages on my.url.space,
+// with the dashboard itself at its root, everything else on url.space.
+export function toPublicUrl(url: URL) {
+  const base = new URL(isDashboardPath(url.pathname) ? dashboardUrl : siteUrl);
+  const result = new URL(url);
+  result.protocol = base.protocol;
+  result.host = base.host;
+  if (result.pathname === "/dashboard") {
+    result.pathname = "/";
+  }
+  return result;
+}
+
+// Address shown to visitors → router path. Undoes toPublicUrl's root mapping.
+export function fromPublicUrl(url: URL) {
+  if (url.origin !== new URL(dashboardUrl).origin || url.pathname !== "/") {
+    return url;
+  }
+  const result = new URL(url);
+  result.pathname = "/dashboard";
+  return result;
+}
+
 const dateFormatter = new Intl.DateTimeFormat("en-GB", {
   dateStyle: "long",
   timeZone: "UTC",
