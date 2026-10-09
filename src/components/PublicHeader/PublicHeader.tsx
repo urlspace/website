@@ -11,22 +11,20 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
           <li>
             <Link to="/docs">Documentation</Link>
           </li>
-          {
-            // {hasSession ? (
-            //   <li>
-            //     <Link to="/dashboard">Dashboard</Link>
-            //   </li>
-            // ) : (
-            //   <>
-            //     <li>
-            //       <Link to="/auth/signin">Sign in</Link>
-            //     </li>
-            //     <li>
-            //       <Link to="/auth/signup">Sign up</Link>
-            //     </li>
-            //   </>
-            // )}
-          }
+          {hasSession ? (
+            <li>
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+          ) : (
+            <>
+              {/* <li> */}
+              {/*   <Link to="/auth/signin">Sign in</Link> */}
+              {/* </li> */}
+              {/* <li> */}
+              {/*   <Link to="/auth/signup">Sign up</Link> */}
+              {/* </li> */}
+            </>
+          )}
         </ul>
       </nav>
     </header>
