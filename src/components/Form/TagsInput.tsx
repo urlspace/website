@@ -113,16 +113,9 @@ function TagsInput({
           }}
         />
         <datalist id={listId}>
-          {options
-            .filter(
-              (tag) =>
-                !value.some(
-                  (selected) => selected.toLowerCase() === tag.toLowerCase(),
-                ),
-            )
-            .map((tag) => (
-              <option key={tag} value={tag} />
-            ))}
+          {options.map((tag) => (
+            <option key={tag} value={tag} />
+          ))}
         </datalist>
         <div>
           <DashboardButton
