@@ -6,6 +6,7 @@ import {
 	Heading,
 	Icon,
 	LinkCardSlim,
+	Public,
 	Stack,
 } from "#/components/index.ts";
 import { getPublicUser } from "#/queries/user.ts";
@@ -132,7 +133,7 @@ function PagePublicUser() {
 			<p>No public collections yet.</p>
 		) : (
 			user.collections.map((collection) => (
-				<div key={collection.id}>
+				<Public.Item key={collection.id}>
 					<LinkCardSlim
 						id={`collection-${collection.id}`}
 						title={collection.name}
@@ -141,57 +142,57 @@ function PagePublicUser() {
 						url={`/${encodeURIComponent(username)}/${encodeURIComponent(collection.slug)}`}
 						internal
 					/>
-				</div>
+				</Public.Item>
 			))
 		);
 
 	return (
-		<main className="collection">
-			<header className="collection__header">
+		<Public>
+			<Public.Header>
 				<Heading level={1} text={user.displayName} />
-				<div className="collection__options">
-					<div className="collection__option collection__option--layout">
+				<Public.Options>
+					<Public.Option layout>
 						<DashboardButton
 							text="List"
 							onClick={() => changeLayout("list")}
 							icon={<Icon.List />}
 							ariaPressed={layout === "list"}
 						/>
-					</div>
-					<div className="collection__option collection__option--layout">
+					</Public.Option>
+					<Public.Option layout>
 						<DashboardButton
 							text="Waterfall"
 							onClick={() => changeLayout("masonry")}
 							icon={<Icon.Masonry />}
 							ariaPressed={layout === "masonry"}
 						/>
-					</div>
-					<div className="collection__option">
+					</Public.Option>
+					<Public.Option>
 						<DashboardButton
 							text="Share"
 							onClick={handleShare}
 							icon={<Icon.Share />}
 						/>
-					</div>
-				</div>
-			</header>
+					</Public.Option>
+				</Public.Options>
+			</Public.Header>
 			{layout === "masonry" ? (
-				<div className="collection__viewMasonry">
-					<header className="collection__viewMasonryHeader">{heading}</header>
-					<div className="collection__viewMasonryMain">{collections}</div>
-					<aside className="collection__viewMasonryAside">{asideContent}</aside>
-				</div>
+				<Public.ViewMasonry>
+					<Public.ViewMasonryHeader>{heading}</Public.ViewMasonryHeader>
+					<Public.ViewMasonryMain>{collections}</Public.ViewMasonryMain>
+					<Public.ViewMasonryAside>{asideContent}</Public.ViewMasonryAside>
+				</Public.ViewMasonry>
 			) : (
-				<div className="collection__viewList">
-					<div className="collection__viewListMain">
+				<Public.ViewList>
+					<Public.ViewListMain>
 						<Stack gap={2}>
 							{heading}
 							{collections}
 						</Stack>
-					</div>
-					<aside className="collection__viewListAside">{asideContent}</aside>
-				</div>
+					</Public.ViewListMain>
+					<Public.ViewListAside>{asideContent}</Public.ViewListAside>
+				</Public.ViewList>
 			)}
-		</main>
+		</Public>
 	);
 }

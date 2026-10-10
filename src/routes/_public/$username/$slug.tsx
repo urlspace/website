@@ -20,6 +20,7 @@ import {
   Heading,
   Icon,
   LinkCardSlim,
+  Public,
   Stack,
 } from "#/components/index.ts";
 import React from "react";
@@ -242,11 +243,11 @@ function PagePublicCollection() {
   }
 
   return (
-    <main className="collection">
-      <header className="collection__header">
+    <Public>
+      <Public.Header>
         <Heading level={1} text={collection.name} />
-        <p className="collection__description">{collection.description}</p>
-        <p className="collection__author">
+        <Public.Description>{collection.description}</Public.Description>
+        <Public.Author>
           Created by{" "}
           <Link
             to="/$username"
@@ -258,55 +259,55 @@ function PagePublicCollection() {
           <time dateTime={collection.createdAt}>
             {formatDate(collection.createdAt)}
           </time>
-        </p>
-        <div className="collection__options">
-          <div className="collection__option collection__option--layout">
+        </Public.Author>
+        <Public.Options>
+          <Public.Option layout>
             <DashboardButton
               text="List"
               onClick={() => changeLayout("list")}
               icon={<Icon.List />}
               ariaPressed={layout === "list"}
             />
-          </div>
-          <div className="collection__option collection__option--layout">
+          </Public.Option>
+          <Public.Option layout>
             <DashboardButton
               text="Waterfall"
               onClick={() => changeLayout("masonry")}
               icon={<Icon.Masonry />}
               ariaPressed={layout === "masonry"}
             />
-          </div>
-          <div className="collection__option">
+          </Public.Option>
+          <Public.Option>
             <DashboardButtonLink
               text="Feed"
               to={`/${encodeURIComponent(username)}/${encodeURIComponent(slug)}/feed.xml`}
               icon={<Icon.Rss />}
               reloadDocument
             />
-          </div>
-          <div className="collection__option">
+          </Public.Option>
+          <Public.Option>
             <DashboardButton
               text="Share"
               onClick={handleShare}
               icon={<Icon.Share />}
             />
-          </div>
-        </div>
-      </header>
+          </Public.Option>
+        </Public.Options>
+      </Public.Header>
       {layout === "masonry" ? (
-        <div className="collection__viewMasonry">
-          <header className="collection__viewMasonryHeader">
+        <Public.ViewMasonry>
+          <Public.ViewMasonryHeader>
             <Heading
               level={2}
               text={`Links (${collection.links.length} items)`}
             />
-          </header>
-          <main className="collection__viewMasonryMain">
+          </Public.ViewMasonryHeader>
+          <Public.ViewMasonryMain>
             {collection.links.length === 0 ? (
               <p>No links yet.</p>
             ) : (
               collection.links.map((link) => (
-                <div key={link.id}>
+                <Public.Item key={link.id}>
                   <LinkCardSlim
                     title={link.title}
                     description={link.description}
@@ -314,15 +315,15 @@ function PagePublicCollection() {
                     url={link.url}
                     createdAt={link.createdAt}
                   />
-                </div>
+                </Public.Item>
               ))
             )}
-          </main>
-          <aside className="collection__viewMasonryAside">{cloneSection}</aside>
-        </div>
+          </Public.ViewMasonryMain>
+          <Public.ViewMasonryAside>{cloneSection}</Public.ViewMasonryAside>
+        </Public.ViewMasonry>
       ) : (
-        <div className="collection__viewList">
-          <main className="collection__viewListMain">
+        <Public.ViewList>
+          <Public.ViewListMain>
             <Stack gap={2}>
               <Heading
                 level={2}
@@ -332,21 +333,22 @@ function PagePublicCollection() {
                 <p>No links yet.</p>
               ) : (
                 collection.links.map((link) => (
-                  <LinkCardSlim
-                    key={link.id}
-                    title={link.title}
-                    description={link.description}
-                    id={link.id}
-                    url={link.url}
-                    createdAt={link.createdAt}
-                  />
+                  <Public.Item key={link.id}>
+                    <LinkCardSlim
+                      title={link.title}
+                      description={link.description}
+                      id={link.id}
+                      url={link.url}
+                      createdAt={link.createdAt}
+                    />
+                  </Public.Item>
                 ))
               )}
             </Stack>
-          </main>
-          <aside className="collection__viewListAside">{cloneSection}</aside>
-        </div>
+          </Public.ViewListMain>
+          <Public.ViewListAside>{cloneSection}</Public.ViewListAside>
+        </Public.ViewList>
       )}
-    </main>
+    </Public>
   );
 }

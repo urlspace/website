@@ -29,6 +29,7 @@ import KeyboardShortcuts from "./KeyboardShortcuts/KeyboardShortcuts.tsx";
 import Logo from "./Logo/Logo.tsx";
 import Page from "./Page/Page.tsx";
 import Pills from "./Pills/Pills.tsx";
+import Public from "./Public/Public.tsx";
 import PublicFooter from "./PublicFooter/PublicFooter.tsx";
 import PublicHeader from "./PublicHeader/PublicHeader.tsx";
 import SettingsListAccount from "./SettingsList/SettingsListAccount.tsx";
@@ -75,6 +76,7 @@ export {
   Logo,
   Page,
   Pills,
+  Public,
   PublicFooter,
   PublicHeader,
   SettingsListAccount,
