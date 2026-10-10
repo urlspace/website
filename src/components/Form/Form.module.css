@@ -126,8 +126,13 @@
   }
 }
 
+/* Despite its name, this pseudo-element also targets the datalist dropdown
+   arrow. Chrome sets its display inline, so ordinary display: none loses.
+   Visibility hides the arrow and disables clicks; absolute positioning removes
+   its layout space. Native suggestions remain available while typing. */
 .input[list]::-webkit-calendar-picker-indicator {
-  display: none;
+  visibility: hidden;
+  position: absolute;
 }
 
 .description {
