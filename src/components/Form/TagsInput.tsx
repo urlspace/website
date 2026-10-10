@@ -99,7 +99,10 @@ function TagsInput({
           ref={inputRef}
           list={listId}
           name={name}
-          pattern="\s*(?=[A-Za-z0-9\-]{2,50}\s*$)[A-Za-z0-9]+(-[A-Za-z0-9]+)*\s*"
+          // Disabled because the Apple Passwords extension in Chrome treats this
+          // field as a login field when it has a pattern, and offers to fill in
+          // passwords. addTag already validates tags and shows the error.
+          // pattern="\s*(?=[A-Za-z0-9\-]{2,50}\s*$)[A-Za-z0-9]+(-[A-Za-z0-9]+)*\s*"
           placeholder={placeholder}
           type="text"
           value={inputValue}
