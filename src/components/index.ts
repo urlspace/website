@@ -16,7 +16,6 @@ import FormCollection from "./FormCollection/FormCollection.tsx";
 import FormDeleteAccount from "./FormDeleteAccount/FormDeleteAccount.tsx";
 import FormDisplayName from "./FormDisplayName/FormDisplayName.tsx";
 import FormEmail from "./FormEmail/FormEmail.tsx";
-import FormJoin from "./FormJoin/FormJoin.tsx";
 import FormLink from "./FormLink/FormLink.tsx";
 import FormPassword from "./FormPassword/FormPassword.tsx";
 import FormTag from "./FormTag/FormTag.tsx";
@@ -63,7 +62,6 @@ export {
   FormDeleteAccount,
   FormDisplayName,
   FormEmail,
-  FormJoin,
   FormLink,
   FormPassword,
   FormTag,

@@ -1,5 +1,4 @@
 import { Heading, Stack } from "#/components";
-import { FormJoin } from "#/components/";
 import styles from "./Intro.module.css";
 
 function Intro() {
@@ -8,11 +7,10 @@ function Intro() {
       <Stack>
         <Heading text="url.space" level={1} />
         <p className={styles.description}>
-          Keep, organise and share websites you like. Open source, no ads, no
-          tracking, no AI, just a space for your URLs. Free for everyday use
-          with power user features for a tiny fee.
+          A bookmarking service for people who love the web. Save, organise and
+          share links. Open source, no ads, no tracking, no AI. Free for
+          everyday use, with power-user features for a small fee.
         </p>
-        <FormJoin />
       </Stack>
     </div>
   );
