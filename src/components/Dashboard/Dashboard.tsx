@@ -1,12 +1,7 @@
 import Icon from "../Icons/Icons";
 import styles from "./Dashboard.module.css";
 
-function Dashboard({
-  children,
-}: {
-  children: React.ReactNode;
-  narrow?: boolean;
-}) {
+function Dashboard({ children }: { children: React.ReactNode }) {
   return <div className={styles.wrapper}>{children}</div>;
 }
 
