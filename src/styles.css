@@ -9,8 +9,14 @@
   --color-border-input: light-dark(oklch(0.7 0.005 65), oklch(0.42 0.008 285));
 
   --color-link: light-dark(oklch(0.5 0.13 280), oklch(0.83 0.08 285));
-  --color-error: light-dark(oklch(57.7% 0.245 27.325), oklch(70.4% 0.191 22.216));
-  --color-warning: light-dark(oklch(76.9% 0.188 70.08), oklch(82.8% 0.189 84.429));
+  --color-error: light-dark(
+    oklch(45.5% 0.188 13.697),
+    oklch(71.2% 0.194 13.428)
+  );
+  --color-warning: light-dark(
+    oklch(79.5% 0.184 86.047),
+    oklch(79.5% 0.184 86.047)
+  );
 
   --size-container-max: min(100% - 2lh, 56lh);
   --transition-duration: 140ms;

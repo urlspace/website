@@ -8,6 +8,7 @@ function Button({
 	disabled,
 	ariaDisabled,
 	fullWidth,
+	variant,
 }: {
 	text: string;
 	onClick?: () => void;
@@ -15,10 +16,15 @@ function Button({
 	disabled?: boolean;
 	ariaDisabled?: boolean;
 	fullWidth?: boolean;
+	variant?: "danger";
 }) {
 	return (
 		<button
-			className={[styles.button, fullWidth && styles.fullWidth]
+			className={[
+				styles.button,
+				fullWidth && styles.fullWidth,
+				variant === "danger" && styles.danger,
+			]
 				.filter(Boolean)
 				.join(" ")}
 			onClick={onClick}

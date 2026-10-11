@@ -107,6 +107,7 @@ function PageProfile() {
             <Button
               onClick={() => setIsDeleteAccountOpen(true)}
               text="Delete your account"
+              variant="danger"
             />
           </Stack>
         </Stack>

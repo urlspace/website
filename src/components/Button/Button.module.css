@@ -68,6 +68,14 @@
   }
 }
 
+.danger {
+  background-color: var(--color-error);
+
+  &:focus-visible {
+    outline-color: color-mix(in srgb, var(--color-error) 50%, transparent);
+  }
+}
+
 .fullWidth {
   align-self: stretch;
 }
