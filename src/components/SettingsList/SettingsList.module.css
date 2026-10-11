@@ -57,9 +57,7 @@
 }
 
 .error {
-	--color: light-dark(oklch(57.7% 0.245 27.325), oklch(70.4% 0.191 22.216));
-
-	color: var(--color);
+	color: var(--color-error);
 	padding-inline-start: 0.5lh;
-	border-inline-start: 4px solid var(--color);
+	border-inline-start: 4px solid var(--color-error);
 }

@@ -210,11 +210,8 @@
   grid-column: 1 / -1;
   padding: 1rlh;
 
-  background-color: light-dark(
-    oklch(57.7% 0.245 27.325 / 0.1),
-    oklch(70.4% 0.191 22.216 / 0.1)
-  );
-  color: light-dark(oklch(57.7% 0.245 27.325), oklch(70.4% 0.191 22.216));
+  background-color: color-mix(in oklch, var(--color-error) 10%, transparent);
+  color: var(--color-error);
   box-shadow: inset 0 -1px 0 0 var(--color-border);
   margin-block-end: 2rlh;
 }
