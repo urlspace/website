@@ -71,7 +71,7 @@ function Dialog({
 				const touch = e.changedTouches[0];
 				const dx = touch.clientX - start.x;
 				const dy = touch.clientY - start.y;
-				if (dx > 80 && dx > Math.abs(dy)) {
+				if (dx > 50 && dx > Math.abs(dy)) {
 					onClose();
 				}
 			}}
