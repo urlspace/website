@@ -65,12 +65,18 @@ function TagsInput({
         return;
       }
 
+      // The CSS minifier rewrites durations in production builds (220ms
+      // becomes .22s), so the unit can't be assumed even though the source
+      // always uses ms.
+      const duration = getComputedStyle(wrapper)
+        .getPropertyValue("--transition-duration")
+        .trim();
       animation = wrapper.animate(
         [{ height: `${fromHeight}px` }, { height: `${nextHeight}px` }],
         {
-          duration: Number.parseFloat(
-            getComputedStyle(wrapper).getPropertyValue("--transition-duration"),
-          ),
+          duration: duration.endsWith("ms")
+            ? Number.parseFloat(duration)
+            : Number.parseFloat(duration) * 1000,
           easing: "ease",
         },
       );
