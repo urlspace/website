@@ -3,7 +3,6 @@ import { queryOptions } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { clearSession } from "#/queries/session.ts";
-import Bowser from "bowser";
 
 export type SessionRow = {
 	id: string;
@@ -28,29 +27,9 @@ const getSessions = createServerFn().handler(async () => {
 		});
 	}
 	if (!res.ok) throw new Error(`/sessions failed: ${res.status}`);
-	const json = (await res.json()) as {
-		data: Array<Omit<SessionRow, "description"> & { userAgent: string | null }>;
-	};
+	const json = (await res.json()) as { data: SessionRow[] };
 
-	return json.data
-		.sort((a, b) => Number(b.current) - Number(a.current))
-		.map(({ userAgent, ...session }): SessionRow => {
-			if (!userAgent) {
-				return { ...session, description: "Unknown device" };
-			}
-
-			const { browser, os, platform } = Bowser.parse(userAgent);
-			const browserDescription = [browser.name, browser.version?.split(".")[0]]
-				.filter(Boolean)
-				.join(" ");
-			const deviceDescription = os.name ?? platform.type;
-			const description =
-				browserDescription && deviceDescription
-					? `${browserDescription} on ${deviceDescription}`
-					: browserDescription || deviceDescription || "Unknown device";
-
-			return { ...session, description };
-		});
+	return json.data.sort((a, b) => Number(b.current) - Number(a.current));
 });
 
 export const sessionsQueryKey = ["sessions"] as const;
