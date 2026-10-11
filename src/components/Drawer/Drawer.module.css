@@ -23,11 +23,14 @@
     background-color: color-mix(in srgb, var(--color-bg) 85%, transparent);
     backdrop-filter: blur(6px);
     opacity: 0;
-    transition: opacity var(--transition-duration);
+    transition:
+      opacity var(--transition-duration),
+      display var(--transition-duration) allow-discrete,
+      overlay var(--transition-duration) allow-discrete;
   }
 
   /* 3. The “On The Way Out” Styles, after closed */
-  &:not(:open) {
+  &:not([open]) {
     opacity: 0;
     transform: translateX(100%);
 
@@ -66,10 +69,16 @@
 
 @media (prefers-reduced-motion: reduce) {
   .drawer {
-    transition: none;
+    &:not([open]) {
+      transform: none;
+    }
 
-    &::backdrop {
-      transition: none;
+    &[open] {
+      @starting-style {
+        & {
+          transform: none;
+        }
+      }
     }
   }
 }
