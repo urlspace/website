@@ -443,7 +443,7 @@ function DashboardNav({
             //   />
             // </DashboardList.Li>
           }
-          <DashboardList.Li>
+          <DashboardList.Li hideOnTouchDevice>
             <DashboardButton
               icon={<Icon.Keyboard />}
               onClick={() => setIsShortcutsOpen(true)}

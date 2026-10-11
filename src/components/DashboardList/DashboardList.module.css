@@ -9,6 +9,12 @@
   transition: opacity var(--transition-duration) ease;
 }
 
+.hideOnTouchDevice {
+  @media (pointer: coarse) {
+    display: none;
+  }
+}
+
 .loading {
   opacity: 0.25;
   pointer-events: none;

@@ -17,13 +17,19 @@ function DashbrardList({
 function DashbrardListLi({
   children,
   loading,
+  hideOnTouchDevice,
 }: {
   children: React.ReactNode;
   loading?: boolean;
+  hideOnTouchDevice?: boolean;
 }) {
   return (
     <li
-      className={[styles.item, loading && styles.loading]
+      className={[
+        styles.item,
+        loading && styles.loading,
+        hideOnTouchDevice && styles.hideOnTouchDevice,
+      ]
         .filter(Boolean)
         .join(" ")}
     >
