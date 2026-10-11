@@ -18,9 +18,29 @@ function Dialog({
 
 	useEffect(() => {
 		const el = ref.current;
-		if (!el) return;
-		if (open && !el.open) el.showModal();
-		if (!open && el.open) el.close();
+		if (!el) {
+			return;
+		}
+		if (open) {
+			el.removeAttribute("data-closing");
+			if (!el.open) {
+				el.showModal();
+			}
+			return;
+		}
+		if (!el.open) {
+			return;
+		}
+		el.setAttribute("data-closing", "");
+		Promise.allSettled(
+			el.getAnimations({ subtree: true }).map((a) => a.finished),
+		).then(() => {
+			if (!el.hasAttribute("data-closing")) {
+				return;
+			}
+			el.removeAttribute("data-closing");
+			el.close();
+		});
 	}, [open]);
 
 	return (
@@ -30,8 +50,14 @@ function Dialog({
 			className={styles.dialog}
 			aria-labelledby={titleId}
 			onClose={onClose}
+			onCancel={(e) => {
+				e.preventDefault();
+				onClose();
+			}}
 			onClick={(e) => {
-				if (e.target === ref.current) onClose();
+				if (e.target === ref.current) {
+					onClose();
+				}
 			}}
 		>
 			<div className={styles.header}>

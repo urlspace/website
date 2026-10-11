@@ -92,15 +92,47 @@ function PageDashboard() {
 
   // editing link/collection/tag dialogs
   const [editingLink, setEditingLink] = useState<LinkRow | null>(null);
+  const [isEditLinkOpen, setIsEditLinkOpen] = useState(false);
   const [editingCollection, setEditingCollection] =
     useState<CollectionRow | null>(null);
+  const [isEditCollectionOpen, setIsEditCollectionOpen] = useState(false);
   const [editingTag, setEditingTag] = useState<TagRow | null>(null);
+  const [isEditTagOpen, setIsEditTagOpen] = useState(false);
+  const [formKey, setFormKey] = useState(0);
 
   // additional global state
   const signingOut = useRef(false);
   const [criticalError, setCriticalError] = useState<string | null>(null);
 
   const debouncedQuery = useDebouncedValue(value, 250, () => setPage(1));
+
+  function openAddLink() {
+    setFormKey((key) => key + 1);
+    setIsAddLinkOpen(true);
+  }
+
+  function openAddCollection() {
+    setFormKey((key) => key + 1);
+    setIsAddCollectionOpen(true);
+  }
+
+  function openEditLink(link: LinkRow) {
+    setFormKey((key) => key + 1);
+    setEditingLink(link);
+    setIsEditLinkOpen(true);
+  }
+
+  function openEditCollection(collection: CollectionRow) {
+    setFormKey((key) => key + 1);
+    setEditingCollection(collection);
+    setIsEditCollectionOpen(true);
+  }
+
+  function openEditTag(tag: TagRow) {
+    setFormKey((key) => key + 1);
+    setEditingTag(tag);
+    setIsEditTagOpen(true);
+  }
 
   function handleClearCache() {
     queryClient.invalidateQueries({ queryKey: linksQueryKey });
@@ -376,12 +408,12 @@ function PageDashboard() {
         <Dashboard.HeaderActions>
           <DashboardButton
             icon={<Icon.Plus />}
-            onClick={() => setIsAddLinkOpen(true)}
+            onClick={openAddLink}
             text="Add link"
           />
           <DashboardButton
             icon={<Icon.Plus />}
-            onClick={() => setIsAddCollectionOpen(true)}
+            onClick={openAddCollection}
             text="Add collection"
           />
         </Dashboard.HeaderActions>
@@ -395,8 +427,8 @@ function PageDashboard() {
           handleClearCache={handleClearCache}
           handleSignOut={handleSignOut}
           onError={setCriticalError}
-          onEditCollection={setEditingCollection}
-          onRenameTag={setEditingTag}
+          onEditCollection={openEditCollection}
+          onRenameTag={openEditTag}
           selectedCollection={selectedCollection}
           selectedTags={selectedTags}
           setFavourite={(v) => {
@@ -407,8 +439,8 @@ function PageDashboard() {
             setForLater(v);
             setPage(1);
           }}
-          setIsAddCollectionkOpen={setIsAddCollectionOpen}
-          setIsAddLinkOpen={setIsAddLinkOpen}
+          onAddCollection={openAddCollection}
+          onAddLink={openAddLink}
           setIsShortcutsOpen={setIsShortcutsOpen}
           setSelectedCollection={(v) => {
             setSelectedCollection(v);
@@ -489,7 +521,7 @@ function PageDashboard() {
                     link={link}
                     loading={isPlaceholderData}
                     query={debouncedQuery}
-                    onEdit={setEditingLink}
+                    onEdit={openEditLink}
                     onTagClick={(tagId) => {
                       setFavourite(false);
                       setForLater(false);
@@ -515,7 +547,7 @@ function PageDashboard() {
           ) : (
             <DashboardEmpty
               newAccount={newAccount}
-              setIsAddLinkOpen={setIsAddLinkOpen}
+              onAddLink={openAddLink}
             />
           )}
         </Dashboard.MainLinks>
@@ -560,8 +592,8 @@ function PageDashboard() {
           handleClearCache={handleClearCache}
           handleSignOut={handleSignOut}
           onError={setCriticalError}
-          onEditCollection={setEditingCollection}
-          onRenameTag={setEditingTag}
+          onEditCollection={openEditCollection}
+          onRenameTag={openEditTag}
           selectedCollection={selectedCollection}
           selectedTags={selectedTags}
           setFavourite={(v) => {
@@ -572,8 +604,8 @@ function PageDashboard() {
             setForLater(v);
             setPage(1);
           }}
-          setIsAddCollectionkOpen={setIsAddCollectionOpen}
-          setIsAddLinkOpen={setIsAddLinkOpen}
+          onAddCollection={openAddCollection}
+          onAddLink={openAddLink}
           setIsShortcutsOpen={setIsShortcutsOpen}
           setSelectedCollection={(v) => {
             setSelectedCollection(v);
@@ -600,25 +632,24 @@ function PageDashboard() {
         onClose={() => setIsAddLinkOpen(false)}
         title="Add new link"
       >
-        {isAddLinkOpen ? (
-          <FormLink
-            onClose={() => setIsAddLinkOpen(false)}
-            collections={collections}
-            tags={tags}
-          />
-        ) : null}
+        <FormLink
+          key={formKey}
+          onClose={() => setIsAddLinkOpen(false)}
+          collections={collections}
+          tags={tags}
+        />
       </Dialog>
 
       <Dialog
-        open={!!editingLink}
-        onClose={() => setEditingLink(null)}
+        open={isEditLinkOpen}
+        onClose={() => setIsEditLinkOpen(false)}
         title="Edit link"
       >
         {editingLink ? (
           <FormLink
-            key={editingLink.id}
+            key={formKey}
             link={editingLink}
-            onClose={() => setEditingLink(null)}
+            onClose={() => setIsEditLinkOpen(false)}
             collections={collections}
             tags={tags}
           />
@@ -630,46 +661,45 @@ function PageDashboard() {
         onClose={() => setIsAddCollectionOpen(false)}
         title="Add new collection"
       >
-        {isAddCollectionOpen ? (
-          <FormCollection
-            onClose={() => setIsAddCollectionOpen(false)}
-            isPro={user.isPro}
-            isAdmin={user.isAdmin}
-            username={user.username}
-            collections={collections}
-          />
-        ) : null}
+        <FormCollection
+          key={formKey}
+          onClose={() => setIsAddCollectionOpen(false)}
+          isPro={user.isPro}
+          isAdmin={user.isAdmin}
+          username={user.username}
+          collections={collections}
+        />
       </Dialog>
 
       <Dialog
-        open={!!editingCollection}
-        onClose={() => setEditingCollection(null)}
+        open={isEditCollectionOpen}
+        onClose={() => setIsEditCollectionOpen(false)}
         title="Edit collection"
       >
         {editingCollection ? (
           <FormCollection
-            key={editingCollection.id}
+            key={formKey}
             collection={editingCollection}
             collections={collections}
             isPro={user.isPro}
             isAdmin={user.isAdmin}
             username={user.username}
-            onClose={() => setEditingCollection(null)}
+            onClose={() => setIsEditCollectionOpen(false)}
           />
         ) : null}
       </Dialog>
 
       <Dialog
-        open={!!editingTag}
-        onClose={() => setEditingTag(null)}
+        open={isEditTagOpen}
+        onClose={() => setIsEditTagOpen(false)}
         title="Rename tag"
       >
         {editingTag ? (
           <FormTag
-            key={editingTag.id}
+            key={formKey}
             tag={editingTag}
             tags={tags}
-            onClose={() => setEditingTag(null)}
+            onClose={() => setIsEditTagOpen(false)}
           />
         ) : null}
       </Dialog>

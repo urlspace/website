@@ -17,6 +17,7 @@ function SettingsListTokens() {
 		id: string;
 		description: string;
 	} | null>(null);
+	const [isRevokeOpen, setIsRevokeOpen] = useState(false);
 
 	const revokeToken = useMutation({
 		mutationFn: async (id: string) => {
@@ -33,11 +34,11 @@ function SettingsListTokens() {
 			if (!res.ok) throw new Error(`revoke token failed: ${res.status}`);
 		},
 		onSuccess: () => {
-			setTokenToRevoke(null);
+			setIsRevokeOpen(false);
 			queryClient.invalidateQueries({ queryKey: tokensQueryKey });
 		},
 		onError: () => {
-			setTokenToRevoke(null);
+			setIsRevokeOpen(false);
 			setErrorMessage("We couldn't remove that token. Please try again.");
 		},
 	});
@@ -77,6 +78,7 @@ function SettingsListTokens() {
 											id: token.id,
 											description: token.description,
 										});
+										setIsRevokeOpen(true);
 									}}
 									text="Remove token"
 									destructive
@@ -114,8 +116,8 @@ function SettingsListTokens() {
 			</ul>
 
 			<Dialog
-				open={tokenToRevoke !== null}
-				onClose={() => setTokenToRevoke(null)}
+				open={isRevokeOpen}
+				onClose={() => setIsRevokeOpen(false)}
 				title="Remove token?"
 			>
 				{tokenToRevoke ? (

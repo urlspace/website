@@ -4,10 +4,10 @@ import { ButtonLinkLike } from "../Button/Button";
 
 function DashbrardEmpty({
 	newAccount,
-	setIsAddLinkOpen,
+	onAddLink,
 }: {
 	newAccount: boolean;
-	setIsAddLinkOpen: (open: boolean) => void;
+	onAddLink: () => void;
 }) {
 	if (!newAccount) {
 		return (
@@ -24,7 +24,7 @@ function DashbrardEmpty({
 				You don't have an links yet.{" "}
 				<ButtonLinkLike
 					type="button"
-					onClick={() => setIsAddLinkOpen(true)}
+					onClick={onAddLink}
 					text="Add your first one"
 				/>{" "}
 				or <Link to="/dashboard">import</Link> your bookmarks from somewhere

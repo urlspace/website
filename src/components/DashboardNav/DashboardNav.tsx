@@ -47,8 +47,8 @@ function DashboardNav({
   selectedTags,
   setFavourite,
   setForLater,
-  setIsAddCollectionkOpen,
-  setIsAddLinkOpen,
+  onAddCollection,
+  onAddLink,
   setIsShortcutsOpen,
   setSelectedCollection,
   setSelectedTags,
@@ -66,8 +66,8 @@ function DashboardNav({
   selectedTags: string[];
   setFavourite: React.Dispatch<React.SetStateAction<boolean>>;
   setForLater: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsAddCollectionkOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsAddLinkOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onAddCollection: () => void;
+  onAddLink: () => void;
   setIsShortcutsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedCollection: React.Dispatch<React.SetStateAction<string | null>>;
   setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
@@ -179,7 +179,7 @@ function DashboardNav({
 
           <DashboardButton
             icon={<Icon.Plus />}
-            onClick={() => setIsAddLinkOpen(true)}
+            onClick={onAddLink}
             text="Add link"
           />
         </Stack>
@@ -326,7 +326,7 @@ function DashboardNav({
             <div>
               <DashboardButton
                 icon={<Icon.Plus />}
-                onClick={() => setIsAddCollectionkOpen(true)}
+                onClick={onAddCollection}
                 text="Add collection"
               />
               {collections.length ? (
