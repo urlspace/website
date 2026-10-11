@@ -19,7 +19,7 @@
     transform var(--transition-duration);
 
   @media (height >= 600px) and (width >= 600px) {
-    max-width: min(100dvw - 2lh, 60ch);
+    max-width: min(100dvw - 2lh, 700px);
     max-height: calc(100dvh - 2lh);
   }
 
