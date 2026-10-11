@@ -370,7 +370,7 @@ function PageDashboard() {
         <Dashboard.HeaderSearch>
           <Form.SearchInput
             label="Search"
-            placeholder="Search for..."
+            placeholder="Search links"
             value={value}
             onValueChange={setValue}
             onEnter={focusFirstResult}

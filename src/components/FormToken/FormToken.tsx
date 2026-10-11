@@ -79,7 +79,7 @@ function FormToken() {
 				maxLength={255}
 				name="description"
 				onChange={setDescription}
-				placeholder="e.g. browser extension"
+				placeholder="Firefox browser extension"
 				required
 				type="text"
 				value={description}
@@ -92,7 +92,6 @@ function FormToken() {
 				minLength={12}
 				name="password"
 				onChange={setPassword}
-				placeholder="Min 12 characters"
 				required
 				type="password"
 				value={password}

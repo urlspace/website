@@ -84,19 +84,18 @@ function FormPassword({ onClose }: { onClose: () => void }) {
         minLength={12}
         name="currentPassword"
         onChange={setCurrentPassword}
-        placeholder="Min 12 characters"
         required
         type="password"
         value={currentPassword}
       />
       <Form.Input
         autoComplete="new-password"
+        description="Use a strong password that is a minimum of 12 characters long. Don't include parts of your email address or username in your password."
         label="New password"
         maxLength={128}
         minLength={12}
         name="newPassword"
         onChange={setNewPassword}
-        placeholder="Min 12 characters"
         required
         type="password"
         value={newPassword}
@@ -108,7 +107,6 @@ function FormPassword({ onClose }: { onClose: () => void }) {
         minLength={12}
         name="newPasswordConfirm"
         onChange={setNewPasswordConfirm}
-        placeholder="Min 12 characters"
         required
         type="password"
         value={newPasswordConfirm}

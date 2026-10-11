@@ -150,7 +150,7 @@ function FormLink({
         label="Title"
         name="title"
         onChange={setTitle}
-        placeholder="Boo"
+        placeholder="Responsive Web Design"
         required
         type="text"
         value={title}
@@ -162,7 +162,7 @@ function FormLink({
         label="URL"
         name="url"
         onChange={setUrl}
-        placeholder="https://cloudflare.com"
+        placeholder="https://alistapart.com/article/responsive-web-design/"
         required
         type="url"
         value={url}
@@ -172,7 +172,7 @@ function FormLink({
         label="Description"
         name="description-link"
         onChange={setDescription}
-        placeholder="What a cool description"
+        placeholder="Ethan Marcotte advocates we shift our design thinking to appropriate these constraints: using fluid grids, flexible images, and media queries."
         type="text"
         value={description}
         maxLength={512}
@@ -189,7 +189,7 @@ function FormLink({
       <Form.TagsInput
         label="Tags"
         name="tags"
-        placeholder="Add a tag"
+        placeholder="design"
         value={selectedTags}
         onChange={setSelectedTags}
         options={tags.map((tag) => tag.name)}

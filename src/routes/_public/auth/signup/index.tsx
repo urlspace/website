@@ -134,7 +134,6 @@ function SignUp() {
                 minLength={12}
                 name="password"
                 onChange={setPassword}
-                placeholder="Min 12 characters"
                 required
                 type="password"
                 value={password}

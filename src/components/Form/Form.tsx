@@ -76,7 +76,7 @@ function Input({
 	name: string;
 	onChange: (value: string) => void;
 	pattern?: string;
-	placeholder: string;
+	placeholder?: string;
 	required?: boolean;
 	type: "text" | "email" | "password" | "url";
 	value: string;

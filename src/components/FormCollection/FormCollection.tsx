@@ -197,7 +197,7 @@ function FormCollection({
             setIsSlugEdited(false);
           }
         }}
-        placeholder="Cats"
+        placeholder="Keto recipes"
         required
         type="text"
         value={name}
@@ -211,7 +211,7 @@ function FormCollection({
         label="Description"
         name="description-collection"
         onChange={setDescription}
-        placeholder="What a cool description"
+        placeholder="Low-carb meals, snacks and desserts worth cooking again."
         type="text"
         value={description}
         maxLength={1024}
@@ -226,7 +226,7 @@ function FormCollection({
           setSlug(value.toLowerCase());
           setIsSlugEdited(true);
         }}
-        placeholder="cats"
+        placeholder="keto-recipes"
         required
         type="text"
         value={slugValue}

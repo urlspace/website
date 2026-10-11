@@ -101,7 +101,7 @@ function FormTag({
 				label="Tag name"
 				name="tag-name"
 				onChange={setName}
-				placeholder="keto-diet"
+				placeholder="system-design"
 				required
 				type="text"
 				value={name}
