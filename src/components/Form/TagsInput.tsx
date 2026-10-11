@@ -45,12 +45,13 @@ function TagsInput({
       return;
     }
 
-    let height = list.getBoundingClientRect().height;
+    let height: number | null = null;
     let animation: Animation | null = null;
 
     const observer = new ResizeObserver(() => {
       const nextHeight = list.getBoundingClientRect().height;
-      if (nextHeight === height) {
+      if (height === null || nextHeight === height) {
+        height = nextHeight;
         return;
       }
 
