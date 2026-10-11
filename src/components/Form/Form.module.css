@@ -382,5 +382,10 @@
 }
 
 .pillsWrapper {
-  margin-block-start: 0.5lh;
+  min-height: 0;
+  overflow: clip;
+
+  & > :has(li) {
+    padding-block-start: 0.5lh;
+  }
 }

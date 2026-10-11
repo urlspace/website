@@ -1,4 +1,4 @@
-import { type ReactNode, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useFieldIds } from "./context";
 import styles from "./Form.module.css";
 import { DashboardButton, Icon, Pills } from "..";
@@ -32,10 +32,56 @@ function TagsInput({
   const isDisabled = disabled || loading;
   const listId = `${inputId}-options`;
   const inputRef = useRef<HTMLInputElement>(null);
+  const pillsWrapperRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState("");
   const errorId = `${inputId}-error`;
+
+  useEffect(() => {
+    const wrapper = pillsWrapperRef.current;
+    const list = wrapper?.firstElementChild;
+    if (!wrapper || !list) {
+      return;
+    }
+
+    let height = list.getBoundingClientRect().height;
+    let animation: Animation | null = null;
+
+    const observer = new ResizeObserver(() => {
+      const nextHeight = list.getBoundingClientRect().height;
+      if (nextHeight === height) {
+        return;
+      }
+
+      const fromHeight =
+        animation?.playState === "running"
+          ? wrapper.getBoundingClientRect().height
+          : height;
+      height = nextHeight;
+      animation?.cancel();
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        return;
+      }
+
+      animation = wrapper.animate(
+        [{ height: `${fromHeight}px` }, { height: `${nextHeight}px` }],
+        {
+          duration: Number.parseFloat(
+            getComputedStyle(wrapper).getPropertyValue("--transition-duration"),
+          ),
+          easing: "ease",
+        },
+      );
+    });
+
+    observer.observe(list);
+    return () => {
+      observer.disconnect();
+      animation?.cancel();
+    };
+  }, []);
 
   function addTag(rawValue: string) {
     if (isDisabled) return;
@@ -137,7 +183,7 @@ function TagsInput({
           {error}
         </p>
       ) : null}
-      <div className={styles.pillsWrapper}>
+      <div className={styles.pillsWrapper} ref={pillsWrapperRef}>
         <Pills
           disabled={isDisabled}
           items={value.map((tag) => ({
