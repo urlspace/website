@@ -41,8 +41,8 @@ function PageProfile() {
   const { data: user } = useSuspenseQuery(meQueryOptions);
 
   const [isCreateTokenOpen, setIsCreateTokenOpen] = useState(false);
-  const [createTokenKey, setCreateTokenKey] = useState(0);
   const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
+  const [formKey, setFormKey] = useState(0);
 
   return (
     <div className="page">
@@ -76,7 +76,7 @@ function PageProfile() {
             <SettingsListTokens />
             <Button
               onClick={() => {
-                setCreateTokenKey((k) => k + 1);
+                setFormKey((key) => key + 1);
                 setIsCreateTokenOpen(true);
               }}
               text="Create token"
@@ -105,7 +105,10 @@ function PageProfile() {
               feedback is optional.
             </p>
             <Button
-              onClick={() => setIsDeleteAccountOpen(true)}
+              onClick={() => {
+                setFormKey((key) => key + 1);
+                setIsDeleteAccountOpen(true);
+              }}
               text="Delete your account"
               variant="danger"
             />
@@ -118,7 +121,7 @@ function PageProfile() {
         onClose={() => setIsCreateTokenOpen(false)}
         title="Create token"
       >
-        <FormToken key={createTokenKey} />
+        <FormToken key={formKey} />
       </Dialog>
 
       <Dialog
@@ -126,7 +129,10 @@ function PageProfile() {
         onClose={() => setIsDeleteAccountOpen(false)}
         title="Delete your account"
       >
-        <FormDeleteAccount onClose={() => setIsDeleteAccountOpen(false)} />
+        <FormDeleteAccount
+          key={formKey}
+          onClose={() => setIsDeleteAccountOpen(false)}
+        />
       </Dialog>
     </div>
   );

@@ -75,7 +75,7 @@ function FormDisplayName({
 				label="Display name"
 				name="display-name"
 				onChange={setValue}
-				placeholder="Rocky"
+				placeholder="Sylvester Gardenzio Stallone"
 				required
 				type="text"
 				value={value}

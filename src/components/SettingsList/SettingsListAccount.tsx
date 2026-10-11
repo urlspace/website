@@ -14,8 +14,8 @@ function SettingsListAccount({ user }: { user: User }) {
 	const [isChangeUsernameOpen, setIsChangeUsernameOpen] = useState(false);
 	const [isChangeDisplayNameOpen, setIsChangeDisplayNameOpen] = useState(false);
 	const [isChangeEmailOpen, setIsChangeEmailOpen] = useState(false);
-	const [changeEmailKey, setChangeEmailKey] = useState(0);
 	const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+	const [formKey, setFormKey] = useState(0);
 
 	return (
 		<>
@@ -26,7 +26,10 @@ function SettingsListAccount({ user }: { user: User }) {
 						<span className={styles.value}>{user.displayName}</span>
 						<span className={styles.action}>
 							<DashboardButtonAction
-								onClick={() => setIsChangeDisplayNameOpen(true)}
+								onClick={() => {
+									setFormKey((key) => key + 1);
+									setIsChangeDisplayNameOpen(true);
+								}}
 								text="Change display name"
 							/>
 						</span>
@@ -39,7 +42,10 @@ function SettingsListAccount({ user }: { user: User }) {
 						<span className={styles.value}>{user.username}</span>
 						<span className={styles.action}>
 							<DashboardButtonAction
-								onClick={() => setIsChangeUsernameOpen(true)}
+								onClick={() => {
+									setFormKey((key) => key + 1);
+									setIsChangeUsernameOpen(true);
+								}}
 								text="Change username"
 							/>
 						</span>
@@ -53,7 +59,7 @@ function SettingsListAccount({ user }: { user: User }) {
 						<span className={styles.action}>
 							<DashboardButtonAction
 								onClick={() => {
-									setChangeEmailKey((key) => key + 1);
+									setFormKey((key) => key + 1);
 									setIsChangeEmailOpen(true);
 								}}
 								text="Change email"
@@ -71,7 +77,10 @@ function SettingsListAccount({ user }: { user: User }) {
 						</span>
 						<span className={styles.action}>
 							<DashboardButtonAction
-								onClick={() => setIsChangePasswordOpen(true)}
+								onClick={() => {
+									setFormKey((key) => key + 1);
+									setIsChangePasswordOpen(true);
+								}}
 								text="Change password"
 							/>
 						</span>
@@ -85,6 +94,7 @@ function SettingsListAccount({ user }: { user: User }) {
 				title="Change username"
 			>
 				<FormUsername
+					key={formKey}
 					username={user.username}
 					onClose={() => setIsChangeUsernameOpen(false)}
 				/>
@@ -96,6 +106,7 @@ function SettingsListAccount({ user }: { user: User }) {
 				title="Change display name"
 			>
 				<FormDisplayName
+					key={formKey}
 					displayName={user.displayName}
 					onClose={() => setIsChangeDisplayNameOpen(false)}
 				/>
@@ -106,10 +117,7 @@ function SettingsListAccount({ user }: { user: User }) {
 				onClose={() => setIsChangeEmailOpen(false)}
 				title="Change email"
 			>
-				<FormEmail
-					key={changeEmailKey}
-					onClose={() => setIsChangeEmailOpen(false)}
-				/>
+				<FormEmail key={formKey} onClose={() => setIsChangeEmailOpen(false)} />
 			</Dialog>
 
 			<Dialog
@@ -117,7 +125,10 @@ function SettingsListAccount({ user }: { user: User }) {
 				onClose={() => setIsChangePasswordOpen(false)}
 				title="Change password"
 			>
-				<FormPassword onClose={() => setIsChangePasswordOpen(false)} />
+				<FormPassword
+					key={formKey}
+					onClose={() => setIsChangePasswordOpen(false)}
+				/>
 			</Dialog>
 		</>
 	);
