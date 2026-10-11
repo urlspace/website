@@ -15,6 +15,7 @@ function Dialog({
 }) {
 	const ref = useRef<HTMLDialogElement>(null);
 	const titleId = useId();
+	const touchStart = useRef<{ x: number; y: number } | null>(null);
 
 	useEffect(() => {
 		const el = ref.current;
@@ -56,6 +57,23 @@ function Dialog({
 			}}
 			onClick={(e) => {
 				if (e.target === ref.current) onClose();
+			}}
+			onTouchStart={(e) => {
+				const touch = e.touches[0];
+				touchStart.current = { x: touch.clientX, y: touch.clientY };
+			}}
+			onTouchEnd={(e) => {
+				const start = touchStart.current;
+				touchStart.current = null;
+				if (!start) {
+					return;
+				}
+				const touch = e.changedTouches[0];
+				const dx = touch.clientX - start.x;
+				const dy = touch.clientY - start.y;
+				if (dx > 80 && dx > Math.abs(dy)) {
+					onClose();
+				}
 			}}
 		>
 			<div className={styles.header}>
