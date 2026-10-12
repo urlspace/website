@@ -96,16 +96,20 @@ function FormLink({
       return;
     }
 
-    const newTagsCount = selectedTags.filter(
+    const newTags = selectedTags.filter(
       (name) => !tags.some((tag) => tag.name === name),
-    ).length;
+    );
+    const newTagsCount = newTags.length;
 
     if (
       stats.tagsLimit !== null &&
       newTagsCount > 0 &&
       stats.tagsCount + newTagsCount > stats.tagsLimit
     ) {
-      setError(tagLimitError);
+      const remaining = Math.max(stats.tagsLimit - stats.tagsCount, 0);
+      setError(
+        `${newTags.join(", ")} ${newTagsCount === 1 ? "is a new tag" : "are new tags"}, but you can create only ${remaining} more on a free account (${stats.tagsCount}/${stats.tagsLimit}). Use existing tags, delete unused ones, or upgrade your account.`,
+      );
       return;
     }
 
