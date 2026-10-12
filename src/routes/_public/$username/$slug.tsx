@@ -151,10 +151,22 @@ function PagePublicCollection() {
 
       if (!res.ok) {
         switch (res.status) {
-          case 403:
-            setIsOwnCollection(true);
-            setCloneError("You cannot clone your own collection.");
+          case 403: {
+            const message = ((await res.json()) as { data: string }).data;
+            if (message === "collection limit reached") {
+              setCloneError(
+                "You've reached the collection limit on a free account. Delete a collection or upgrade your account.",
+              );
+            } else if (message === "link limit reached") {
+              setCloneError(
+                "Cloning this collection would exceed the link limit on a free account. Delete some links or upgrade your account.",
+              );
+            } else {
+              setIsOwnCollection(true);
+              setCloneError("You cannot clone your own collection.");
+            }
             break;
+          }
           case 404:
             setCloneError("This collection is no longer available to clone.");
             break;
