@@ -5,11 +5,16 @@ import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 function FormUsername({
   onClose,
   username,
+  isPro,
+  isAdmin,
 }: {
   onClose: () => void;
   username: string;
+  isPro: boolean;
+  isAdmin: boolean;
 }) {
   const queryClient = useQueryClient();
+  const canPublish = isPro || isAdmin;
 
   const [value, setValue] = useState(username);
   const [password, setPassword] = useState("");
@@ -98,6 +103,23 @@ function FormUsername({
         type="password"
         value={password}
       />
+      {canPublish && value.trim() !== username ? (
+        <Form.Warning>
+          Sir Tim Berners-Lee, the man who invented the World Wide Web,
+          published{" "}
+          <a
+            href="https://www.w3.org/Provider/Style/URI"
+            target="_blank"
+            rel="noreferrer"
+            aria-description="Opens in a new tab"
+          >
+            "Cool URIs don't change"
+          </a>{" "}
+          in 1998. Changing your username changes the address of your public
+          profile and every public collection, so links already shared will
+          stop working. Think twice before changing it.
+        </Form.Warning>
+      ) : null}
       <Form.Submit text="Save changes" textLoading="Saving..." />
     </Form>
   );

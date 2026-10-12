@@ -146,6 +146,8 @@ function SettingsListAccount({ user }: { user: User }) {
         <FormUsername
           key={formKey}
           username={user.username}
+          isPro={user.isPro}
+          isAdmin={user.isAdmin}
           onClose={() => setIsChangeUsernameOpen(false)}
         />
       </Dialog>
