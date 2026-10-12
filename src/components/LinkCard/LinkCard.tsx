@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { type LinkRow, linksQueryKey } from "#/queries/links.ts";
+import { meQueryOptions } from "#/queries/me.ts";
 import { formatDate } from "#/utils.ts";
 import { DashboardButtonAction, DashboardMenu } from "..";
 import styles from "./LinkCard.module.css";
@@ -95,7 +96,11 @@ function LinkCard({
       if (!res.ok)
         throw new Error(`DELETE /links/${link.id} failed: ${res.status}`);
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: linksQueryKey }),
+    onSuccess: () =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: linksQueryKey }),
+        queryClient.invalidateQueries({ queryKey: meQueryOptions.queryKey }),
+      ]),
   });
 
   const isPending = updateLink.isPending || deleteLink.isPending || loading;

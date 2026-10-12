@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { linksQueryKey } from "#/queries/links.ts";
+import { meQueryOptions } from "#/queries/me.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
@@ -122,9 +123,18 @@ function FormLink({
         return;
       }
 
+      const hasNewTag = selectedTags.some(
+        (name) => !tags.some((tag) => tag.name === name),
+      );
+
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: linksQueryKey }),
         queryClient.invalidateQueries({ queryKey: tagsQueryOptions.queryKey }),
+        isEdit && !hasNewTag
+          ? null
+          : queryClient.invalidateQueries({
+              queryKey: meQueryOptions.queryKey,
+            }),
       ]);
 
       if (!isEdit) {

@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { collectionsQueryOptions } from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
+import { meQueryOptions } from "#/queries/me.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
 import {
   DashboardAccordion,
@@ -111,6 +112,7 @@ function DashboardNav({
           queryKey: collectionsQueryOptions.queryKey,
         }),
         queryClient.invalidateQueries({ queryKey: linksQueryKey }),
+        queryClient.invalidateQueries({ queryKey: meQueryOptions.queryKey }),
       ]);
     },
   });
@@ -138,6 +140,7 @@ function DashboardNav({
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: tagsQueryOptions.queryKey }),
         queryClient.invalidateQueries({ queryKey: linksQueryKey }),
+        queryClient.invalidateQueries({ queryKey: meQueryOptions.queryKey }),
       ]);
     },
   });

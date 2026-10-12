@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { collectionsQueryOptions } from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
+import { meQueryOptions } from "#/queries/me.ts";
 import { siteUrl, slugify } from "#/utils.ts";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 import { Button } from "../Button/Button.tsx";
@@ -150,6 +151,11 @@ function FormCollection({
           queryKey: collectionsQueryOptions.queryKey,
         }),
         queryClient.invalidateQueries({ queryKey: linksQueryKey }),
+        isEdit
+          ? null
+          : queryClient.invalidateQueries({
+              queryKey: meQueryOptions.queryKey,
+            }),
       ]);
 
       if (!isEdit) {

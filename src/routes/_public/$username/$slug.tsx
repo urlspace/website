@@ -10,6 +10,7 @@ import {
   getPublicCollection,
 } from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
+import { meQueryOptions } from "#/queries/me.ts";
 import { clearSession } from "#/queries/session.ts";
 import { formatDate } from "#/utils.ts";
 import {
@@ -182,6 +183,7 @@ function PagePublicCollection() {
           queryKey: collectionsQueryOptions.queryKey,
         }),
         queryClient.invalidateQueries({ queryKey: linksQueryKey }),
+        queryClient.invalidateQueries({ queryKey: meQueryOptions.queryKey }),
       ]);
     } catch {
       setCloneError(
