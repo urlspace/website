@@ -639,6 +639,7 @@ function PageDashboard() {
       <Dialog
         open={isEditLinkOpen}
         onClose={() => setIsEditLinkOpen(false)}
+        onClosed={() => setEditingLink(null)}
         title="Edit link"
       >
         {editingLink ? (

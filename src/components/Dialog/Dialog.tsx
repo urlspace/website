@@ -5,11 +5,13 @@ import styles from "./Dialog.module.css";
 function Dialog({
 	open,
 	onClose,
+	onClosed,
 	children,
 	title,
 }: {
 	open: boolean;
 	onClose: () => void;
+	onClosed?: () => void;
 	children: React.ReactNode;
 	title: string;
 }) {
@@ -49,7 +51,7 @@ function Dialog({
 			ref={ref}
 			className={styles.dialog}
 			aria-labelledby={titleId}
-			onClose={onClose}
+			onClose={onClosed}
 			onCancel={(e) => {
 				e.preventDefault();
 				onClose();
