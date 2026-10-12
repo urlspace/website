@@ -547,42 +547,36 @@ function PageDashboard() {
               ))}
             </Dashboard.MainLinksList>
           ) : (
-            <DashboardEmpty
-              newAccount={newAccount}
-              onAddLink={openAddLink}
-            />
+            <DashboardEmpty newAccount={newAccount} onAddLink={openAddLink} />
           )}
         </Dashboard.MainLinks>
 
         {totalPages && totalPages > 1 ? (
-          <nav
-            aria-label="Pagination"
-            style={{
-              gridColumn: "1 / -1",
-            }}
-          >
+          <Dashboard.Pagination>
             <Stack direction="row" spaceBetween alignCenter>
-              {page > 1 ? (
-                <Button
-                  text="Previous"
-                  onClick={() => {
+              <Button
+                text="Previous"
+                ariaDisabled={page <= 1}
+                onClick={() => {
+                  if (page > 1) {
                     setPage(page - 1);
-                  }}
-                />
-              ) : null}
-              <span>
-                Page {page}/{totalPages}
+                  }
+                }}
+              />
+              <span aria-live="polite">
+                Page {page} of {totalPages}
               </span>
-              {page < totalPages ? (
-                <Button
-                  text="Next"
-                  onClick={() => {
+              <Button
+                text="Next"
+                ariaDisabled={page >= totalPages}
+                onClick={() => {
+                  if (page < totalPages) {
                     setPage(page + 1);
-                  }}
-                />
-              ) : null}
+                  }
+                }}
+              />
             </Stack>
-          </nav>
+          </Dashboard.Pagination>
         ) : null}
       </Dashboard.Main>
 

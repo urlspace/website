@@ -109,6 +109,14 @@ function DashboardMainLinksList({ children }: { children: React.ReactNode }) {
   );
 }
 
+function DashboardMainPagination({ children }: { children: React.ReactNode }) {
+  return (
+    <nav aria-label="Pagination" className={styles.pagination}>
+      {children}
+    </nav>
+  );
+}
+
 Dashboard.Header = DashboardHeader;
 Dashboard.HeaderActions = DashboardHeaderActions;
 Dashboard.HeaderSearch = DashboardHeaderSearch;
@@ -125,5 +133,6 @@ Dashboard.MainPillsButton = DashboardMainPillsButton;
 Dashboard.MainCritical = DashboardMainCritical;
 Dashboard.MainLinks = DashboardMainLinks;
 Dashboard.MainLinksList = DashboardMainLinksList;
+Dashboard.Pagination = DashboardMainPagination;
 
 export default Dashboard;
