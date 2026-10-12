@@ -26,10 +26,6 @@
 	text-overflow: ellipsis;
 }
 
-.valueDanger {
-	color: var(--color-error);
-}
-
 .valueToken {
 	/* Without this, the values like */
 	/* urlspace_••••••••••••••BIOULo */
