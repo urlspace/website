@@ -428,6 +428,7 @@ function DashboardNav({
               icon={<Icon.User />}
               to="/settings"
               text="Account settings"
+              preload={false}
             />
           </DashboardList.Li>
           {

@@ -1,6 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { type LinkRow, linksQueryKey } from "#/queries/links.ts";
+import {
+  type LinkFilters,
+  type LinkRow,
+  type LinksResponse,
+  linksQueryKey,
+} from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { formatDate } from "#/utils.ts";
 import { DashboardButtonAction, DashboardMenu } from "..";
@@ -72,7 +77,29 @@ function LinkCard({
       if (!res.ok)
         throw new Error(`PUT /links/${link.id} failed: ${res.status}`);
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: linksQueryKey }),
+    onSuccess: (_, patch) => {
+      queryClient.setQueriesData<LinksResponse>(
+        { queryKey: linksQueryKey },
+        (old) =>
+          old && {
+            ...old,
+            data: old.data.map((l) =>
+              l.id === link.id ? { ...l, ...patch } : l,
+            ),
+          },
+      );
+      queryClient.invalidateQueries({
+        queryKey: linksQueryKey,
+        refetchType: "none",
+      });
+      return queryClient.invalidateQueries({
+        queryKey: linksQueryKey,
+        predicate: (query) => {
+          const filters = query.queryKey[1] as LinkFilters | undefined;
+          return Boolean(filters?.favourite || filters?.forLater);
+        },
+      });
+    },
   });
 
   const deleteLink = useMutation({
