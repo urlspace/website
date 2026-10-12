@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { collectionsQueryOptions } from "#/queries/collections.ts";
@@ -40,10 +40,15 @@ function FormCollection({
   onClose: () => void;
 }) {
   const queryClient = useQueryClient();
+  const {
+    data: { stats },
+  } = useSuspenseQuery(meQueryOptions);
   const isEdit = !!collection;
   const canPublish = isPro || isAdmin;
   const duplicateNameError = "You already have a collection with that name.";
   const duplicateSlugError = "Another collection already uses that slug.";
+  const collectionLimitError =
+    "You've reached the collection limit on a free account. Delete a collection or upgrade your account.";
 
   const [name, setName] = useState(collection?.name ?? "");
   const [description, setDescription] = useState(collection?.description ?? "");
@@ -62,6 +67,15 @@ function FormCollection({
     { setError, setLoading }: SubmitHelpers,
   ) {
     e.preventDefault();
+
+    if (
+      !isEdit &&
+      stats.collectionsLimit !== null &&
+      stats.collectionsCount >= stats.collectionsLimit
+    ) {
+      setError(collectionLimitError);
+      return;
+    }
 
     const trimmedName = name.trim();
     if (trimmedName.length < 2) {
@@ -131,6 +145,14 @@ function FormCollection({
                 "slug is already taken"
                 ? duplicateSlugError
                 : duplicateNameError,
+            );
+            break;
+          case 403:
+            setError(
+              ((await res.json()) as { data: string }).data ===
+                "collection limit reached"
+                ? collectionLimitError
+                : "Something went wrong. Try again in a moment.",
             );
             break;
           case 429:

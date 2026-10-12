@@ -1,4 +1,4 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { linksQueryKey } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
@@ -48,7 +48,15 @@ function FormLink({
   link?: LinkRow;
 }) {
   const queryClient = useQueryClient();
+  const {
+    data: { stats },
+  } = useSuspenseQuery(meQueryOptions);
   const isEdit = !!link;
+
+  const linkLimitError =
+    "You've reached the link limit on a free account. Delete some links or upgrade your account.";
+  const tagLimitError =
+    "You've reached the tag limit on a free account. Use existing tags, delete unused ones, or upgrade your account.";
 
   const [title, setTitle] = useState(link?.title ?? "");
   const [url, setUrl] = useState(link?.url ?? "");
@@ -76,6 +84,28 @@ function FormLink({
     const trimmedTitle = title.trim();
     if (trimmedTitle.length < 3) {
       setError("Title must be at least 3 characters.");
+      return;
+    }
+
+    if (
+      !isEdit &&
+      stats.linksLimit !== null &&
+      stats.linksCount >= stats.linksLimit
+    ) {
+      setError(linkLimitError);
+      return;
+    }
+
+    const newTagsCount = selectedTags.filter(
+      (name) => !tags.some((tag) => tag.name === name),
+    ).length;
+
+    if (
+      stats.tagsLimit !== null &&
+      newTagsCount > 0 &&
+      stats.tagsCount + newTagsCount > stats.tagsLimit
+    ) {
+      setError(tagLimitError);
       return;
     }
 
@@ -114,6 +144,17 @@ function FormLink({
           case 400:
             setError("Incorrect body.");
             break;
+          case 403: {
+            const message = ((await res.json()) as { data: string }).data;
+            if (message === "link limit reached") {
+              setError(linkLimitError);
+            } else if (message === "tag limit reached") {
+              setError(tagLimitError);
+            } else {
+              setError("Something went wrong. Try again in a moment.");
+            }
+            break;
+          }
           case 429:
             setError("Too many attempts. Try again in a moment.");
             break;
@@ -123,14 +164,10 @@ function FormLink({
         return;
       }
 
-      const hasNewTag = selectedTags.some(
-        (name) => !tags.some((tag) => tag.name === name),
-      );
-
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: linksQueryKey }),
         queryClient.invalidateQueries({ queryKey: tagsQueryOptions.queryKey }),
-        isEdit && !hasNewTag
+        isEdit && newTagsCount === 0
           ? null
           : queryClient.invalidateQueries({
               queryKey: meQueryOptions.queryKey,
