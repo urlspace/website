@@ -13,6 +13,14 @@ export type User = {
 	isPro: boolean;
 	createdAt: string;
 	updatedAt: string;
+	stats: {
+		linksCount: number;
+		linksLimit: number | null;
+		collectionsCount: number;
+		collectionsLimit: number | null;
+		tagsCount: number;
+		tagsLimit: number | null;
+	};
 };
 
 const getUser = createServerFn().handler(async () => {

@@ -110,7 +110,6 @@ function PageProfile() {
                 setIsDeleteAccountOpen(true);
               }}
               text="Delete your account"
-              variant="danger"
             />
           </Stack>
         </Stack>

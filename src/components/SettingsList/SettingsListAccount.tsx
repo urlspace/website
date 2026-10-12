@@ -86,6 +86,80 @@ function SettingsListAccount({ user }: { user: User }) {
 						</span>
 					</dd>
 				</div>
+
+				<div className={styles.item}>
+					<dt className={styles.term}>Account type</dt>
+					<dd className={styles.row}>
+						<span className={styles.value}>
+							{user.isAdmin ? "Admin" : user.isPro ? "Pro" : "Free"}
+						</span>
+						{user.isAdmin ? null : (
+							<span className={styles.action}>
+								<DashboardButtonAction
+									onClick={() => {}}
+									text={user.isPro ? "Downgrade account" : "Upgrade account"}
+								/>
+							</span>
+						)}
+					</dd>
+				</div>
+
+				{user.stats.linksLimit !== null ? (
+					<div className={styles.item}>
+						<dt className={styles.term}>Links limit</dt>
+						<dd className={styles.row}>
+							<span
+								className={[
+									styles.value,
+									user.stats.linksCount >= user.stats.linksLimit &&
+										styles.valueDanger,
+								]
+									.filter(Boolean)
+									.join(" ")}
+							>
+								{`${user.stats.linksCount}/${user.stats.linksLimit}`}
+							</span>
+						</dd>
+					</div>
+				) : null}
+
+				{user.stats.collectionsLimit !== null ? (
+					<div className={styles.item}>
+						<dt className={styles.term}>Collections limit</dt>
+						<dd className={styles.row}>
+							<span
+								className={[
+									styles.value,
+									user.stats.collectionsCount >= user.stats.collectionsLimit &&
+										styles.valueDanger,
+								]
+									.filter(Boolean)
+									.join(" ")}
+							>
+								{`${user.stats.collectionsCount}/${user.stats.collectionsLimit}`}
+							</span>
+						</dd>
+					</div>
+				) : null}
+
+				{user.stats.tagsLimit !== null ? (
+					<div className={styles.item}>
+						<dt className={styles.term}>Tags limit</dt>
+						<dd className={styles.row}>
+							<span
+								className={[
+									styles.value,
+									user.stats.tagsCount >= user.stats.tagsLimit &&
+										styles.valueDanger,
+								]
+									.filter(Boolean)
+									.join(" ")}
+							>
+								{`${user.stats.tagsCount}/${user.stats.tagsLimit}`}
+							</span>
+						</dd>
+					</div>
+				) : null}
 			</dl>
 
 			<Dialog
