@@ -50,8 +50,15 @@ function Dialog({
 			ref={ref}
 			className={styles.drawer}
 			aria-labelledby={titleId}
-			onClose={onClose}
+			onClose={(e) => {
+				if (e.target === e.currentTarget) {
+					onClose();
+				}
+			}}
 			onCancel={(e) => {
+				if (e.target !== e.currentTarget) {
+					return;
+				}
 				e.preventDefault();
 				onClose();
 			}}
@@ -59,6 +66,9 @@ function Dialog({
 				if (e.target === ref.current) onClose();
 			}}
 			onTouchStart={(e) => {
+				if ((e.target as Element).closest("dialog") !== ref.current) {
+					return;
+				}
 				const touch = e.touches[0];
 				touchStart.current = { x: touch.clientX, y: touch.clientY };
 			}}
