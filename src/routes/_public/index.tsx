@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_public/")({
 function App() {
   return (
     <Stack>
-      <Heading text="url.space" level={1} />
+      <Heading text="url.space" level={1} bg="bg" />
       <p>
         A bookmarking service for people who love the web. Save, organise and
         share links. Open source, no ads, no tracking, no AI. Free for everyday

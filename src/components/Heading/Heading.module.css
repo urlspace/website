@@ -17,9 +17,17 @@
 }
 
 .inner {
-  background-color: var(--color-bg-content);
+  background-color: var(--inner-bg);
   display: inline;
-  box-shadow: 1rlh 0 0 0 var(--color-bg-content);
+  box-shadow: 1rlh 0 0 0 var(--inner-bg);
+}
+
+.bg {
+  --inner-bg: var(--color-bg);
+}
+
+.bgContent {
+  --inner-bg: var(--color-bg-content);
 }
 
 .h1,
