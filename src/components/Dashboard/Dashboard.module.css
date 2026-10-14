@@ -166,6 +166,7 @@
 
 .main {
   grid-column: 1 / -1;
+  anchor-name: --main;
 
   @media (width >= 900px) {
     grid-column: 2 / 4;
@@ -182,6 +183,7 @@
 
 .aside {
   --h: 3lh;
+  anchor-name: --aside;
 
   display: none;
   position: sticky;
@@ -191,6 +193,9 @@
   scrollbar-width: none;
   background-color: var(--color-bg-content);
   box-shadow: inset -1px 0 0 0 var(--color-border);
+  /* add this one, otherwise when programatically focused (using skip links) */
+  /* choromium based browsers highlight an aside element */
+  outline: none;
 
   @media (width >= 900px) {
     display: block;
@@ -234,31 +239,86 @@
   flex-direction: column;
 }
 
-.skipButton {
-  font: inherit;
-  font-weight: 500;
-  border: none;
+.skipMain,
+.skipFilters {
+  display: none;
+
+  @media (width >= 900px) {
+    display: block;
+    font-weight: 500;
+    border-radius: var(--radius);
+  }
+
+  &:not(:focus) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  &:focus {
+    position: absolute;
+    z-index: 1;
+    padding: 0.25lh 0.5rlh;
+    background-color: var(--color-link);
+    outline: none;
+    color: var(--color-bg);
+    font-size: 0.75rem;
+    text-decoration: none;
+    font-weight: 500;
+  }
 }
 
-.skipButton:not(:focus) {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
+.skipMain:focus {
+  inset: 8rlh 0.5rlh auto auto;
+
+  @media (width >= 1100px) {
+    inset: 5.5rlh 0.5rlh auto auto;
+  }
+
+  @supports (anchor-name: --main) {
+    text-align: right;
+    position-anchor: --main;
+    inset: 7.5rlh anchor(right) anchor(bottom) anchor(left);
+    padding: 0.5rlh;
+    background-color: color-mix(in srgb, var(--color-link) 75%, transparent);
+    backdrop-filter: blur(6px);
+    border-radius: 0;
+
+    @media (width >= 1100px) {
+      inset: 5rlh anchor(right) anchor(bottom) anchor(left);
+    }
+  }
 }
 
-.skipButton:focus {
-  position: absolute;
-  inset: calc(100% + 2.75rlh) 0 auto auto;
-  padding: 0.25lh 0.5rlh;
-  background-color: var(--color-link);
-  border-radius: var(--radius);
-  outline: none;
-  color: var(--color-bg);
-  font-size: 0.875rem;
-  text-decoration: none;
+.skipFilters:focus {
+  inset: 6rlh auto auto calc(320px - 0.5rlh);
+  transform: translateX(-100%);
+
+  @media (width >= 1100px) {
+    inset: 3.5rlh auto auto calc(340px - 0.5rlh);
+  }
+
+  @media (width >= 1300px) {
+    inset: 3.5rlh auto auto calc(400px - 0.5rlh);
+  }
+
+  @media (width >= 1600px) {
+    inset: 3.5rlh auto auto calc(420px - 0.5rlh);
+  }
+
+  @supports (anchor-name: --aside) {
+    text-align: right;
+    transform: none;
+    position-anchor: --aside;
+    inset: anchor(top) anchor(right) anchor(bottom) anchor(left);
+    padding: 0.5rlh;
+    background-color: color-mix(in srgb, var(--color-link) 75%, transparent);
+    backdrop-filter: blur(6px);
+    border-radius: 0;
+  }
 }
 
 .pagination {

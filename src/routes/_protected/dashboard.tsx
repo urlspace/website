@@ -398,7 +398,6 @@ function PageDashboard() {
               setPage(1);
             }}
           />
-          <Dashboard.HeaderSkipButton onClick={focusFirstResult} />
           <Dashboard.HeaderTrigger>
             <DashboardButton
               icon={<Icon.Filter />}
@@ -420,6 +419,9 @@ function PageDashboard() {
           />
         </Dashboard.HeaderActions>
       </Dashboard.Header>
+
+      <Dashboard.SkipMain />
+      <Dashboard.SkipFilters />
 
       <Dashboard.Filters>
         <DashboardNav

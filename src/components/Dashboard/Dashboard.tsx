@@ -26,18 +26,26 @@ function DashboardHeaderFiltersTrigger({
   return <div className={styles.headerTrigger}>{children}</div>;
 }
 
-function DashboardHeaderSkipButton({ onClick }: { onClick: () => void }) {
+function DashboardSkipMain() {
   return (
-    <button type="button" className={styles.skipButton} onClick={onClick}>
-      Skip to results
-    </button>
+    <a href="#main" className={styles.skipMain}>
+      Skip to main
+    </a>
+  );
+}
+
+function DashboardSkipFilters() {
+  return (
+    <a href="#filters" className={styles.skipFilters}>
+      Skip to filters
+    </a>
   );
 }
 
 // filters
 function Filters({ children }: { children: React.ReactNode }) {
   return (
-    <aside className={styles.aside} aria-label="Filters">
+    <aside id="filters" className={styles.aside} aria-label="Filters">
       {children}
     </aside>
   );
@@ -92,7 +100,12 @@ function DashboardMainLinks({
   ref?: React.Ref<HTMLElement>;
 }) {
   return (
-    <main ref={ref} className={styles.links} aria-labelledby="saved-links">
+    <main
+      id="main"
+      ref={ref}
+      className={styles.links}
+      aria-labelledby="saved-links"
+    >
       <h1 className="visually-hidden" id="saved-links">
         Saved links
       </h1>
@@ -121,7 +134,9 @@ Dashboard.Header = DashboardHeader;
 Dashboard.HeaderActions = DashboardHeaderActions;
 Dashboard.HeaderSearch = DashboardHeaderSearch;
 Dashboard.HeaderTrigger = DashboardHeaderFiltersTrigger;
-Dashboard.HeaderSkipButton = DashboardHeaderSkipButton;
+
+Dashboard.SkipMain = DashboardSkipMain;
+Dashboard.SkipFilters = DashboardSkipFilters;
 
 Dashboard.Filters = Filters;
 
