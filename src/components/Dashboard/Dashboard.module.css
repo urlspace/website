@@ -313,7 +313,7 @@
     text-align: right;
     transform: none;
     position-anchor: --aside;
-    inset: anchor(top) anchor(right) anchor(bottom) anchor(left);
+    inset: anchor(top) calc(anchor(right) + 1px) anchor(bottom) anchor(left);
     padding: 0.5rlh;
     background-color: color-mix(in srgb, var(--color-link) 75%, transparent);
     backdrop-filter: blur(6px);
