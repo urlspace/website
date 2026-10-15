@@ -5,7 +5,6 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  rotate: -90deg;
   color: var(--color-fg);
   transition:
     color var(--transition-duration),
