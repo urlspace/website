@@ -1,57 +1,57 @@
-import type { ParsedBookmarks, ParsedLink, SkippedLink } from "./types.ts";
+import type {
+  ParsedBookmarks,
+  ParsedCollection,
+  ParsedLink,
+  SkippedLink,
+} from "./types.ts";
+import {
+  describeCollection,
+  folderList,
+  folderName,
+  normaliseCollectionName,
+  normaliseTitle,
+  parseDate,
+  validateUrl,
+} from "./utils.ts";
 
-const rootFolderNames = [
-  "bookmarks bar",
+const favouritesFolderNames = ["bookmarks bar", "favorites bar"];
+const droppedFolderNames = [
   "other bookmarks",
   "mobile bookmarks",
-  "favorites bar",
   "other favorites",
   "mobile favorites",
 ];
 
-function isValidLinkUrl(value: string): boolean {
-  try {
-    const parsed = new URL(value);
-    return (
-      (parsed.protocol === "http:" || parsed.protocol === "https:") &&
-      !parsed.username &&
-      !parsed.password
-    );
-  } catch {
-    return false;
-  }
-}
-
-function parseDate(value: string | null): string | null {
-  const seconds = Number(value);
-  if (!value || !Number.isFinite(seconds) || seconds <= 0) {
-    return null;
-  }
-  return new Date(seconds * 1000).toISOString();
-}
-
-function isRootFolder(h3: Element) {
+function isFavouritesFolder(h3: Element) {
   return (
     h3.hasAttribute("personal_toolbar_folder") ||
-    rootFolderNames.includes((h3.textContent ?? "").trim().toLowerCase())
+    favouritesFolderNames.includes(folderName(h3).toLowerCase())
   );
-}
-
-function folderList(dt: Element): Element | null {
-  const inner = dt.querySelector(":scope > dl");
-  if (inner) {
-    return inner;
-  }
-  const next = dt.nextElementSibling;
-  return next?.tagName === "DL" ? next : null;
 }
 
 export default function parseChromium(html: string): ParsedBookmarks {
   const doc = new DOMParser().parseFromString(html, "text/html");
   const links: Array<ParsedLink> = [];
   const skipped: Array<SkippedLink> = [];
+  const collections = new Map<string, { name: string; paths: Set<string> }>();
 
-  function walk(dl: Element, path: Array<string>) {
+  function addToCollection(path: Array<string>) {
+    const name = normaliseCollectionName(path[path.length - 1]);
+    const key = name.toLowerCase();
+    const collection = collections.get(key) ?? { name, paths: new Set() };
+    if (path.length > 1) {
+      collection.paths.add(path.join(" / "));
+    }
+    collections.set(key, collection);
+    return collection.name;
+  }
+
+  function walk(
+    dl: Element,
+    path: Array<string>,
+    isCollection: boolean,
+    favourite: boolean,
+  ) {
     for (const dt of dl.querySelectorAll(":scope > dt")) {
       const h3 = dt.querySelector(":scope > h3");
       if (h3) {
@@ -59,10 +59,16 @@ export default function parseChromium(html: string): ParsedBookmarks {
         if (!list) {
           continue;
         }
-        if (path.length === 0 && isRootFolder(h3)) {
-          walk(list, path);
+        const name = folderName(h3);
+        if (path.length === 0 && isFavouritesFolder(h3)) {
+          walk(list, [name], false, true);
+        } else if (
+          path.length === 0 &&
+          droppedFolderNames.includes(name.toLowerCase())
+        ) {
+          walk(list, [name], false, favourite);
         } else {
-          walk(list, [...path, (h3.textContent ?? "").trim()]);
+          walk(list, [...path, name], true, favourite);
         }
         continue;
       }
@@ -72,34 +78,40 @@ export default function parseChromium(html: string): ParsedBookmarks {
         continue;
       }
       const url = (a.getAttribute("href") ?? "").trim();
-      const title = (a.textContent ?? "").trim();
-      if (!isValidLinkUrl(url)) {
-        skipped.push({ url, title, reason: "unsupported URL" });
+      const rawTitle = (a.textContent ?? "").trim();
+      const reason = validateUrl(url);
+      if (reason) {
+        skipped.push({ url, title: rawTitle, reason });
         continue;
       }
       links.push({
         url,
-        title: title || url,
+        title: normaliseTitle(rawTitle, url),
         description: "",
         tags: [],
-        favourite: false,
+        favourite,
         forLater: false,
         createdAt: parseDate(a.getAttribute("add_date")),
-        collection: path.length ? path.join(" / ") : null,
+        collection: isCollection ? addToCollection(path) : null,
       });
     }
   }
 
   const root = doc.querySelector("dt")?.parentElement;
   if (root) {
-    walk(root, []);
+    walk(root, [], false, false);
   }
+
+  const parsedCollections: Array<ParsedCollection> = [
+    ...collections.values(),
+  ].map((collection) => ({
+    name: collection.name,
+    description: describeCollection("your browser", [...collection.paths]),
+  }));
 
   return {
     links,
-    collections: [
-      ...new Set(links.flatMap((link) => link.collection ?? [])),
-    ].map((name) => ({ name, description: "" })),
+    collections: parsedCollections,
     tags: [],
     skipped,
   };

@@ -1,0 +1,10 @@
+export const URL_LENGTH_MAX = 2048;
+export const TITLE_LENGTH_MIN = 3;
+export const TITLE_LENGTH_MAX = 255;
+export const COLLECTION_NAME_LENGTH_MIN = 2;
+export const COLLECTION_NAME_LENGTH_MAX = 128;
+export const COLLECTION_DESCRIPTION_LENGTH_MAX = 1024;
+export const DESCRIPTION_LENGTH_MAX = 512;
+export const TAG_LENGTH_MIN = 2;
+export const TAG_LENGTH_MAX = 50;
+export const TAGS_PER_LINK_MAX = 10;
