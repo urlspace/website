@@ -81,8 +81,8 @@ export const sources: Array<Source> = [
     label: "Safari (bookmarks or reading list)",
     steps: [
       "Open the File menu and choose Export.",
-      "Choose Bookmarks or Reading List.",
-      "Save the HTML file. Import the other one separately if you need both.",
+      "Choose Bookmarks, then do the same for Reading List.",
+      "Save both HTML files and import them one after the other.",
     ],
     load: safari,
   },
