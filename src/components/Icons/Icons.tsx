@@ -152,32 +152,7 @@ function IconsUser() {
     </IconBase>
   );
 }
-function IconsImport() {
-  return (
-    <IconBase>
-      <path d="M2 9V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1" />
-      <path d="M2 13h10" />
-      <path d="m9 16 3-3-3-3" />
-    </IconBase>
-  );
-}
 
-function IconsReload() {
-  return (
-    <IconBase>
-      <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
-      <path d="M21 3v5h-5" />
-    </IconBase>
-  );
-}
-
-function IconsStar() {
-  return (
-    <IconBase>
-      <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
-    </IconBase>
-  );
-}
 function IconsExtension() {
   return (
     <IconBase>
@@ -261,6 +236,18 @@ function IconsKeyboard() {
   );
 }
 
+function IconsTools() {
+  return (
+    <IconBase>
+      <path d="M16 12v4" />
+      <path d="M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
+      <path d="M17 6a2 2 0 011.414.586l3 3A2 2 0 0122 11v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 01.586-1.414l3-3A2 2 0 017 6z" />
+      <path d="M2 14h20" />
+      <path d="M8 12v4" />
+    </IconBase>
+  );
+}
+
 Icon.Filter = IconsFilter;
 Icon.Plus = IconsPlus;
 Icon.Edit = IconsEdit;
@@ -274,9 +261,6 @@ Icon.Tag = IconsTag;
 Icon.Close = IconsClose;
 Icon.SignOut = IconsSignOut;
 Icon.User = IconsUser;
-Icon.Import = IconsImport;
-Icon.Reload = IconsReload;
-Icon.Star = IconsStar;
 Icon.Extension = IconsExtension;
 Icon.Search = IconsSearch;
 Icon.Back = IconsBack;
@@ -287,5 +271,6 @@ Icon.Masonry = IconsMasonry;
 Icon.Rss = IconsRss;
 Icon.Share = IconsShare;
 Icon.Keyboard = IconsKeyboard;
+Icon.Tools = IconsTools;
 
 export default Icon;

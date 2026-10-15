@@ -41,7 +41,6 @@ function DashboardNav({
   collections,
   favourite,
   forLater,
-  handleClearCache,
   handleSignOut,
   onEditCollection,
   onError,
@@ -60,7 +59,6 @@ function DashboardNav({
   collections: CollectionRow[];
   favourite: boolean;
   forLater: boolean;
-  handleClearCache: () => void;
   handleSignOut: () => void;
   onEditCollection: (collection: CollectionRow) => void;
   onError: (message: string | null) => void;
@@ -514,14 +512,15 @@ function DashboardNav({
               preload={false}
             />
           </DashboardList.Li>
+          <DashboardList.Li>
+            <DashboardButtonLink
+              icon={<Icon.Tools />}
+              to="/tools"
+              text="Tools"
+              preload={false}
+            />
+          </DashboardList.Li>
           {
-            // <DashboardList.Li>
-            //   <DashboardButton
-            //     icon={<Icon.Import />}
-            //     onClick={() => alert("Import & export")}
-            //     text="Import & export"
-            //   />
-            // </DashboardList.Li>
             // <DashboardList.Li>
             //   <DashboardButton
             //     icon={<Icon.Extension />}
@@ -535,20 +534,6 @@ function DashboardNav({
               icon={<Icon.Keyboard />}
               onClick={() => setIsShortcutsOpen(true)}
               text="Keyboard shortcuts"
-            />
-          </DashboardList.Li>
-          <DashboardList.Li>
-            <DashboardButton
-              icon={<Icon.Star />}
-              onClick={() => alert("Pro features")}
-              text="Pro features"
-            />
-          </DashboardList.Li>
-          <DashboardList.Li>
-            <DashboardButton
-              icon={<Icon.Reload />}
-              onClick={handleClearCache}
-              text="Clear cache and sync"
             />
           </DashboardList.Li>
           <DashboardList.Li>

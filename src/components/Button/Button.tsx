@@ -78,4 +78,12 @@ function ButtonLink({
 	);
 }
 
-export { Button, ButtonLink, ButtonLinkLike };
+function ButtonDownload({ text, href }: { text: string; href: string }) {
+	return (
+		<a className={styles.button} href={href} download>
+			{text}
+		</a>
+	);
+}
+
+export { Button, ButtonDownload, ButtonLink, ButtonLinkLike };

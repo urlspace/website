@@ -14,6 +14,7 @@ import Drawer from "./Drawer/Drawer.tsx";
 import Form from "./Form/Form.tsx";
 import FormCollection from "./FormCollection/FormCollection.tsx";
 import FormDeleteAccount from "./FormDeleteAccount/FormDeleteAccount.tsx";
+import FormImport from "./FormImport/FormImport.tsx";
 import FormDisplayName from "./FormDisplayName/FormDisplayName.tsx";
 import FormEmail from "./FormEmail/FormEmail.tsx";
 import FormLink from "./FormLink/FormLink.tsx";
@@ -38,10 +39,16 @@ import Stack from "./Stack/Stack.tsx";
 import Stats from "./Stats/Stats.tsx";
 import LinkCard from "./LinkCard/LinkCard.tsx";
 import LinkCardSlim from "./LinkCard/LinkCardSlim.tsx";
-import { Button, ButtonLink, ButtonLinkLike } from "./Button/Button.tsx";
+import {
+  Button,
+  ButtonDownload,
+  ButtonLink,
+  ButtonLinkLike,
+} from "./Button/Button.tsx";
 
 export {
   Button,
+  ButtonDownload,
   ButtonLink,
   ButtonLinkLike,
   CopyBox,
@@ -60,6 +67,7 @@ export {
   Form,
   FormCollection,
   FormDeleteAccount,
+  FormImport,
   FormDisplayName,
   FormEmail,
   FormLink,

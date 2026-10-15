@@ -128,6 +128,67 @@
   position: absolute;
 }
 
+.file {
+  --outline-color: var(--color-border-input);
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rlh;
+  padding: 3px;
+  font-size: 0.9375rem;
+  outline: 1px solid var(--outline-color);
+  outline-offset: -3px;
+  border-radius: var(--radius);
+
+  &:has(.fileInput:focus-visible) {
+    --outline-color: var(--color-fg);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-link) 50%, transparent);
+  }
+
+  &:has(.fileInput:disabled) {
+    opacity: 0.75;
+  }
+
+  &:has(.fileInput:user-invalid) {
+    --outline-color: var(--color-error);
+  }
+
+  &:hover:has(.fileInput:enabled) .fileButton {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+}
+
+.fileInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.fileButton {
+  font-weight: 500;
+  background-color: var(--color-link);
+  color: var(--color-bg);
+  padding: calc(0.5rlh - 3px) 0.75lh;
+}
+
+.fileName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-inline-end: 0.5rlh;
+}
+
 .description {
   font-size: 0.875rem;
   opacity: 0.75;

@@ -39,11 +39,9 @@ import {
   type LinkFilters,
   type LinkRow,
   type LinksResponse,
-  linksQueryKey,
   linksQueryOptions,
 } from "#/queries/links.ts";
 import { type TagRow, tagsQueryOptions } from "#/queries/tags.ts";
-import { meQueryOptions } from "#/queries/me.ts";
 import { clearSession } from "#/queries/session.ts";
 
 const G_SEQUENCE_MS = 500;
@@ -133,15 +131,6 @@ function PageDashboard() {
     setFormKey((key) => key + 1);
     setEditingTag(tag);
     setIsEditTagOpen(true);
-  }
-
-  function handleClearCache() {
-    queryClient.invalidateQueries({ queryKey: linksQueryKey });
-    queryClient.invalidateQueries({
-      queryKey: collectionsQueryOptions.queryKey,
-    });
-    queryClient.invalidateQueries({ queryKey: tagsQueryOptions.queryKey });
-    queryClient.invalidateQueries({ queryKey: meQueryOptions.queryKey });
   }
 
   const filters: LinkFilters = {
@@ -428,7 +417,6 @@ function PageDashboard() {
           collections={collections}
           favourite={favourite}
           forLater={forLater}
-          handleClearCache={handleClearCache}
           handleSignOut={handleSignOut}
           onError={setCriticalError}
           onEditCollection={openEditCollection}
@@ -587,7 +575,6 @@ function PageDashboard() {
           collections={collections}
           favourite={favourite}
           forLater={forLater}
-          handleClearCache={handleClearCache}
           handleSignOut={handleSignOut}
           onError={setCriticalError}
           onEditCollection={openEditCollection}

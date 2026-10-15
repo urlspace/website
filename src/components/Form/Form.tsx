@@ -5,6 +5,7 @@ import {
 	useFieldIds,
 	useFormContext,
 } from "./context";
+import FileInput from "./FileInput";
 import styles from "./Form.module.css";
 import SearchInput from "./SearchInput";
 import Select from "./Select";
@@ -202,6 +203,7 @@ function Warning({ children }: { children: React.ReactNode }) {
 
 Form.Input = Input;
 Form.Select = Select;
+Form.FileInput = FileInput;
 Form.TagsInput = TagsInput;
 Form.SearchInput = SearchInput;
 Form.Checkbox = Checkbox;

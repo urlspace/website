@@ -3,7 +3,9 @@
   color: var(--color-fg);
   background-color: transparent;
   border: none;
-  align-self: flex-start;
+  /* i commented this out becaus i wanted to make sure links on the navigation are center aligned */
+  /* im not sure if that causes any issues */
+  /* align-self: flex-start; */
   display: flex;
   gap: 0.25lh;
   align-items: center;

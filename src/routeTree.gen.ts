@@ -12,10 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteImport } from './routes/_public'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as ToolsBookmarksDothtmlRouteImport } from './routes/tools.bookmarks[.]html'
 import { Route as PublicTermsOfServiceRouteImport } from './routes/_public/terms-of-service'
 import { Route as PublicPrivacyPolicyRouteImport } from './routes/_public/privacy-policy'
 import { Route as PublicPricingRouteImport } from './routes/_public/pricing'
 import { Route as PublicDocsRouteImport } from './routes/_public/docs'
+import { Route as ProtectedToolsRouteImport } from './routes/_protected/tools'
 import { Route as ProtectedSettingsRouteImport } from './routes/_protected/settings'
 import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as DotwellKnownChangePasswordRouteImport } from './routes/[.]well-known.change-password'
@@ -43,6 +45,11 @@ const PublicIndexRoute = PublicIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PublicRoute,
 } as any)
+const ToolsBookmarksDothtmlRoute = ToolsBookmarksDothtmlRouteImport.update({
+  id: '/tools/bookmarks.html',
+  path: '/tools/bookmarks.html',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PublicTermsOfServiceRoute = PublicTermsOfServiceRouteImport.update({
   id: '/terms-of-service',
   path: '/terms-of-service',
@@ -62,6 +69,11 @@ const PublicDocsRoute = PublicDocsRouteImport.update({
   id: '/docs',
   path: '/docs',
   getParentRoute: () => PublicRoute,
+} as any)
+const ProtectedToolsRoute = ProtectedToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => ProtectedRoute,
 } as any)
 const ProtectedSettingsRoute = ProtectedSettingsRouteImport.update({
   id: '/settings',
@@ -139,10 +151,12 @@ export interface FileRoutesByFullPath {
   '/.well-known/change-password': typeof DotwellKnownChangePasswordRoute
   '/dashboard': typeof ProtectedDashboardRoute
   '/settings': typeof ProtectedSettingsRoute
+  '/tools': typeof ProtectedToolsRoute
   '/docs': typeof PublicDocsRoute
   '/pricing': typeof PublicPricingRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
+  '/tools/bookmarks.html': typeof ToolsBookmarksDothtmlRoute
   '/$username/$slug/feed.xml': typeof UsernameSlugFeedDotxmlRoute
   '/$username/$slug': typeof PublicUsernameSlugRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
@@ -159,10 +173,12 @@ export interface FileRoutesByTo {
   '/.well-known/change-password': typeof DotwellKnownChangePasswordRoute
   '/dashboard': typeof ProtectedDashboardRoute
   '/settings': typeof ProtectedSettingsRoute
+  '/tools': typeof ProtectedToolsRoute
   '/docs': typeof PublicDocsRoute
   '/pricing': typeof PublicPricingRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
+  '/tools/bookmarks.html': typeof ToolsBookmarksDothtmlRoute
   '/$username/$slug/feed.xml': typeof UsernameSlugFeedDotxmlRoute
   '/$username/$slug': typeof PublicUsernameSlugRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
@@ -181,10 +197,12 @@ export interface FileRoutesById {
   '/.well-known/change-password': typeof DotwellKnownChangePasswordRoute
   '/_protected/dashboard': typeof ProtectedDashboardRoute
   '/_protected/settings': typeof ProtectedSettingsRoute
+  '/_protected/tools': typeof ProtectedToolsRoute
   '/_public/docs': typeof PublicDocsRoute
   '/_public/pricing': typeof PublicPricingRoute
   '/_public/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/_public/terms-of-service': typeof PublicTermsOfServiceRoute
+  '/tools/bookmarks.html': typeof ToolsBookmarksDothtmlRoute
   '/_public/': typeof PublicIndexRoute
   '/$username/$slug/feed.xml': typeof UsernameSlugFeedDotxmlRoute
   '/_public/$username/$slug': typeof PublicUsernameSlugRoute
@@ -204,10 +222,12 @@ export interface FileRouteTypes {
     | '/.well-known/change-password'
     | '/dashboard'
     | '/settings'
+    | '/tools'
     | '/docs'
     | '/pricing'
     | '/privacy-policy'
     | '/terms-of-service'
+    | '/tools/bookmarks.html'
     | '/$username/$slug/feed.xml'
     | '/$username/$slug'
     | '/auth/resend-verification'
@@ -224,10 +244,12 @@ export interface FileRouteTypes {
     | '/.well-known/change-password'
     | '/dashboard'
     | '/settings'
+    | '/tools'
     | '/docs'
     | '/pricing'
     | '/privacy-policy'
     | '/terms-of-service'
+    | '/tools/bookmarks.html'
     | '/$username/$slug/feed.xml'
     | '/$username/$slug'
     | '/auth/resend-verification'
@@ -245,10 +267,12 @@ export interface FileRouteTypes {
     | '/.well-known/change-password'
     | '/_protected/dashboard'
     | '/_protected/settings'
+    | '/_protected/tools'
     | '/_public/docs'
     | '/_public/pricing'
     | '/_public/privacy-policy'
     | '/_public/terms-of-service'
+    | '/tools/bookmarks.html'
     | '/_public/'
     | '/$username/$slug/feed.xml'
     | '/_public/$username/$slug'
@@ -265,6 +289,7 @@ export interface RootRouteChildren {
   ProtectedRoute: typeof ProtectedRouteWithChildren
   PublicRoute: typeof PublicRouteWithChildren
   DotwellKnownChangePasswordRoute: typeof DotwellKnownChangePasswordRoute
+  ToolsBookmarksDothtmlRoute: typeof ToolsBookmarksDothtmlRoute
   UsernameSlugFeedDotxmlRoute: typeof UsernameSlugFeedDotxmlRoute
 }
 
@@ -290,6 +315,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof PublicIndexRouteImport
       parentRoute: typeof PublicRoute
+    }
+    '/tools/bookmarks.html': {
+      id: '/tools/bookmarks.html'
+      path: '/tools/bookmarks.html'
+      fullPath: '/tools/bookmarks.html'
+      preLoaderRoute: typeof ToolsBookmarksDothtmlRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_public/terms-of-service': {
       id: '/_public/terms-of-service'
@@ -318,6 +350,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/docs'
       preLoaderRoute: typeof PublicDocsRouteImport
       parentRoute: typeof PublicRoute
+    }
+    '/_protected/tools': {
+      id: '/_protected/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ProtectedToolsRouteImport
+      parentRoute: typeof ProtectedRoute
     }
     '/_protected/settings': {
       id: '/_protected/settings'
@@ -416,11 +455,13 @@ declare module '@tanstack/react-router' {
 interface ProtectedRouteChildren {
   ProtectedDashboardRoute: typeof ProtectedDashboardRoute
   ProtectedSettingsRoute: typeof ProtectedSettingsRoute
+  ProtectedToolsRoute: typeof ProtectedToolsRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedDashboardRoute: ProtectedDashboardRoute,
   ProtectedSettingsRoute: ProtectedSettingsRoute,
+  ProtectedToolsRoute: ProtectedToolsRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
@@ -478,6 +519,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProtectedRoute: ProtectedRouteWithChildren,
   PublicRoute: PublicRouteWithChildren,
   DotwellKnownChangePasswordRoute: DotwellKnownChangePasswordRoute,
+  ToolsBookmarksDothtmlRoute: ToolsBookmarksDothtmlRoute,
   UsernameSlugFeedDotxmlRoute: UsernameSlugFeedDotxmlRoute,
 }
 export const routeTree = rootRouteImport

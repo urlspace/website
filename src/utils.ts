@@ -3,7 +3,7 @@
 export const siteUrl: string = import.meta.env.VITE_SITE_URL ?? "";
 export const dashboardUrl: string = import.meta.env.VITE_DASHBOARD_URL ?? "";
 
-const dashboardPaths = ["/dashboard", "/settings"];
+const dashboardPaths = ["/dashboard", "/settings", "/tools"];
 
 export function isDashboardPath(pathname: string) {
   return dashboardPaths.some(
