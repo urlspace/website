@@ -16,6 +16,7 @@ function Logo({ to }: { to: string }) {
           fill="currentColor"
         />
       </svg>
+      <span className="visually-hidden">url.space</span>
     </Link>
   );
 }
