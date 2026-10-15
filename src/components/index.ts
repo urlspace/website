@@ -27,6 +27,7 @@ import Icon from "./Icons/Icons.tsx";
 import Intro from "./Intro/Intro.tsx";
 import KeyboardShortcuts from "./KeyboardShortcuts/KeyboardShortcuts.tsx";
 import Logo from "./Logo/Logo.tsx";
+import Manual from "./Manual/Manual.tsx";
 import Page from "./Page/Page.tsx";
 import Pills from "./Pills/Pills.tsx";
 import Public from "./Public/Public.tsx";
@@ -80,6 +81,7 @@ export {
   Intro,
   KeyboardShortcuts,
   Logo,
+  Manual,
   Page,
   Pills,
   Public,

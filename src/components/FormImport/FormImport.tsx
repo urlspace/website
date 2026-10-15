@@ -10,7 +10,9 @@ import { linksQueryKey } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
 import { slugify } from "#/utils.ts";
+import CopyBox from "../CopyBox/CopyBox.tsx";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
+import Manual from "../Manual/Manual.tsx";
 
 function FormImport() {
   const queryClient = useQueryClient();
@@ -124,6 +126,8 @@ function FormImport() {
     }
   }
 
+  const source = sources.find((s) => s.id === sourceId);
+
   if (imported !== null) {
     return (
       <p role="status">
@@ -149,6 +153,12 @@ function FormImport() {
         placeholder="Choose a source"
         required
       />
+      {source && source.steps.length > 0 ? (
+        <Manual steps={source.steps} />
+      ) : null}
+      {source?.address ? (
+        <CopyBox value={source.address} label="Bookmarks page address" />
+      ) : null}
       {sourceId ? (
         <Form.FileInput
           label="Bookmarks file"
