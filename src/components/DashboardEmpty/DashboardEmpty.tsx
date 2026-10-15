@@ -17,18 +17,13 @@ function DashbrardEmpty({
     );
   }
 
-  // TODO: link to the right import page when this one is done
   return (
     <div className={styles.empty}>
       <p>
-        You don't have an links yet.{" "}
-        <ButtonLinkLike
-          type="button"
-          onClick={onAddLink}
-          text="Add your first one"
-        />{" "}
-        or <Link to="/tools">import</Link> your bookmarks from somewhere else to
-        get started.
+        You haven't saved any links yet.{" "}
+        <ButtonLinkLike type="button" onClick={onAddLink} text="Add one now" />,
+        or <Link to="/tools">import the bookmarks</Link> you already have in
+        your browser — folders become collections and tags come along too.
       </p>
     </div>
   );
