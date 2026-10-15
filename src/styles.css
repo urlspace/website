@@ -1,8 +1,7 @@
 @font-face {
-  font-family: "IBM Plex Sans";
-  src: url("./assets/fonts/IBMPlexSans-Variable.woff2") format("woff2");
-  font-weight: 100 700;
-  font-stretch: 75% 100%;
+  font-family: "Rubik";
+  src: url("./assets/fonts/Rubik-Variable.woff2") format("woff2");
+  font-weight: 300 900;
   font-style: normal;
   font-display: swap;
   unicode-range:
@@ -12,10 +11,9 @@
 }
 
 @font-face {
-  font-family: "IBM Plex Sans";
-  src: url("./assets/fonts/IBMPlexSans-Italic-Variable.woff2") format("woff2");
-  font-weight: 100 700;
-  font-stretch: 75% 100%;
+  font-family: "Rubik";
+  src: url("./assets/fonts/Rubik-Italic-Variable.woff2") format("woff2");
+  font-weight: 300 900;
   font-style: italic;
   font-display: swap;
   unicode-range:
@@ -95,7 +93,7 @@ body {
   color: var(--color-fg);
   background-color: var(--color-bg);
 
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Rubik", sans-serif;
   font-weight: 400;
   font-style: normal;
 
