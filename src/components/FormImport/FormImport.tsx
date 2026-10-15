@@ -124,6 +124,14 @@ function FormImport() {
     }
   }
 
+  if (imported !== null) {
+    return (
+      <p role="status">
+        Imported {imported} {imported === 1 ? "link" : "links"}.
+      </p>
+    );
+  }
+
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Select
@@ -155,11 +163,6 @@ function FormImport() {
       ) : null}
       {parsed ? (
         <Form.Submit text={importText(parsed)} textLoading="Importing..." />
-      ) : null}
-      {imported !== null ? (
-        <p role="status">
-          Imported {imported} {imported === 1 ? "link" : "links"}.
-        </p>
       ) : null}
     </Form>
   );
