@@ -1,15 +1,22 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { sources } from "#/parsers/index.ts";
-import type { ParsedBookmarks } from "#/parsers/types.ts";
-import { collectionsQueryOptions } from "#/queries/collections.ts";
+import type { ParsedBookmarks, ParsedCollection } from "#/parsers/types.ts";
+import {
+  type CollectionRow,
+  collectionsQueryOptions,
+} from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
+import { slugify } from "#/utils.ts";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
 function FormImport() {
   const queryClient = useQueryClient();
+  const { data: existingCollections } = useSuspenseQuery(
+    collectionsQueryOptions,
+  );
   const [sourceId, setSourceId] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [parsed, setParsed] = useState<ParsedBookmarks | null>(null);
@@ -49,7 +56,7 @@ function FormImport() {
         credentials: "include",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          collections: parsed.collections,
+          collections: withSlugs(parsed.collections, existingCollections),
           links: parsed.links,
         }),
       });
@@ -66,6 +73,11 @@ function FormImport() {
         switch (res.status) {
           case 400:
             setError("Incorrect body.");
+            break;
+          case 409:
+            setError(
+              "One of the collections clashes with a collection created in the meantime. Try again.",
+            );
             break;
           case 403: {
             const message = ((await res.json()) as { data: string }).data;
@@ -151,6 +163,40 @@ function FormImport() {
       ) : null}
     </Form>
   );
+}
+
+function withSlugs(
+  collections: Array<ParsedCollection>,
+  existing: Array<CollectionRow>,
+) {
+  const existingSlugs = new Map(
+    existing.map((collection) => [
+      collection.name.toLowerCase(),
+      collection.slug,
+    ]),
+  );
+  const taken = new Set(existing.map((collection) => collection.slug));
+
+  return collections.map((collection) => {
+    const existingSlug = existingSlugs.get(collection.name.toLowerCase());
+    if (existingSlug) {
+      return { ...collection, slug: existingSlug };
+    }
+
+    let slug = slugify(collection.name);
+    if (slug.length < 2 || taken.has(slug)) {
+      slug = randomizeSlug(slug);
+    }
+    taken.add(slug);
+
+    return { ...collection, slug };
+  });
+}
+
+function randomizeSlug(slug: string) {
+  const suffix = crypto.randomUUID().slice(0, 8);
+  const base = slug.slice(0, 128 - suffix.length - 1).replace(/-+$/, "");
+  return base ? `${base}-${suffix}` : `collection-${suffix}`;
 }
 
 function importText(parsed: ParsedBookmarks) {

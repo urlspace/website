@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { collectionsQueryOptions } from "#/queries/collections.ts";
 import {
   ButtonDownload,
   DashboardButtonLink,
@@ -10,6 +11,8 @@ import {
 } from "#/components/index.ts";
 
 export const Route = createFileRoute("/_protected/tools")({
+  loader: ({ context }) =>
+    context.queryClient.ensureQueryData(collectionsQueryOptions),
   component: PageTools,
   head: () => ({
     meta: [
