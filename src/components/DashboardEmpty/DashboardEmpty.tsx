@@ -12,7 +12,10 @@ function DashbrardEmpty({
   if (!newAccount) {
     return (
       <div className={styles.empty}>
-        <p>No links match these filters. Try adjusting them.</p>
+        <p>
+          No links found. Try fewer filters, a different collection or tag, or a
+          shorter search term.
+        </p>
       </div>
     );
   }
