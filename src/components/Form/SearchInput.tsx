@@ -217,7 +217,7 @@ function SearchInput({
 	});
 
 	return (
-		<search className={styles.field}>
+		<search className={styles.field} style={{ marginInline: "-2px" }}>
 			<label {...getLabelProps({ className: styles.visuallyHidden })}>
 				{label}
 			</label>
