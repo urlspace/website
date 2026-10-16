@@ -1,4 +1,5 @@
 import { type ReactNode, useId, useState } from "react";
+
 import {
 	FormContext,
 	type SubmitHelpers,
@@ -6,10 +7,11 @@ import {
 	useFormContext,
 } from "./context";
 import FileInput from "./FileInput";
-import styles from "./Form.module.css";
 import SearchInput from "./SearchInput";
 import Select from "./Select";
 import TagsInput from "./TagsInput";
+
+import styles from "./Form.module.css";
 
 export type { SubmitHelpers };
 

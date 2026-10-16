@@ -1,19 +1,19 @@
 import styles from "./Page.module.css";
 
 function Page({ children }: { children: React.ReactNode }) {
-  return <div className={styles.page}>{children}</div>;
+	return <div className={styles.page}>{children}</div>;
 }
 
 function PageHeader({ children }: { children: React.ReactNode }) {
-  return <div className={styles.header}>{children}</div>;
+	return <div className={styles.header}>{children}</div>;
 }
 
 function PageContent({ children }: { children: React.ReactNode }) {
-  return children;
+	return children;
 }
 
 function PageFooter({ children }: { children: React.ReactNode }) {
-  return <div className={styles.footer}>{children}</div>;
+	return <div className={styles.footer}>{children}</div>;
 }
 
 Page.Header = PageHeader;

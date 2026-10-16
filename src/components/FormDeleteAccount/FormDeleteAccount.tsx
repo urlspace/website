@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
+
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
 function FormDeleteAccount({ onClose }: { onClose: () => void }) {
@@ -26,7 +27,10 @@ function FormDeleteAccount({ onClose }: { onClose: () => void }) {
 			});
 
 			// Reload so the route guard can clear the invalid session and cached data.
-			if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+			if (
+				res.status === 401 &&
+				((await res.clone().json()) as { data: string }).data === "unauthorized"
+			) {
 				window.location.reload();
 				return;
 			}

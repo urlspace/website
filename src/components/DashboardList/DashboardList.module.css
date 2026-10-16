@@ -1,21 +1,21 @@
 .list {
-  list-style: none;
+	list-style: none;
 }
 
 .item {
-  display: flex;
-  gap: 0.25lh;
-  justify-content: space-between;
-  transition: opacity var(--transition-duration) ease;
+	display: flex;
+	gap: 0.25lh;
+	justify-content: space-between;
+	transition: opacity var(--transition-duration) ease;
 }
 
 .hideOnTouchDevice {
-  @media (pointer: coarse) {
-    display: none;
-  }
+	@media (pointer: coarse) {
+		display: none;
+	}
 }
 
 .loading {
-  opacity: 0.25;
-  pointer-events: none;
+	opacity: 0.25;
+	pointer-events: none;
 }

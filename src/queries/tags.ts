@@ -1,7 +1,8 @@
-import { redirect } from "@tanstack/react-router";
 import { queryOptions } from "@tanstack/react-query";
+import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
+
 import { clearSession } from "#/queries/session.ts";
 
 export type TagRow = {
@@ -17,7 +18,10 @@ const getTags = createServerFn().handler(async () => {
 	const res = await fetch(`${import.meta.env.VITE_API_URL}/tags`, {
 		headers: { cookie },
 	});
-	if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+	if (
+		res.status === 401 &&
+		((await res.clone().json()) as { data: string }).data === "unauthorized"
+	) {
 		await clearSession();
 		throw redirect({
 			to: "/auth/signin",

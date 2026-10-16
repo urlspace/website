@@ -1,5 +1,7 @@
 import { useEffect, useId, useRef } from "react";
+
 import Icon from "../Icons/Icons";
+
 import styles from "./Dialog.module.css";
 
 function Dialog({
@@ -46,7 +48,7 @@ function Dialog({
 	}, [open]);
 
 	return (
-		// biome-ignore lint/a11y/useKeyWithClickEvents: dialog backdrop is pointer-only; Escape closes via the built-in close event
+		// oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- dialog backdrop is pointer-only; Escape closes via the built-in close event
 		<dialog
 			ref={ref}
 			className={styles.dialog}

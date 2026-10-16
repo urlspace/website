@@ -1,5 +1,6 @@
-import { Heading, Page, Stack } from "#/components/index.ts";
 import { createFileRoute } from "@tanstack/react-router";
+
+import { Heading, Page, Stack } from "#/components/index.ts";
 
 export const Route = createFileRoute("/_public/privacy-policy")({
 	component: App,

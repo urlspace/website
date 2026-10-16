@@ -1,64 +1,64 @@
 .button {
-  color: inherit;
-  font: inherit;
-  background-color: transparent;
-  border: none;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
-  font-size: 0.875rem;
-  vertical-align: top;
-  text-wrap: nowrap;
+	color: inherit;
+	font: inherit;
+	background-color: transparent;
+	border: none;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 4px;
+	font-size: 0.875rem;
+	vertical-align: top;
+	text-wrap: nowrap;
 
-  &:hover:not([aria-disabled="true"]) {
-    @media (hover: hover) and (pointer: fine) {
-      color: var(--color-link);
-      text-decoration-line: underline;
-    }
-  }
+	&:hover:not([aria-disabled="true"]) {
+		@media (hover: hover) and (pointer: fine) {
+			color: var(--color-link);
+			text-decoration-line: underline;
+		}
+	}
 
-  &:focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
-    outline-offset: 2px;
-    border-radius: var(--radius);
-  }
+	&:focus-visible {
+		outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
+		outline-offset: 2px;
+		border-radius: var(--radius);
+	}
 
-  &[aria-disabled="true"] {
-    cursor: not-allowed;
-  }
+	&[aria-disabled="true"] {
+		cursor: not-allowed;
+	}
 
-  &[aria-pressed="true"] {
-    text-decoration-line: underline;
-    font-weight: 500;
-  }
+	&[aria-pressed="true"] {
+		text-decoration-line: underline;
+		font-weight: 500;
+	}
 }
 
 .destructive {
-  position: relative;
+	position: relative;
 
-  &:hover:not([aria-disabled="true"]) {
-    @media (hover: hover) and (pointer: fine) {
-      color: light-dark(oklch(51.4% 0.222 16.935), oklch(71.2% 0.194 13.428));
-    }
-  }
+	&:hover:not([aria-disabled="true"]) {
+		@media (hover: hover) and (pointer: fine) {
+			color: light-dark(oklch(51.4% 0.222 16.935), oklch(71.2% 0.194 13.428));
+		}
+	}
 
-  &::after {
-    content: "";
-    position: absolute;
-    inset-inline: 0;
-    bottom: -1px;
-    height: 2px;
-    background-color: currentColor;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform var(--hold-ms) linear;
-    transition-timing-function: cubic-bezier(0.61, 1, 0.87, 1);
-  }
+	&::after {
+		content: "";
+		position: absolute;
+		inset-inline: 0;
+		bottom: -1px;
+		height: 2px;
+		background-color: currentColor;
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform var(--hold-ms) linear;
+		transition-timing-function: cubic-bezier(0.61, 1, 0.87, 1);
+	}
 
-  &.holding {
-    color: light-dark(oklch(51.4% 0.222 16.935), oklch(71.2% 0.194 13.428));
+	&.holding {
+		color: light-dark(oklch(51.4% 0.222 16.935), oklch(71.2% 0.194 13.428));
 
-    &::after {
-      transform: scaleX(1);
-    }
-  }
+		&::after {
+			transform: scaleX(1);
+		}
+	}
 }

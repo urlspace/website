@@ -1,7 +1,8 @@
-import { redirect } from "@tanstack/react-router";
 import { queryOptions } from "@tanstack/react-query";
+import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
+
 import { clearSession } from "#/queries/session.ts";
 
 export type User = {

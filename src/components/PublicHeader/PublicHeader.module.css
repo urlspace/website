@@ -1,32 +1,32 @@
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1lh;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1lh;
 }
 
 .nav {
-  display: none;
+	display: none;
 
-  @media (width >= 900px) {
-    display: block;
-  }
+	@media (width >= 900px) {
+		display: block;
+	}
 }
 
 .navList {
-  display: flex;
-  gap: 1lh;
-  list-style: none;
+	display: flex;
+	gap: 1lh;
+	list-style: none;
 }
 
 .trigger {
-  @media (width >= 900px) {
-    display: none;
-  }
+	@media (width >= 900px) {
+		display: none;
+	}
 }
 
 .drawerList {
-  display: grid;
-  gap: 0.5lh;
-  list-style: none;
+	display: grid;
+	gap: 0.5lh;
+	list-style: none;
 }

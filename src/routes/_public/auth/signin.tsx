@@ -1,129 +1,130 @@
 import { useQueryClient } from "@tanstack/react-query";
 import {
-  createFileRoute,
-  Link,
-  redirect,
-  useRouter,
+	createFileRoute,
+	Link,
+	redirect,
+	useRouter,
 } from "@tanstack/react-router";
 import { useState } from "react";
+
 import { Form, Heading, Page, Stack } from "#/components";
 import type { SubmitHelpers } from "#/components/Form/Form";
 
 export const Route = createFileRoute("/_public/auth/signin")({
-  beforeLoad: ({ context }) => {
-    if (context.hasSession)
-      throw redirect({
-        to: "/dashboard",
-      });
-  },
-  component: SignIn,
-  head: () => ({
-    meta: [
-      {
-        title: "Sign in | url.space",
-      },
-    ],
-  }),
+	beforeLoad: ({ context }) => {
+		if (context.hasSession)
+			throw redirect({
+				to: "/dashboard",
+			});
+	},
+	component: SignIn,
+	head: () => ({
+		meta: [
+			{
+				title: "Sign in | url.space",
+			},
+		],
+	}),
 });
 
 function SignIn() {
-  const queryClient = useQueryClient();
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+	const queryClient = useQueryClient();
+	const router = useRouter();
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 
-  async function handleSubmit(
-    e: React.SubmitEvent<HTMLFormElement>,
-    { setError, setLoading }: SubmitHelpers,
-  ) {
-    e.preventDefault();
+	async function handleSubmit(
+		e: React.SubmitEvent<HTMLFormElement>,
+		{ setError, setLoading }: SubmitHelpers,
+	) {
+		e.preventDefault();
 
-    setError(null);
-    setLoading(true);
+		setError(null);
+		setLoading(true);
 
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signin`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+		try {
+			const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signin`, {
+				method: "POST",
+				credentials: "include",
+				headers: { "content-type": "application/json" },
+				body: JSON.stringify({
+					email,
+					password,
+				}),
+			});
 
-      if (!res.ok) {
-        switch (res.status) {
-          case 400:
-          case 401:
-            setError("Invalid email or password.");
-            break;
-          case 403: {
-            const error = (await res.json()) as { data: string };
-            if (error.data === "account blocked") {
-              setError("Your account has been blocked.");
-            } else if (error.data === "invalid email or password") {
-              setError("Your account is not verified. Check your inbox.");
-            } else {
-              setError("Something went wrong. Try again in a moment.");
-            }
-            break;
-          }
-          case 429:
-            setError("Too many attempts. Try again in a moment.");
-            break;
-          default:
-            setError("Something went wrong. Try again in a moment.");
-        }
-        return;
-      }
+			if (!res.ok) {
+				switch (res.status) {
+					case 400:
+					case 401:
+						setError("Invalid email or password.");
+						break;
+					case 403: {
+						const error = (await res.json()) as { data: string };
+						if (error.data === "account blocked") {
+							setError("Your account has been blocked.");
+						} else if (error.data === "invalid email or password") {
+							setError("Your account is not verified. Check your inbox.");
+						} else {
+							setError("Something went wrong. Try again in a moment.");
+						}
+						break;
+					}
+					case 429:
+						setError("Too many attempts. Try again in a moment.");
+						break;
+					default:
+						setError("Something went wrong. Try again in a moment.");
+				}
+				return;
+			}
 
-      queryClient.clear();
-      router.clearCache();
-      await router.invalidate();
-      await router.navigate({ to: "/dashboard" });
-    } catch {
-      setError("Something went wrong. Try again in a moment.");
-    } finally {
-      setLoading(false);
-    }
-  }
+			queryClient.clear();
+			router.clearCache();
+			await router.invalidate();
+			await router.navigate({ to: "/dashboard" });
+		} catch {
+			setError("Something went wrong. Try again in a moment.");
+		} finally {
+			setLoading(false);
+		}
+	}
 
-  return (
-    <Page.Content>
-      <Stack gap={2}>
-        <Heading level={1} text="Sign in" />
-        <Form onSubmit={handleSubmit}>
-          <Form.Input
-            autoComplete="username"
-            label="Email"
-            maxLength={254}
-            name="email"
-            onChange={setEmail}
-            pattern="[^\s@]{1,64}@[^\s@]+\.[^\s@]+"
-            placeholder="sylvester@stallone.com"
-            required
-            type="email"
-            value={email}
-          />
-          <Form.Input
-            autoComplete="current-password"
-            label="Password"
-            maxLength={128}
-            minLength={12}
-            name="password"
-            onChange={setPassword}
-            required
-            type="password"
-            value={password}
-          />
-          <Form.Submit text="Sign in" textLoading="Signing in..." />
-        </Form>
-        <p>
-          If you forgot your password, go to the{" "}
-          <Link to="/auth/reset-password">password reset page</Link>.
-        </p>
-      </Stack>
-    </Page.Content>
-  );
+	return (
+		<Page.Content>
+			<Stack gap={2}>
+				<Heading level={1} text="Sign in" />
+				<Form onSubmit={handleSubmit}>
+					<Form.Input
+						autoComplete="username"
+						label="Email"
+						maxLength={254}
+						name="email"
+						onChange={setEmail}
+						pattern="[^\s@]{1,64}@[^\s@]+\.[^\s@]+"
+						placeholder="sylvester@stallone.com"
+						required
+						type="email"
+						value={email}
+					/>
+					<Form.Input
+						autoComplete="current-password"
+						label="Password"
+						maxLength={128}
+						minLength={12}
+						name="password"
+						onChange={setPassword}
+						required
+						type="password"
+						value={password}
+					/>
+					<Form.Submit text="Sign in" textLoading="Signing in..." />
+				</Form>
+				<p>
+					If you forgot your password, go to the{" "}
+					<Link to="/auth/reset-password">password reset page</Link>.
+				</p>
+			</Stack>
+		</Page.Content>
+	);
 }

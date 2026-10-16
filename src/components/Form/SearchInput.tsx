@@ -1,304 +1,308 @@
 import { useCombobox } from "downshift";
 import { useEffect, useId, useState } from "react";
+
 import Icon from "../Icons/Icons";
+
 import styles from "./Form.module.css";
 
 type TagRow = {
-  id: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
+	id: string;
+	name: string;
+	createdAt: string;
+	updatedAt: string;
 };
 
 type CollectionRow = {
-  id: string;
-  name: string;
-  description: string;
-  public: boolean;
-  createdAt: string;
-  updatedAt: string;
+	id: string;
+	name: string;
+	description: string;
+	public: boolean;
+	createdAt: string;
+	updatedAt: string;
 };
 
 type Mode = "tag" | "col" | "is";
 
 type ParsedInput = {
-  freeText: string;
-  mode: Mode | null;
-  query: string;
+	freeText: string;
+	mode: Mode | null;
+	query: string;
 };
 
 // Active prefix = last "tag:" / "col:" / "is:" in the input that starts the
 // string (or follows whitespace) AND has no whitespace between the colon and
 // end. Whitespace after the query terminates prefix mode — see grilling notes.
 function parseInput(raw: string): ParsedInput {
-  const match = raw.match(/(?:^|\s)(tag:|col:|is:)(\S*)$/);
-  if (!match) return { freeText: raw, mode: null, query: "" };
+	const match = raw.match(/(?:^|\s)(tag:|col:|is:)(\S*)$/);
+	if (!match) return { freeText: raw, mode: null, query: "" };
 
-  const prefix = match[1];
-  const query = match[2];
-  const hasLeadingWs = match[0].length > prefix.length + query.length;
-  const prefixStart = (match.index ?? 0) + (hasLeadingWs ? 1 : 0);
+	const prefix = match[1];
+	const query = match[2];
+	const hasLeadingWs = match[0].length > prefix.length + query.length;
+	const prefixStart = (match.index ?? 0) + (hasLeadingWs ? 1 : 0);
 
-  const mode: Mode =
-    prefix === "tag:" ? "tag" : prefix === "col:" ? "col" : "is";
+	const mode: Mode =
+		prefix === "tag:" ? "tag" : prefix === "col:" ? "col" : "is";
 
-  return {
-    freeText: raw.slice(0, prefixStart),
-    mode,
-    query,
-  };
+	return {
+		freeText: raw.slice(0, prefixStart),
+		mode,
+		query,
+	};
 }
 
 type Item = { id: string; name: string };
 
 const IS_OPTIONS: Item[] = [
-  { id: "favourite", name: "Favourite" },
-  { id: "forLater", name: "For later" },
+	{ id: "favourite", name: "Favourite" },
+	{ id: "forLater", name: "For later" },
 ];
 
 function SearchInput({
-  collections,
-  favourite,
-  forLater,
-  label,
-  onEnter,
-  onFavouriteChange,
-  onForLaterChange,
-  onSelectedCollectionChange,
-  onSelectedTagsChange,
-  onValueChange,
-  placeholder,
-  selectedTags,
-  tags,
-  value,
+	collections,
+	favourite,
+	forLater,
+	label,
+	onEnter,
+	onFavouriteChange,
+	onForLaterChange,
+	onSelectedCollectionChange,
+	onSelectedTagsChange,
+	onValueChange,
+	placeholder,
+	selectedTags,
+	tags,
+	value,
 }: {
-  collections: CollectionRow[];
-  favourite: boolean;
-  forLater: boolean;
-  label: string;
-  onEnter: () => void;
-  onFavouriteChange: React.Dispatch<React.SetStateAction<boolean>>;
-  onForLaterChange: React.Dispatch<React.SetStateAction<boolean>>;
-  onSelectedCollectionChange: React.Dispatch<
-    React.SetStateAction<string | null>
-  >;
-  onSelectedTagsChange: React.Dispatch<React.SetStateAction<string[]>>;
-  onValueChange: (v: string) => void;
-  placeholder: string;
-  selectedTags: string[];
-  tags: TagRow[];
-  value: string;
+	collections: CollectionRow[];
+	favourite: boolean;
+	forLater: boolean;
+	label: string;
+	onEnter: () => void;
+	onFavouriteChange: React.Dispatch<React.SetStateAction<boolean>>;
+	onForLaterChange: React.Dispatch<React.SetStateAction<boolean>>;
+	onSelectedCollectionChange: React.Dispatch<
+		React.SetStateAction<string | null>
+	>;
+	onSelectedTagsChange: React.Dispatch<React.SetStateAction<string[]>>;
+	onValueChange: (v: string) => void;
+	placeholder: string;
+	selectedTags: string[];
+	tags: TagRow[];
+	value: string;
 }) {
-  const reactId = useId();
-  const inputId = `search-${reactId}`;
-  const [rawInput, setRawInput] = useState(value);
-  const [escapeClosed, setEscapeClosed] = useState(false);
+	const reactId = useId();
+	const inputId = `search-${reactId}`;
+	const [rawInput, setRawInput] = useState(value);
+	const [escapeClosed, setEscapeClosed] = useState(false);
 
-  // Sync external value resets (e.g. clear-all elsewhere) into rawInput.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: only react to external value changes
-  useEffect(() => {
-    const currentFree = parseInput(rawInput).freeText.trim();
-    if (currentFree !== value) {
-      setRawInput(value);
-      setEscapeClosed(false);
-    }
-  }, [value]);
+	// Sync external value resets (e.g. clear-all elsewhere) into rawInput.
+	useEffect(() => {
+		const currentFree = parseInput(rawInput).freeText.trim();
+		if (currentFree !== value) {
+			setRawInput(value);
+			setEscapeClosed(false);
+		}
+		// oxlint-disable-next-line react-hooks/exhaustive-deps -- only react to external value changes
+	}, [value]);
 
-  useEffect(() => {
-    function handleGlobalKey(e: KeyboardEvent) {
-      if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey) return;
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-      if (
-        target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.tagName === "SELECT" ||
-        target.isContentEditable
-      )
-        return;
-      e.preventDefault();
-      document.getElementById(inputId)?.focus();
-    }
-    window.addEventListener("keydown", handleGlobalKey);
-    return () => window.removeEventListener("keydown", handleGlobalKey);
-  }, [inputId]);
+	useEffect(() => {
+		function handleGlobalKey(e: KeyboardEvent) {
+			if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey) return;
+			const target = e.target as HTMLElement | null;
+			if (!target) return;
+			if (
+				target.tagName === "INPUT" ||
+				target.tagName === "TEXTAREA" ||
+				target.tagName === "SELECT" ||
+				target.isContentEditable
+			)
+				return;
+			e.preventDefault();
+			document.getElementById(inputId)?.focus();
+		}
+		window.addEventListener("keydown", handleGlobalKey);
+		return () => window.removeEventListener("keydown", handleGlobalKey);
+	}, [inputId]);
 
-  const parsed = parseInput(rawInput);
-  const queryLower = parsed.query.toLowerCase();
-  const isOpen = parsed.mode !== null && !escapeClosed;
+	const parsed = parseInput(rawInput);
+	const queryLower = parsed.query.toLowerCase();
+	const isOpen = parsed.mode !== null && !escapeClosed;
 
-  const items: Item[] =
-    parsed.mode === "tag"
-      ? tags
-          .filter((t) => !selectedTags.includes(t.id))
-          .filter(
-            (t) => !queryLower || t.name.toLowerCase().includes(queryLower),
-          )
-          .map((t) => ({ id: t.id, name: t.name }))
-      : parsed.mode === "col"
-        ? collections
-            .filter(
-              (c) => !queryLower || c.name.toLowerCase().includes(queryLower),
-            )
-            .map((c) => ({ id: c.id, name: c.name }))
-        : parsed.mode === "is"
-          ? IS_OPTIONS.filter((o) => {
-              if (o.id === "favourite" && favourite) return false;
-              if (o.id === "forLater" && forLater) return false;
-              return !queryLower || o.name.toLowerCase().includes(queryLower);
-            })
-          : [];
+	const items: Item[] =
+		parsed.mode === "tag"
+			? tags
+					.filter((t) => !selectedTags.includes(t.id))
+					.filter(
+						(t) => !queryLower || t.name.toLowerCase().includes(queryLower),
+					)
+					.map((t) => ({ id: t.id, name: t.name }))
+			: parsed.mode === "col"
+				? collections
+						.filter(
+							(c) => !queryLower || c.name.toLowerCase().includes(queryLower),
+						)
+						.map((c) => ({ id: c.id, name: c.name }))
+				: parsed.mode === "is"
+					? IS_OPTIONS.filter((o) => {
+							if (o.id === "favourite" && favourite) return false;
+							if (o.id === "forLater" && forLater) return false;
+							return !queryLower || o.name.toLowerCase().includes(queryLower);
+						})
+					: [];
 
-  function updateRawAndValue(next: string) {
-    setRawInput(next);
-    const nextFree = parseInput(next).freeText.trim();
-    if (nextFree !== value) onValueChange(nextFree);
-  }
+	function updateRawAndValue(next: string) {
+		setRawInput(next);
+		const nextFree = parseInput(next).freeText.trim();
+		if (nextFree !== value) onValueChange(nextFree);
+	}
 
-  function commit(item: Item) {
-    const nextRaw = parsed.freeText;
-    updateRawAndValue(nextRaw);
-    if (parsed.mode === "tag") {
-      onSelectedTagsChange((prev) =>
-        prev.includes(item.id) ? prev : [...prev, item.id],
-      );
-    } else if (parsed.mode === "col") {
-      onSelectedCollectionChange(item.id);
-    } else if (parsed.mode === "is") {
-      if (item.id === "favourite") onFavouriteChange(true);
-      else if (item.id === "forLater") onForLaterChange(true);
-    }
-  }
+	function commit(item: Item) {
+		const nextRaw = parsed.freeText;
+		updateRawAndValue(nextRaw);
+		if (parsed.mode === "tag") {
+			onSelectedTagsChange((prev) =>
+				prev.includes(item.id) ? prev : [...prev, item.id],
+			);
+		} else if (parsed.mode === "col") {
+			onSelectedCollectionChange(item.id);
+		} else if (parsed.mode === "is") {
+			if (item.id === "favourite") onFavouriteChange(true);
+			else if (item.id === "forLater") onForLaterChange(true);
+		}
+	}
 
-  function clearSearch() {
-    updateRawAndValue("");
-    setEscapeClosed(false);
-    document.getElementById(inputId)?.focus();
-  }
+	function clearSearch() {
+		updateRawAndValue("");
+		setEscapeClosed(false);
+		document.getElementById(inputId)?.focus();
+	}
 
-  const {
-    getInputProps,
-    getLabelProps,
-    getMenuProps,
-    getItemProps,
-    highlightedIndex,
-  } = useCombobox<Item>({
-      items,
-      inputValue: rawInput,
-      isOpen,
-      selectedItem: null,
-      defaultHighlightedIndex: 0,
-      inputId,
-      itemToString: (item) => item?.name ?? "",
-      stateReducer(_state, { changes, type }) {
-        switch (type) {
-          case useCombobox.stateChangeTypes.InputKeyDownEnter:
-          case useCombobox.stateChangeTypes.ItemClick:
-            return { ...changes, highlightedIndex: 0 };
-          default:
-            return changes;
-        }
-      },
-      onStateChange({ type, selectedItem }) {
-        switch (type) {
-          case useCombobox.stateChangeTypes.InputKeyDownEnter:
-          case useCombobox.stateChangeTypes.ItemClick:
-            if (selectedItem) commit(selectedItem);
-            break;
-          case useCombobox.stateChangeTypes.InputKeyDownEscape:
-            setEscapeClosed(true);
-            break;
-          default:
-            break;
-        }
-      },
-    });
+	const {
+		getInputProps,
+		getLabelProps,
+		getMenuProps,
+		getItemProps,
+		highlightedIndex,
+	} = useCombobox<Item>({
+		items,
+		inputValue: rawInput,
+		isOpen,
+		selectedItem: null,
+		defaultHighlightedIndex: 0,
+		inputId,
+		itemToString: (item) => item?.name ?? "",
+		stateReducer(_state, { changes, type }) {
+			switch (type) {
+				case useCombobox.stateChangeTypes.InputKeyDownEnter:
+				case useCombobox.stateChangeTypes.ItemClick:
+					return { ...changes, highlightedIndex: 0 };
+				default:
+					return changes;
+			}
+		},
+		onStateChange({ type, selectedItem }) {
+			switch (type) {
+				case useCombobox.stateChangeTypes.InputKeyDownEnter:
+				case useCombobox.stateChangeTypes.ItemClick:
+					if (selectedItem) commit(selectedItem);
+					break;
+				case useCombobox.stateChangeTypes.InputKeyDownEscape:
+					setEscapeClosed(true);
+					break;
+				default:
+					break;
+			}
+		},
+	});
 
-  return (
-    <search className={styles.field}>
-      <label {...getLabelProps({ className: styles.visuallyHidden })}>
-        {label}
-      </label>
-      <div className={styles.comboboxWrapper}>
-        <div className={styles.comboboxInputGroup}>
-          <div className={styles.searchIcon}>
-            <Icon.Search />
-          </div>
-          <input
-            {...getInputProps({
-              className: styles.searchInput,
-              placeholder,
-              "aria-keyshortcuts": "/",
-              // Downshift sets aria-activedescendant="" when nothing is
-              // highlighted, and keeps pointing at item 0 (defaultHighlightedIndex)
-              // even when the list is empty. Empty or dangling IDREFs are invalid
-              // ARIA and screen readers handle them inconsistently, so drop the
-              // attribute unless it points at a rendered option. Only override
-              // in that case, otherwise the valid id from Downshift is wiped out.
-              ...(isOpen && highlightedIndex > -1 && highlightedIndex < items.length
-                ? {}
-                : { "aria-activedescendant": undefined }),
-              onChange: (e) => {
-                setEscapeClosed(false);
-                updateRawAndValue(e.currentTarget.value);
-              },
-              onKeyDown: (e) => {
-                if (e.key !== "Enter" || isOpen || e.nativeEvent.isComposing) {
-                  return;
-                }
-                e.preventDefault();
-                onEnter();
-              },
-            })}
-          />
-          {rawInput === "" ? (
-            <span className={styles.searchHint} aria-hidden="true">
-              Press <kbd>/</kbd> to search
-            </span>
-          ) : null}
-          {rawInput !== "" ? (
-            <button
-              type="button"
-              className={styles.searchClear}
-              aria-label="Clear search"
-              onClick={clearSearch}
-            >
-              <Icon.Close />
-            </button>
-          ) : null}
-        </div>
+	return (
+		<search className={styles.field}>
+			<label {...getLabelProps({ className: styles.visuallyHidden })}>
+				{label}
+			</label>
+			<div className={styles.comboboxWrapper}>
+				<div className={styles.comboboxInputGroup}>
+					<div className={styles.searchIcon}>
+						<Icon.Search />
+					</div>
+					<input
+						{...getInputProps({
+							className: styles.searchInput,
+							placeholder,
+							"aria-keyshortcuts": "/",
+							// Downshift sets aria-activedescendant="" when nothing is
+							// highlighted, and keeps pointing at item 0 (defaultHighlightedIndex)
+							// even when the list is empty. Empty or dangling IDREFs are invalid
+							// ARIA and screen readers handle them inconsistently, so drop the
+							// attribute unless it points at a rendered option. Only override
+							// in that case, otherwise the valid id from Downshift is wiped out.
+							...(isOpen &&
+							highlightedIndex > -1 &&
+							highlightedIndex < items.length
+								? {}
+								: { "aria-activedescendant": undefined }),
+							onChange: (e) => {
+								setEscapeClosed(false);
+								updateRawAndValue(e.currentTarget.value);
+							},
+							onKeyDown: (e) => {
+								if (e.key !== "Enter" || isOpen || e.nativeEvent.isComposing) {
+									return;
+								}
+								e.preventDefault();
+								onEnter();
+							},
+						})}
+					/>
+					{rawInput === "" ? (
+						<span className={styles.searchHint} aria-hidden="true">
+							Press <kbd>/</kbd> to search
+						</span>
+					) : null}
+					{rawInput !== "" ? (
+						<button
+							type="button"
+							className={styles.searchClear}
+							aria-label="Clear search"
+							onClick={clearSearch}
+						>
+							<Icon.Close />
+						</button>
+					) : null}
+				</div>
 
-        <ul
-          {...getMenuProps({
-            className: styles.comboboxPopup,
-            hidden: !isOpen,
-          })}
-        >
-          {isOpen && items.length === 0 ? (
-            <li className={styles.comboboxEmpty}>
-              {parsed.mode === "tag"
-                ? "No matching tags"
-                : parsed.mode === "col"
-                  ? "No matching collections"
-                  : "No matching filters"}
-            </li>
-          ) : null}
-          {isOpen
-            ? items.map((item, index) => (
-                <li
-                  key={item.id}
-                  {...getItemProps({ item, index })}
-                  data-highlighted={highlightedIndex === index ? "" : undefined}
-                  className={styles.comboboxItem}
-                >
-                  {parsed.mode === "tag" ? `#${item.name}` : item.name}
-                </li>
-              ))
-            : null}
-        </ul>
-      </div>
-    </search>
-  );
+				<ul
+					{...getMenuProps({
+						className: styles.comboboxPopup,
+						hidden: !isOpen,
+					})}
+				>
+					{isOpen && items.length === 0 ? (
+						<li className={styles.comboboxEmpty}>
+							{parsed.mode === "tag"
+								? "No matching tags"
+								: parsed.mode === "col"
+									? "No matching collections"
+									: "No matching filters"}
+						</li>
+					) : null}
+					{isOpen
+						? items.map((item, index) => (
+								<li
+									key={item.id}
+									{...getItemProps({ item, index })}
+									data-highlighted={highlightedIndex === index ? "" : undefined}
+									className={styles.comboboxItem}
+								>
+									{parsed.mode === "tag" ? `#${item.name}` : item.name}
+								</li>
+							))
+						: null}
+				</ul>
+			</div>
+		</search>
+	);
 }
 
 export default SearchInput;

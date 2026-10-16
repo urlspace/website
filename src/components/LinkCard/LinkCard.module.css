@@ -1,131 +1,131 @@
 .link {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5lh;
-  min-width: 0;
-  margin: -1rlh;
-  padding: 1rlh;
-  border-radius: var(--radius);
-  transition:
-    opacity 60ms ease,
-    background-color var(--transition-duration) ease;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5lh;
+	min-width: 0;
+	margin: -1rlh;
+	padding: 1rlh;
+	border-radius: var(--radius);
+	transition:
+		opacity 60ms ease,
+		background-color var(--transition-duration) ease;
 
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
+	@media (prefers-reduced-motion: reduce) {
+		transition: none;
+	}
 
-  @media (any-pointer: fine) {
-    &:has(.title a:focus-visible) {
-      background-color: color-mix(
-        in srgb,
-        var(--color-link) 10%,
-        var(--color-bg-content)
-      );
+	@media (any-pointer: fine) {
+		&:has(.title a:focus-visible) {
+			background-color: color-mix(
+				in srgb,
+				var(--color-link) 10%,
+				var(--color-bg-content)
+			);
 
-      @media (prefers-contrast: more) {
-        outline: 2px solid var(--color-link);
-      }
-    }
-  }
+			@media (prefers-contrast: more) {
+				outline: 2px solid var(--color-link);
+			}
+		}
+	}
 }
 
 .linkLoading {
-  opacity: 0.5;
+	opacity: 0.5;
 }
 
 .title {
-  font-size: inherit;
-  text-wrap-style: pretty;
+	font-size: inherit;
+	text-wrap-style: pretty;
 
-  a {
-    font-weight: 700;
+	a {
+		font-weight: 700;
 
-    &:focus-visible {
-      outline: none;
-    }
-  }
+		&:focus-visible {
+			outline: none;
+		}
+	}
 
-  mark {
-    background-color: color-mix(in srgb, var(--color-link) 25%, transparent);
-    color: inherit;
-  }
+	mark {
+		background-color: color-mix(in srgb, var(--color-link) 25%, transparent);
+		color: inherit;
+	}
 }
 
 .url {
-  display: block;
-  font-size: 0.875rem;
-  color: color-mix(in srgb, var(--color-fg) 50%, transparent);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+	display: block;
+	font-size: 0.875rem;
+	color: color-mix(in srgb, var(--color-fg) 50%, transparent);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .meta {
-  font-size: 0.875rem;
+	font-size: 0.875rem;
 }
 
 .metaItem {
-  display: grid;
-  grid-template-columns: max-content minmax(0, 1fr);
-  align-items: baseline;
+	display: grid;
+	grid-template-columns: max-content minmax(0, 1fr);
+	align-items: baseline;
 
-  > dt {
-    white-space: pre;
-  }
+	> dt {
+		white-space: pre;
+	}
 
-  > dd {
-    min-inline-size: 0;
-  }
+	> dd {
+		min-inline-size: 0;
+	}
 }
 
 .metaButton {
-  min-inline-size: 0;
-  text-align: start;
-  color: inherit;
-  font: inherit;
-  background-color: transparent;
-  border: none;
-  max-inline-size: 100%;
-  vertical-align: bottom;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
+	min-inline-size: 0;
+	text-align: start;
+	color: inherit;
+	font: inherit;
+	background-color: transparent;
+	border: none;
+	max-inline-size: 100%;
+	vertical-align: bottom;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 4px;
 
-  &:hover:not([aria-disabled="true"]) {
-    @media (hover: hover) and (pointer: fine) {
-      color: var(--color-link);
-      text-decoration-line: underline;
-    }
-  }
+	&:hover:not([aria-disabled="true"]) {
+		@media (hover: hover) and (pointer: fine) {
+			color: var(--color-link);
+			text-decoration-line: underline;
+		}
+	}
 
-  &:focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
-    outline-offset: 2px;
-    border-radius: var(--radius);
-  }
+	&:focus-visible {
+		outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
+		outline-offset: 2px;
+		border-radius: var(--radius);
+	}
 
-  &[aria-disabled="true"] {
-    cursor: not-allowed;
-  }
+	&[aria-disabled="true"] {
+		cursor: not-allowed;
+	}
 }
 
 .tags {
-  display: inline;
-  list-style: none;
+	display: inline;
+	list-style: none;
 }
 
 .tag {
-  display: inline;
+	display: inline;
 
-  > button::before {
-    content: "#";
-    content: "#" / "";
-  }
+	> button::before {
+		content: "#";
+		content: "#" / "";
+	}
 
-  &::after {
-    content: " ";
-    white-space: pre;
-  }
+	&::after {
+		content: " ";
+		white-space: pre;
+	}
 }

@@ -1,44 +1,44 @@
 import styles from "./Stats.module.css";
 
 function Stats({
-  totalResults,
-  currentPage,
-  totalPages,
-  linksResponse,
+	totalResults,
+	currentPage,
+	totalPages,
+	linksResponse,
 }: {
-  totalResults: number | undefined;
-  currentPage: number | undefined;
-  totalPages: number | undefined;
-  linksResponse: number | undefined;
+	totalResults: number | undefined;
+	currentPage: number | undefined;
+	totalPages: number | undefined;
+	linksResponse: number | undefined;
 }) {
-  return (
-    <dl className={styles.stats}>
-      {totalResults !== undefined ? (
-        <div className={styles.item} aria-live="polite" aria-atomic="true">
-          <dt className={styles.term}>Results</dt>
-          <dd>{totalResults}</dd>
-        </div>
-      ) : null}
+	return (
+		<dl className={styles.stats}>
+			{totalResults !== undefined ? (
+				<div className={styles.item} aria-live="polite" aria-atomic="true">
+					<dt className={styles.term}>Results</dt>
+					<dd>{totalResults}</dd>
+				</div>
+			) : null}
 
-      {currentPage !== undefined &&
-      totalPages !== undefined &&
-      totalPages > 1 ? (
-        <div className={[styles.item, styles.itemExtra].join(" ")}>
-          <dt className={styles.term}>Pages</dt>
-          <dd>
-            {currentPage}/{totalPages}
-          </dd>
-        </div>
-      ) : null}
+			{currentPage !== undefined &&
+			totalPages !== undefined &&
+			totalPages > 1 ? (
+				<div className={[styles.item, styles.itemExtra].join(" ")}>
+					<dt className={styles.term}>Pages</dt>
+					<dd>
+						{currentPage}/{totalPages}
+					</dd>
+				</div>
+			) : null}
 
-      {linksResponse !== undefined ? (
-        <div className={[styles.item, styles.itemExtra].join(" ")}>
-          <dt className={styles.term}>Response time</dt>
-          <dd>{linksResponse}ms</dd>
-        </div>
-      ) : null}
-    </dl>
-  );
+			{linksResponse !== undefined ? (
+				<div className={[styles.item, styles.itemExtra].join(" ")}>
+					<dt className={styles.term}>Response time</dt>
+					<dd>{linksResponse}ms</dd>
+				</div>
+			) : null}
+		</dl>
+	);
 }
 
 export default Stats;

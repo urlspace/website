@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+
 import { getPublicCollection } from "#/queries/collections.ts";
 
 function escapeXml(value: string) {

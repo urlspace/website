@@ -1,128 +1,132 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
 function FormUsername({
-  onClose,
-  username,
-  isPro,
-  isAdmin,
+	onClose,
+	username,
+	isPro,
+	isAdmin,
 }: {
-  onClose: () => void;
-  username: string;
-  isPro: boolean;
-  isAdmin: boolean;
+	onClose: () => void;
+	username: string;
+	isPro: boolean;
+	isAdmin: boolean;
 }) {
-  const queryClient = useQueryClient();
-  const canPublish = isPro || isAdmin;
+	const queryClient = useQueryClient();
+	const canPublish = isPro || isAdmin;
 
-  const [value, setValue] = useState(username);
-  const [password, setPassword] = useState("");
+	const [value, setValue] = useState(username);
+	const [password, setPassword] = useState("");
 
-  async function handleSubmit(
-    e: React.SubmitEvent<HTMLFormElement>,
-    { setError, setLoading }: SubmitHelpers,
-  ) {
-    e.preventDefault();
+	async function handleSubmit(
+		e: React.SubmitEvent<HTMLFormElement>,
+		{ setError, setLoading }: SubmitHelpers,
+	) {
+		e.preventDefault();
 
-    setError(null);
-    setLoading(true);
-    try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/me/update-username`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ username: value, password }),
-        },
-      );
+		setError(null);
+		setLoading(true);
+		try {
+			const res = await fetch(
+				`${import.meta.env.VITE_API_URL}/me/update-username`,
+				{
+					method: "POST",
+					credentials: "include",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify({ username: value, password }),
+				},
+			);
 
-      // Reload so the route guard can clear the invalid session and cached data.
-      if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
-        window.location.reload();
-        return;
-      }
+			// Reload so the route guard can clear the invalid session and cached data.
+			if (
+				res.status === 401 &&
+				((await res.clone().json()) as { data: string }).data === "unauthorized"
+			) {
+				window.location.reload();
+				return;
+			}
 
-      if (!res.ok) {
-        switch (res.status) {
-          case 400:
-            setError("Please check your input and try again.");
-            break;
-          case 401:
-            // Incorrect passwords keep the session; "unauthorized" reloads above.
-            setError("Incorrect password.");
-            break;
-          case 409:
-            setError("This username is already taken.");
-            break;
-          case 429:
-            setError("Too many attempts. Try again in a moment.");
-            break;
-          default:
-            setError("Something went wrong. Try again in a moment.");
-        }
-        return;
-      }
+			if (!res.ok) {
+				switch (res.status) {
+					case 400:
+						setError("Please check your input and try again.");
+						break;
+					case 401:
+						// Incorrect passwords keep the session; "unauthorized" reloads above.
+						setError("Incorrect password.");
+						break;
+					case 409:
+						setError("This username is already taken.");
+						break;
+					case 429:
+						setError("Too many attempts. Try again in a moment.");
+						break;
+					default:
+						setError("Something went wrong. Try again in a moment.");
+				}
+				return;
+			}
 
-      await queryClient.invalidateQueries({ queryKey: ["me"] });
+			await queryClient.invalidateQueries({ queryKey: ["me"] });
 
-      setPassword("");
-      onClose();
-    } catch {
-      setError("Something went wrong. Try again in a moment.");
-    } finally {
-      setLoading(false);
-    }
-  }
+			setPassword("");
+			onClose();
+		} catch {
+			setError("Something went wrong. Try again in a moment.");
+		} finally {
+			setLoading(false);
+		}
+	}
 
-  return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Input
-        autoComplete="nickname"
-        description="Use 3–32 lowercase letters or numbers. You can also use hyphens and underscores, but not at the beginning or end."
-        label="Username"
-        maxLength={32}
-        minLength={3}
-        name="username"
-        onChange={setValue}
-        pattern="[a-z0-9]([a-z0-9_\-]*[a-z0-9])?"
-        placeholder="rocky"
-        required
-        type="text"
-        value={value}
-      />
-      <Form.Input
-        autoComplete="current-password"
-        label="Current password"
-        maxLength={128}
-        minLength={12}
-        name="password"
-        onChange={setPassword}
-        required
-        type="password"
-        value={password}
-      />
-      {canPublish && value.trim() !== username ? (
-        <Form.Warning>
-          Sir Tim Berners-Lee, the man who invented the World Wide Web,
-          published{" "}
-          <a
-            href="https://www.w3.org/Provider/Style/URI"
-            target="_blank"
-            rel="noreferrer"
-            aria-description="Opens in a new tab"
-          >
-            "Cool URIs don't change"
-          </a>{" "}
-          in 1998. Changing your username changes the address of your public
-          profile and every public collection, so links already shared will
-          stop working. Think twice before changing it.
-        </Form.Warning>
-      ) : null}
-      <Form.Submit text="Save changes" textLoading="Saving..." />
-    </Form>
-  );
+	return (
+		<Form onSubmit={handleSubmit}>
+			<Form.Input
+				autoComplete="nickname"
+				description="Use 3–32 lowercase letters or numbers. You can also use hyphens and underscores, but not at the beginning or end."
+				label="Username"
+				maxLength={32}
+				minLength={3}
+				name="username"
+				onChange={setValue}
+				pattern="[a-z0-9]([a-z0-9_\-]*[a-z0-9])?"
+				placeholder="rocky"
+				required
+				type="text"
+				value={value}
+			/>
+			<Form.Input
+				autoComplete="current-password"
+				label="Current password"
+				maxLength={128}
+				minLength={12}
+				name="password"
+				onChange={setPassword}
+				required
+				type="password"
+				value={password}
+			/>
+			{canPublish && value.trim() !== username ? (
+				<Form.Warning>
+					Sir Tim Berners-Lee, the man who invented the World Wide Web,
+					published{" "}
+					<a
+						href="https://www.w3.org/Provider/Style/URI"
+						target="_blank"
+						rel="noreferrer"
+						aria-description="Opens in a new tab"
+					>
+						"Cool URIs don't change"
+					</a>{" "}
+					in 1998. Changing your username changes the address of your public
+					profile and every public collection, so links already shared will stop
+					working. Think twice before changing it.
+				</Form.Warning>
+			) : null}
+			<Form.Submit text="Save changes" textLoading="Saving..." />
+		</Form>
+	);
 }
 
 export default FormUsername;

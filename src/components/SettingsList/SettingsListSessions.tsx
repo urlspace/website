@@ -5,9 +5,12 @@ import {
 } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
+
 import { sessionsQueryKey, sessionsQueryOptions } from "#/queries/sessions.ts";
 import { formatDate } from "#/utils.ts";
+
 import { Button, DashboardButtonAction, Dialog, Stack } from "..";
+
 import styles from "./SettingsList.module.css";
 
 function SettingsListSessions() {
@@ -37,7 +40,10 @@ function SettingsListSessions() {
 				},
 			);
 			// Reload so the route guard can clear the invalid session and cached data.
-			if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+			if (
+				res.status === 401 &&
+				((await res.clone().json()) as { data: string }).data === "unauthorized"
+			) {
 				window.location.reload();
 				throw new Error("Session expired.");
 			}
@@ -69,7 +75,10 @@ function SettingsListSessions() {
 				credentials: "include",
 			});
 			// Reload so the route guard can clear the invalid session and cached data.
-			if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+			if (
+				res.status === 401 &&
+				((await res.clone().json()) as { data: string }).data === "unauthorized"
+			) {
 				window.location.reload();
 				throw new Error("Session expired.");
 			}
@@ -96,7 +105,7 @@ function SettingsListSessions() {
 				</p>
 			) : null}
 
-			{/* biome-ignore lint/a11y/noRedundantRoles: preserve semantics when CSS removes list markers */}
+			{/* oxlint-disable-next-line jsx-a11y/no-redundant-roles -- preserve semantics when CSS removes list markers */}
 			<ul className={styles.list} role="list">
 				{sessions.length === 0 ? (
 					<li className={styles.item}>

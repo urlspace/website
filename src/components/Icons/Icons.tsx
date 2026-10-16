@@ -1,251 +1,251 @@
 import styles from "./Icons.module.css";
 
 function Icon() {
-  return null;
+	return null;
 }
 
 function IconBase({ children }: { children: React.ReactNode }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className={styles.icon}
-    >
-      {children}
-    </svg>
-  );
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 24 24"
+			aria-hidden="true"
+			className={styles.icon}
+		>
+			{children}
+		</svg>
+	);
 }
 
 function IconsFilter() {
-  return (
-    <IconBase>
-      <path d="M21 5H3" />
-      <path d="M21 12H9" />
-      <path d="M21 19H7" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M21 5H3" />
+			<path d="M21 12H9" />
+			<path d="M21 19H7" />
+		</IconBase>
+	);
 }
 
 function IconsPlus() {
-  return (
-    <IconBase>
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M5 12h14" />
+			<path d="M12 5v14" />
+		</IconBase>
+	);
 }
 
 function IconsEdit() {
-  return (
-    <IconBase>
-      <path d="M14 17H5" />
-      <path d="M19 7h-9" />
-      <circle cx="17" cy="17" r="3" />
-      <circle cx="7" cy="7" r="3" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M14 17H5" />
+			<path d="M19 7h-9" />
+			<circle cx="17" cy="17" r="3" />
+			<circle cx="7" cy="7" r="3" />
+		</IconBase>
+	);
 }
 function IconsList() {
-  return (
-    <IconBase>
-      <path d="M21 5H3" />
-      <path d="M15 12H3" />
-      <path d="M17 19H3" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M21 5H3" />
+			<path d="M15 12H3" />
+			<path d="M17 19H3" />
+		</IconBase>
+	);
 }
 
 function IconsHeart() {
-  return (
-    <IconBase>
-      <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" />
+		</IconBase>
+	);
 }
 
 function IconsCoffee() {
-  return (
-    <IconBase>
-      <path d="M10 2v2" />
-      <path d="M14 2v2" />
-      <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" />
-      <path d="M6 2v2" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M10 2v2" />
+			<path d="M14 2v2" />
+			<path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" />
+			<path d="M6 2v2" />
+		</IconBase>
+	);
 }
 
 function IconsChevronDown() {
-  return (
-    <IconBase>
-      <path d="m6 9 6 6 6-6" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="m6 9 6 6 6-6" />
+		</IconBase>
+	);
 }
 
 function IconsFolder() {
-  return (
-    <IconBase>
-      <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
+		</IconBase>
+	);
 }
 
 function IconsFolderPublic() {
-  return (
-    <IconBase>
-      <path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2" />
+		</IconBase>
+	);
 }
 
 function IconsCopy() {
-  return (
-    <IconBase>
-      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+			<path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+		</IconBase>
+	);
 }
 
 function IconsCheck() {
-  return (
-    <IconBase>
-      <path d="M20 6 9 17l-5-5" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M20 6 9 17l-5-5" />
+		</IconBase>
+	);
 }
 
 function IconsTag() {
-  return (
-    <IconBase>
-      <line x1="4" x2="20" y1="9" y2="9" />
-      <line x1="4" x2="20" y1="15" y2="15" />
-      <line x1="10" x2="8" y1="3" y2="21" />
-      <line x1="16" x2="14" y1="3" y2="21" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<line x1="4" x2="20" y1="9" y2="9" />
+			<line x1="4" x2="20" y1="15" y2="15" />
+			<line x1="10" x2="8" y1="3" y2="21" />
+			<line x1="16" x2="14" y1="3" y2="21" />
+		</IconBase>
+	);
 }
 
 function IconsClose() {
-  return (
-    <IconBase>
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M18 6 6 18" />
+			<path d="m6 6 12 12" />
+		</IconBase>
+	);
 }
 function IconsSignOut() {
-  return (
-    <IconBase>
-      <path d="m16 17 5-5-5-5" />
-      <path d="M21 12H9" />
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="m16 17 5-5-5-5" />
+			<path d="M21 12H9" />
+			<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+		</IconBase>
+	);
 }
 function IconsUser() {
-  return (
-    <IconBase>
-      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+			<circle cx="12" cy="7" r="4" />
+		</IconBase>
+	);
 }
 
 function IconsExtension() {
-  return (
-    <IconBase>
-      <path d="M10 22V7a1 1 0 0 0-1-1H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5a1 1 0 0 0-1-1H2" />
-      <rect x="14" y="2" width="8" height="8" rx="1" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M10 22V7a1 1 0 0 0-1-1H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5a1 1 0 0 0-1-1H2" />
+			<rect x="14" y="2" width="8" height="8" rx="1" />
+		</IconBase>
+	);
 }
 
 function IconsSearch() {
-  return (
-    <IconBase>
-      <path d="m21 21-4.34-4.34" />
-      <circle cx="11" cy="11" r="8" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="m21 21-4.34-4.34" />
+			<circle cx="11" cy="11" r="8" />
+		</IconBase>
+	);
 }
 
 function IconsBack() {
-  return (
-    <IconBase>
-      <path d="m12 19-7-7 7-7" />
-      <path d="M19 12H5" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="m12 19-7-7 7-7" />
+			<path d="M19 12H5" />
+		</IconBase>
+	);
 }
 
 function IconsReturn() {
-  return (
-    <IconBase>
-      <path d="M20 4v7a4 4 0 0 1-4 4H4" />
-      <path d="m9 10-5 5 5 5" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M20 4v7a4 4 0 0 1-4 4H4" />
+			<path d="m9 10-5 5 5 5" />
+		</IconBase>
+	);
 }
 
 function IconsMasonry() {
-  return (
-    <IconBase>
-      <rect width="7" height="9" x="3" y="3" rx="1" />
-      <rect width="7" height="5" x="14" y="3" rx="1" />
-      <rect width="7" height="9" x="14" y="12" rx="1" />
-      <rect width="7" height="5" x="3" y="16" rx="1" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<rect width="7" height="9" x="3" y="3" rx="1" />
+			<rect width="7" height="5" x="14" y="3" rx="1" />
+			<rect width="7" height="9" x="14" y="12" rx="1" />
+			<rect width="7" height="5" x="3" y="16" rx="1" />
+		</IconBase>
+	);
 }
 
 function IconsRss() {
-  return (
-    <IconBase>
-      <path d="M4 11a9 9 0 0 1 9 9" />
-      <path d="M4 4a16 16 0 0 1 16 16" />
-      <circle cx="5" cy="19" r="1" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M4 11a9 9 0 0 1 9 9" />
+			<path d="M4 4a16 16 0 0 1 16 16" />
+			<circle cx="5" cy="19" r="1" />
+		</IconBase>
+	);
 }
 
 function IconsShare() {
-  return (
-    <IconBase>
-      <path d="M12 2v13" />
-      <path d="m16 6-4-4-4 4" />
-      <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M12 2v13" />
+			<path d="m16 6-4-4-4 4" />
+			<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+		</IconBase>
+	);
 }
 
 function IconsKeyboard() {
-  return (
-    <IconBase>
-      <path d="M10 8h.01" />
-      <path d="M12 12h.01" />
-      <path d="M14 8h.01" />
-      <path d="M16 12h.01" />
-      <path d="M18 8h.01" />
-      <path d="M6 8h.01" />
-      <path d="M7 16h10" />
-      <path d="M8 12h.01" />
-      <rect width="20" height="16" x="2" y="4" rx="2" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M10 8h.01" />
+			<path d="M12 12h.01" />
+			<path d="M14 8h.01" />
+			<path d="M16 12h.01" />
+			<path d="M18 8h.01" />
+			<path d="M6 8h.01" />
+			<path d="M7 16h10" />
+			<path d="M8 12h.01" />
+			<rect width="20" height="16" x="2" y="4" rx="2" />
+		</IconBase>
+	);
 }
 
 function IconsTools() {
-  return (
-    <IconBase>
-      <path d="M16 12v4" />
-      <path d="M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
-      <path d="M17 6a2 2 0 011.414.586l3 3A2 2 0 0122 11v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 01.586-1.414l3-3A2 2 0 017 6z" />
-      <path d="M2 14h20" />
-      <path d="M8 12v4" />
-    </IconBase>
-  );
+	return (
+		<IconBase>
+			<path d="M16 12v4" />
+			<path d="M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
+			<path d="M17 6a2 2 0 011.414.586l3 3A2 2 0 0122 11v8a2 2 0 01-2 2H4a2 2 0 01-2-2v-8a2 2 0 01.586-1.414l3-3A2 2 0 017 6z" />
+			<path d="M2 14h20" />
+			<path d="M8 12v4" />
+		</IconBase>
+	);
 }
 
 Icon.Filter = IconsFilter;

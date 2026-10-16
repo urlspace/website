@@ -1,5 +1,6 @@
-import { Heading, Page, Stack } from "#/components";
 import { createFileRoute } from "@tanstack/react-router";
+
+import { Heading, Page, Stack } from "#/components";
 
 export const Route = createFileRoute("/_public/terms-of-service")({
 	component: App,

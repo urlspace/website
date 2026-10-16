@@ -1,7 +1,8 @@
-import { redirect } from "@tanstack/react-router";
 import { keepPreviousData, queryOptions } from "@tanstack/react-query";
+import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
+
 import { clearSession } from "#/queries/session.ts";
 
 export type LinkRow = {
@@ -65,7 +66,10 @@ const getLinks = createServerFn()
 		const res = await fetch(`${import.meta.env.VITE_API_URL}/links?${params}`, {
 			headers: { cookie },
 		});
-		if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+		if (
+			res.status === 401 &&
+			((await res.clone().json()) as { data: string }).data === "unauthorized"
+		) {
 			await clearSession();
 			throw redirect({
 				to: "/auth/signin",

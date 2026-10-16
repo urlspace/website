@@ -1,7 +1,9 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+
 import { linksQueryKey } from "#/queries/links.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
+
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
 // Mirrors the backend's tag name rule: lowercase letters/digits/hyphens,
@@ -60,7 +62,10 @@ function FormTag({
 			);
 
 			// Reload so the route guard can clear the invalid session and cached data.
-			if (res.status === 401 && ((await res.clone().json()) as { data: string }).data === "unauthorized") {
+			if (
+				res.status === 401 &&
+				((await res.clone().json()) as { data: string }).data === "unauthorized"
+			) {
 				window.location.reload();
 				return;
 			}
