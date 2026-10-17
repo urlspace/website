@@ -72,6 +72,7 @@ html {
   hanging-punctuation: first allow-end last;
   line-height: 150%;
   scrollbar-gutter: stable;
+  scroll-behavior: smooth;
 
   &:has(dialog[open]) {
     overflow: hidden;

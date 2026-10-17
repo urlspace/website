@@ -225,7 +225,9 @@ function PageDashboard() {
 			e.preventDefault();
 
 			// clamp so the j and k do not go out of bounds
-			titles[Math.max(0, Math.min(next, titles.length - 1))].focus();
+			const title = titles[Math.max(0, Math.min(next, titles.length - 1))];
+			title.focus({ preventScroll: true });
+			title.closest("article")?.scrollIntoView({ block: "nearest" });
 		}
 		window.addEventListener("keydown", handleKey);
 		return () => window.removeEventListener("keydown", handleKey);
@@ -409,8 +411,8 @@ function PageDashboard() {
 				</Dashboard.HeaderActions>
 			</Dashboard.Header>
 
-			<Dashboard.SkipMain />
 			<Dashboard.SkipFilters />
+			<Dashboard.SkipMain />
 
 			<Dashboard.Filters>
 				<DashboardNav

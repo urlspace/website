@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { collectionsQueryOptions } from "#/queries/collections.ts";
 import {
@@ -92,7 +92,7 @@ function LinkCard({
 						),
 					},
 			);
-			queryClient.invalidateQueries({
+			void queryClient.invalidateQueries({
 				queryKey: linksQueryKey,
 				refetchType: "none",
 			});
@@ -144,6 +144,7 @@ function LinkCard({
 			]),
 	});
 
+	const { mutate: mutateDeleteLink } = deleteLink;
 	const isPending = updateLink.isPending || deleteLink.isPending || loading;
 	const [isHolding, setIsHolding] = useState(false);
 	const [isHoldComplete, setIsHoldComplete] = useState(false);
@@ -157,7 +158,7 @@ function LinkCard({
 		const timeout = window.setTimeout(() => {
 			setIsHolding(false);
 			setIsHoldComplete(true);
-			deleteLink.mutate(undefined, {
+			mutateDeleteLink(undefined, {
 				onError: () => setIsHoldComplete(false),
 			});
 		}, HOLD_TO_DELETE_MS);
@@ -169,7 +170,7 @@ function LinkCard({
 			window.clearTimeout(timeout);
 			window.removeEventListener("blur", cancel);
 		};
-	}, [isHolding, deleteLink.mutate]);
+	}, [isHolding, mutateDeleteLink]);
 
 	const {
 		collection,
@@ -182,6 +183,18 @@ function LinkCard({
 		favourite,
 		forLater,
 	} = link;
+	const titleRef = useRef<HTMLAnchorElement>(null);
+
+	function handleClick(e: React.MouseEvent<HTMLElement>) {
+		if (
+			(e.target as HTMLElement).closest(
+				"a, button, input, select, textarea, label, summary",
+			)
+		) {
+			return;
+		}
+		titleRef.current?.focus({ preventScroll: true });
+	}
 
 	function handleKeyDown(e: React.KeyboardEvent<HTMLElement>) {
 		if (e.ctrlKey || e.metaKey || e.altKey || e.repeat || isPending) {
@@ -221,6 +234,7 @@ function LinkCard({
 	}
 
 	return (
+		// oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
 		<article
 			className={[styles.link, isPending && styles.linkLoading]
 				.filter(Boolean)
@@ -228,6 +242,7 @@ function LinkCard({
 			aria-labelledby={id}
 			aria-busy={isPending || undefined}
 			style={{ "--hold-ms": `${HOLD_TO_DELETE_MS}ms` } as React.CSSProperties}
+			onClick={handleClick}
 			onKeyDown={handleKeyDown}
 			onKeyUp={handleKeyUp}
 			onBlur={handleBlur}
@@ -235,6 +250,7 @@ function LinkCard({
 			<div>
 				<h2 id={id} className={styles.title}>
 					<a
+						ref={titleRef}
 						href={url}
 						target="_blank"
 						rel="noreferrer"

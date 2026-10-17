@@ -119,7 +119,7 @@ function SearchInput({
 			)
 				return;
 			e.preventDefault();
-			document.getElementById(inputId)?.focus();
+			document.getElementById(inputId)?.focus({ preventScroll: true });
 		}
 		window.addEventListener("keydown", handleGlobalKey);
 		return () => window.removeEventListener("keydown", handleGlobalKey);

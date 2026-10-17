@@ -21,7 +21,10 @@ const config = defineConfig({
 	lint: {
 		plugins: ["typescript", "unicorn", "oxc", "react", "jsx-a11y"],
 		jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
-		rules: { "vite-plus/prefer-vite-plus-imports": "error" },
+		rules: {
+			"vite-plus/prefer-vite-plus-imports": "error",
+			"jsx-a11y/role-supports-aria-props": "off",
+		},
 		options: { typeAware: true, typeCheck: true },
 		ignorePatterns,
 	},

@@ -30,7 +30,7 @@ function DashboardHeaderFiltersTrigger({
 function DashboardSkipMain() {
 	return (
 		<a href="#main" className={styles.skipMain}>
-			Skip to main
+			Skip to links
 		</a>
 	);
 }
