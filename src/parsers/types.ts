@@ -11,6 +11,7 @@ export type ParsedLink = {
 
 export type ParsedCollection = {
 	name: string;
+	slug?: string;
 	description: string;
 };
 

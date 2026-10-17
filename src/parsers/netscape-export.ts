@@ -1,3 +1,4 @@
+import type { CollectionRow } from "#/queries/collections.ts";
 import type { LinkRow } from "#/queries/links.ts";
 
 function escapeHtml(value: string) {
@@ -44,10 +45,16 @@ function buildLink(link: LinkRow, indent: string) {
 	return lines.join("\n");
 }
 
-export default function buildNetscape(links: Array<LinkRow>): string {
+export default function buildNetscape(
+	links: Array<LinkRow>,
+	collectionRows: Array<CollectionRow>,
+): string {
+	const collectionsById = new Map(
+		collectionRows.map((collection) => [collection.id, collection]),
+	);
 	const collections = new Map<
 		string,
-		{ name: string; links: Array<LinkRow> }
+		{ name: string; slug: string; description: string; links: Array<LinkRow> }
 	>();
 	const loose: Array<LinkRow> = [];
 
@@ -60,8 +67,11 @@ export default function buildNetscape(links: Array<LinkRow>): string {
 		if (collection) {
 			collection.links.push(link);
 		} else {
+			const row = collectionsById.get(link.collection.id);
 			collections.set(link.collection.id, {
 				name: link.collection.name,
+				slug: row?.slug ?? "",
+				description: row?.description ?? "",
 				links: [link],
 			});
 		}
@@ -70,7 +80,12 @@ export default function buildNetscape(links: Array<LinkRow>): string {
 	const body = [
 		...[...collections.values()].map((collection) =>
 			[
-				`    <DT><H3>${escapeHtml(collection.name)}</H3>`,
+				collection.slug
+					? `    <DT><H3 SLUG="${escapeHtml(collection.slug)}">${escapeHtml(collection.name)}</H3>`
+					: `    <DT><H3>${escapeHtml(collection.name)}</H3>`,
+				...(collection.description
+					? [`    <DD>${escapeHtml(collection.description)}`]
+					: []),
 				"    <DL><p>",
 				...collection.links.map((link) => buildLink(link, "        ")),
 				"    </DL><p>",

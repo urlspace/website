@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import buildNetscape from "#/parsers/netscape-export.ts";
+import type { CollectionRow } from "#/queries/collections.ts";
 import type { LinkRow, Pagination } from "#/queries/links.ts";
 
 const PAGE_SIZE = 500;
@@ -56,8 +57,24 @@ export const Route = createFileRoute("/tools/bookmarks.html")({
 					page++;
 				}
 
+				const res = await fetch(`${import.meta.env.VITE_API_URL}/collections`, {
+					headers: { cookie },
+				});
+				if (res.status === 401) {
+					return Response.redirect(new URL("/auth/signin", request.url), 302);
+				}
+				if (!res.ok) {
+					return new Response("Export failed. Try again in a moment.", {
+						status: 502,
+						headers: { "Cache-Control": "no-store" },
+					});
+				}
+				const collections =
+					((await res.json()) as { data: Array<CollectionRow> | null }).data ??
+					[];
+
 				const date = new Date().toISOString().slice(0, 10);
-				return new Response(buildNetscape(links), {
+				return new Response(buildNetscape(links, collections), {
 					headers: {
 						"Content-Type": "text/html; charset=utf-8",
 						"Content-Disposition": `attachment; filename="url-space-bookmarks-${date}.html"`,

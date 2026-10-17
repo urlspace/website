@@ -42,9 +42,13 @@ function PageTools() {
 					<Stack gap={1}>
 						<Heading level={2} text="Import" />
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-							enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+							Coming from Chrome, Firefox, Safari, Pinboard or somewhere else?
+							Grab their HTML export (it's the{" "}
+							<a href="https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/aa753582(v=vs.85)">
+								Netscape Bookmark File Format
+							</a>
+							, which almost everything supports), pick the source below, and
+							your folders, tags and dates come along.
 						</p>
 						<FormImport />
 					</Stack>
@@ -54,9 +58,13 @@ function PageTools() {
 					<Stack gap={1}>
 						<Heading level={2} text="Export" />
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-							enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+							Your data is yours. Export every link, collection and tag to a
+							standard{" "}
+							<a href="https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/aa753582(v=vs.85)">
+								Netscape Bookmark File Format
+							</a>{" "}
+							HTML file that you can import into any browser, or back into
+							url.space.
 						</p>
 						<ButtonDownload
 							text="Export bookmarks"

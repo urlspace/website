@@ -24,7 +24,7 @@ function Select({
 	onChange: (value: string) => void;
 	required?: boolean;
 	value: string;
-	options: SelectOption[];
+	options: Array<SelectOption | "hr">;
 	placeholder: string;
 }) {
 	const { inputId, descriptionId, ariaDescribedBy, loading } = useFieldIds(
@@ -60,11 +60,15 @@ function Select({
 					<option value="" disabled={required}>
 						{placeholder}
 					</option>
-					{options.map((option) => (
-						<option key={option.value} value={option.value}>
-							{option.name}
-						</option>
-					))}
+					{options.map((option, index) =>
+						option === "hr" ? (
+							<hr key={`hr-${index}`} />
+						) : (
+							<option key={option.value} value={option.value}>
+								{option.name}
+							</option>
+						),
+					)}
 				</select>
 			</div>
 

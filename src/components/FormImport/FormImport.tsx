@@ -148,10 +148,15 @@ function FormImport() {
 					parse(value, file);
 				}}
 				value={sourceId}
-				options={sources.map((source) => ({
-					name: source.label,
-					value: source.id,
-				}))}
+				options={[
+					...sources
+						.filter((source) => source.kind === "browser")
+						.map((source) => ({ name: source.label, value: source.id })),
+					"hr",
+					...sources
+						.filter((source) => source.kind === "service")
+						.map((source) => ({ name: source.label, value: source.id })),
+				]}
 				placeholder="Choose a source"
 				required
 			/>
@@ -196,6 +201,11 @@ function withSlugs(
 		const existingSlug = existingSlugs.get(collection.name.toLowerCase());
 		if (existingSlug) {
 			return { ...collection, slug: existingSlug };
+		}
+
+		if (collection.slug && !taken.has(collection.slug)) {
+			taken.add(collection.slug);
+			return { ...collection, slug: collection.slug };
 		}
 
 		let slug = slugify(collection.name);
