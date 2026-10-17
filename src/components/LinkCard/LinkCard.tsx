@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
+import { collectionsQueryOptions } from "#/queries/collections.ts";
 import {
 	type LinkFilters,
 	type LinkRow,
@@ -8,6 +9,7 @@ import {
 	linksQueryKey,
 } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
+import { tagsQueryOptions } from "#/queries/tags.ts";
 import { formatDate } from "#/utils.ts";
 
 import { DashboardButtonAction, DashboardMenu } from "..";
@@ -128,6 +130,16 @@ function LinkCard({
 		onSuccess: () =>
 			Promise.all([
 				queryClient.invalidateQueries({ queryKey: linksQueryKey }),
+				link.tags.length > 0
+					? queryClient.invalidateQueries({
+							queryKey: tagsQueryOptions.queryKey,
+						})
+					: null,
+				link.collection
+					? queryClient.invalidateQueries({
+							queryKey: collectionsQueryOptions.queryKey,
+						})
+					: null,
 				queryClient.invalidateQueries({ queryKey: meQueryOptions.queryKey }),
 			]),
 	});
@@ -270,7 +282,7 @@ function LinkCard({
 						<div className={styles.metaItem}>
 							<dt>{"Tags: "}</dt>
 							<dd>
-								<ul className={styles.tags} role="list">
+								<ul className={styles.tags}>
 									{tags.map((tag) => (
 										<li key={tag.id} className={styles.tag}>
 											<button

@@ -174,7 +174,9 @@ function FormCollection({
 				queryClient.invalidateQueries({
 					queryKey: collectionsQueryOptions.queryKey,
 				}),
-				queryClient.invalidateQueries({ queryKey: linksQueryKey }),
+				isEdit && collection.name !== trimmedName
+					? queryClient.invalidateQueries({ queryKey: linksQueryKey })
+					: null,
 				isEdit
 					? null
 					: queryClient.invalidateQueries({

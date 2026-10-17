@@ -1,6 +1,7 @@
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
+import { collectionsQueryOptions } from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
@@ -173,9 +174,24 @@ function FormLink({
 				return;
 			}
 
+			const previousTags = link?.tags.map((tag) => tag.name) ?? [];
+			const tagsChanged =
+				previousTags.length !== selectedTags.length ||
+				previousTags.some((name) => !selectedTags.includes(name));
+			const collectionChanged = (link?.collection?.id ?? "") !== collection;
+
 			await Promise.all([
 				queryClient.invalidateQueries({ queryKey: linksQueryKey }),
-				queryClient.invalidateQueries({ queryKey: tagsQueryOptions.queryKey }),
+				tagsChanged
+					? queryClient.invalidateQueries({
+							queryKey: tagsQueryOptions.queryKey,
+						})
+					: null,
+				collectionChanged
+					? queryClient.invalidateQueries({
+							queryKey: collectionsQueryOptions.queryKey,
+						})
+					: null,
 				isEdit && newTagsCount === 0
 					? null
 					: queryClient.invalidateQueries({
