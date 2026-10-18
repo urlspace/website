@@ -67,7 +67,7 @@ const usernamePattern = /^[a-z0-9_-]{3,32}$/;
 const slugPattern = /^(?=.{2,128}$)[a-z0-9]+(-[a-z0-9]+)*$/;
 
 export const getPublicCollection = createServerFn()
-	.inputValidator((input: { username: string; slug: string }) => {
+	.validator((input: { username: string; slug: string }) => {
 		if (
 			typeof input?.username !== "string" ||
 			typeof input?.slug !== "string"

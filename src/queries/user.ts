@@ -15,7 +15,7 @@ export type PublicUser = {
 const usernamePattern = /^[a-z0-9_-]{3,32}$/;
 
 export const getPublicUser = createServerFn()
-	.inputValidator((username: string) => {
+	.validator((username: string) => {
 		if (typeof username !== "string") throw new Error("Invalid username");
 		return username;
 	})

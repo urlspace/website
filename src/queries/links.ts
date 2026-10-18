@@ -49,7 +49,7 @@ export type LinkFilters = {
 const getLinks = createServerFn()
 	// Identity validator — only used to type the handler input. Runtime
 	// validation lives on the API; this layer just forwards.
-	.inputValidator((filters: LinkFilters) => filters)
+	.validator((filters: LinkFilters) => filters)
 	.handler(async ({ data: filters }) => {
 		const cookie = getRequest().headers.get("cookie") ?? "";
 		const params = new URLSearchParams();

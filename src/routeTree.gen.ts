@@ -9,81 +9,36 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PublicRouteImport } from './routes/_public'
 import { Route as ProtectedRouteImport } from './routes/_protected'
-import { Route as PublicIndexRouteImport } from './routes/_public/index'
-import { Route as ToolsBookmarksDothtmlRouteImport } from './routes/tools.bookmarks[.]html'
-import { Route as PublicTermsOfServiceRouteImport } from './routes/_public/terms-of-service'
-import { Route as PublicPrivacyPolicyRouteImport } from './routes/_public/privacy-policy'
-import { Route as PublicPricingRouteImport } from './routes/_public/pricing'
-import { Route as PublicDocsRouteImport } from './routes/_public/docs'
-import { Route as ProtectedToolsRouteImport } from './routes/_protected/tools'
-import { Route as ProtectedSettingsRouteImport } from './routes/_protected/settings'
-import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
+import { Route as PublicRouteImport } from './routes/_public'
 import { Route as DotwellKnownChangePasswordRouteImport } from './routes/[.]well-known.change-password'
+import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
+import { Route as ProtectedSettingsRouteImport } from './routes/_protected/settings'
+import { Route as ProtectedToolsRouteImport } from './routes/_protected/tools'
+import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicAuthRouteRouteImport } from './routes/_public/auth/route'
-import { Route as PublicUsernameIndexRouteImport } from './routes/_public/$username/index'
-import { Route as PublicAuthSigninRouteImport } from './routes/_public/auth/signin'
-import { Route as PublicAuthResendVerificationRouteImport } from './routes/_public/auth/resend-verification'
-import { Route as PublicUsernameSlugRouteImport } from './routes/_public/$username/$slug'
+import { Route as PublicDocsRouteImport } from './routes/_public/docs'
+import { Route as PublicPricingRouteImport } from './routes/_public/pricing'
+import { Route as PublicPrivacyPolicyRouteImport } from './routes/_public/privacy-policy'
+import { Route as PublicTermsOfServiceRouteImport } from './routes/_public/terms-of-service'
+import { Route as ToolsBookmarksDothtmlRouteImport } from './routes/tools.bookmarks[.]html'
 import { Route as UsernameSlugFeedDotxmlRouteImport } from './routes/$username.$slug.feed[.]xml'
-import { Route as PublicAuthSignupIndexRouteImport } from './routes/_public/auth/signup/index'
+import { Route as PublicUsernameIndexRouteImport } from './routes/_public/$username/index'
+import { Route as PublicUsernameSlugRouteImport } from './routes/_public/$username/$slug'
+import { Route as PublicAuthResendVerificationRouteImport } from './routes/_public/auth/resend-verification'
+import { Route as PublicAuthSigninRouteImport } from './routes/_public/auth/signin'
 import { Route as PublicAuthResetPasswordIndexRouteImport } from './routes/_public/auth/reset-password/index'
-import { Route as PublicAuthSignupTokenRouteImport } from './routes/_public/auth/signup/$token'
 import { Route as PublicAuthResetPasswordTokenRouteImport } from './routes/_public/auth/reset-password/$token'
+import { Route as PublicAuthSignupIndexRouteImport } from './routes/_public/auth/signup/index'
+import { Route as PublicAuthSignupTokenRouteImport } from './routes/_public/auth/signup/$token'
 
-const PublicRoute = PublicRouteImport.update({
-  id: '/_public',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProtectedRoute = ProtectedRouteImport.update({
   id: '/_protected',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PublicIndexRoute = PublicIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PublicRoute,
-} as any)
-const ToolsBookmarksDothtmlRoute = ToolsBookmarksDothtmlRouteImport.update({
-  id: '/tools/bookmarks.html',
-  path: '/tools/bookmarks.html',
+const PublicRoute = PublicRouteImport.update({
+  id: '/_public',
   getParentRoute: () => rootRouteImport,
-} as any)
-const PublicTermsOfServiceRoute = PublicTermsOfServiceRouteImport.update({
-  id: '/terms-of-service',
-  path: '/terms-of-service',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicPrivacyPolicyRoute = PublicPrivacyPolicyRouteImport.update({
-  id: '/privacy-policy',
-  path: '/privacy-policy',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicPricingRoute = PublicPricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicDocsRoute = PublicDocsRouteImport.update({
-  id: '/docs',
-  path: '/docs',
-  getParentRoute: () => PublicRoute,
-} as any)
-const ProtectedToolsRoute = ProtectedToolsRouteImport.update({
-  id: '/tools',
-  path: '/tools',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-const ProtectedSettingsRoute = ProtectedSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => ProtectedRoute,
-} as any)
-const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => ProtectedRoute,
 } as any)
 const DotwellKnownChangePasswordRoute =
   DotwellKnownChangePasswordRouteImport.update({
@@ -91,20 +46,70 @@ const DotwellKnownChangePasswordRoute =
     path: '/.well-known/change-password',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedSettingsRoute = ProtectedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedToolsRoute = ProtectedToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PublicRoute,
+} as any)
 const PublicAuthRouteRoute = PublicAuthRouteRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => PublicRoute,
+} as any)
+const PublicDocsRoute = PublicDocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicPricingRoute = PublicPricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicPrivacyPolicyRoute = PublicPrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicTermsOfServiceRoute = PublicTermsOfServiceRouteImport.update({
+  id: '/terms-of-service',
+  path: '/terms-of-service',
+  getParentRoute: () => PublicRoute,
+} as any)
+const ToolsBookmarksDothtmlRoute = ToolsBookmarksDothtmlRouteImport.update({
+  id: '/tools/bookmarks.html',
+  path: '/tools/bookmarks.html',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsernameSlugFeedDotxmlRoute = UsernameSlugFeedDotxmlRouteImport.update({
+  id: '/$username/$slug/feed.xml',
+  path: '/$username/$slug/feed.xml',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PublicUsernameIndexRoute = PublicUsernameIndexRouteImport.update({
   id: '/$username/',
   path: '/$username/',
   getParentRoute: () => PublicRoute,
 } as any)
-const PublicAuthSigninRoute = PublicAuthSigninRouteImport.update({
-  id: '/signin',
-  path: '/signin',
-  getParentRoute: () => PublicAuthRouteRoute,
+const PublicUsernameSlugRoute = PublicUsernameSlugRouteImport.update({
+  id: '/$username/$slug',
+  path: '/$username/$slug',
+  getParentRoute: () => PublicRoute,
 } as any)
 const PublicAuthResendVerificationRoute =
   PublicAuthResendVerificationRouteImport.update({
@@ -112,19 +117,9 @@ const PublicAuthResendVerificationRoute =
     path: '/resend-verification',
     getParentRoute: () => PublicAuthRouteRoute,
   } as any)
-const PublicUsernameSlugRoute = PublicUsernameSlugRouteImport.update({
-  id: '/$username/$slug',
-  path: '/$username/$slug',
-  getParentRoute: () => PublicRoute,
-} as any)
-const UsernameSlugFeedDotxmlRoute = UsernameSlugFeedDotxmlRouteImport.update({
-  id: '/$username/$slug/feed.xml',
-  path: '/$username/$slug/feed.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PublicAuthSignupIndexRoute = PublicAuthSignupIndexRouteImport.update({
-  id: '/signup/',
-  path: '/signup/',
+const PublicAuthSigninRoute = PublicAuthSigninRouteImport.update({
+  id: '/signin',
+  path: '/signin',
   getParentRoute: () => PublicAuthRouteRoute,
 } as any)
 const PublicAuthResetPasswordIndexRoute =
@@ -133,17 +128,22 @@ const PublicAuthResetPasswordIndexRoute =
     path: '/reset-password/',
     getParentRoute: () => PublicAuthRouteRoute,
   } as any)
-const PublicAuthSignupTokenRoute = PublicAuthSignupTokenRouteImport.update({
-  id: '/signup/$token',
-  path: '/signup/$token',
-  getParentRoute: () => PublicAuthRouteRoute,
-} as any)
 const PublicAuthResetPasswordTokenRoute =
   PublicAuthResetPasswordTokenRouteImport.update({
     id: '/reset-password/$token',
     path: '/reset-password/$token',
     getParentRoute: () => PublicAuthRouteRoute,
   } as any)
+const PublicAuthSignupIndexRoute = PublicAuthSignupIndexRouteImport.update({
+  id: '/signup/',
+  path: '/signup/',
+  getParentRoute: () => PublicAuthRouteRoute,
+} as any)
+const PublicAuthSignupTokenRoute = PublicAuthSignupTokenRouteImport.update({
+  id: '/signup/$token',
+  path: '/signup/$token',
+  getParentRoute: () => PublicAuthRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
@@ -295,13 +295,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_public': {
-      id: '/_public'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof PublicRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_protected': {
       id: '/_protected'
       path: ''
@@ -309,53 +302,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_public/': {
-      id: '/_public/'
-      path: '/'
+    '/_public': {
+      id: '/_public'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof PublicIndexRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/tools/bookmarks.html': {
-      id: '/tools/bookmarks.html'
-      path: '/tools/bookmarks.html'
-      fullPath: '/tools/bookmarks.html'
-      preLoaderRoute: typeof ToolsBookmarksDothtmlRouteImport
+      preLoaderRoute: typeof PublicRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_public/terms-of-service': {
-      id: '/_public/terms-of-service'
-      path: '/terms-of-service'
-      fullPath: '/terms-of-service'
-      preLoaderRoute: typeof PublicTermsOfServiceRouteImport
-      parentRoute: typeof PublicRoute
+    '/.well-known/change-password': {
+      id: '/.well-known/change-password'
+      path: '/.well-known/change-password'
+      fullPath: '/.well-known/change-password'
+      preLoaderRoute: typeof DotwellKnownChangePasswordRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_public/privacy-policy': {
-      id: '/_public/privacy-policy'
-      path: '/privacy-policy'
-      fullPath: '/privacy-policy'
-      preLoaderRoute: typeof PublicPrivacyPolicyRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/pricing': {
-      id: '/_public/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PublicPricingRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/docs': {
-      id: '/_public/docs'
-      path: '/docs'
-      fullPath: '/docs'
-      preLoaderRoute: typeof PublicDocsRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_protected/tools': {
-      id: '/_protected/tools'
-      path: '/tools'
-      fullPath: '/tools'
-      preLoaderRoute: typeof ProtectedToolsRouteImport
+    '/_protected/dashboard': {
+      id: '/_protected/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof ProtectedDashboardRouteImport
       parentRoute: typeof ProtectedRoute
     }
     '/_protected/settings': {
@@ -365,19 +330,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedSettingsRouteImport
       parentRoute: typeof ProtectedRoute
     }
-    '/_protected/dashboard': {
-      id: '/_protected/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof ProtectedDashboardRouteImport
+    '/_protected/tools': {
+      id: '/_protected/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ProtectedToolsRouteImport
       parentRoute: typeof ProtectedRoute
     }
-    '/.well-known/change-password': {
-      id: '/.well-known/change-password'
-      path: '/.well-known/change-password'
-      fullPath: '/.well-known/change-password'
-      preLoaderRoute: typeof DotwellKnownChangePasswordRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_public/': {
+      id: '/_public/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRoute
     }
     '/_public/auth': {
       id: '/_public/auth'
@@ -386,33 +351,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAuthRouteRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_public/$username/': {
-      id: '/_public/$username/'
-      path: '/$username'
-      fullPath: '/$username/'
-      preLoaderRoute: typeof PublicUsernameIndexRouteImport
+    '/_public/docs': {
+      id: '/_public/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof PublicDocsRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_public/auth/signin': {
-      id: '/_public/auth/signin'
-      path: '/signin'
-      fullPath: '/auth/signin'
-      preLoaderRoute: typeof PublicAuthSigninRouteImport
-      parentRoute: typeof PublicAuthRouteRoute
-    }
-    '/_public/auth/resend-verification': {
-      id: '/_public/auth/resend-verification'
-      path: '/resend-verification'
-      fullPath: '/auth/resend-verification'
-      preLoaderRoute: typeof PublicAuthResendVerificationRouteImport
-      parentRoute: typeof PublicAuthRouteRoute
-    }
-    '/_public/$username/$slug': {
-      id: '/_public/$username/$slug'
-      path: '/$username/$slug'
-      fullPath: '/$username/$slug'
-      preLoaderRoute: typeof PublicUsernameSlugRouteImport
+    '/_public/pricing': {
+      id: '/_public/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PublicPricingRouteImport
       parentRoute: typeof PublicRoute
+    }
+    '/_public/privacy-policy': {
+      id: '/_public/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PublicPrivacyPolicyRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/terms-of-service': {
+      id: '/_public/terms-of-service'
+      path: '/terms-of-service'
+      fullPath: '/terms-of-service'
+      preLoaderRoute: typeof PublicTermsOfServiceRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/tools/bookmarks.html': {
+      id: '/tools/bookmarks.html'
+      path: '/tools/bookmarks.html'
+      fullPath: '/tools/bookmarks.html'
+      preLoaderRoute: typeof ToolsBookmarksDothtmlRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$username/$slug/feed.xml': {
       id: '/$username/$slug/feed.xml'
@@ -421,11 +393,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsernameSlugFeedDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_public/auth/signup/': {
-      id: '/_public/auth/signup/'
-      path: '/signup'
-      fullPath: '/auth/signup/'
-      preLoaderRoute: typeof PublicAuthSignupIndexRouteImport
+    '/_public/$username/': {
+      id: '/_public/$username/'
+      path: '/$username'
+      fullPath: '/$username/'
+      preLoaderRoute: typeof PublicUsernameIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/$username/$slug': {
+      id: '/_public/$username/$slug'
+      path: '/$username/$slug'
+      fullPath: '/$username/$slug'
+      preLoaderRoute: typeof PublicUsernameSlugRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/auth/resend-verification': {
+      id: '/_public/auth/resend-verification'
+      path: '/resend-verification'
+      fullPath: '/auth/resend-verification'
+      preLoaderRoute: typeof PublicAuthResendVerificationRouteImport
+      parentRoute: typeof PublicAuthRouteRoute
+    }
+    '/_public/auth/signin': {
+      id: '/_public/auth/signin'
+      path: '/signin'
+      fullPath: '/auth/signin'
+      preLoaderRoute: typeof PublicAuthSigninRouteImport
       parentRoute: typeof PublicAuthRouteRoute
     }
     '/_public/auth/reset-password/': {
@@ -435,18 +428,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAuthResetPasswordIndexRouteImport
       parentRoute: typeof PublicAuthRouteRoute
     }
-    '/_public/auth/signup/$token': {
-      id: '/_public/auth/signup/$token'
-      path: '/signup/$token'
-      fullPath: '/auth/signup/$token'
-      preLoaderRoute: typeof PublicAuthSignupTokenRouteImport
-      parentRoute: typeof PublicAuthRouteRoute
-    }
     '/_public/auth/reset-password/$token': {
       id: '/_public/auth/reset-password/$token'
       path: '/reset-password/$token'
       fullPath: '/auth/reset-password/$token'
       preLoaderRoute: typeof PublicAuthResetPasswordTokenRouteImport
+      parentRoute: typeof PublicAuthRouteRoute
+    }
+    '/_public/auth/signup/': {
+      id: '/_public/auth/signup/'
+      path: '/signup'
+      fullPath: '/auth/signup/'
+      preLoaderRoute: typeof PublicAuthSignupIndexRouteImport
+      parentRoute: typeof PublicAuthRouteRoute
+    }
+    '/_public/auth/signup/$token': {
+      id: '/_public/auth/signup/$token'
+      path: '/signup/$token'
+      fullPath: '/auth/signup/$token'
+      preLoaderRoute: typeof PublicAuthSignupTokenRouteImport
       parentRoute: typeof PublicAuthRouteRoute
     }
   }
