@@ -162,7 +162,7 @@ p {
       flex-direction: column;
 
       span:first-of-type {
-        font-weight: 700;
+        font-weight: 900;
       }
       span:last-of-type {
         font-style: italic;

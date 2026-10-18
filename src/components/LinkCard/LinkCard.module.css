@@ -40,7 +40,7 @@
 	text-wrap-style: pretty;
 
 	a {
-		font-weight: 700;
+		font-weight: 800;
 
 		&:focus-visible {
 			outline: none;

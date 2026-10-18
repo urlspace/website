@@ -1,4 +1,4 @@
-import { ButtonLink, Heading, Stack } from "#/components";
+import { Heading, Stack } from "#/components";
 
 import styles from "./Intro.module.css";
 
@@ -14,6 +14,24 @@ function Intro() {
 						everyday use, unlimited for a small fee.
 					</p>
 					{/* <ButtonLink to="/signup" text="Sign up" /> */}
+					<Heading text="Save" level={2} bg="bg" />
+					<p>
+						Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+						Consequatur, fugiat. Mollitia in atque, dignissimos eligendi iusto
+						hic voluptatum fugiat sequi!
+					</p>
+					<Heading text="Organize" level={2} bg="bg" />
+					<p>
+						Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+						Consequatur, fugiat. Mollitia in atque, dignissimos eligendi iusto
+						hic voluptatum fugiat sequi!
+					</p>
+					<Heading text="Share" level={2} bg="bg" />
+					<p>
+						Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+						Consequatur, fugiat. Mollitia in atque, dignissimos eligendi iusto
+						hic voluptatum fugiat sequi!
+					</p>
 				</Stack>
 			</div>
 		</div>
