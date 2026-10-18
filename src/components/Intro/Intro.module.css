@@ -1,11 +1,16 @@
 .intro {
 	margin-inline: auto;
 	width: 100%;
-	max-width: 640px;
-	background-color: var(--color-bg-content);
-	padding: 4rlh 1rlh;
-	box-shadow:
-		1px 0 0 0 var(--color-border),
-		-1px 0 0 0 var(--color-border);
-	height: 100%;
+	max-width: min(100% - 2rlh, 1100px);
+	padding-block: 3rlh;
+
+	@media (width >= 900px) {
+		padding-block: 4rlh;
+	}
+}
+
+.content {
+	@media (width >= 900px) {
+		width: 50%;
+	}
 }

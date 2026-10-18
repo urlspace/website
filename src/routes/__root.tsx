@@ -76,7 +76,7 @@ export const Route = createRootRouteWithContext<{
 			{
 				property: "og:description",
 				content:
-					"A bookmarking service for people who love the web. Save, organise and share links. Open source, no ads, no tracking, no AI. Free for everyday use, with power-user features for a small fee.",
+					"A bookmarking service for people who love the web. Save, organise and share links. Open source, no ads, no tracking, no AI. Free for everyday use, unlimited for a small fee.",
 			},
 			{
 				property: "og:image",
@@ -88,7 +88,7 @@ export const Route = createRootRouteWithContext<{
 			{
 				name: "description",
 				content:
-					"A bookmarking service for people who love the web. Save, organise and share links. Open source, no ads, no tracking, no AI. Free for everyday use, with power-user features for a small fee.",
+					"A bookmarking service for people who love the web. Save, organise and share links. Open source, no ads, no tracking, no AI. Free for everyday use, unlimited for a small fee.",
 			},
 			{
 				name: "fediverse:creator",

@@ -1,7 +1,7 @@
 @font-face {
-  font-family: "Rubik";
-  src: url("./assets/fonts/Rubik-Variable.woff2") format("woff2");
-  font-weight: 300 900;
+  font-family: "Hanken Grotesk";
+  src: url("./assets/fonts/HankenGrotesk-Variable.woff2") format("woff2");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
   unicode-range:
@@ -11,9 +11,9 @@
 }
 
 @font-face {
-  font-family: "Rubik";
-  src: url("./assets/fonts/Rubik-Italic-Variable.woff2") format("woff2");
-  font-weight: 300 900;
+  font-family: "Hanken Grotesk";
+  src: url("./assets/fonts/HankenGrotesk-Italic-Variable.woff2") format("woff2");
+  font-weight: 100 900;
   font-style: italic;
   font-display: swap;
   unicode-range:
@@ -94,7 +94,7 @@ body {
   color: var(--color-fg);
   background-color: var(--color-bg);
 
-  font-family: "Rubik", sans-serif;
+  font-family: "Hanken Grotesk", sans-serif;
   font-weight: 400;
   font-style: normal;
 
