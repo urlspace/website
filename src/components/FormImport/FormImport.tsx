@@ -8,8 +8,8 @@ import {
 	collectionsQueryOptions,
 } from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
-import { meQueryOptions } from "#/queries/me.ts";
-import { tagsQueryOptions } from "#/queries/tags.ts";
+import { type User, meQueryOptions } from "#/queries/me.ts";
+import { type TagRow, tagsQueryOptions } from "#/queries/tags.ts";
 import { slugify } from "#/utils.ts";
 
 import CopyBox from "../CopyBox/CopyBox.tsx";
@@ -21,6 +21,10 @@ function FormImport() {
 	const { data: existingCollections } = useSuspenseQuery(
 		collectionsQueryOptions,
 	);
+	const { data: existingTags } = useSuspenseQuery(tagsQueryOptions);
+	const {
+		data: { stats },
+	} = useSuspenseQuery(meQueryOptions);
 	const [sourceId, setSourceId] = useState("");
 	const [file, setFile] = useState<File | null>(null);
 	const [parsed, setParsed] = useState<ParsedBookmarks | null>(null);
@@ -179,11 +183,77 @@ function FormImport() {
 				/>
 			) : null}
 			{parsed ? (
-				<Form.Submit text={importText(parsed)} textLoading="Importing..." />
+				<ImportAction
+					parsed={parsed}
+					stats={stats}
+					existingCollections={existingCollections}
+					existingTags={existingTags}
+				/>
 			) : null}
 		</Form>
 	);
 }
+
+function ImportAction({
+	parsed,
+	stats,
+	existingCollections,
+	existingTags,
+}: {
+	parsed: ParsedBookmarks;
+	stats: User["stats"];
+	existingCollections: Array<CollectionRow>;
+	existingTags: Array<TagRow>;
+}) {
+	const existingCollectionNames = new Set(
+		existingCollections.map((collection) => collection.name.toLowerCase()),
+	);
+	const existingTagNames = new Set(existingTags.map((tag) => tag.name));
+	const newCollections = parsed.collections.filter(
+		(collection) => !existingCollectionNames.has(collection.name.toLowerCase()),
+	).length;
+	const newTags = parsed.tags.filter(
+		(tag) => !existingTagNames.has(tag),
+	).length;
+
+	const exceeded = [
+		["links", parsed.links.length, stats.linksCount, stats.linksLimit],
+		[
+			"collections",
+			newCollections,
+			stats.collectionsCount,
+			stats.collectionsLimit,
+		],
+		["tags", newTags, stats.tagsCount, stats.tagsLimit],
+	] as const;
+	const overLimit = exceeded.filter(
+		([, added, count, limit]) =>
+			limit !== null && added > 0 && count + added > limit,
+	);
+
+	if (overLimit.length === 0) {
+		return <Form.Submit text={importText(parsed)} textLoading="Importing..." />;
+	}
+
+	const limited = exceeded.filter(([, , , limit]) => limit !== null);
+	const limits = limited.map(([name, , , limit]) => `${limit} ${name}`);
+	const totals = limited.map(
+		([name, added, count]) => `${count + added} ${name}`,
+	);
+
+	return (
+		<Form.Warning>
+			Free account is limited to {listFormat.format(limits)}. Your import would
+			exceed these limits ({totals.join(", ")}). Import a smaller collection or
+			upgrade your account.
+		</Form.Warning>
+	);
+}
+
+const listFormat = new Intl.ListFormat("en-GB", {
+	style: "long",
+	type: "conjunction",
+});
 
 function withSlugs(
 	collections: Array<ParsedCollection>,

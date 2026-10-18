@@ -10,10 +10,14 @@ import {
 	Stack,
 } from "#/components/index.ts";
 import { collectionsQueryOptions } from "#/queries/collections.ts";
+import { tagsQueryOptions } from "#/queries/tags.ts";
 
 export const Route = createFileRoute("/_protected/tools")({
 	loader: ({ context }) =>
-		context.queryClient.ensureQueryData(collectionsQueryOptions),
+		Promise.all([
+			context.queryClient.ensureQueryData(collectionsQueryOptions),
+			context.queryClient.ensureQueryData(tagsQueryOptions),
+		]),
 	component: PageTools,
 	head: () => ({
 		meta: [
