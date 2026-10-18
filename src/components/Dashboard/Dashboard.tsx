@@ -29,24 +29,41 @@ function DashboardHeaderFiltersTrigger({
 
 function DashboardSkipMain() {
 	return (
-		<a href="#main" className={styles.skipMain}>
+		<button
+			type="button"
+			className={styles.skipMain}
+			onClick={() =>
+				document.getElementById("main")?.focus({ preventScroll: true })
+			}
+		>
 			Skip to links
-		</a>
+		</button>
 	);
 }
 
 function DashboardSkipFilters() {
 	return (
-		<a href="#filters" className={styles.skipFilters}>
+		<button
+			type="button"
+			className={styles.skipFilters}
+			onClick={() =>
+				document.getElementById("filters")?.focus({ preventScroll: true })
+			}
+		>
 			Skip to filters
-		</a>
+		</button>
 	);
 }
 
 // filters
 function Filters({ children }: { children: React.ReactNode }) {
 	return (
-		<aside id="filters" className={styles.aside} aria-label="Filters">
+		<aside
+			id="filters"
+			tabIndex={-1}
+			className={styles.aside}
+			aria-label="Filters"
+		>
 			{children}
 		</aside>
 	);
@@ -103,6 +120,7 @@ function DashboardMainLinks({
 	return (
 		<main
 			id="main"
+			tabIndex={-1}
 			ref={ref}
 			className={styles.links}
 			aria-labelledby="saved-links"

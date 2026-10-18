@@ -24,6 +24,7 @@ const config = defineConfig({
 		rules: {
 			"vite-plus/prefer-vite-plus-imports": "error",
 			"jsx-a11y/role-supports-aria-props": "off",
+			"jsx-a11y/no-redundant-roles": "off",
 		},
 		options: { typeAware: true, typeCheck: true },
 		ignorePatterns,

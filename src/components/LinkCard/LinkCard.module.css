@@ -9,6 +9,8 @@
 	transition:
 		opacity 60ms ease,
 		background-color var(--transition-duration) ease;
+	scroll-margin-top: 6rlh;
+	scroll-margin-bottom: 1rlh;
 
 	@media (prefers-reduced-motion: reduce) {
 		transition: none;

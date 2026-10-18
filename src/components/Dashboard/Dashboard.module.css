@@ -27,16 +27,6 @@
 	}
 }
 
-/* this is the height of the header + pills, used to set the scroll-padding-top */
-:global(html):has(.wrapper) {
-	scroll-padding-top: 6rlh;
-	scroll-padding-bottom: 1rlh;
-
-	@media (height >= 600px) {
-		scroll-padding-top: 9rlh;
-	}
-}
-
 .header {
 	background-color: var(--color-bg-content);
 	padding: 1lh 1lh 0.5lh;
@@ -167,7 +157,6 @@
 
 .main {
 	grid-column: 1 / -1;
-	anchor-name: --main;
 
 	@media (width >= 900px) {
 		grid-column: 2 / 4;
@@ -184,7 +173,6 @@
 
 .aside {
 	--h: 3lh;
-	anchor-name: --aside;
 
 	display: none;
 	position: sticky;
@@ -226,6 +214,8 @@
 	padding-inline: 1rlh;
 	padding-block: 2rlh;
 	grid-column: 1 / -1;
+	scroll-margin-top: 9rlh;
+	outline: none;
 
 	@media (width >= 1100px) {
 		padding-inline: 0;
@@ -243,8 +233,10 @@
 .skipMain,
 .skipFilters {
 	display: none;
+	border: none;
+	font: inherit;
 
-	@media (width >= 900px) {
+	@media (width >= 1100px) {
 		display: block;
 		font-weight: 500;
 		border-radius: var(--radius);
@@ -260,47 +252,26 @@
 	}
 
 	&:focus {
-		position: absolute;
+		position: fixed;
 		z-index: 1;
-		padding: 0.25lh 0.5rlh;
-		background-color: var(--color-link);
+		background-color: transparent;
 		outline: none;
-		color: var(--color-bg);
+		color: var(--color-link);
 		font-size: 0.875rem;
-		text-decoration: none;
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 4px;
 		font-weight: 500;
 	}
 }
 
 .skipMain:focus {
-	inset: 8rlh 0.5rlh auto auto;
-
-	@media (width >= 1100px) {
-		inset: 5.5rlh 0.5rlh auto auto;
-	}
-
-	@supports (anchor-name: --main) {
-		text-align: right;
-		position-anchor: --main;
-		inset: 7.5rlh anchor(right) anchor(bottom) anchor(left);
-		padding: 0.5rlh;
-		background-color: color-mix(in srgb, var(--color-link) 75%, transparent);
-		backdrop-filter: blur(6px);
-		border-radius: 0;
-
-		@media (width >= 1100px) {
-			inset: 5rlh anchor(right) anchor(bottom) anchor(left);
-		}
-	}
+	inset: 5.5rlh 0.5rlh auto auto;
 }
 
 .skipFilters:focus {
-	inset: 6rlh auto auto calc(320px - 0.5rlh);
+	inset: 3.5rlh auto auto calc(340px - 0.5rlh);
 	transform: translateX(-100%);
-
-	@media (width >= 1100px) {
-		inset: 3.5rlh auto auto calc(340px - 0.5rlh);
-	}
 
 	@media (width >= 1300px) {
 		inset: 3.5rlh auto auto calc(400px - 0.5rlh);
@@ -308,17 +279,6 @@
 
 	@media (width >= 1600px) {
 		inset: 3.5rlh auto auto calc(420px - 0.5rlh);
-	}
-
-	@supports (anchor-name: --aside) {
-		text-align: right;
-		transform: none;
-		position-anchor: --aside;
-		inset: anchor(top) calc(anchor(right) + 1px) anchor(bottom) anchor(left);
-		padding: 0.5rlh;
-		background-color: color-mix(in srgb, var(--color-link) 75%, transparent);
-		backdrop-filter: blur(6px);
-		border-radius: 0;
 	}
 }
 

@@ -193,7 +193,7 @@ function LinkCard({
 		) {
 			return;
 		}
-		titleRef.current?.focus({ preventScroll: true });
+		titleRef.current?.focus({ preventScroll: true, focusVisible: true });
 	}
 
 	function handleKeyDown(e: React.KeyboardEvent<HTMLElement>) {
