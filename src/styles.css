@@ -1,7 +1,8 @@
 @font-face {
-  font-family: "Hanken Grotesk";
-  src: url("./assets/fonts/HankenGrotesk-Variable.woff2") format("woff2");
+  font-family: "Noto Sans";
+  src: url("./assets/fonts/NotoSans-Variable.woff2") format("woff2");
   font-weight: 100 900;
+  font-stretch: 62.5% 100%;
   font-style: normal;
   font-display: swap;
   unicode-range:
@@ -11,9 +12,10 @@
 }
 
 @font-face {
-  font-family: "Hanken Grotesk";
-  src: url("./assets/fonts/HankenGrotesk-Italic-Variable.woff2") format("woff2");
+  font-family: "Noto Sans";
+  src: url("./assets/fonts/NotoSans-Italic-Variable.woff2") format("woff2");
   font-weight: 100 900;
+  font-stretch: 62.5% 100%;
   font-style: italic;
   font-display: swap;
   unicode-range:
@@ -94,7 +96,7 @@ body {
   color: var(--color-fg);
   background-color: var(--color-bg);
 
-  font-family: "Hanken Grotesk", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-weight: 400;
   font-style: normal;
 
