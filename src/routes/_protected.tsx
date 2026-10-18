@@ -20,13 +20,6 @@ export const Route = createFileRoute("/_protected")({
 	component: ComponentPage,
 	errorComponent: ComponentError,
 	preload: false,
-	head: () => ({
-		meta: [
-			{
-				title: "url.space",
-			},
-		],
-	}),
 });
 
 function ComponentPage() {
