@@ -6,16 +6,20 @@ function Logo({ to }: { to: string }) {
 	return (
 		<Link to={to} className={styles.logo} preload={false}>
 			<svg
-				width="12"
-				height="12"
-				viewBox="0 0 12 12"
-				fill="none"
+				width="14"
+				height="14"
+				viewBox="0 0 14 14"
 				xmlns="http://www.w3.org/2000/svg"
+				fill="currentColor"
 			>
-				<path
-					d="M2 0H4V2H2V0ZM8 0H10V2H8V0ZM0 2H2V4H0V2ZM4 2H8V4H4V2ZM10 2H12V4H10V2ZM2 4H4V6H2V4ZM8 4H10V6H8V4ZM0 7H2V12H0V7ZM10 7H12V12H10V7ZM2 10H10V12H2V10Z"
-					fill="currentColor"
-				/>
+				<path d="M2 12H12V10H14V14H0V10H2V12Z" />
+				<path d="M6 6H2V4H6V6Z" />
+				<path d="M12 4V6H8V4H12Z" />
+				<path d="M2 4H0V2H2V4Z" />
+				<path d="M8 4H6V2H8V4Z" />
+				<path d="M14 4H12V2H14V4Z" />
+				<path d="M6 2H2V0H6V2Z" />
+				<path d="M12 2H8V0H12V2Z" />
 			</svg>
 			<span className="visually-hidden">url.space</span>
 		</Link>
