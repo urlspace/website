@@ -99,6 +99,7 @@
 	/* temporarily is rendered on top of the header  */
 	/* this one is here to make sure that the header is always on top  */
 	z-index: 1;
+	line-height: 1rlh;
 
 	@media (height >= 600px) {
 		position: sticky;

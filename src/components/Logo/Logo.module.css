@@ -3,8 +3,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 24px;
-	height: 24px;
+	width: 1rlh;
+	height: 1rlh;
 	color: var(--color-fg);
 	transition:
 		color var(--transition-duration),

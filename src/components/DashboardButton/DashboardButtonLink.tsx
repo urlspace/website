@@ -8,12 +8,14 @@ function DashbrardButtonLink({
 	to,
 	reloadDocument,
 	preload,
+	onClick,
 }: {
 	icon?: React.ReactNode;
 	text: string;
 	to: string;
 	reloadDocument?: boolean;
 	preload?: false;
+	onClick?: () => void;
 }) {
 	return (
 		<Link
@@ -21,6 +23,7 @@ function DashbrardButtonLink({
 			reloadDocument={reloadDocument}
 			preload={preload}
 			className={styles.button}
+			onClick={onClick}
 		>
 			{icon ? <span className={styles.icon}>{icon}</span> : null}
 			<span className={styles.text}>{text} </span>

@@ -1,7 +1,7 @@
-import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { DashboardButton, Drawer, Icon, Logo } from "../";
+import { DashboardButtonLink } from "../";
 
 import styles from "./PublicHeader.module.css";
 
@@ -12,20 +12,26 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 		return (
 			<>
 				<li>
-					<Link to="/docs" onClick={onNavigate}>
-						Documentation
-					</Link>
+					<DashboardButtonLink
+						to="/docs"
+						onClick={onNavigate}
+						text="Documentation"
+					/>
 				</li>
 				<li>
-					<Link to="/pricing" onClick={onNavigate}>
-						Pricing
-					</Link>
+					<DashboardButtonLink
+						to="/pricing"
+						onClick={onNavigate}
+						text="Pricing"
+					/>
 				</li>
 				{hasSession ? (
 					<li>
-						<Link to="/dashboard" onClick={onNavigate}>
-							Dashboard
-						</Link>
+						<DashboardButtonLink
+							to="/dashboard"
+							onClick={onNavigate}
+							text="Dashboard"
+						/>
 					</li>
 				) : (
 					<>

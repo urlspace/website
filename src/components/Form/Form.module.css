@@ -1,14 +1,8 @@
 .form {
-	--gap: 0.75lh;
-
 	display: flex;
 	flex-direction: column;
-	gap: var(--gap);
+	gap: 0.75rlh;
 	align-items: flex-start;
-
-	@media (height >= 600px) {
-		--gap: 1lh;
-	}
 }
 
 .field {
@@ -70,7 +64,7 @@
 	}
 
 	&::placeholder {
-		color: color-mix(in srgb, var(--color-fg) 50%, transparent);
+		color: color-mix(in srgb, var(--color-fg) 25%, transparent);
 	}
 
 	&:user-invalid,
@@ -111,7 +105,7 @@
 	color: var(--color-fg);
 
 	&[data-empty] {
-		color: color-mix(in srgb, var(--color-fg) 50%, transparent);
+		color: color-mix(in srgb, var(--color-fg) 25%, transparent);
 	}
 
 	option {
@@ -199,7 +193,7 @@
 .row {
 	display: flex;
 	flex-direction: row;
-	gap: var(--gap);
+	gap: 0.75rlh;
 }
 
 .checkboxWrapper {
@@ -420,7 +414,7 @@
 	padding: 0.5lh 0;
 
 	&::placeholder {
-		color: color-mix(in srgb, var(--color-fg) 50%, transparent);
+		color: color-mix(in srgb, var(--color-fg) 25%, transparent);
 	}
 }
 
