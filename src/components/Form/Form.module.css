@@ -41,10 +41,9 @@
 	--outline-color: var(--color-border-input);
 
 	font: inherit;
-	padding: 0.5lh;
+	padding: 0.25rlh;
 	border: none;
 	outline: 1px solid var(--outline-color);
-	outline-offset: -3px;
 	background-color: var(--color-bg-content);
 	transition: outline-color var(--transition-duration);
 	border-radius: var(--radius);
@@ -55,7 +54,9 @@
 
 	&:focus {
 		--outline-color: var(--color-fg);
-		box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-link) 50%, transparent);
+		box-shadow:
+			0 0 0 2px var(--color-bg-content),
+			0 0 0 4px color-mix(in srgb, var(--color-link) 50%, transparent);
 	}
 
 	&:disabled {
@@ -98,7 +99,7 @@
 .select {
 	appearance: none;
 	inline-size: 100%;
-	block-size: 2lh;
+	block-size: 1.5rlh;
 	padding-block: 0;
 	padding-inline: 0.5lh 2lh;
 	min-inline-size: 0;
@@ -129,15 +130,16 @@
 	display: flex;
 	align-items: center;
 	gap: 0.5rlh;
-	padding: 3px;
-	font-size: 0.9375rem;
+	/* padding: 13px; */
+	font-size: 0.875rem;
 	outline: 1px solid var(--outline-color);
-	outline-offset: -3px;
 	border-radius: var(--radius);
 
 	&:has(.fileInput:focus-visible) {
 		--outline-color: var(--color-fg);
-		box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-link) 50%, transparent);
+		box-shadow:
+			0 0 0 2px var(--color-bg-content),
+			0 0 0 4px color-mix(in srgb, var(--color-link) 50%, transparent);
 	}
 
 	&:has(.fileInput:disabled) {
@@ -172,7 +174,8 @@
 	font-weight: 500;
 	background-color: var(--color-link);
 	color: var(--color-bg);
-	padding: calc(0.5rlh - 3px) 0.75lh;
+	padding: 0.25rlh 0.5lh;
+	line-height: 1rlh;
 }
 
 .fileName {
@@ -238,7 +241,7 @@
 	background-color: var(--color-link);
 	color: var(--color-bg);
 	align-self: flex-start;
-	padding: 0.5lh 1lh;
+	padding: 0.25lh 0.75lh;
 	text-decoration: none;
 	font: inherit;
 	font-weight: 500;
@@ -294,7 +297,6 @@
 	display: flex;
 	align-items: center;
 	outline: 1px solid var(--outline-color);
-	outline-offset: -3px;
 	background-color: var(--color-bg-content);
 	border: none;
 	transition: outline-color var(--transition-duration);
@@ -306,7 +308,9 @@
 
 	&:focus-within {
 		--outline-color: var(--color-fg);
-		box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-link) 50%, transparent);
+		box-shadow:
+			0 0 0 2px var(--color-bg-content),
+			0 0 0 4px color-mix(in srgb, var(--color-link) 50%, transparent);
 	}
 
 	&:has(:disabled) {
@@ -411,7 +415,7 @@
 	border: none;
 	outline: none;
 	background: transparent;
-	padding: 0.5lh 0;
+	padding: 0.25lh 0;
 
 	&::placeholder {
 		color: color-mix(in srgb, var(--color-fg) 25%, transparent);

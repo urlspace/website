@@ -103,7 +103,7 @@
 
 	@media (height >= 600px) {
 		position: sticky;
-		top: 3rlh;
+		top: 2.5rlh;
 	}
 
 	@media (width >= 900px) {
@@ -173,7 +173,7 @@
 }
 
 .aside {
-	--h: 3lh;
+	--h: 2.5lh;
 
 	display: none;
 	position: sticky;

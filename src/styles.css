@@ -44,7 +44,7 @@
 
   --size-container-max: min(100% - 2lh, 56lh);
   --transition-duration: 220ms;
-  --radius: 5px;
+  --radius: 4px;
 
   @media (min-width: 1800px) {
     --size-container-max: 70lh;
