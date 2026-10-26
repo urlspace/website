@@ -18,13 +18,21 @@ import {
 } from "#/components/index.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { sessionsQueryOptions } from "#/queries/sessions.ts";
+import { subscriptionsQueryOptions } from "#/queries/subscriptions.ts";
 import { tokensQueryOptions } from "#/queries/tokens.ts";
 
 export const Route = createFileRoute("/_protected/settings")({
+	validateSearch: (
+		search: Record<string, unknown>,
+	): { checkout_id?: string } => ({
+		checkout_id:
+			typeof search.checkout_id === "string" ? search.checkout_id : undefined,
+	}),
 	loader: async ({ context }) => {
 		await Promise.all([
 			context.queryClient.ensureQueryData(meQueryOptions),
 			context.queryClient.ensureQueryData(sessionsQueryOptions),
+			context.queryClient.ensureQueryData(subscriptionsQueryOptions),
 			context.queryClient.ensureQueryData(tokensQueryOptions),
 		]);
 	},
@@ -40,6 +48,7 @@ export const Route = createFileRoute("/_protected/settings")({
 
 function PageProfile() {
 	const { data: user } = useSuspenseQuery(meQueryOptions);
+	const { checkout_id } = Route.useSearch();
 
 	const [isCreateTokenOpen, setIsCreateTokenOpen] = useState(false);
 	const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
@@ -61,7 +70,10 @@ function PageProfile() {
 
 					<Stack gap={1}>
 						<Heading level={2} text="Account details" />
-						<SettingsListAccount user={user} />
+						<SettingsListAccount
+							user={user}
+							isCheckoutCompleted={checkout_id !== undefined}
+						/>
 					</Stack>
 
 					<hr />
