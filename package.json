@@ -17,23 +17,6 @@
 		"check": "vp check && npm run lint:css",
 		"test": "vp test run"
 	},
-	"stylelint": {
-		"extends": [
-			"stylelint-config-standard"
-		],
-		"rules": {
-			"selector-class-pattern": null,
-			"property-no-vendor-prefix": [
-				true,
-				{
-					"ignoreProperties": [
-						"-webkit-text-size-adjust",
-						"-webkit-user-select"
-					]
-				}
-			]
-		}
-	},
 	"dependencies": {
 		"@tanstack/react-devtools": "0.10.13",
 		"@tanstack/react-router": "1.170.45",
@@ -63,6 +46,23 @@
 	},
 	"overrides": {
 		"vite": "npm:@voidzero-dev/vite-plus-core@1.3.0"
+	},
+	"stylelint": {
+		"extends": [
+			"stylelint-config-standard"
+		],
+		"rules": {
+			"property-no-vendor-prefix": [
+				true,
+				{
+					"ignoreProperties": [
+						"-webkit-text-size-adjust",
+						"-webkit-user-select"
+					]
+				}
+			],
+			"selector-class-pattern": null
+		}
 	},
 	"allowScripts": {
 		"fsevents": true,
