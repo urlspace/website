@@ -47,6 +47,11 @@ function FormToken() {
 						// Incorrect passwords keep the session; "unauthorized" reloads above.
 						setError("Incorrect password.");
 						break;
+					case 409:
+						setError(
+							"You've reached the token limit. Remove an unused token first.",
+						);
+						break;
 					case 429:
 						setError("Too many attempts. Try again in a moment.");
 						break;

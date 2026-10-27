@@ -24,6 +24,8 @@ import {
 } from "#/queries/subscriptions.ts";
 import { tokensQueryOptions } from "#/queries/tokens.ts";
 
+const TOKENS_LIMIT = 20;
+
 export const Route = createFileRoute("/_protected/settings")({
 	validateSearch: (
 		search: Record<string, unknown>,
@@ -62,6 +64,7 @@ function PageProfile() {
 		...meQueryOptions,
 		refetchInterval: payment === "processing" ? 2000 : false,
 	});
+	const { data: tokens } = useSuspenseQuery(tokensQueryOptions);
 	const isPaymentProcessing = payment === "processing" && !user.isPro;
 
 	useEffect(() => {
@@ -105,16 +108,19 @@ function PageProfile() {
 							Access tokens let another app use your url.space account without
 							knowing your password. Most people do not need one. Only create a
 							token when a trusted app asks for it, and remove it when you no
-							longer use that app.
+							longer use that app. You can have up to {TOKENS_LIMIT} tokens at a
+							time.
 						</p>
 						<SettingsListTokens />
-						<Button
-							onClick={() => {
-								setFormKey((key) => key + 1);
-								setIsCreateTokenOpen(true);
-							}}
-							text="Create token"
-						/>
+						{tokens.length < TOKENS_LIMIT ? (
+							<Button
+								onClick={() => {
+									setFormKey((key) => key + 1);
+									setIsCreateTokenOpen(true);
+								}}
+								text="Create token"
+							/>
+						) : null}
 					</Stack>
 
 					<hr />
