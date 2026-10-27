@@ -28,10 +28,8 @@
   --color-fg: light-dark(oklch(20% 0.005 65deg), oklch(92% 0.008 285deg));
   --color-bg: light-dark(oklch(98% 0.005 65deg), oklch(20% 0.008 285deg));
   --color-bg-content: light-dark(oklch(99% 0.005 65deg), oklch(17% 0.008 285deg));
-
   --color-border: light-dark(oklch(90% 0.005 65deg), oklch(32% 0.008 285deg));
   --color-border-input: light-dark(oklch(70% 0.005 65deg), oklch(42% 0.008 285deg));
-
   --color-link: light-dark(oklch(50% 0.13 280deg), oklch(83% 0.08 285deg));
   --color-error: light-dark(
     oklch(50.5% 0.213 27.518deg),
@@ -41,12 +39,11 @@
     oklch(79.5% 0.184 86.047deg),
     oklch(79.5% 0.184 86.047deg)
   );
-
   --size-container-max: min(100% - 2lh, 56lh);
   --transition-duration: 220ms;
   --radius: 4px;
 
-  @media (min-width: 1800px) {
+  @media (width >= 1800px) {
     --size-container-max: 70lh;
   }
 
@@ -142,13 +139,13 @@ p {
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
 
-  @media (min-width: 600px) {
+  @media (width >= 600px) {
     grid-auto-columns: 44%;
   }
-  @media (min-width: 900px) {
+  @media (width >= 900px) {
     grid-auto-columns: 31%;
   }
-  @media (min-width: 1600px) {
+  @media (width >= 1600px) {
     grid-auto-columns: 21%;
   }
 
@@ -190,7 +187,7 @@ p {
     gap: 1lh;
     grid-area: auto / span 3;
 
-    @media (min-width: 900px) {
+    @media (width >= 900px) {
       padding-block: calc(3lh - 1px);
       grid-area: auto / span 1;
     }
