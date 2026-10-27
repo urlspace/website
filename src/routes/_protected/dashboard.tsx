@@ -54,9 +54,15 @@ function getTitles(container: HTMLElement | null) {
 export const Route = createFileRoute("/_protected/dashboard")({
 	loader: async ({ context }) => {
 		await Promise.all([
-			context.queryClient.ensureQueryData(linksQueryOptions({ page: 1 })),
-			context.queryClient.ensureQueryData(collectionsQueryOptions),
-			context.queryClient.ensureQueryData(tagsQueryOptions),
+			context.queryClient.query({
+				...linksQueryOptions({ page: 1 }),
+				staleTime: "static",
+			}),
+			context.queryClient.query({
+				...collectionsQueryOptions,
+				staleTime: "static",
+			}),
+			context.queryClient.query({ ...tagsQueryOptions, staleTime: "static" }),
 		]);
 	},
 	component: PageDashboard,

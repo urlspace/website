@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_protected")({
 				to: "/auth/signin",
 			});
 		}
-		const user = await context.queryClient.fetchQuery({
+		const user = await context.queryClient.query({
 			...meQueryOptions,
 			staleTime: 0,
 		});

@@ -48,10 +48,10 @@ function getAccountType(
 
 function SettingsListAccount({
 	user,
-	isCheckoutCompleted,
+	isPaymentProcessing,
 }: {
 	user: User;
-	isCheckoutCompleted: boolean;
+	isPaymentProcessing: boolean;
 }) {
 	const queryClient = useQueryClient();
 	const { data: subscriptions } = useSuspenseQuery(subscriptionsQueryOptions);
@@ -62,7 +62,6 @@ function SettingsListAccount({
 	const [formKey, setFormKey] = useState(0);
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-	const isPro = user.isPro || isCheckoutCompleted;
 	const activeSubscription = subscriptions.find(
 		(subscription) => subscription.isActive,
 	);
@@ -218,10 +217,12 @@ function SettingsListAccount({
 					<dt className={styles.term}>Account type</dt>
 					<dd className={styles.row}>
 						<span className={styles.value}>
-							{getAccountType(user.isAdmin, isPro, activeSubscription)}
+							{isPaymentProcessing
+								? "Processing payment..."
+								: getAccountType(user.isAdmin, user.isPro, activeSubscription)}
 						</span>
-						{user.isAdmin ? null : isPro ? (
-							activeSubscription || isCheckoutCompleted ? (
+						{user.isAdmin || isPaymentProcessing ? null : user.isPro ? (
+							activeSubscription ? (
 								<span className={styles.action}>
 									<DashboardButtonAction
 										ariaLabel="Manage subscription"
@@ -259,7 +260,10 @@ function SettingsListAccount({
 					</dd>
 				</div>
 
-				{!isPro && !user.isAdmin && user.stats.linksLimit !== null ? (
+				{!user.isPro &&
+				!isPaymentProcessing &&
+				!user.isAdmin &&
+				user.stats.linksLimit !== null ? (
 					<div className={styles.item}>
 						<dt className={styles.term}>Links limit</dt>
 						<dd className={styles.row}>
@@ -270,7 +274,10 @@ function SettingsListAccount({
 					</div>
 				) : null}
 
-				{!isPro && !user.isAdmin && user.stats.collectionsLimit !== null ? (
+				{!user.isPro &&
+				!isPaymentProcessing &&
+				!user.isAdmin &&
+				user.stats.collectionsLimit !== null ? (
 					<div className={styles.item}>
 						<dt className={styles.term}>Collections limit</dt>
 						<dd className={styles.row}>
@@ -281,7 +288,10 @@ function SettingsListAccount({
 					</div>
 				) : null}
 
-				{!isPro && !user.isAdmin && user.stats.tagsLimit !== null ? (
+				{!user.isPro &&
+				!isPaymentProcessing &&
+				!user.isAdmin &&
+				user.stats.tagsLimit !== null ? (
 					<div className={styles.item}>
 						<dt className={styles.term}>Tags limit</dt>
 						<dd className={styles.row}>

@@ -1,6 +1,6 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
 	Button,
@@ -18,22 +18,30 @@ import {
 } from "#/components/index.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { sessionsQueryOptions } from "#/queries/sessions.ts";
-import { subscriptionsQueryOptions } from "#/queries/subscriptions.ts";
+import {
+	subscriptionsQueryKey,
+	subscriptionsQueryOptions,
+} from "#/queries/subscriptions.ts";
 import { tokensQueryOptions } from "#/queries/tokens.ts";
 
 export const Route = createFileRoute("/_protected/settings")({
 	validateSearch: (
 		search: Record<string, unknown>,
-	): { checkout_id?: string } => ({
-		checkout_id:
-			typeof search.checkout_id === "string" ? search.checkout_id : undefined,
+	): { payment?: "processing" } => ({
+		payment: search.payment === "processing" ? "processing" : undefined,
 	}),
 	loader: async ({ context }) => {
 		await Promise.all([
-			context.queryClient.ensureQueryData(meQueryOptions),
-			context.queryClient.ensureQueryData(sessionsQueryOptions),
-			context.queryClient.ensureQueryData(subscriptionsQueryOptions),
-			context.queryClient.ensureQueryData(tokensQueryOptions),
+			context.queryClient.query({ ...meQueryOptions, staleTime: "static" }),
+			context.queryClient.query({
+				...sessionsQueryOptions,
+				staleTime: "static",
+			}),
+			context.queryClient.query({
+				...subscriptionsQueryOptions,
+				staleTime: "static",
+			}),
+			context.queryClient.query({ ...tokensQueryOptions, staleTime: "static" }),
 		]);
 	},
 	component: PageProfile,
@@ -47,8 +55,21 @@ export const Route = createFileRoute("/_protected/settings")({
 });
 
 function PageProfile() {
-	const { data: user } = useSuspenseQuery(meQueryOptions);
-	const { checkout_id } = Route.useSearch();
+	const queryClient = useQueryClient();
+	const navigate = Route.useNavigate();
+	const { payment } = Route.useSearch();
+	const { data: user } = useSuspenseQuery({
+		...meQueryOptions,
+		refetchInterval: payment === "processing" ? 2000 : false,
+	});
+	const isPaymentProcessing = payment === "processing" && !user.isPro;
+
+	useEffect(() => {
+		if (payment === "processing" && user.isPro) {
+			void queryClient.invalidateQueries({ queryKey: subscriptionsQueryKey });
+			void navigate({ search: {}, replace: true });
+		}
+	}, [payment, user.isPro, queryClient, navigate]);
 
 	const [isCreateTokenOpen, setIsCreateTokenOpen] = useState(false);
 	const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
@@ -72,7 +93,7 @@ function PageProfile() {
 						<Heading level={2} text="Account details" />
 						<SettingsListAccount
 							user={user}
-							isCheckoutCompleted={checkout_id !== undefined}
+							isPaymentProcessing={isPaymentProcessing}
 						/>
 					</Stack>
 

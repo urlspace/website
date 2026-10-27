@@ -15,8 +15,11 @@ import { tagsQueryOptions } from "#/queries/tags.ts";
 export const Route = createFileRoute("/_protected/tools")({
 	loader: ({ context }) =>
 		Promise.all([
-			context.queryClient.ensureQueryData(collectionsQueryOptions),
-			context.queryClient.ensureQueryData(tagsQueryOptions),
+			context.queryClient.query({
+				...collectionsQueryOptions,
+				staleTime: "static",
+			}),
+			context.queryClient.query({ ...tagsQueryOptions, staleTime: "static" }),
 		]),
 	component: PageTools,
 	head: () => ({
