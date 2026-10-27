@@ -1,4 +1,4 @@
-import { ButtonLink, Heading, Stack } from "#/components";
+import { Heading, Stack } from "#/components";
 
 import styles from "./Intro.module.css";
 
