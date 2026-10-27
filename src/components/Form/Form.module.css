@@ -33,7 +33,7 @@
 .labelDisabled {
 	opacity: 0.75;
 	cursor: not-allowed;
-	color: color-mix(in srgb, currentColor 50%, transparent);
+	color: color-mix(in srgb, currentcolor 50%, transparent);
 }
 
 .input,

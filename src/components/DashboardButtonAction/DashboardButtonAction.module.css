@@ -47,7 +47,7 @@
 		inset-inline: 0;
 		bottom: -1px;
 		height: 2px;
-		background-color: currentColor;
+		background-color: currentcolor;
 		transform: scaleX(0);
 		transform-origin: left;
 		transition: transform var(--hold-ms) linear;

@@ -37,10 +37,8 @@
 		}
 
 		@starting-style {
-			& {
-				opacity: 0;
-				transform: translateX(100%);
-			}
+			opacity: 0;
+			transform: translateX(100%);
 
 			&::backdrop {
 				opacity: 0;
