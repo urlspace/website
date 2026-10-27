@@ -130,6 +130,7 @@
 	display: flex;
 	align-items: center;
 	gap: 0.5rlh;
+
 	/* padding: 13px; */
 	font-size: 0.875rem;
 	outline: 1px solid var(--outline-color);
@@ -191,8 +192,8 @@
 	opacity: 0.75;
 }
 
-/* this one is used to put checkboxes next to each other */
-/* not one under the other */
+/* this one is used to put checkboxes next to each other
+   not one under the other */
 .row {
 	display: flex;
 	flex-direction: row;
@@ -375,6 +376,7 @@
 	padding: 0;
 	background-color: var(--color-bg);
 	outline: 1px solid var(--color-border-input);
+
 	/* outline-offset: -10px; */
 	max-height: calc(1.5lh * 9);
 	overflow-y: scroll;

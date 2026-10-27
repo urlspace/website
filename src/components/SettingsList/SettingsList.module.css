@@ -27,9 +27,9 @@
 }
 
 .valueToken {
-	/* Without this, the values like */
-	/* urlspace_••••••••••••••BIOULo */
-	/* renders super weirdly using Inter font */
+	/* Without this, the values like
+	   urlspace_••••••••••••••BIOULo
+	   renders super weirdly using Inter font */
 	font-variant-ligatures: none;
 }
 

@@ -67,6 +67,7 @@
 	position-try-fallbacks: flip-block, flip-inline;
 	margin-bottom: calc(0.25rlh + 4px);
 	margin-right: calc(-0.25rlh + 2px);
+
 	/* margin-bottom: calc(0.25rem + 6px) 0; */
 	max-width: min(20rem, calc(100vw - 1rem));
 	padding: 0.25rlh 0.5rlh;
