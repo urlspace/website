@@ -4,7 +4,13 @@ import { useState } from "react";
 
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
-function FormDeleteAccount({ onClose }: { onClose: () => void }) {
+function FormDeleteAccount({
+	isPro,
+	onClose,
+}: {
+	isPro: boolean;
+	onClose: () => void;
+}) {
 	const queryClient = useQueryClient();
 	const router = useRouter();
 
@@ -72,6 +78,14 @@ function FormDeleteAccount({ onClose }: { onClose: () => void }) {
 				apps using your access tokens will lose access to your account. This
 				cannot be undone.
 			</p>
+
+			{isPro ? (
+				<p>
+					You’ll lose your Pro account immediately. Any active subscription is
+					cancelled straight away, and the remaining time in your current
+					billing period is not refunded.
+				</p>
+			) : null}
 
 			<Form.Input
 				autoComplete="current-password"

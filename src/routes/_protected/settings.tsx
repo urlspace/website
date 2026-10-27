@@ -143,6 +143,7 @@ function PageProfile() {
 			>
 				<FormDeleteAccount
 					key={formKey}
+					isPro={user.isPro}
 					onClose={() => setIsDeleteAccountOpen(false)}
 				/>
 			</Dialog>
