@@ -152,12 +152,6 @@
 	&:has(.fileInput:user-invalid) {
 		--outline-color: var(--color-error);
 	}
-
-	&:hover:has(.fileInput:enabled) .fileButton {
-		text-decoration: underline;
-		text-decoration-thickness: 2px;
-		text-underline-offset: 4px;
-	}
 }
 
 .fileInput {
@@ -179,6 +173,12 @@
 	color: var(--color-bg);
 	padding: 0.25rlh 0.5lh;
 	line-height: 1rlh;
+
+	.file:hover:has(.fileInput:enabled) & {
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 4px;
+	}
 }
 
 .fileName {

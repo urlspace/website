@@ -9,17 +9,17 @@
 	vertical-align: top;
 	text-wrap: nowrap;
 
+	&:focus-visible {
+		outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
+		outline-offset: 2px;
+		border-radius: var(--radius);
+	}
+
 	&:hover:not([aria-disabled="true"]) {
 		@media (hover: hover) and (pointer: fine) {
 			color: var(--color-link);
 			text-decoration-line: underline;
 		}
-	}
-
-	&:focus-visible {
-		outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
-		outline-offset: 2px;
-		border-radius: var(--radius);
 	}
 
 	&[aria-disabled="true"] {
