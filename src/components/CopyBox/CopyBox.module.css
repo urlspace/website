@@ -22,7 +22,6 @@
 	user-select: all;
 	font-size: 0.8125rem;
 	scrollbar-width: none;
-
 	mask-image: linear-gradient(
 		to right,
 		black calc(100% - 2rlh),

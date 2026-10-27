@@ -54,6 +54,7 @@
 
 	&:focus {
 		--outline-color: var(--color-fg);
+
 		box-shadow:
 			0 0 0 2px var(--color-bg-content),
 			0 0 0 4px color-mix(in srgb, var(--color-link) 50%, transparent);
@@ -138,6 +139,7 @@
 
 	&:has(.fileInput:focus-visible) {
 		--outline-color: var(--color-fg);
+
 		box-shadow:
 			0 0 0 2px var(--color-bg-content),
 			0 0 0 4px color-mix(in srgb, var(--color-link) 50%, transparent);
@@ -233,6 +235,7 @@
 
 	&:disabled {
 		--outline-color: transparent;
+
 		opacity: 0.75;
 		cursor: not-allowed;
 	}
@@ -309,6 +312,7 @@
 
 	&:focus-within {
 		--outline-color: var(--color-fg);
+
 		box-shadow:
 			0 0 0 2px var(--color-bg-content),
 			0 0 0 4px color-mix(in srgb, var(--color-link) 50%, transparent);
