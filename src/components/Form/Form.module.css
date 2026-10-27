@@ -298,6 +298,7 @@
 .comboboxInputGroup {
 	--outline-color: var(--color-border-input);
 
+	position: relative;
 	display: flex;
 	align-items: center;
 	outline: 1px solid var(--outline-color);
@@ -333,9 +334,11 @@
 
 .searchHint {
 	display: none;
-	flex-shrink: 0;
-	margin-inline: 0.5rlh;
-	font-size: 0.75rem;
+	position: absolute;
+	inset-inline-end: 0.5rlh;
+	inset-block-start: 0;
+	line-height: 1.5rlh;
+	font-size: 0.8125rem;
 	color: color-mix(in srgb, var(--color-fg) 50%, transparent);
 	white-space: nowrap;
 	pointer-events: none;
