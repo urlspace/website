@@ -142,9 +142,11 @@ p {
   @media (width >= 600px) {
     grid-auto-columns: 44%;
   }
+
   @media (width >= 900px) {
     grid-auto-columns: 31%;
   }
+
   @media (width >= 1600px) {
     grid-auto-columns: 21%;
   }
