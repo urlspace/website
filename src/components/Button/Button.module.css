@@ -2,7 +2,7 @@
 	background-color: var(--color-link);
 	color: var(--color-bg);
 	align-self: flex-start;
-	padding: 0.5lh 1lh;
+	padding: 0.25rlh 0.75rlh;
 	text-decoration: none;
 	font: inherit;
 	font-weight: 500;
