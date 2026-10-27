@@ -4,6 +4,7 @@
 	font-size: 1.5rem;
 	text-decoration-thickness: 3px;
 	text-underline-offset: 0px;
+	line-height: 1rlh;
 
 	&:focus-visible {
 		color: var(--color-link);
