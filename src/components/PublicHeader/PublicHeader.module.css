@@ -2,7 +2,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 1lh;
+	padding: 0.75rlh 1rlh;
 }
 
 .nav {
