@@ -6,7 +6,6 @@ import { defineConfig, lazyPlugins } from "vite-plus";
 
 const ignorePatterns = [
 	"src/routeTree.gen.ts",
-	"src/styles.css",
 	"src/parsers/fixtures/**",
 	"worker-configuration.d.ts",
 ];
