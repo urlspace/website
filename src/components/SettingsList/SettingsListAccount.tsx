@@ -37,6 +37,9 @@ function getAccountType(
 	if (!activeSubscription) {
 		return "Pro";
 	}
+	if (activeSubscription.status === "past_due") {
+		return "Pro (payment failed)";
+	}
 	if (activeSubscription.cancelAtPeriodEnd) {
 		return `Pro, valid until ${formatDate(activeSubscription.currentPeriodEnd)}`;
 	}
