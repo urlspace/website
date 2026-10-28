@@ -9,6 +9,5 @@
 	&:focus-visible {
 		color: var(--color-link);
 		outline: none;
-		scale: 1.2;
 	}
 }

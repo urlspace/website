@@ -25,18 +25,26 @@
 }
 
 :root {
-	--color-fg: light-dark(oklch(20% 0.005 65deg), oklch(92% 0.008 285deg));
-	--color-bg: light-dark(oklch(98% 0.005 65deg), oklch(20% 0.008 285deg));
+	--color-fg: light-dark(oklch(22% 0.02 275deg), oklch(92% 0.008 285deg));
 	--color-bg-content: light-dark(
 		oklch(99% 0.005 65deg),
 		oklch(17% 0.008 285deg)
 	);
-	--color-border: light-dark(oklch(90% 0.005 65deg), oklch(32% 0.008 285deg));
-	--color-border-input: light-dark(
-		oklch(70% 0.005 65deg),
-		oklch(42% 0.008 285deg)
+
+	--color-bg: color-mix(in oklch, var(--color-bg-content) 98%, var(--color-fg));
+
+	--color-border: color-mix(
+		in oklch,
+		var(--color-bg-content) 88%,
+		var(--color-fg)
 	);
-	--color-link: light-dark(oklch(50% 0.13 280deg), oklch(83% 0.08 285deg));
+	--color-border-input: color-mix(
+		in oklch,
+		var(--color-bg-content) 66%,
+		var(--color-fg)
+	);
+
+	--color-link: light-dark(oklch(50% 0.15 275deg), oklch(83% 0.08 285deg));
 	--color-error: light-dark(
 		oklch(50.5% 0.213 27.518deg),
 		oklch(71.2% 0.194 13.428deg)

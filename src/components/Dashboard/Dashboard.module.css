@@ -269,19 +269,19 @@
 }
 
 .skipMain:focus {
-	inset: 5.5rlh 0.5rlh auto auto;
+	inset: 5rlh 0.5rlh auto auto;
 }
 
 .skipFilters:focus {
-	inset: 3.5rlh auto auto calc(340px - 0.5rlh);
+	inset: 3rlh auto auto calc(340px - 0.5rlh);
 	transform: translateX(-100%);
 
 	@media (width >= 1300px) {
-		inset: 3.5rlh auto auto calc(400px - 0.5rlh);
+		inset: 3rlh auto auto calc(400px - 0.5rlh);
 	}
 
 	@media (width >= 1600px) {
-		inset: 3.5rlh auto auto calc(420px - 0.5rlh);
+		inset: 3rlh auto auto calc(420px - 0.5rlh);
 	}
 }
 
