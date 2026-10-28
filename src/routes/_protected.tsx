@@ -2,6 +2,8 @@ import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 import { meQueryOptions } from "#/queries/me.ts";
 
+import { Footer, HeaderProtected, Heading, Page } from "../components";
+
 export const Route = createFileRoute("/_protected")({
 	beforeLoad: async ({ context }) => {
 		if (!context.hasSession) {
@@ -17,20 +19,23 @@ export const Route = createFileRoute("/_protected")({
 		return { user };
 	},
 	staleTime: 5 * 60 * 1000,
-	component: ComponentPage,
+	component: Outlet,
 	errorComponent: ComponentError,
 	preload: false,
 });
 
-function ComponentPage() {
-	return <Outlet />;
-}
-
 function ComponentError() {
 	return (
-		<>
-			<h1>Error protected</h1>
-			<p>Generic error</p>
-		</>
+		<Page>
+			<Page.Header>
+				<HeaderProtected />
+			</Page.Header>
+			<Page.Main>
+				<Heading level={1} text="Error" />
+			</Page.Main>
+			<Page.Footer>
+				<Footer />
+			</Page.Footer>
+		</Page>
 	);
 }

@@ -14,6 +14,7 @@ import {
 	Stack,
 	HeaderProtected,
 	Page,
+	Footer,
 } from "#/components/index.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { sessionsQueryOptions } from "#/queries/sessions.ts";
@@ -150,7 +151,9 @@ function PageProfile() {
 				</Stack>
 			</Page.Main>
 
-			<Page.Footer>footer</Page.Footer>
+			<Page.Footer>
+				<Footer />
+			</Page.Footer>
 
 			<Dialog
 				open={isCreateTokenOpen}

@@ -17,6 +17,7 @@ import DashboardMenu from "./DashboardMenu/DashboardMenu.tsx";
 import DashboardNav from "./DashboardNav/DashboardNav.tsx";
 import Dialog from "./Dialog/Dialog.tsx";
 import Drawer from "./Drawer/Drawer.tsx";
+import Footer from "./Footer/Footer.tsx";
 import Form from "./Form/Form.tsx";
 import FormCollection from "./FormCollection/FormCollection.tsx";
 import FormDeleteAccount from "./FormDeleteAccount/FormDeleteAccount.tsx";
@@ -40,7 +41,6 @@ import Manual from "./Manual/Manual.tsx";
 import Page from "./Page/Page.tsx";
 import Pills from "./Pills/Pills.tsx";
 import Public from "./Public/Public.tsx";
-import PublicFooter from "./PublicFooter/PublicFooter.tsx";
 import PublicHeader from "./PublicHeader/PublicHeader.tsx";
 import SettingsListAccount from "./SettingsList/SettingsListAccount.tsx";
 import SettingsListSessions from "./SettingsList/SettingsListSessions.tsx";
@@ -89,7 +89,7 @@ export {
 	Page,
 	Pills,
 	Public,
-	PublicFooter,
+	Footer,
 	PublicHeader,
 	SettingsListAccount,
 	SettingsListSessions,

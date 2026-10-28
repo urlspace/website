@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-import { Page, PublicFooter, PublicHeader } from "../components";
+import { Page, Footer, PublicHeader } from "../components";
 
 export const Route = createFileRoute("/_public")({
 	component: PublicLayout,
@@ -18,7 +18,7 @@ function PublicLayout() {
 			<Outlet />
 
 			<Page.Footer>
-				<PublicFooter />
+				<Footer />
 			</Page.Footer>
 		</Page>
 	);

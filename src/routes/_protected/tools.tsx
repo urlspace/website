@@ -7,6 +7,7 @@ import {
 	Stack,
 	HeaderProtected,
 	Page,
+	Footer,
 } from "#/components/index.ts";
 import { collectionsQueryOptions } from "#/queries/collections.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
@@ -75,7 +76,9 @@ function PageTools() {
 				</Stack>
 			</Page.Main>
 
-			<Page.Footer>footer</Page.Footer>
+			<Page.Footer>
+				<Footer />
+			</Page.Footer>
 		</Page>
 	);
 }
