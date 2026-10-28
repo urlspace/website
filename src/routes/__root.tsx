@@ -9,8 +9,13 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
 import { getCookie, getRequest } from "@tanstack/react-start/server";
+import { useEffect } from "react";
 
-import { hasSeparateDashboard, toPublicUrl } from "#/utils.ts";
+import {
+	hasSeparateDashboard,
+	reloadOnPreloadError,
+	toPublicUrl,
+} from "#/utils.ts";
 
 import appCss from "../styles.css?url";
 
@@ -147,6 +152,13 @@ function GenericError() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+	useEffect(() => {
+		window.addEventListener("vite:preloadError", reloadOnPreloadError);
+		return () => {
+			window.removeEventListener("vite:preloadError", reloadOnPreloadError);
+		};
+	}, []);
+
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head>
