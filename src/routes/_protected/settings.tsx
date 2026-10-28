@@ -4,17 +4,16 @@ import { useEffect, useState } from "react";
 
 import {
 	Button,
-	DashboardButtonLink,
-	Logo,
 	Dialog,
 	FormDeleteAccount,
 	FormToken,
 	Heading,
-	Icon,
 	SettingsListAccount,
 	SettingsListSessions,
 	SettingsListTokens,
 	Stack,
+	HeaderProtected,
+	Page,
 } from "#/components/index.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { sessionsQueryOptions } from "#/queries/sessions.ts";
@@ -79,16 +78,12 @@ function PageProfile() {
 	const [formKey, setFormKey] = useState(0);
 
 	return (
-		<div className="page">
-			<header className="page__header">
-				<Logo to="/dashboard" />
-				<DashboardButtonLink
-					icon={<Icon.Back />}
-					to="/dashboard"
-					text="Back to dashboard"
-				/>
-			</header>
-			<main className="page__main">
+		<Page>
+			<Page.Header>
+				<HeaderProtected />
+			</Page.Header>
+
+			<Page.Main>
 				<Stack gap={2}>
 					<Heading level={1} text="Settings" />
 
@@ -153,7 +148,9 @@ function PageProfile() {
 						/>
 					</Stack>
 				</Stack>
-			</main>
+			</Page.Main>
+
+			<Page.Footer>footer</Page.Footer>
 
 			<Dialog
 				open={isCreateTokenOpen}
@@ -174,6 +171,6 @@ function PageProfile() {
 					onClose={() => setIsDeleteAccountOpen(false)}
 				/>
 			</Dialog>
-		</div>
+		</Page>
 	);
 }

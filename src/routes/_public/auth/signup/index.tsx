@@ -1,7 +1,7 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { Form, Heading, Page, Stack } from "#/components";
+import { Form, Heading, Stack } from "#/components";
 import type { SubmitHelpers } from "#/components/Form/Form";
 
 const minContextualLen = 4;
@@ -90,66 +90,64 @@ function SignUp() {
 	}
 
 	return (
-		<Page.Content>
-			<Stack gap={2}>
-				<Heading level={1} text="Sign up" />
-				{done ? (
-					<p role="status">
-						Check your inbox and confirm your email address within the next 24
-						hours.
-					</p>
-				) : (
-					<>
-						<Form onSubmit={handleSubmit}>
-							<Form.Input
-								autoComplete="nickname"
-								description="Use 3–32 lowercase letters or numbers. You can also use hyphens and underscores, but not at the beginning or end."
-								label="Username"
-								maxLength={32}
-								minLength={3}
-								name="username"
-								onChange={setUsername}
-								pattern="[a-z0-9]([a-z0-9_\-]*[a-z0-9])?"
-								placeholder="rocky"
-								required
-								type="text"
-								value={username}
-							/>
-							<Form.Input
-								autoComplete="username"
-								label="Email"
-								maxLength={254}
-								name="email"
-								onChange={setEmail}
-								pattern="[^\s@]{1,64}@[^\s@]+\.[^\s@]+"
-								placeholder="sylvester@stallone.com"
-								required
-								type="email"
-								value={email}
-							/>
-							<Form.Input
-								autoComplete="new-password"
-								description="Use a strong password that is a minimum of 12 characters long. Don't include parts of your email address or username in your password."
-								label="Password"
-								maxLength={128}
-								minLength={12}
-								name="password"
-								onChange={setPassword}
-								required
-								type="password"
-								value={password}
-							/>
-							<Form.Submit text="Sign up" textLoading="Signing up..." />
-						</Form>
+		<Stack gap={2}>
+			<Heading level={1} text="Sign up" />
+			{done ? (
+				<p role="status">
+					Check your inbox and confirm your email address within the next 24
+					hours.
+				</p>
+			) : (
+				<>
+					<Form onSubmit={handleSubmit}>
+						<Form.Input
+							autoComplete="nickname"
+							description="Use 3–32 lowercase letters or numbers. You can also use hyphens and underscores, but not at the beginning or end."
+							label="Username"
+							maxLength={32}
+							minLength={3}
+							name="username"
+							onChange={setUsername}
+							pattern="[a-z0-9]([a-z0-9_\-]*[a-z0-9])?"
+							placeholder="rocky"
+							required
+							type="text"
+							value={username}
+						/>
+						<Form.Input
+							autoComplete="username"
+							label="Email"
+							maxLength={254}
+							name="email"
+							onChange={setEmail}
+							pattern="[^\s@]{1,64}@[^\s@]+\.[^\s@]+"
+							placeholder="sylvester@stallone.com"
+							required
+							type="email"
+							value={email}
+						/>
+						<Form.Input
+							autoComplete="new-password"
+							description="Use a strong password that is a minimum of 12 characters long. Don't include parts of your email address or username in your password."
+							label="Password"
+							maxLength={128}
+							minLength={12}
+							name="password"
+							onChange={setPassword}
+							required
+							type="password"
+							value={password}
+						/>
+						<Form.Submit text="Sign up" textLoading="Signing up..." />
+					</Form>
 
-						<p>
-							By signing up, you agree to our{" "}
-							<Link to="/terms-of-service">Terms of Service</Link> and{" "}
-							<Link to="/privacy-policy">Privacy Policy</Link>.
-						</p>
-					</>
-				)}
-			</Stack>
-		</Page.Content>
+					<p>
+						By signing up, you agree to our{" "}
+						<Link to="/terms-of-service">Terms of Service</Link> and{" "}
+						<Link to="/privacy-policy">Privacy Policy</Link>.
+					</p>
+				</>
+			)}
+		</Stack>
 	);
 }

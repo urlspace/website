@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { Button, Heading, Page, Stack } from "#/components";
+import { Button, Heading, Stack } from "#/components";
 
 export const Route = createFileRoute("/_public/auth/signup/$token")({
 	beforeLoad: ({ context }) => {
@@ -88,29 +88,25 @@ function Verify() {
 		}
 
 		return (
-			<Page.Content>
-				<Stack gap={2}>
-					<Heading level={1} text="Verification of your account failed" />
-					{message}
-				</Stack>
-			</Page.Content>
+			<Stack gap={2}>
+				<Heading level={1} text="Verification of your account failed" />
+				{message}
+			</Stack>
 		);
 	}
 
 	return (
-		<Page.Content>
-			<Stack gap={2}>
-				<Heading level={1} text="Welcome to url.space" />
-				<p>Activate your account and sign in.</p>
-				<Button
-					type="button"
-					text={
-						isLoading ? "Activating..." : "Activate account and go to sign in"
-					}
-					ariaDisabled={isLoading}
-					onClick={handleActivate}
-				/>
-			</Stack>
-		</Page.Content>
+		<Stack gap={2}>
+			<Heading level={1} text="Welcome to url.space" />
+			<p>Activate your account and sign in.</p>
+			<Button
+				type="button"
+				text={
+					isLoading ? "Activating..." : "Activate account and go to sign in"
+				}
+				ariaDisabled={isLoading}
+				onClick={handleActivate}
+			/>
+		</Stack>
 	);
 }

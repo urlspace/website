@@ -30,9 +30,7 @@
 		oklch(99% 0.005 65deg),
 		oklch(17% 0.008 285deg)
 	);
-
 	--color-bg: color-mix(in oklch, var(--color-bg-content) 98%, var(--color-fg));
-
 	--color-border: color-mix(
 		in oklch,
 		var(--color-bg-content) 88%,
@@ -43,7 +41,6 @@
 		var(--color-bg-content) 66%,
 		var(--color-fg)
 	);
-
 	--color-link: light-dark(oklch(50% 0.15 275deg), oklch(83% 0.08 285deg));
 	--color-error: light-dark(
 		oklch(50.5% 0.213 27.518deg),
@@ -143,39 +140,6 @@ a {
 
 p {
 	text-wrap-style: pretty;
-}
-
-.page {
-	min-height: 100dvh;
-}
-
-.page__header {
-	background-color: var(--color-bg-content);
-	padding: 0.75rlh 1rlh;
-	box-shadow: inset 0 -1px 0 0 var(--color-border);
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	position: sticky;
-	top: 0;
-	z-index: 1;
-}
-
-.page__main {
-	background-color: var(--color-bg-content);
-	padding: 3lh 1lh;
-	margin-inline: auto;
-	display: flex;
-	flex-direction: column;
-	gap: 1lh;
-
-	@media (width >= 900px) {
-		box-shadow:
-			inset 1px 0 0 var(--color-border),
-			inset -1px 0 0 var(--color-border);
-		width: min(100% - 1lh, 1000px);
-		padding-inline: 8lh;
-	}
 }
 
 .visually-hidden {

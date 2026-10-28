@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { Form, Heading, Page, Stack } from "#/components";
+import { Form, Heading, Stack } from "#/components";
 import type { SubmitHelpers } from "#/components/Form/Form";
 
 export const Route = createFileRoute("/_public/auth/resend-verification")({
@@ -66,35 +66,30 @@ function ResendVerification() {
 	}
 
 	return (
-		<Page.Content>
-			<Stack gap={2}>
-				<Heading level={1} text="Resend verification" />
-				{done ? (
-					<p role="status">
-						Sent! Check your inbox and confirm your email address within the
-						next 24 hours.
-					</p>
-				) : (
-					<Form onSubmit={handleSubmit}>
-						<Form.Input
-							autoComplete="email"
-							label="Email"
-							maxLength={254}
-							name="email"
-							onChange={setEmail}
-							pattern="[^\s@]{1,64}@[^\s@]+\.[^\s@]+"
-							placeholder="sylvester@stallone.com"
-							required
-							type="email"
-							value={email}
-						/>
-						<Form.Submit
-							text="Send verification link"
-							textLoading="Sending..."
-						/>
-					</Form>
-				)}
-			</Stack>
-		</Page.Content>
+		<Stack gap={2}>
+			<Heading level={1} text="Resend verification" />
+			{done ? (
+				<p role="status">
+					Sent! Check your inbox and confirm your email address within the next
+					24 hours.
+				</p>
+			) : (
+				<Form onSubmit={handleSubmit}>
+					<Form.Input
+						autoComplete="email"
+						label="Email"
+						maxLength={254}
+						name="email"
+						onChange={setEmail}
+						pattern="[^\s@]{1,64}@[^\s@]+\.[^\s@]+"
+						placeholder="sylvester@stallone.com"
+						required
+						type="email"
+						value={email}
+					/>
+					<Form.Submit text="Send verification link" textLoading="Sending..." />
+				</Form>
+			)}
+		</Stack>
 	);
 }

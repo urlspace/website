@@ -2,12 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import {
 	ButtonDownload,
-	DashboardButtonLink,
 	FormImport,
 	Heading,
-	Icon,
-	Logo,
 	Stack,
+	HeaderProtected,
+	Page,
 } from "#/components/index.ts";
 import { collectionsQueryOptions } from "#/queries/collections.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
@@ -33,16 +32,11 @@ export const Route = createFileRoute("/_protected/tools")({
 
 function PageTools() {
 	return (
-		<div className="page">
-			<header className="page__header">
-				<Logo to="/dashboard" />
-				<DashboardButtonLink
-					icon={<Icon.Back />}
-					to="/dashboard"
-					text="Back to dashboard"
-				/>
-			</header>
-			<main className="page__main">
+		<Page>
+			<Page.Header>
+				<HeaderProtected />
+			</Page.Header>
+			<Page.Main>
 				<Stack gap={2}>
 					<Heading level={1} text="Tools" />
 
@@ -79,7 +73,9 @@ function PageTools() {
 						/>
 					</Stack>
 				</Stack>
-			</main>
-		</div>
+			</Page.Main>
+
+			<Page.Footer>footer</Page.Footer>
+		</Page>
 	);
 }

@@ -15,9 +15,7 @@ function PublicLayout() {
 				<PublicHeader hasSession={hasSession} />
 			</Page.Header>
 
-			<Page.Content>
-				<Outlet />
-			</Page.Content>
+			<Outlet />
 
 			<Page.Footer>
 				<PublicFooter />

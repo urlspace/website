@@ -28,6 +28,7 @@ import FormPassword from "./FormPassword/FormPassword.tsx";
 import FormTag from "./FormTag/FormTag.tsx";
 import FormToken from "./FormToken/FormToken.tsx";
 import FormUsername from "./FormUsername/FormUsername.tsx";
+import HeaderProtected from "./HeaderProtected/HeaderProtected.tsx";
 import Heading from "./Heading/Heading.tsx";
 import Icon from "./Icons/Icons.tsx";
 import Intro from "./Intro/Intro.tsx";
@@ -68,18 +69,21 @@ export {
 	Form,
 	FormCollection,
 	FormDeleteAccount,
-	FormImport,
 	FormDisplayName,
 	FormEmail,
+	FormImport,
 	FormLink,
 	FormPassword,
 	FormTag,
 	FormToken,
 	FormUsername,
+	HeaderProtected,
 	Heading,
 	Icon,
 	Intro,
 	KeyboardShortcuts,
+	LinkCard,
+	LinkCardSlim,
 	Logo,
 	Manual,
 	Page,
@@ -92,6 +96,4 @@ export {
 	SettingsListTokens,
 	Stack,
 	Stats,
-	LinkCard,
-	LinkCardSlim,
 };

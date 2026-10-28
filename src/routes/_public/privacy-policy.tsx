@@ -15,11 +15,11 @@ export const Route = createFileRoute("/_public/privacy-policy")({
 
 function App() {
 	return (
-		<Page>
+		<Page.Main>
 			<Stack>
 				<Heading level={1} text="Privacy policy" />
 				TBC
 			</Stack>
-		</Page>
+		</Page.Main>
 	);
 }

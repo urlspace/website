@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { Form, Heading, Page, Stack } from "#/components";
+import { Form, Heading, Stack } from "#/components";
 import type { SubmitHelpers } from "#/components/Form/Form";
 
 export const Route = createFileRoute("/_public/auth/signin")({
@@ -91,40 +91,38 @@ function SignIn() {
 	}
 
 	return (
-		<Page.Content>
-			<Stack gap={2}>
-				<Heading level={1} text="Sign in" />
-				<Form onSubmit={handleSubmit}>
-					<Form.Input
-						autoComplete="username"
-						label="Email"
-						maxLength={254}
-						name="email"
-						onChange={setEmail}
-						pattern="[^\s@]{1,64}@[^\s@]+\.[^\s@]+"
-						placeholder="sylvester@stallone.com"
-						required
-						type="email"
-						value={email}
-					/>
-					<Form.Input
-						autoComplete="current-password"
-						label="Password"
-						maxLength={128}
-						minLength={12}
-						name="password"
-						onChange={setPassword}
-						required
-						type="password"
-						value={password}
-					/>
-					<Form.Submit text="Sign in" textLoading="Signing in..." />
-				</Form>
-				<p>
-					If you forgot your password, go to the{" "}
-					<Link to="/auth/reset-password">password reset page</Link>.
-				</p>
-			</Stack>
-		</Page.Content>
+		<Stack gap={2}>
+			<Heading level={1} text="Sign in" />
+			<Form onSubmit={handleSubmit}>
+				<Form.Input
+					autoComplete="username"
+					label="Email"
+					maxLength={254}
+					name="email"
+					onChange={setEmail}
+					pattern="[^\s@]{1,64}@[^\s@]+\.[^\s@]+"
+					placeholder="sylvester@stallone.com"
+					required
+					type="email"
+					value={email}
+				/>
+				<Form.Input
+					autoComplete="current-password"
+					label="Password"
+					maxLength={128}
+					minLength={12}
+					name="password"
+					onChange={setPassword}
+					required
+					type="password"
+					value={password}
+				/>
+				<Form.Submit text="Sign in" textLoading="Signing in..." />
+			</Form>
+			<p>
+				If you forgot your password, go to the{" "}
+				<Link to="/auth/reset-password">password reset page</Link>.
+			</p>
+		</Stack>
 	);
 }

@@ -15,11 +15,11 @@ export const Route = createFileRoute("/_public/terms-of-service")({
 
 function App() {
 	return (
-		<Page>
+		<Page.Main>
 			<Stack>
 				<Heading level={1} text="Terms of service" />
 				TBC
 			</Stack>
-		</Page>
+		</Page.Main>
 	);
 }

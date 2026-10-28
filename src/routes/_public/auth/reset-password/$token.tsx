@@ -1,7 +1,7 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { Form, Heading, Page, Stack } from "#/components";
+import { Form, Heading, Stack } from "#/components";
 import type { SubmitHelpers } from "#/components/Form/Form";
 
 export const Route = createFileRoute("/_public/auth/reset-password/$token")({
@@ -86,44 +86,42 @@ function ResetPasswordConfirm() {
 	}
 
 	return (
-		<Page.Content>
-			<Stack gap={2}>
-				<Heading level={1} text="Reset password" />
-				{done ? (
-					<p role="status">
-						Your password has been reset and you've been signed out of all other
-						devices. You can now <Link to="/auth/signin">sign in</Link> with
-						your new password.
-					</p>
-				) : (
-					<Form onSubmit={handleSubmit}>
-						<Form.Input
-							autoComplete="new-password"
-							description="Use a strong password that is a minimum of 12 characters long. Please do not include parts of your email address or username in your password."
-							label="New password"
-							maxLength={128}
-							minLength={12}
-							name="password"
-							onChange={setPassword}
-							required
-							type="password"
-							value={password}
-						/>
-						<Form.Input
-							autoComplete="new-password"
-							label="Repeat new password"
-							maxLength={128}
-							minLength={12}
-							name="passwordConfirm"
-							onChange={setPasswordConfirm}
-							required
-							type="password"
-							value={passwordConfirm}
-						/>
-						<Form.Submit text="Reset password" textLoading="Resetting..." />
-					</Form>
-				)}
-			</Stack>
-		</Page.Content>
+		<Stack gap={2}>
+			<Heading level={1} text="Reset password" />
+			{done ? (
+				<p role="status">
+					Your password has been reset and you've been signed out of all other
+					devices. You can now <Link to="/auth/signin">sign in</Link> with your
+					new password.
+				</p>
+			) : (
+				<Form onSubmit={handleSubmit}>
+					<Form.Input
+						autoComplete="new-password"
+						description="Use a strong password that is a minimum of 12 characters long. Please do not include parts of your email address or username in your password."
+						label="New password"
+						maxLength={128}
+						minLength={12}
+						name="password"
+						onChange={setPassword}
+						required
+						type="password"
+						value={password}
+					/>
+					<Form.Input
+						autoComplete="new-password"
+						label="Repeat new password"
+						maxLength={128}
+						minLength={12}
+						name="passwordConfirm"
+						onChange={setPasswordConfirm}
+						required
+						type="password"
+						value={passwordConfirm}
+					/>
+					<Form.Submit text="Reset password" textLoading="Resetting..." />
+				</Form>
+			)}
+		</Stack>
 	);
 }
