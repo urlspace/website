@@ -25,10 +25,10 @@ function DashbrardEmpty({
 	return (
 		<div className={styles.empty}>
 			<p>
-				You haven't saved any links yet.{" "}
-				<ButtonLinkLike type="button" onClick={onAddLink} text="Add one now" />,
-				or <Link to="/tools">import the bookmarks</Link> you already have in
-				your browser — folders become collections and tags come along too.
+				No links yet!{" "}
+				<ButtonLinkLike type="button" onClick={onAddLink} text="Add your first link" />{" "}
+				or <Link to="/tools">import your browser bookmarks</Link>. Folders
+				become collections, and your tags come too.
 			</p>
 		</div>
 	);
