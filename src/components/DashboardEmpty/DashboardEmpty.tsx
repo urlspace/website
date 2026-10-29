@@ -27,7 +27,7 @@ function DashbrardEmpty({
 			<p>
 				No links yet!{" "}
 				<ButtonLinkLike type="button" onClick={onAddLink} text="Add your first link" />{" "}
-				or <Link to="/tools">import your browser bookmarks</Link>. Folders
+				or <Link to="/tools">import your bookmarks</Link>. Folders
 				become collections, and your tags come too.
 			</p>
 		</div>
