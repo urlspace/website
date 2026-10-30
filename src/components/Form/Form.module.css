@@ -425,6 +425,7 @@
 	outline: none;
 	background: transparent;
 	padding: 0.25lh 0;
+	width: 100%;
 
 	&::placeholder {
 		color: color-mix(in srgb, var(--color-fg) 25%, transparent);
