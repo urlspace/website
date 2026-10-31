@@ -173,6 +173,7 @@
 	color: var(--color-bg);
 	padding: 0.25rlh 0.5lh;
 	line-height: 1rlh;
+	flex-shrink: 0;
 
 	.file:hover:has(.fileInput:enabled) & {
 		text-decoration: underline;
