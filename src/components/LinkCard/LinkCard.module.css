@@ -21,7 +21,7 @@
 			background-color: color-mix(
 				in srgb,
 				var(--color-link) 10%,
-				var(--color-bg-content)
+				var(--color-bg)
 			);
 
 			@media (prefers-contrast: more) {

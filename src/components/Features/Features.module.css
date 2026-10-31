@@ -1,5 +1,5 @@
 .wrapper {
-	background-color: var(--color-bg-content);
+	background-color: var(--color-bg);
 }
 
 .intro {
@@ -36,7 +36,7 @@
 	padding-block: 3rlh;
 	display: grid;
 	gap: 1rlh;
-	background-color: var(--color-bg-content);
+	background-color: var(--color-bg);
 
 	p {
 		margin-inline: auto;

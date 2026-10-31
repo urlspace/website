@@ -6,7 +6,7 @@
 	height: 100dvh;
 	border: none;
 	border-left: 1px solid var(--color-border);
-	background-color: var(--color-bg);
+	background-color: var(--color-bg-fade);
 	width: 100%;
 	max-width: min(100dvw - 2lh, 60ch);
 	max-height: 100dvh;
@@ -18,7 +18,7 @@
 		transform var(--transition-duration);
 
 	&::backdrop {
-		background-color: color-mix(in srgb, var(--color-bg) 85%, transparent);
+		background-color: color-mix(in srgb, var(--color-bg-fade) 85%, transparent);
 		backdrop-filter: blur(6px);
 		opacity: 0;
 		transition: opacity var(--transition-duration);

@@ -36,6 +36,6 @@
 		text-box: trim-both cap alphabetic;
 		text-align: center;
 		border-radius: var(--radius);
-		background-color: var(--color-bg);
+		background-color: var(--color-bg-fade);
 	}
 }

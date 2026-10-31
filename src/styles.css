@@ -26,19 +26,19 @@
 
 :root {
 	--color-fg: light-dark(oklch(22% 0.02 275deg), oklch(92% 0.008 285deg));
-	--color-bg-content: light-dark(
+	--color-bg: light-dark(
 		oklch(99% 0.005 65deg),
 		oklch(17% 0.008 285deg)
 	);
-	--color-bg: color-mix(in oklch, var(--color-bg-content) 98%, var(--color-fg));
+	--color-bg-fade: color-mix(in oklch, var(--color-bg) 98%, var(--color-fg));
 	--color-border: color-mix(
 		in oklch,
-		var(--color-bg-content) 88%,
+		var(--color-bg) 88%,
 		var(--color-fg)
 	);
 	--color-border-input: color-mix(
 		in oklch,
-		var(--color-bg-content) 66%,
+		var(--color-bg) 66%,
 		var(--color-fg)
 	);
 	--color-link: light-dark(oklch(50% 0.15 275deg), oklch(83% 0.08 285deg));
@@ -69,7 +69,7 @@
 
 ::selection {
 	background-color: var(--color-link);
-	color: var(--color-bg);
+	color: var(--color-bg-fade);
 }
 
 * {
@@ -91,7 +91,7 @@ html {
 		overflow: hidden;
 	}
 
-	background-color: var(--color-bg);
+	background-color: var(--color-bg-fade);
 	interpolate-size: allow-keywords;
 
 	/* i dont mind bounce on the edges, but this one
@@ -107,7 +107,7 @@ html {
 
 body {
 	color: var(--color-fg);
-	background-color: var(--color-bg);
+	background-color: var(--color-bg-fade);
 	font-family: "Noto Sans", sans-serif;
 	font-weight: 400;
 	font-style: normal;

@@ -2,7 +2,7 @@
 	display: grid;
 	grid-template-rows: auto 1fr;
 	width: min(100% - 1lh, 1400px);
-	background-color: var(--color-bg-content);
+	background-color: var(--color-bg);
 	margin-inline: auto;
 	box-shadow:
 		1px 0 0 var(--color-border),
@@ -106,7 +106,7 @@
 
 		& > div {
 			padding: 2rlh;
-			background-color: var(--color-bg-content);
+			background-color: var(--color-bg);
 		}
 	}
 
