@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Stack, Intro } from "#/components";
+import { Intro, Features } from "#/components";
 
 export const Route = createFileRoute("/_public/")({
 	component: App,
@@ -8,8 +8,9 @@ export const Route = createFileRoute("/_public/")({
 
 function App() {
 	return (
-		<Stack>
+		<div>
 			<Intro />
-		</Stack>
+			<Features />
+		</div>
 	);
 }

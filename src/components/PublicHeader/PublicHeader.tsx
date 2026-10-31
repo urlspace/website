@@ -11,20 +11,20 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 	function links(onNavigate?: () => void) {
 		return (
 			<>
-				<li>
-					<DashboardButtonLink
-						to="/docs"
-						onClick={onNavigate}
-						text="Documentation"
-					/>
-				</li>
-				<li>
-					<DashboardButtonLink
-						to="/pricing"
-						onClick={onNavigate}
-						text="Pricing"
-					/>
-				</li>
+				{/* <li> */}
+				{/* 	<DashboardButtonLink */}
+				{/* 		to="/docs" */}
+				{/* 		onClick={onNavigate} */}
+				{/* 		text="Documentation" */}
+				{/* 	/> */}
+				{/* </li> */}
+				{/* <li> */}
+				{/* 	<DashboardButtonLink */}
+				{/* 		to="/pricing" */}
+				{/* 		onClick={onNavigate} */}
+				{/* 		text="Pricing" */}
+				{/* 	/> */}
+				{/* </li> */}
 				{hasSession ? (
 					<li>
 						<DashboardButtonLink

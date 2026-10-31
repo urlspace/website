@@ -1,0 +1,45 @@
+.wrapper {
+	background-color: var(--color-bg-content);
+}
+
+.intro {
+	position: relative;
+	overflow: clip;
+	box-shadow: 0 1px 0 0 var(--color-border);
+	view-timeline: --intro;
+}
+
+.container {
+	padding-block: 3rlh;
+	margin-inline: auto;
+	width: min(100% - 2rlh, 1100px);
+
+	@media (width >= 900px) {
+		padding-block: 6rlh;
+	}
+}
+
+@keyframes parallax {
+	to {
+		transform: translateY(-8%);
+		opacity: 0;
+	}
+}
+
+.content {
+	@media (width >= 900px) {
+		width: calc(50% - 1rlh);
+	}
+}
+
+.boo {
+	padding-block: 3rlh;
+	display: grid;
+	gap: 1rlh;
+	background-color: var(--color-bg-content);
+
+	p {
+		margin-inline: auto;
+		width: min(100% - 2rlh, 700px);
+	}
+}

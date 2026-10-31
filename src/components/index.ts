@@ -17,6 +17,7 @@ import DashboardMenu from "./DashboardMenu/DashboardMenu.tsx";
 import DashboardNav from "./DashboardNav/DashboardNav.tsx";
 import Dialog from "./Dialog/Dialog.tsx";
 import Drawer from "./Drawer/Drawer.tsx";
+import Features from "./Features/Features.tsx";
 import Footer from "./Footer/Footer.tsx";
 import Form from "./Form/Form.tsx";
 import FormCollection from "./FormCollection/FormCollection.tsx";
@@ -66,6 +67,8 @@ export {
 	DashboardNav,
 	Dialog,
 	Drawer,
+	Features,
+	Footer,
 	Form,
 	FormCollection,
 	FormDeleteAccount,
@@ -89,7 +92,6 @@ export {
 	Page,
 	Pills,
 	Public,
-	Footer,
 	PublicHeader,
 	SettingsListAccount,
 	SettingsListSessions,
