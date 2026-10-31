@@ -1,5 +1,5 @@
 function Footer() {
-	return <p>footer</p>;
+	return <p>🐘💨</p>;
 }
 
 export default Footer;

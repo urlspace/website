@@ -1,4 +1,4 @@
-import { Heading, Stack } from "#/components";
+import { ButtonLink, Heading, Stack } from "#/components";
 
 import styles from "./Intro.module.css";
 
@@ -14,7 +14,7 @@ function Intro() {
 							and share links. Open source, no ads, no tracking, no AI. Free for
 							everyday use, unlimited for a small fee.
 						</p>
-						{/* <ButtonLink to="/auth/signup" text="Sign up for free" /> */}
+						<ButtonLink to="/auth/signup" text="Sign up for free" />
 					</Stack>
 				</div>
 			</div>

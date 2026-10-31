@@ -1,8 +1,16 @@
 .heading {
 	--bg-color: transparent;
 	--bg-s-size: 2px;
-	--bg-s-color-light: color-mix(in oklab, var(--color-bg-fade) 90%, var(--color-fg));
-	--bg-s-color-dark: color-mix(in oklab, var(--color-bg-fade) 90%, var(--color-fg));
+	--bg-s-color-light: color-mix(
+		in oklab,
+		var(--color-bg-fade) 90%,
+		var(--color-fg)
+	);
+	--bg-s-color-dark: color-mix(
+		in oklab,
+		var(--color-bg-fade) 90%,
+		var(--color-fg)
+	);
 	--bg-s-color: light-dark(var(--bg-s-color-light), var(--bg-s-color-dark));
 	--bg-size: 0.5lh;
 
@@ -41,17 +49,17 @@
 }
 
 .h1 {
-	font-size: 1.5lh;
+	font-size: 2.5rem;
 	line-height: 2lh;
 }
 
 .h2 {
-	font-size: 1.125lh;
+	font-size: 1.75rem;
 	line-height: 1.5lh;
 }
 
 .h3 {
-	font-size: 1lh;
+	font-size: 1.5rem;
 	line-height: 1.5lh;
 }
 

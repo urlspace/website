@@ -1,45 +1,22 @@
 .wrapper {
 	background-color: var(--color-bg);
-}
-
-.intro {
-	position: relative;
-	overflow: clip;
-	box-shadow: 0 1px 0 0 var(--color-border);
-	view-timeline: --intro;
-}
-
-.container {
 	padding-block: 3rlh;
+}
+
+.list {
 	margin-inline: auto;
-	width: min(100% - 2rlh, 1100px);
+	width: min(100% - 2rlh, 1300px);
+	display: grid;
+	gap: 2rlh;
 
 	@media (width >= 900px) {
-		padding-block: 6rlh;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
-@keyframes parallax {
-	to {
-		transform: translateY(-8%);
-		opacity: 0;
-	}
-}
-
-.content {
-	@media (width >= 900px) {
-		width: calc(50% - 1rlh);
-	}
-}
-
-.boo {
-	padding-block: 3rlh;
+.item {
 	display: grid;
 	gap: 1rlh;
-	background-color: var(--color-bg);
-
-	p {
-		margin-inline: auto;
-		width: min(100% - 2rlh, 700px);
-	}
+	align-items: start;
+	align-self: start;
 }

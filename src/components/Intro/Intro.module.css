@@ -8,7 +8,7 @@
 .container {
 	padding-block: 3rlh;
 	margin-inline: auto;
-	width: min(100% - 2rlh, 1100px);
+	width: min(100% - 2rlh, 1300px);
 
 	@media (width >= 900px) {
 		padding-block: 6rlh;
