@@ -24,8 +24,10 @@
 	}
 }
 
+.drawerNav {
+	padding: 1rlh;
+}
+
 .drawerList {
-	display: grid;
-	gap: 0.5lh;
 	list-style: none;
 }

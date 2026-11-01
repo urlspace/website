@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { DashboardButton, Drawer, Icon, Logo } from "../";
@@ -35,16 +36,20 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 					</li>
 				) : (
 					<>
-						{/* <li> */}
-						{/*   <Link to="/auth/signin" onClick={onNavigate}> */}
-						{/*     Sign in */}
-						{/*   </Link> */}
-						{/* </li> */}
-						{/* <li> */}
-						{/*   <Link to="/auth/signup" onClick={onNavigate}> */}
-						{/*     Sign up */}
-						{/*   </Link> */}
-						{/* </li> */}
+						<li>
+							<DashboardButtonLink
+								to="/auth/signin"
+								onClick={onNavigate}
+								text="Sign in"
+							/>
+						</li>
+						<li>
+							<DashboardButtonLink
+								to="/auth/signup"
+								onClick={onNavigate}
+								text="Sign up"
+							/>
+						</li>
 					</>
 				)}
 			</>
@@ -65,7 +70,7 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 				/>
 			</div>
 			<Drawer open={isNavOpen} onClose={() => setIsNavOpen(false)} title="Menu">
-				<nav aria-label="Main navigation">
+				<nav aria-label="Main navigation" className={styles.drawerNav}>
 					<ul className={styles.drawerList}>
 						{links(() => setIsNavOpen(false))}
 					</ul>

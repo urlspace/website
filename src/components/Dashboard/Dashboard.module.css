@@ -35,7 +35,7 @@
 	display: grid;
 	grid-template-columns: subgrid;
 	position: sticky;
-	top: -2.5lh;
+	top: -2.25lh;
 	align-items: center;
 
 	/* this is important
