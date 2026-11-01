@@ -44,13 +44,15 @@ function PageTools() {
 					<Stack gap={1}>
 						<Heading level={2} text="Import" />
 						<p>
-							Coming from Chrome, Firefox, Safari, Pinboard or somewhere else?
+							Import bookmarks from your browser or other bookmarking service.
 							Grab their HTML export (it's the{" "}
 							<a href="https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/aa753582(v=vs.85)">
 								Netscape Bookmark File Format
 							</a>
-							, which almost everything supports), pick the source below, and
-							your folders, tags and dates come along.
+							, which all of them support), pick the source below and import.
+							All your links, collections, tags and metadata will be imported
+							into your url.space account. Browsers can only export bookmarks on
+							desktop.
 						</p>
 						<FormImport />
 					</Stack>

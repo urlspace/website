@@ -56,6 +56,7 @@
 				true,
 				{
 					"ignoreProperties": [
+						"-webkit-box-decoration-break",
 						"-webkit-text-size-adjust",
 						"-webkit-user-select"
 					]

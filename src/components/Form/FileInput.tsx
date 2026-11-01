@@ -9,6 +9,7 @@ function FileInput({
 	description,
 	disabled,
 	label,
+	multiple,
 	name,
 	onChange,
 	required,
@@ -17,8 +18,9 @@ function FileInput({
 	description?: ReactNode;
 	disabled?: boolean;
 	label: string;
+	multiple?: boolean;
 	name: string;
-	onChange: (file: File | null) => void;
+	onChange: (files: Array<File>) => void;
 	required?: boolean;
 }) {
 	const { inputId, descriptionId, ariaDescribedBy, loading } = useFieldIds(
@@ -26,7 +28,7 @@ function FileInput({
 		!!description,
 	);
 	const isDisabled = disabled || loading;
-	const [fileName, setFileName] = useState<string | null>(null);
+	const [fileNames, setFileNames] = useState<Array<string>>([]);
 
 	return (
 		<div className={styles.field}>
@@ -47,11 +49,12 @@ function FileInput({
 					className={styles.fileInput}
 					disabled={isDisabled}
 					id={inputId}
+					multiple={multiple}
 					name={name}
 					onChange={(e) => {
-						const file = e.target.files?.[0] ?? null;
-						setFileName(file?.name ?? null);
-						onChange(file);
+						const files = Array.from(e.target.files ?? []);
+						setFileNames(files.map((file) => file.name));
+						onChange(files);
 					}}
 					required={required}
 					type="file"
@@ -60,7 +63,7 @@ function FileInput({
 					Choose file
 				</span>
 				<span aria-hidden="true" className={styles.fileName}>
-					{fileName ?? "No file chosen"}
+					{fileNames.length > 0 ? fileNames.join(", ") : "No file chosen"}
 				</span>
 			</div>
 

@@ -1,7 +1,7 @@
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { sources } from "#/parsers/index.ts";
+import { sources } from "#/parsers/index.tsx";
 import type { ParsedBookmarks, ParsedCollection } from "#/parsers/types.ts";
 import {
 	type CollectionRow,
@@ -26,22 +26,21 @@ function FormImport() {
 		data: { stats },
 	} = useSuspenseQuery(meQueryOptions);
 	const [sourceId, setSourceId] = useState("");
-	const [file, setFile] = useState<File | null>(null);
 	const [parsed, setParsed] = useState<ParsedBookmarks | null>(null);
 	const [imported, setImported] = useState<number | null>(null);
 
-	async function parse(id: string, selected: File | null) {
+	async function parse(id: string, selected: Array<File>) {
 		setImported(null);
 		const source = sources.find((s) => s.id === id);
-		if (!source || !selected) {
+		if (!source || selected.length === 0) {
 			setParsed(null);
 			return;
 		}
-		const [{ default: parser }, text] = await Promise.all([
+		const [{ default: parser }, texts] = await Promise.all([
 			source.load(),
-			selected.text(),
+			Promise.all(selected.map((file) => file.text())),
 		]);
-		setParsed(parser(text));
+		setParsed(mergeParsed(texts.map(parser)));
 	}
 
 	async function handleSubmit(
@@ -149,7 +148,7 @@ function FormImport() {
 				name="source"
 				onChange={(value) => {
 					setSourceId(value);
-					parse(value, file);
+					setParsed(null);
 				}}
 				value={sourceId}
 				options={[
@@ -172,11 +171,12 @@ function FormImport() {
 			) : null}
 			{sourceId ? (
 				<Form.FileInput
+					key={sourceId}
 					label="Bookmarks file"
 					name="file"
 					accept=".html,.htm,text/html"
+					multiple
 					onChange={(selected) => {
-						setFile(selected);
 						parse(sourceId, selected);
 					}}
 					required
@@ -254,6 +254,23 @@ const listFormat = new Intl.ListFormat("en-GB", {
 	style: "long",
 	type: "conjunction",
 });
+
+function mergeParsed(list: Array<ParsedBookmarks>): ParsedBookmarks {
+	const collections = new Map<string, ParsedCollection>();
+	for (const collection of list.flatMap((parsed) => parsed.collections)) {
+		const key = collection.name.toLowerCase();
+		if (!collections.has(key)) {
+			collections.set(key, collection);
+		}
+	}
+
+	return {
+		links: list.flatMap((parsed) => parsed.links),
+		collections: [...collections.values()],
+		tags: [...new Set(list.flatMap((parsed) => parsed.tags))],
+		skipped: list.flatMap((parsed) => parsed.skipped),
+	};
+}
 
 function withSlugs(
 	collections: Array<ParsedCollection>,
