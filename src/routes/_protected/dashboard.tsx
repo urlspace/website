@@ -129,6 +129,8 @@ export const Route = createFileRoute("/_protected/dashboard")({
 function PageDashboard() {
 	// tanstack stuff
 	const router = useRouter();
+	const navigate = Route.useNavigate();
+	const search = Route.useSearch();
 	const queryClient = useQueryClient();
 	const { user } = useRouteContext({ from: "/_protected" });
 	const { data: collections } = useSuspenseQuery(collectionsQueryOptions);
@@ -139,8 +141,8 @@ function PageDashboard() {
 
 	// filters
 	const [value, setValue] = useState<string>("");
-	const [favourite, setFavourite] = useState(false);
-	const [forLater, setForLater] = useState(false);
+	const favourite = search.favourite ?? false;
+	const forLater = search.forLater ?? false;
 	const [selectedTags, setSelectedTags] = useState<Array<string>>([]);
 	const [selectedCollection, setSelectedCollection] = useState<string | null>(
 		null,
@@ -172,6 +174,31 @@ function PageDashboard() {
 	const [criticalError, setCriticalError] = useState<string | null>(null);
 
 	const debouncedQuery = useDebouncedValue(value, 250, () => setPage(1));
+
+	function setFavourite(value: boolean) {
+		void navigate({
+			search: (prev) => ({ ...prev, favourite: value || undefined }),
+		});
+	}
+
+	function setForLater(value: boolean) {
+		void navigate({
+			search: (prev) => ({ ...prev, forLater: value || undefined }),
+		});
+	}
+
+	function clearFilters() {
+		void navigate({
+			search: (prev) => ({
+				...prev,
+				favourite: undefined,
+				forLater: undefined,
+			}),
+		});
+		setSelectedCollection(null);
+		setSelectedTags([]);
+		setPage(1);
+	}
 
 	function openAddLink() {
 		setFormKey((key) => key + 1);
@@ -441,13 +468,13 @@ function PageDashboard() {
 							setPage(1);
 						}}
 						favourite={favourite}
-						onFavouriteChange={(updater) => {
-							setFavourite(updater);
+						onFavouriteChange={(value) => {
+							setFavourite(value);
 							setPage(1);
 						}}
 						forLater={forLater}
-						onForLaterChange={(updater) => {
-							setForLater(updater);
+						onForLaterChange={(value) => {
+							setForLater(value);
 							setPage(1);
 						}}
 					/>
@@ -497,6 +524,7 @@ function PageDashboard() {
 					}}
 					onAddCollection={openAddCollection}
 					onAddLink={openAddLink}
+					onClearFilters={clearFilters}
 					setIsShortcutsOpen={setIsShortcutsOpen}
 					setSelectedCollection={(v) => {
 						setSelectedCollection(v);
@@ -527,11 +555,7 @@ function PageDashboard() {
 							</Dashboard.MainPillsContent>
 							<Dashboard.MainPillsButton
 								onClick={() => {
-									setFavourite(false);
-									setForLater(false);
-									setSelectedCollection(null);
-									setSelectedTags([]);
-									setPage(1);
+									clearFilters();
 								}}
 							/>
 						</>
@@ -579,20 +603,14 @@ function PageDashboard() {
 										query={debouncedQuery}
 										onEdit={openEditLink}
 										onTagClick={(tagId) => {
-											setFavourite(false);
-											setForLater(false);
-											setSelectedCollection(null);
+											clearFilters();
 											setSelectedTags([tagId]);
-											setPage(1);
 											(document.activeElement as HTMLElement | null)?.blur();
 											lastFocusedRef.current = null;
 										}}
 										onCollectionClick={(collectionId) => {
-											setFavourite(false);
-											setForLater(false);
+											clearFilters();
 											setSelectedCollection(collectionId);
-											setSelectedTags([]);
-											setPage(1);
 											(document.activeElement as HTMLElement | null)?.blur();
 											lastFocusedRef.current = null;
 										}}
@@ -655,6 +673,7 @@ function PageDashboard() {
 					}}
 					onAddCollection={openAddCollection}
 					onAddLink={openAddLink}
+					onClearFilters={clearFilters}
 					setIsShortcutsOpen={setIsShortcutsOpen}
 					setSelectedCollection={(v) => {
 						setSelectedCollection(v);

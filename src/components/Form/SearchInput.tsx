@@ -79,8 +79,8 @@ function SearchInput({
 	forLater: boolean;
 	label: string;
 	onEnter: () => void;
-	onFavouriteChange: React.Dispatch<React.SetStateAction<boolean>>;
-	onForLaterChange: React.Dispatch<React.SetStateAction<boolean>>;
+	onFavouriteChange: (value: boolean) => void;
+	onForLaterChange: (value: boolean) => void;
 	onSelectedCollectionChange: React.Dispatch<
 		React.SetStateAction<string | null>
 	>;

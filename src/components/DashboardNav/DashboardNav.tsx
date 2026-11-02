@@ -54,6 +54,7 @@ function DashboardNav({
 	setForLater,
 	onAddCollection,
 	onAddLink,
+	onClearFilters,
 	setIsShortcutsOpen,
 	setSelectedCollection,
 	setSelectedTags,
@@ -68,10 +69,11 @@ function DashboardNav({
 	onRenameTag: (tag: TagRow) => void;
 	selectedCollection: string | null;
 	selectedTags: string[];
-	setFavourite: React.Dispatch<React.SetStateAction<boolean>>;
-	setForLater: React.Dispatch<React.SetStateAction<boolean>>;
+	setFavourite: (value: boolean) => void;
+	setForLater: (value: boolean) => void;
 	onAddCollection: () => void;
 	onAddLink: () => void;
+	onClearFilters: () => void;
 	setIsShortcutsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	setSelectedCollection: React.Dispatch<React.SetStateAction<string | null>>;
 	setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
@@ -267,12 +269,7 @@ function DashboardNav({
 						<DashboardList.Li>
 							<DashboardButton
 								icon={<Icon.List />}
-								onClick={() => {
-									setFavourite(false);
-									setForLater(false);
-									setSelectedCollection(null);
-									setSelectedTags([]);
-								}}
+								onClick={onClearFilters}
 								text="All"
 							/>
 						</DashboardList.Li>
@@ -280,7 +277,7 @@ function DashboardNav({
 							<DashboardButton
 								ariaPressed={favourite}
 								icon={<Icon.Heart />}
-								onClick={() => setFavourite((prev) => !prev)}
+								onClick={() => setFavourite(!favourite)}
 								text="Favourite"
 							/>
 						</DashboardList.Li>
@@ -288,7 +285,7 @@ function DashboardNav({
 							<DashboardButton
 								ariaPressed={forLater}
 								icon={<Icon.Coffee />}
-								onClick={() => setForLater((prev) => !prev)}
+								onClick={() => setForLater(!forLater)}
 								text="For later"
 							/>
 						</DashboardList.Li>
