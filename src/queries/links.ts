@@ -1,4 +1,4 @@
-import { keepPreviousData, queryOptions } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
@@ -98,7 +98,6 @@ export const linksQueryOptions = (filters: LinkFilters) => {
 	return queryOptions({
 		queryKey: [...linksQueryKey, normalized],
 		queryFn: () => getLinks({ data: normalized }),
-		placeholderData: keepPreviousData,
 		staleTime: 5 * 60 * 1000,
 	});
 };

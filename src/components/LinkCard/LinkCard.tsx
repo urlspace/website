@@ -37,14 +37,12 @@ function LinkCard({
 	onTagClick,
 	onCollectionClick,
 	onEdit,
-	loading,
 	query,
 }: {
 	link: LinkRow;
 	onTagClick: (tagId: string) => void;
 	onCollectionClick: (collectionId: string) => void;
 	onEdit: (link: LinkRow) => void;
-	loading: boolean;
 	query: string;
 }) {
 	const queryClient = useQueryClient();
@@ -145,7 +143,7 @@ function LinkCard({
 	});
 
 	const { mutate: mutateDeleteLink } = deleteLink;
-	const isPending = updateLink.isPending || deleteLink.isPending || loading;
+	const isPending = updateLink.isPending || deleteLink.isPending;
 	const [isHolding, setIsHolding] = useState(false);
 	const [isHoldComplete, setIsHoldComplete] = useState(false);
 

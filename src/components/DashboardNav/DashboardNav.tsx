@@ -75,8 +75,8 @@ function DashboardNav({
 	onAddLink: () => void;
 	onClearFilters: () => void;
 	setIsShortcutsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	setSelectedCollection: React.Dispatch<React.SetStateAction<string | null>>;
-	setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
+	setSelectedCollection: (value: string | null) => void;
+	setSelectedTags: (value: string[]) => void;
 	tags: TagRow[];
 }) {
 	const queryClient = useQueryClient();
@@ -115,11 +115,14 @@ function DashboardNav({
 				throw new Error("Session expired.");
 			}
 
-			if (!res.ok)
+			if (!res.ok) {
 				throw new Error(`DELETE /collections/${id} failed: ${res.status}`);
+			}
 		},
 		onSuccess: async (_, { id, cascade }) => {
-			if (selectedCollection === id) setSelectedCollection(null);
+			if (selectedCollection === id) {
+				setSelectedCollection(null);
+			}
 			await Promise.all([
 				queryClient.invalidateQueries({
 					queryKey: collectionsQueryOptions.queryKey,
@@ -150,11 +153,14 @@ function DashboardNav({
 				throw new Error("Session expired.");
 			}
 
-			if (!res.ok) throw new Error(`DELETE /tags/${id} failed: ${res.status}`);
+			if (!res.ok) {
+				throw new Error(`DELETE /tags/${id} failed: ${res.status}`);
+			}
 		},
 		onSuccess: async (_, { id, cascade }) => {
-			if (selectedTags.includes(id))
-				setSelectedTags((prev) => prev.filter((t) => t !== id));
+			if (selectedTags.includes(id)) {
+				setSelectedTags(selectedTags.filter((t) => t !== id));
+			}
 			await Promise.all([
 				cascade
 					? queryClient.invalidateQueries({
@@ -319,8 +325,8 @@ function DashboardNav({
 															c.public ? <Icon.FolderPublic /> : <Icon.Folder />
 														}
 														onClick={() =>
-															setSelectedCollection((prev) =>
-																prev === c.id ? null : c.id,
+															setSelectedCollection(
+																selectedCollection === c.id ? null : c.id,
 															)
 														}
 														ariaPressed={selectedCollection === c.id}
@@ -378,8 +384,8 @@ function DashboardNav({
 															c.public ? <Icon.FolderPublic /> : <Icon.Folder />
 														}
 														onClick={() =>
-															setSelectedCollection((prev) =>
-																prev === c.id ? null : c.id,
+															setSelectedCollection(
+																selectedCollection === c.id ? null : c.id,
 															)
 														}
 														ariaPressed={selectedCollection === c.id}
@@ -451,10 +457,10 @@ function DashboardNav({
 												<DashboardButton
 													icon={<Icon.Tag />}
 													onClick={() =>
-														setSelectedTags((prev) =>
-															prev.includes(t.id)
-																? prev.filter((id) => id !== t.id)
-																: [...prev, t.id],
+														setSelectedTags(
+															selectedTags.includes(t.id)
+																? selectedTags.filter((id) => id !== t.id)
+																: [...selectedTags, t.id],
 														)
 													}
 													ariaPressed={selectedTags.includes(t.id)}

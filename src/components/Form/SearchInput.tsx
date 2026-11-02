@@ -81,10 +81,8 @@ function SearchInput({
 	onEnter: () => void;
 	onFavouriteChange: (value: boolean) => void;
 	onForLaterChange: (value: boolean) => void;
-	onSelectedCollectionChange: React.Dispatch<
-		React.SetStateAction<string | null>
-	>;
-	onSelectedTagsChange: React.Dispatch<React.SetStateAction<string[]>>;
+	onSelectedCollectionChange: (value: string | null) => void;
+	onSelectedTagsChange: (value: string[]) => void;
 	onValueChange: (v: string) => void;
 	placeholder: string;
 	selectedTags: string[];
@@ -161,8 +159,10 @@ function SearchInput({
 		const nextRaw = parsed.freeText;
 		updateRawAndValue(nextRaw);
 		if (parsed.mode === "tag") {
-			onSelectedTagsChange((prev) =>
-				prev.includes(item.id) ? prev : [...prev, item.id],
+			onSelectedTagsChange(
+				selectedTags.includes(item.id)
+					? selectedTags
+					: [...selectedTags, item.id],
 			);
 		} else if (parsed.mode === "col") {
 			onSelectedCollectionChange(item.id);

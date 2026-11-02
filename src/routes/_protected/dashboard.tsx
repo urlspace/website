@@ -3,12 +3,7 @@ import {
 	useQueryClient,
 	useSuspenseQuery,
 } from "@tanstack/react-query";
-import {
-	createFileRoute,
-	redirect,
-	useRouteContext,
-	useRouter,
-} from "@tanstack/react-router";
+import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
 import {
@@ -71,8 +66,10 @@ export const Route = createFileRoute("/_protected/dashboard")({
 		favourite: search.favourite === true ? true : undefined,
 		forLater: search.forLater === true ? true : undefined,
 		page:
-			Number.isInteger(search.page) && (search.page as number) > 1
-				? (search.page as number)
+			typeof search.page === "number" &&
+			Number.isInteger(search.page) &&
+			search.page > 1
+				? search.page
 				: undefined,
 	}),
 	loaderDeps: ({ search }) => search,
@@ -132,24 +129,20 @@ function PageDashboard() {
 	const navigate = Route.useNavigate();
 	const search = Route.useSearch();
 	const queryClient = useQueryClient();
-	const { user } = useRouteContext({ from: "/_protected" });
+	const { data: user } = useSuspenseQuery(meQueryOptions);
 	const { data: collections } = useSuspenseQuery(collectionsQueryOptions);
 	const { data: tags } = useSuspenseQuery(tagsQueryOptions);
-	const {
-		data: { stats },
-	} = useSuspenseQuery(meQueryOptions);
 
 	// filters
-	const [value, setValue] = useState<string>("");
+	const query = search.query ?? "";
+	const [value, setValue] = useState(query);
 	const favourite = search.favourite ?? false;
 	const forLater = search.forLater ?? false;
-	const [selectedTags, setSelectedTags] = useState<Array<string>>([]);
-	const [selectedCollection, setSelectedCollection] = useState<string | null>(
-		null,
-	);
+	const selectedTags = search.tagIds ?? [];
+	const selectedCollection = search.collectionId ?? null;
 
 	// pagination
-	const [page, setPage] = useState(1);
+	const page = search.page ?? 1;
 
 	// mobile nav
 	const [isNavOpen, setIsNavOpen] = useState(false);
@@ -173,31 +166,82 @@ function PageDashboard() {
 	const signingOut = useRef(false);
 	const [criticalError, setCriticalError] = useState<string | null>(null);
 
-	const debouncedQuery = useDebouncedValue(value, 250, () => setPage(1));
+	const debouncedValue = useDebouncedValue(value, 250, (settled) => {
+		const next = settled.trim();
+		if (next === query) {
+			return;
+		}
+		void navigate({
+			search: (prev) => ({
+				...prev,
+				query: next || undefined,
+				page: undefined,
+			}),
+			replace: true,
+		});
+	});
+
+	// Back/Forward can change the URL query while the input still shows the old
+	// text. Our own debounced writes match debouncedValue, so they're skipped
+	// and don't overwrite characters typed in the meantime.
+	const [prevQuery, setPrevQuery] = useState(query);
+	if (query !== prevQuery) {
+		setPrevQuery(query);
+		if (query !== debouncedValue.trim()) {
+			setValue(query);
+		}
+	}
 
 	function setFavourite(value: boolean) {
 		void navigate({
-			search: (prev) => ({ ...prev, favourite: value || undefined }),
+			search: (prev) => ({
+				...prev,
+				favourite: value || undefined,
+				page: undefined,
+			}),
 		});
 	}
 
 	function setForLater(value: boolean) {
 		void navigate({
-			search: (prev) => ({ ...prev, forLater: value || undefined }),
+			search: (prev) => ({
+				...prev,
+				forLater: value || undefined,
+				page: undefined,
+			}),
+		});
+	}
+
+	function setSelectedCollection(value: string | null) {
+		void navigate({
+			search: (prev) => ({
+				...prev,
+				collectionId: value ?? undefined,
+				page: undefined,
+			}),
+		});
+	}
+
+	function setSelectedTags(value: Array<string>) {
+		void navigate({
+			search: (prev) => ({
+				...prev,
+				tagIds: value.length > 0 ? value : undefined,
+				page: undefined,
+			}),
 		});
 	}
 
 	function clearFilters() {
 		void navigate({
-			search: (prev) => ({
-				...prev,
-				favourite: undefined,
-				forLater: undefined,
-			}),
+			search: (prev) => ({ query: prev.query }),
 		});
-		setSelectedCollection(null);
-		setSelectedTags([]);
-		setPage(1);
+	}
+
+	function setPage(value: number) {
+		void navigate({
+			search: (prev) => ({ ...prev, page: value > 1 ? value : undefined }),
+		});
 	}
 
 	function openAddLink() {
@@ -228,17 +272,8 @@ function PageDashboard() {
 		setIsEditTagOpen(true);
 	}
 
-	const filters: LinkFilters = {
-		page,
-		...(debouncedQuery && { query: debouncedQuery }),
-		...(selectedCollection && { collectionId: selectedCollection }),
-		...(selectedTags.length > 0 && { tagIds: selectedTags }),
-		...(favourite && { favourite: true as const }),
-		...(forLater && { forLater: true as const }),
-	};
-
-	const { data: linksResponse, isPlaceholderData } = useQuery(
-		linksQueryOptions(filters),
+	const { data: linksResponse, isPending } = useQuery(
+		linksQueryOptions({ ...search, page }),
 	);
 	const links = linksResponse?.data ?? [];
 
@@ -246,10 +281,10 @@ function PageDashboard() {
 
 	// Used by Enter in search and the "Skip to results" link to jump straight to
 	// the first result, skipping the sidebar in tab order. Ignored while a search
-	// is in flight (debounce pending or placeholder data shown), otherwise focus
+	// is in flight (debounce pending or results loading), otherwise focus
 	// would land on a stale result that unmounts when data arrives.
 	function focusFirstResult() {
-		if (debouncedQuery !== value || isPlaceholderData) {
+		if (query !== value.trim() || isPending) {
 			return;
 		}
 		linksRef.current?.querySelector<HTMLElement>("li a[href]")?.focus();
@@ -332,7 +367,7 @@ function PageDashboard() {
 	const totalPages = linksResponse?.pagination.totalPages;
 	const linkResponseMs = linksResponse?.meta.durationMs;
 
-	const newAccount = stats.linksCount === 0;
+	const newAccount = user.stats.linksCount === 0;
 
 	// Any change to what defines the list lands the user at its top, no matter
 	// where the change came from. Skips the first render so it never fights the
@@ -345,7 +380,7 @@ function PageDashboard() {
 			return;
 		}
 		window.scrollTo({ top: 0, behavior: "instant" });
-	}, [debouncedQuery, selectedCollection, tagsKey, favourite, forLater, page]);
+	}, [query, selectedCollection, tagsKey, favourite, forLater, page]);
 
 	const lastFocusedRef = useRef<{ id: string; index: number } | null>(null);
 
@@ -359,7 +394,11 @@ function PageDashboard() {
 	// is still in the list, since nothing needs restoring.
 	useEffect(() => {
 		const last = lastFocusedRef.current;
-		if (!last || editingLink || links.some((link) => link.id === last.id)) {
+		if (
+			!last ||
+			editingLink ||
+			linksResponse?.data.some((link) => link.id === last.id)
+		) {
 			return;
 		}
 		if (document.activeElement && document.activeElement !== document.body) {
@@ -368,10 +407,12 @@ function PageDashboard() {
 		const titles = getTitles(linksRef.current);
 		lastFocusedRef.current = null;
 		titles[Math.min(last.index, titles.length - 1)]?.focus();
-	}, [links, editingLink]);
+	}, [linksResponse, editingLink]);
 
 	async function handleSignOut() {
-		if (signingOut.current) return;
+		if (signingOut.current) {
+			return;
+		}
 		signingOut.current = true;
 		setCriticalError(null);
 
@@ -434,16 +475,10 @@ function PageDashboard() {
 			id: `tag:${id}`,
 			label: `#${tags.find((tag) => tag.id === id)?.name ?? id}`,
 			onRemove: () => {
-				setSelectedTags((selected) => selected.filter((tag) => tag !== id));
+				setSelectedTags(selectedTags.filter((tag) => tag !== id));
 			},
 		})),
-	].map((pill) => ({
-		...pill,
-		onRemove: () => {
-			pill.onRemove();
-			setPage(1);
-		},
-	}));
+	];
 
 	return (
 		<Dashboard>
@@ -459,24 +494,12 @@ function PageDashboard() {
 						tags={tags}
 						collections={collections}
 						selectedTags={selectedTags}
-						onSelectedTagsChange={(updater) => {
-							setSelectedTags(updater);
-							setPage(1);
-						}}
-						onSelectedCollectionChange={(updater) => {
-							setSelectedCollection(updater);
-							setPage(1);
-						}}
+						onSelectedTagsChange={setSelectedTags}
+						onSelectedCollectionChange={setSelectedCollection}
 						favourite={favourite}
-						onFavouriteChange={(value) => {
-							setFavourite(value);
-							setPage(1);
-						}}
+						onFavouriteChange={setFavourite}
 						forLater={forLater}
-						onForLaterChange={(value) => {
-							setForLater(value);
-							setPage(1);
-						}}
+						onForLaterChange={setForLater}
 					/>
 					<Dashboard.HeaderTrigger>
 						<DashboardButton
@@ -514,26 +537,14 @@ function PageDashboard() {
 					onRenameTag={openEditTag}
 					selectedCollection={selectedCollection}
 					selectedTags={selectedTags}
-					setFavourite={(v) => {
-						setFavourite(v);
-						setPage(1);
-					}}
-					setForLater={(v) => {
-						setForLater(v);
-						setPage(1);
-					}}
+					setFavourite={setFavourite}
+					setForLater={setForLater}
 					onAddCollection={openAddCollection}
 					onAddLink={openAddLink}
 					onClearFilters={clearFilters}
 					setIsShortcutsOpen={setIsShortcutsOpen}
-					setSelectedCollection={(v) => {
-						setSelectedCollection(v);
-						setPage(1);
-					}}
-					setSelectedTags={(v) => {
-						setSelectedTags(v);
-						setPage(1);
-					}}
+					setSelectedCollection={setSelectedCollection}
+					setSelectedTags={setSelectedTags}
 					tags={tags}
 				/>
 			</Dashboard.Filters>
@@ -553,11 +564,7 @@ function PageDashboard() {
 							<Dashboard.MainPillsContent>
 								<Pills items={filterPills} noWrap />
 							</Dashboard.MainPillsContent>
-							<Dashboard.MainPillsButton
-								onClick={() => {
-									clearFilters();
-								}}
-							/>
+							<Dashboard.MainPillsButton onClick={clearFilters} />
 						</>
 					) : null}
 				</Dashboard.MainPills>
@@ -574,7 +581,9 @@ function PageDashboard() {
 				) : null}
 
 				<Dashboard.MainLinks ref={linksRef}>
-					{links.length ? (
+					{isPending ? (
+						<p>Loading...</p>
+					) : links.length ? (
 						<Dashboard.MainLinksList>
 							{links.map((link, index) => (
 								<li
@@ -599,18 +608,22 @@ function PageDashboard() {
 								>
 									<LinkCard
 										link={link}
-										loading={isPlaceholderData}
-										query={debouncedQuery}
+										query={query}
 										onEdit={openEditLink}
 										onTagClick={(tagId) => {
-											clearFilters();
-											setSelectedTags([tagId]);
+											void navigate({
+												search: (prev) => ({
+													query: prev.query,
+													tagIds: [tagId],
+												}),
+											});
 											(document.activeElement as HTMLElement | null)?.blur();
 											lastFocusedRef.current = null;
 										}}
 										onCollectionClick={(collectionId) => {
-											clearFilters();
-											setSelectedCollection(collectionId);
+											void navigate({
+												search: (prev) => ({ query: prev.query, collectionId }),
+											});
 											(document.activeElement as HTMLElement | null)?.blur();
 											lastFocusedRef.current = null;
 										}}
@@ -663,26 +676,14 @@ function PageDashboard() {
 					onRenameTag={openEditTag}
 					selectedCollection={selectedCollection}
 					selectedTags={selectedTags}
-					setFavourite={(v) => {
-						setFavourite(v);
-						setPage(1);
-					}}
-					setForLater={(v) => {
-						setForLater(v);
-						setPage(1);
-					}}
+					setFavourite={setFavourite}
+					setForLater={setForLater}
 					onAddCollection={openAddCollection}
 					onAddLink={openAddLink}
 					onClearFilters={clearFilters}
 					setIsShortcutsOpen={setIsShortcutsOpen}
-					setSelectedCollection={(v) => {
-						setSelectedCollection(v);
-						setPage(1);
-					}}
-					setSelectedTags={(v) => {
-						setSelectedTags(v);
-						setPage(1);
-					}}
+					setSelectedCollection={setSelectedCollection}
+					setSelectedTags={setSelectedTags}
 					tags={tags}
 				/>
 			</Drawer>
