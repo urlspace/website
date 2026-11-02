@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-query";
 import {
 	createFileRoute,
+	redirect,
 	useRouteContext,
 	useRouter,
 } from "@tanstack/react-router";
@@ -39,9 +40,9 @@ import {
 import {
 	type LinkFilters,
 	type LinkRow,
-	type LinksResponse,
 	linksQueryOptions,
 } from "#/queries/links.ts";
+import { meQueryOptions } from "#/queries/me.ts";
 import { clearSession } from "#/queries/session.ts";
 import { type TagRow, tagsQueryOptions } from "#/queries/tags.ts";
 
@@ -51,19 +52,76 @@ function getTitles(container: HTMLElement | null) {
 	return [...(container?.querySelectorAll<HTMLElement>("article h2 a") ?? [])];
 }
 
+type DashboardSearch = Omit<LinkFilters, "page"> & { page?: number };
+
 export const Route = createFileRoute("/_protected/dashboard")({
-	loader: async ({ context }) => {
-		await Promise.all([
-			context.queryClient.query({
-				...linksQueryOptions({ page: 1 }),
-				staleTime: "static",
-			}),
+	validateSearch: (search: Record<string, unknown>): DashboardSearch => ({
+		query:
+			typeof search.query === "string" || typeof search.query === "number"
+				? String(search.query).trim() || undefined
+				: undefined,
+		collectionId:
+			typeof search.collectionId === "string" ? search.collectionId : undefined,
+		tagIds:
+			Array.isArray(search.tagIds) &&
+			search.tagIds.length > 0 &&
+			search.tagIds.every((id) => typeof id === "string")
+				? search.tagIds
+				: undefined,
+		favourite: search.favourite === true ? true : undefined,
+		forLater: search.forLater === true ? true : undefined,
+		page:
+			Number.isInteger(search.page) && (search.page as number) > 1
+				? (search.page as number)
+				: undefined,
+	}),
+	loaderDeps: ({ search }) => search,
+	loader: async ({ context, deps, cause }) => {
+		const [collections, tags] = await Promise.all([
 			context.queryClient.query({
 				...collectionsQueryOptions,
 				staleTime: "static",
 			}),
 			context.queryClient.query({ ...tagsQueryOptions, staleTime: "static" }),
 		]);
+
+		const isCollectionInvalid =
+			deps.collectionId !== undefined &&
+			!collections.some((c) => c.id === deps.collectionId);
+		const validTagIds = deps.tagIds?.filter((id) =>
+			tags.some((t) => t.id === id),
+		);
+		const hasInvalidTags = validTagIds?.length !== deps.tagIds?.length;
+
+		if (isCollectionInvalid || hasInvalidTags) {
+			throw redirect({
+				to: "/dashboard",
+				search: {
+					...deps,
+					collectionId: isCollectionInvalid ? undefined : deps.collectionId,
+					tagIds: validTagIds?.length ? validTagIds : undefined,
+					page: undefined,
+				},
+				replace: true,
+			});
+		}
+
+		if (cause === "stay") {
+			return;
+		}
+
+		const links = await context.queryClient.query({
+			...linksQueryOptions({ ...deps, page: deps.page ?? 1 }),
+			staleTime: "static",
+		});
+
+		if (deps.page && deps.page > links.pagination.totalPages) {
+			throw redirect({
+				to: "/dashboard",
+				search: { ...deps, page: undefined },
+				replace: true,
+			});
+		}
 	},
 	component: PageDashboard,
 });
@@ -75,6 +133,9 @@ function PageDashboard() {
 	const { user } = useRouteContext({ from: "/_protected" });
 	const { data: collections } = useSuspenseQuery(collectionsQueryOptions);
 	const { data: tags } = useSuspenseQuery(tagsQueryOptions);
+	const {
+		data: { stats },
+	} = useSuspenseQuery(meQueryOptions);
 
 	// filters
 	const [value, setValue] = useState<string>("");
@@ -244,12 +305,7 @@ function PageDashboard() {
 	const totalPages = linksResponse?.pagination.totalPages;
 	const linkResponseMs = linksResponse?.meta.durationMs;
 
-	// Empty payload can mean a brand-new account or filters with no matches.
-	// Read the loader's unfiltered cache to tell them apart.
-	const newAccount =
-		(queryClient.getQueryData<LinksResponse>(
-			linksQueryOptions({ page: 1 }).queryKey,
-		)?.pagination.totalCount ?? 0) === 0;
+	const newAccount = stats.linksCount === 0;
 
 	// Any change to what defines the list lands the user at its top, no matter
 	// where the change came from. Skips the first render so it never fights the
