@@ -1,12 +1,11 @@
 {
+	"id": "/",
 	"short_name": "url.space",
-	"name": "Keep, organise and share websites you like.",
+	"name": "url.space",
+	"description": "Keep, organise and share websites you like.",
+	"lang": "en",
+	"categories": ["productivity", "utilities"],
 	"icons": [
-		{
-			"src": "favicon.ico",
-			"sizes": "32x32",
-			"type": "image/x-icon"
-		},
 		{
 			"src": "logo192.png",
 			"type": "image/png",
@@ -16,10 +15,17 @@
 			"src": "logo512.png",
 			"type": "image/png",
 			"sizes": "512x512"
+		},
+		{
+			"src": "logo512.png",
+			"type": "image/png",
+			"sizes": "512x512",
+			"purpose": "maskable"
 		}
 	],
-	"start_url": ".",
+	"start_url": "/dashboard",
+	"scope": "/",
 	"display": "standalone",
-	"theme_color": "#000000",
-	"background_color": "#ffffff"
+	"theme_color": "#4D57B7",
+	"background_color": "#4D57B7"
 }

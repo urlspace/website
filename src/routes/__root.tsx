@@ -66,6 +66,16 @@ export const Route = createRootRouteWithContext<{
 				content: "light dark",
 			},
 			{
+				name: "theme-color",
+				content: "#fefbf8",
+				media: "(prefers-color-scheme: light)",
+			},
+			{
+				name: "theme-color",
+				content: "#0f0f13",
+				media: "(prefers-color-scheme: dark)",
+			},
+			{
 				property: "og:title",
 				content:
 					"url.space | A bookmarking service for people who love the web.",
@@ -130,6 +140,10 @@ export const Route = createRootRouteWithContext<{
 			{
 				rel: "apple-touch-icon",
 				href: "/apple-touch-icon.png",
+			},
+			{
+				rel: "manifest",
+				href: "/manifest.json",
 			},
 		],
 	}),
