@@ -48,6 +48,10 @@
 	transition: outline-color var(--transition-duration);
 	border-radius: var(--radius);
 
+	@media (prefers-color-scheme: dark) {
+		background-color: var(--color-bg-fade);
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		transition: none;
 	}
@@ -137,6 +141,10 @@
 	outline: 1px solid var(--outline-color);
 	border-radius: var(--radius);
 
+	@media (prefers-color-scheme: dark) {
+		background-color: var(--color-bg-fade);
+	}
+
 	&:has(.fileInput:focus-visible) {
 		--outline-color: var(--color-fg);
 
@@ -217,6 +225,10 @@
 	border-radius: var(--radius);
 	border: 1px solid var(--color-border-input);
 	outline-offset: 2px;
+
+	@media (prefers-color-scheme: dark) {
+		background-color: var(--color-bg-fade);
+	}
 
 	&:checked {
 		background-color: var(--color-link);
@@ -308,6 +320,10 @@
 	transition: outline-color var(--transition-duration);
 	border-radius: var(--radius);
 
+	@media (prefers-color-scheme: dark) {
+		background-color: var(--color-bg-fade);
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		transition: none;
 	}
@@ -354,6 +370,9 @@
 
 	kbd {
 		font: inherit;
+		background-color: inherit;
+		line-height: 0.5rlh;
+		display: inline-block;
 	}
 }
 

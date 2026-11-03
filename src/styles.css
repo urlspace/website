@@ -27,7 +27,10 @@
 :root {
 	--color-fg: light-dark(oklch(22% 0.02 275deg), oklch(92% 0.008 285deg));
 	--color-bg: light-dark(oklch(99% 0.005 65deg), oklch(17% 0.008 285deg));
-	--color-bg-fade: color-mix(in oklch, var(--color-bg) 98%, var(--color-fg));
+	--color-bg-fade: light-dark(
+		color-mix(in oklch, var(--color-bg) 97%, var(--color-fg)),
+		color-mix(in oklch, var(--color-bg) 95%, var(--color-fg))
+	);
 	--color-border: color-mix(in oklch, var(--color-bg) 88%, var(--color-fg));
 	--color-border-input: color-mix(
 		in oklch,
