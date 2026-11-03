@@ -199,6 +199,7 @@ function PageDashboard() {
 				favourite: value || undefined,
 				page: undefined,
 			}),
+			replace: true,
 		});
 	}
 
@@ -209,6 +210,7 @@ function PageDashboard() {
 				forLater: value || undefined,
 				page: undefined,
 			}),
+			replace: true,
 		});
 	}
 
@@ -219,6 +221,7 @@ function PageDashboard() {
 				collectionId: value ?? undefined,
 				page: undefined,
 			}),
+			replace: true,
 		});
 	}
 
@@ -229,18 +232,21 @@ function PageDashboard() {
 				tagIds: value.length > 0 ? value : undefined,
 				page: undefined,
 			}),
+			replace: true,
 		});
 	}
 
 	function clearFilters() {
 		void navigate({
 			search: (prev) => ({ query: prev.query }),
+			replace: true,
 		});
 	}
 
 	function setPage(value: number) {
 		void navigate({
 			search: (prev) => ({ ...prev, page: value > 1 ? value : undefined }),
+			replace: true,
 		});
 	}
 
@@ -616,6 +622,7 @@ function PageDashboard() {
 													query: prev.query,
 													tagIds: [tagId],
 												}),
+												replace: true,
 											});
 											(document.activeElement as HTMLElement | null)?.blur();
 											lastFocusedRef.current = null;
@@ -623,6 +630,7 @@ function PageDashboard() {
 										onCollectionClick={(collectionId) => {
 											void navigate({
 												search: (prev) => ({ query: prev.query, collectionId }),
+												replace: true,
 											});
 											(document.activeElement as HTMLElement | null)?.blur();
 											lastFocusedRef.current = null;
