@@ -3,10 +3,12 @@ import styles from "./Heading.module.css";
 function Heading({
 	level,
 	text,
+	id,
 	bg = "bg-content",
 }: {
 	level: 1 | 2 | 3 | 4 | 5 | 6;
 	text: string;
+	id?: string;
 	bg?: "bg" | "bg-content";
 }) {
 	const Tag = `h${level}` as const;
@@ -14,6 +16,7 @@ function Heading({
 	return (
 		<div className={styles.heading}>
 			<Tag
+				id={id}
 				className={`${styles.inner} ${styles[Tag]} ${bg === "bg" ? styles.bg : styles.bgContent}`}
 			>
 				{text}
