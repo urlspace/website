@@ -1,13 +1,23 @@
 .logo {
+	width: min-content;
+	inline-size: 1rlh;
+	block-size: 1rlh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.25rlh;
+	margin-inline-start: -0.25rlh;
 	color: var(--color-fg);
-	font-weight: 900;
-	font-size: 1.5rem;
-	text-decoration-thickness: 3px;
-	text-underline-offset: 0;
-	line-height: 1rlh;
+
+	& svg {
+		display: block;
+		inline-size: 0.5rlh;
+		block-size: 0.5rlh;
+	}
 
 	&:focus-visible {
-		color: var(--color-link);
-		outline: none;
+		outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
+		outline-offset: 2px;
+		border-radius: var(--radius);
 	}
 }
