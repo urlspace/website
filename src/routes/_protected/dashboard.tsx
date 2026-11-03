@@ -516,15 +516,22 @@ function PageDashboard() {
 					</Dashboard.HeaderTrigger>
 				</Dashboard.HeaderSearch>
 				<Dashboard.HeaderActions>
-					<DashboardButton
-						icon={<Icon.Plus />}
-						onClick={openAddLink}
-						text="Add link"
-					/>
+					<Dashboard.StandaloneOnly>
+						<DashboardButton
+							icon={<Icon.Refresh />}
+							onClick={() => window.location.reload()}
+							text="Refresh"
+						/>
+					</Dashboard.StandaloneOnly>
 					<DashboardButton
 						icon={<Icon.Plus />}
 						onClick={openAddCollection}
 						text="Add collection"
+					/>
+					<DashboardButton
+						icon={<Icon.Plus />}
+						onClick={openAddLink}
+						text="Add link"
 					/>
 				</Dashboard.HeaderActions>
 			</Dashboard.Header>

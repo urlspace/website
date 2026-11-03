@@ -15,6 +15,10 @@ function DashboardHeaderActions({ children }: { children: React.ReactNode }) {
 	return <div className={styles.headerActions}>{children}</div>;
 }
 
+function DashboardStandaloneOnly({ children }: { children: React.ReactNode }) {
+	return <div className={styles.standaloneOnly}>{children}</div>;
+}
+
 function DashboardHeaderSearch({ children }: { children: React.ReactNode }) {
 	return <div className={styles.headerSearch}>{children}</div>;
 }
@@ -151,6 +155,7 @@ function DashboardMainPagination({ children }: { children: React.ReactNode }) {
 
 Dashboard.Header = DashboardHeader;
 Dashboard.HeaderActions = DashboardHeaderActions;
+Dashboard.StandaloneOnly = DashboardStandaloneOnly;
 Dashboard.HeaderSearch = DashboardHeaderSearch;
 Dashboard.HeaderTrigger = DashboardHeaderFiltersTrigger;
 

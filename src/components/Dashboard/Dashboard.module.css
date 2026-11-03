@@ -65,6 +65,18 @@
 		grid-column: 5 / 6;
 		order: 3;
 	}
+
+	@media (display-mode: standalone) and (width < 500px) {
+		gap: 0.25rlh;
+	}
+}
+
+.standaloneOnly {
+	display: none;
+
+	@media (display-mode: standalone) {
+		display: contents;
+	}
 }
 
 .headerSearch {
