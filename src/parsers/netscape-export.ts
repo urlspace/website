@@ -54,7 +54,7 @@ export default function buildNetscape(
 	);
 	const collections = new Map<
 		string,
-		{ name: string; slug: string; description: string; links: Array<LinkRow> }
+		{ name: string; description: string; links: Array<LinkRow> }
 	>();
 	const loose: Array<LinkRow> = [];
 
@@ -70,7 +70,6 @@ export default function buildNetscape(
 			const row = collectionsById.get(link.collection.id);
 			collections.set(link.collection.id, {
 				name: link.collection.name,
-				slug: row?.slug ?? "",
 				description: row?.description ?? "",
 				links: [link],
 			});
@@ -80,9 +79,7 @@ export default function buildNetscape(
 	const body = [
 		...[...collections.values()].map((collection) =>
 			[
-				collection.slug
-					? `    <DT><H3 SLUG="${escapeHtml(collection.slug)}">${escapeHtml(collection.name)}</H3>`
-					: `    <DT><H3>${escapeHtml(collection.name)}</H3>`,
+				`    <DT><H3>${escapeHtml(collection.name)}</H3>`,
 				...(collection.description
 					? [`    <DD>${escapeHtml(collection.description)}`]
 					: []),

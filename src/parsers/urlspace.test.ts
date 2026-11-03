@@ -107,14 +107,13 @@ describe("url.space export round-trip", () => {
 		);
 	});
 
-	test("collections keep name, slug and description", () => {
+	test("collections keep name and description", () => {
 		expect(parsed.collections).toEqual([
 			{
 				name: "Reading & <Notes>",
-				slug: "reading-notes",
 				description: 'Long "reads" & more',
 			},
-			{ name: "Tools", slug: "tools-x1", description: "" },
+			{ name: "Tools", description: "" },
 		]);
 	});
 
@@ -130,10 +129,5 @@ describe("url.space export round-trip", () => {
 		expect(parseUrlspace(html).links[0].createdAt).toBe(
 			"2024-03-01T10:20:30.000Z",
 		);
-	});
-
-	test("invalid slugs are dropped", () => {
-		const html = `<DL><p><DT><H3 SLUG="Not a slug">Folder</H3><DL><p><DT><A HREF="https://example.com/">Example</A></DL><p></DL><p>`;
-		expect(parseUrlspace(html).collections[0].slug).toBeUndefined();
 	});
 });

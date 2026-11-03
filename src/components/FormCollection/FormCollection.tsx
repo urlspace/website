@@ -57,10 +57,12 @@ function FormCollection({
 	const [publicCollection, setPublicCollection] = useState(
 		canPublish ? (collection?.public ?? false) : false,
 	);
-	// New collections suggest a slug from the name until it's edited. Existing
-	// ones keep theirs, since it may be in links already shared.
-	const [slug, setSlug] = useState(collection?.slug ?? "");
-	const [isSlugEdited, setIsSlugEdited] = useState(isEdit);
+	const isPublic = canPublish && publicCollection;
+	// Public collections keep their slug, since it may be in links already
+	// shared. Everything else suggests one from the name until it's edited.
+	// Private collections get a random slug on save.
+	const [slug, setSlug] = useState(collection?.public ? collection.slug : "");
+	const [isSlugEdited, setIsSlugEdited] = useState(collection?.public ?? false);
 	const slugValue = isSlugEdited ? slug : slugify(name);
 	const [savedUrl, setSavedUrl] = useState<string | null>(null);
 
@@ -99,6 +101,7 @@ function FormCollection({
 		}
 
 		if (
+			isPublic &&
 			collections.some(
 				(c) => c.id !== collection?.id && c.slug === slugValue.trim(),
 			)
@@ -121,8 +124,8 @@ function FormCollection({
 					body: JSON.stringify({
 						name: trimmedName,
 						description: description.trim(),
-						public: canPublish && publicCollection,
-						slug: slugValue.trim(),
+						public: isPublic,
+						slug: isPublic ? slugValue.trim() : crypto.randomUUID(),
 					}),
 				},
 			);
@@ -251,28 +254,11 @@ function FormCollection({
 				description="Up to 1024 characters."
 			/>
 
-			<Form.Input
-				label="URL name"
-				name="collection-slug"
-				onChange={(value) => {
-					setSlug(value.toLowerCase());
-					setIsSlugEdited(true);
-				}}
-				placeholder="keto-recipes"
-				required
-				type="text"
-				value={slugValue}
-				minLength={2}
-				maxLength={128}
-				pattern="(?=.{2,128}$)[a-z0-9]+(-[a-z0-9]+)*"
-				description="Collection's slug. Lowercase letters, numbers and hyphens only."
-			/>
-
 			<Form.Checkbox
 				label="Public collection"
 				name="public"
 				onChange={setPublicCollection}
-				value={canPublish && publicCollection}
+				value={isPublic}
 				disabled={!canPublish}
 				description={
 					canPublish ? null : (
@@ -285,6 +271,25 @@ function FormCollection({
 					)
 				}
 			/>
+
+			{isPublic ? (
+				<Form.Input
+					label="Slug"
+					name="collection-slug"
+					onChange={(value) => {
+						setSlug(value.toLowerCase());
+						setIsSlugEdited(true);
+					}}
+					placeholder="keto-recipes"
+					required
+					type="text"
+					value={slugValue}
+					minLength={2}
+					maxLength={128}
+					pattern="(?=.{2,128}$)[a-z0-9]+(-[a-z0-9]+)*"
+					description={`Your collection will be public at ${siteUrl || window.location.origin}/${username}/${slugValue.trim()}. Lowercase letters, numbers and hyphens only.`}
+				/>
+			) : null}
 
 			{isEdit &&
 			collection.public &&

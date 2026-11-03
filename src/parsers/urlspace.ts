@@ -17,16 +17,6 @@ import {
 	validateUrl,
 } from "./utils.ts";
 
-const slugPattern = /^[a-z0-9]+(-[a-z0-9]+)*$/;
-
-function collectionSlug(h3: Element) {
-	const slug = (h3.getAttribute("slug") ?? "").trim().toLowerCase();
-	if (slug.length < 2 || slug.length > 128 || !slugPattern.test(slug)) {
-		return undefined;
-	}
-	return slug;
-}
-
 function collectionDescription(dd: Element | null) {
 	if (!dd) {
 		return "";
@@ -103,7 +93,6 @@ export default function parseUrlspace(html: string): ParsedBookmarks {
 			const key = name.toLowerCase();
 			const collection = collections.get(key) ?? {
 				name,
-				slug: collectionSlug(h3),
 				description: collectionDescription(dd),
 			};
 			collections.set(key, collection);

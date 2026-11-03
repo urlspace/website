@@ -10,7 +10,6 @@ import {
 import { linksQueryKey } from "#/queries/links.ts";
 import { type User, meQueryOptions } from "#/queries/me.ts";
 import { type TagRow, tagsQueryOptions } from "#/queries/tags.ts";
-import { slugify } from "#/utils.ts";
 
 import CopyBox from "../CopyBox/CopyBox.tsx";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
@@ -63,7 +62,10 @@ function FormImport() {
 				credentials: "include",
 				headers: { "content-type": "application/json" },
 				body: JSON.stringify({
-					collections: withSlugs(parsed.collections, existingCollections),
+					collections: parsed.collections.map((collection) => ({
+						...collection,
+						slug: crypto.randomUUID(),
+					})),
 					links: parsed.links,
 				}),
 			});
@@ -270,45 +272,6 @@ function mergeParsed(list: Array<ParsedBookmarks>): ParsedBookmarks {
 		tags: [...new Set(list.flatMap((parsed) => parsed.tags))],
 		skipped: list.flatMap((parsed) => parsed.skipped),
 	};
-}
-
-function withSlugs(
-	collections: Array<ParsedCollection>,
-	existing: Array<CollectionRow>,
-) {
-	const existingSlugs = new Map(
-		existing.map((collection) => [
-			collection.name.toLowerCase(),
-			collection.slug,
-		]),
-	);
-	const taken = new Set(existing.map((collection) => collection.slug));
-
-	return collections.map((collection) => {
-		const existingSlug = existingSlugs.get(collection.name.toLowerCase());
-		if (existingSlug) {
-			return { ...collection, slug: existingSlug };
-		}
-
-		if (collection.slug && !taken.has(collection.slug)) {
-			taken.add(collection.slug);
-			return { ...collection, slug: collection.slug };
-		}
-
-		let slug = slugify(collection.name);
-		if (slug.length < 2 || taken.has(slug)) {
-			slug = randomizeSlug(slug);
-		}
-		taken.add(slug);
-
-		return { ...collection, slug };
-	});
-}
-
-function randomizeSlug(slug: string) {
-	const suffix = crypto.randomUUID().slice(0, 8);
-	const base = slug.slice(0, 128 - suffix.length - 1).replace(/-+$/, "");
-	return base ? `${base}-${suffix}` : `collection-${suffix}`;
 }
 
 function importText(parsed: ParsedBookmarks) {
