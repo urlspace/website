@@ -1,7 +1,10 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 <style>
-path { fill: oklch(0.5 0.13 280); }
-@media (prefers-color-scheme: dark) { path { fill: oklch(0.83 0.08 285); } }
+path { stroke: oklch(0.5 0.13 280); }
+@media (prefers-color-scheme: dark) { path { stroke: oklch(0.83 0.08 285); } }
 </style>
-<path d="M8 4H12V8H8V4ZM20 4H24V8H20V4ZM4 8H8V12H4V8ZM12 8H20V12H12V8ZM24 8H28V12H24V8ZM8 12H12V16H8V12ZM20 12H24V16H20V12ZM4 18H8V28H4V18ZM24 18H28V28H24V18ZM8 24H24V28H8V24Z"/>
+<svg x="6" y="6" width="20" height="20" viewBox="0 -0.25 14 14" stroke-width="3.5">
+<path d="M-2 5C1 5 1 2 4 2C7 2 7 5 10 5C13 5 13 2 16 2"/>
+<path d="M-2 12C1 12 1 12 4 12C7 12 7 12 10 12C13 12 13 12 16 12"/>
+</svg>
 </svg>
