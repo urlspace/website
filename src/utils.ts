@@ -1,7 +1,7 @@
 // Pages for signed-out visitors live on the site (url.space), the signed-in app
 // on my.url.space. Locally both point at the same host.
-export const siteUrl: string = import.meta.env.VITE_SITE_URL ?? "";
-export const dashboardUrl: string = import.meta.env.VITE_DASHBOARD_URL ?? "";
+export const siteUrl = import.meta.env.VITE_SITE_URL;
+export const dashboardUrl = import.meta.env.VITE_DASHBOARD_URL;
 
 const dashboardPaths = ["/dashboard", "/settings", "/tools"];
 
@@ -11,8 +11,7 @@ export function isDashboardPath(pathname: string) {
 	);
 }
 
-export const hasSeparateDashboard =
-	siteUrl !== "" && dashboardUrl !== "" && siteUrl !== dashboardUrl;
+export const hasSeparateDashboard = siteUrl !== dashboardUrl;
 
 // Router path → address shown to visitors: dashboard pages on my.url.space,
 // with the dashboard itself at its root, everything else on url.space.

@@ -197,9 +197,7 @@ function FormCollection({
 
 			// Public collections stay in the dialog to show the saved address.
 			if (saved.public) {
-				setSavedUrl(
-					`${siteUrl || window.location.origin}/${username}/${saved.slug}`,
-				);
+				setSavedUrl(`${siteUrl}/${username}/${saved.slug}`);
 				return;
 			}
 			onClose();
@@ -287,7 +285,7 @@ function FormCollection({
 					minLength={2}
 					maxLength={128}
 					pattern="(?=.{2,128}$)[a-z0-9]+(-[a-z0-9]+)*"
-					description={`Your collection will be public at ${siteUrl || window.location.origin}/${username}/${slugValue.trim()}. Lowercase letters, numbers and hyphens only.`}
+					description={`Your collection will be public at ${siteUrl}/${username}/${slugValue.trim()}. Lowercase letters, numbers and hyphens only.`}
 				/>
 			) : null}
 

@@ -12,7 +12,7 @@ function DashboardCollectionInfo({
 	collection: CollectionRow;
 	username: string;
 }) {
-	const url = `${siteUrl || window.location.origin}/${username}/${collection.slug}`;
+	const url = `${siteUrl}/${username}/${collection.slug}`;
 
 	return (
 		<section className={styles.wrapper}>

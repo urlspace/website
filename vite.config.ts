@@ -10,6 +10,24 @@ const ignorePatterns = [
 	"worker-configuration.d.ts",
 ];
 
+const requiredEnv = ["VITE_API_URL", "VITE_SITE_URL", "VITE_DASHBOARD_URL"];
+
+// A plugin rather than a top-level check, so lint and fmt (which also load this
+// config) and tests don't need the app's env.
+const validateEnv = {
+	name: "validate-env",
+	apply: (_: unknown, { mode }: { mode: string }) => mode !== "test",
+	configResolved(config: { env: Record<string, string | undefined> }) {
+		for (const name of requiredEnv) {
+			if (!URL.canParse(config.env[name] ?? "")) {
+				throw new Error(
+					`${name} must be set to a full URL, e.g. https://url.space`,
+				);
+			}
+		}
+	},
+};
+
 const config = defineConfig({
 	fmt: {
 		useTabs: true,
@@ -30,6 +48,7 @@ const config = defineConfig({
 	},
 	resolve: { tsconfigPaths: true },
 	plugins: lazyPlugins(() => [
+		validateEnv,
 		cloudflare({ viteEnvironment: { name: "ssr" } }),
 		devtools(),
 		tanstackStart(),
