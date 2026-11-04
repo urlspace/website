@@ -261,7 +261,8 @@ function FormCollection({
 				description={
 					canPublish ? null : (
 						<>
-							Available only to pro users. {
+							Available only to pro users.{" "}
+							{
 								// TODO: change to /upgrade when the page is ready
 							}
 							<Link to="/docs">Upgrade now</Link>.
