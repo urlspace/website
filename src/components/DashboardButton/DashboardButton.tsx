@@ -2,6 +2,7 @@ import styles from "./DashboardButton.module.css";
 
 function DashbrardButton({
 	ariaPressed,
+	ariaKeyShortcuts,
 	text,
 	counter,
 	disabled,
@@ -9,6 +10,7 @@ function DashbrardButton({
 	onClick,
 }: {
 	ariaPressed?: boolean;
+	ariaKeyShortcuts?: string;
 	icon?: React.ReactNode;
 	text: string;
 	counter?: number;
@@ -22,6 +24,7 @@ function DashbrardButton({
 			onClick={disabled ? undefined : onClick}
 			aria-disabled={disabled || undefined}
 			aria-pressed={ariaPressed}
+			aria-keyshortcuts={ariaKeyShortcuts}
 		>
 			{icon ? <span className={styles.icon}>{icon}</span> : null}
 			<span className={styles.text}>

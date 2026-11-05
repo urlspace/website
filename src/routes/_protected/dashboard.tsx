@@ -297,15 +297,15 @@ function PageDashboard() {
 
 	// j/k move focus between link card titles (Gmail/GitHub style), G jumps to
 	// the last one and gg to the first (Vim style), ? opens the shortcuts
-	// dialog. Ignored while typing and when a modifier is held, so browser
-	// shortcuts like Ctrl+K keep working.
+	// dialog and n the add link form. Ignored while typing and when a modifier
+	// is held, so browser shortcuts like Ctrl+K keep working.
 	useEffect(() => {
 		let lastG = Number.NEGATIVE_INFINITY;
 		function handleKey(e: KeyboardEvent) {
 			if (e.key !== "g") {
 				lastG = Number.NEGATIVE_INFINITY;
 			}
-			if (!["j", "k", "g", "G", "?"].includes(e.key)) {
+			if (!["j", "k", "g", "G", "?", "n"].includes(e.key)) {
 				return;
 			}
 			// ignore modifiers so browser shortcuts like Ctrl+K keeps working
@@ -331,6 +331,14 @@ function PageDashboard() {
 				if (!target.closest("dialog")) {
 					e.preventDefault();
 					setIsShortcutsOpen(true);
+				}
+				return;
+			}
+
+			if (e.key === "n") {
+				if (!target.closest("dialog")) {
+					e.preventDefault();
+					openAddLink();
 				}
 				return;
 			}
@@ -528,6 +536,7 @@ function PageDashboard() {
 						text="Add collection"
 					/>
 					<DashboardButton
+						ariaKeyShortcuts="n"
 						icon={<Icon.Plus />}
 						onClick={openAddLink}
 						text="Add link"

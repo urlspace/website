@@ -79,6 +79,12 @@ function KeyboardShortcuts() {
 				</h3>
 				<dl className={styles.list}>
 					<div className={styles.item}>
+						<dt>Add link</dt>
+						<dd>
+							<kbd>n</kbd>
+						</dd>
+					</div>
+					<div className={styles.item}>
 						<dt>Show keyboard shortcuts</dt>
 						<dd>
 							<kbd>?</kbd>
