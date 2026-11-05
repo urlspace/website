@@ -54,7 +54,7 @@ function DashboardNav({
 	setForLater,
 	onAddCollection,
 	onAddLink,
-	onClearFilters,
+	onClearFiltersAndSearchQuery,
 	setIsShortcutsOpen,
 	setSelectedCollection,
 	setSelectedTags,
@@ -73,7 +73,7 @@ function DashboardNav({
 	setForLater: (value: boolean) => void;
 	onAddCollection: () => void;
 	onAddLink: () => void;
-	onClearFilters: () => void;
+	onClearFiltersAndSearchQuery: () => void;
 	setIsShortcutsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	setSelectedCollection: (value: string | null) => void;
 	setSelectedTags: (value: string[]) => void;
@@ -274,8 +274,9 @@ function DashboardNav({
 					<DashboardList ariaLabel="Quick filters">
 						<DashboardList.Li>
 							<DashboardButton
+								ariaKeyShortcuts="x"
 								icon={<Icon.List />}
-								onClick={onClearFilters}
+								onClick={onClearFiltersAndSearchQuery}
 								text="All"
 							/>
 						</DashboardList.Li>

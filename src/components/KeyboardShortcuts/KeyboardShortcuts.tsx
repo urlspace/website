@@ -91,6 +91,12 @@ function KeyboardShortcuts() {
 						</dd>
 					</div>
 					<div className={styles.item}>
+						<dt>Clear filters</dt>
+						<dd>
+							<kbd>x</kbd>
+						</dd>
+					</div>
+					<div className={styles.item}>
 						<dt>Show keyboard shortcuts</dt>
 						<dd>
 							<kbd>?</kbd>
