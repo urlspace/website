@@ -1,12 +1,14 @@
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { collectionsQueryOptions } from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
+import { getLinkPreview } from "#/queries/preview.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
 
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
+import Stack from "../Stack/Stack.tsx";
 
 // Mirrors the backend's ValidateURL: only http/https, no embedded credentials.
 function isValidLinkUrl(value: string): boolean {
@@ -70,12 +72,47 @@ function FormLink({
 	);
 	const [favourite, setFavourite] = useState(link?.favourite ?? false);
 	const [forLater, setForLater] = useState(link?.forLater ?? false);
+	const [isFetching, setIsFetching] = useState(false);
+	const previewAbortRef = useRef<AbortController | null>(null);
+
+	useEffect(() => {
+		return () => {
+			previewAbortRef.current?.abort();
+		};
+	}, []);
+
+	function handleUrlPaste(e: React.ClipboardEvent<HTMLInputElement>) {
+		const pasted = e.clipboardData.getData("text").trim();
+		if (!isValidLinkUrl(pasted) || (title.trim() && description.trim())) {
+			return;
+		}
+
+		previewAbortRef.current?.abort();
+		const controller = new AbortController();
+		previewAbortRef.current = controller;
+		setIsFetching(true);
+
+		void getLinkPreview({ data: pasted, signal: controller.signal })
+			.then((preview) => {
+				setTitle((current) => (current.trim() ? current : preview.title));
+				setDescription((current) =>
+					current.trim() ? current : preview.description,
+				);
+			})
+			.catch(() => {})
+			.finally(() => {
+				if (previewAbortRef.current === controller) {
+					setIsFetching(false);
+				}
+			});
+	}
 
 	async function handleSubmit(
 		e: React.SubmitEvent<HTMLFormElement>,
 		{ setError, setLoading }: SubmitHelpers,
 	) {
 		e.preventDefault();
+		previewAbortRef.current?.abort();
 
 		if (!isValidLinkUrl(url)) {
 			setError(
@@ -219,6 +256,17 @@ function FormLink({
 	return (
 		<Form onSubmit={handleSubmit}>
 			<Form.Input
+				label="URL"
+				name="url"
+				onChange={setUrl}
+				onPaste={handleUrlPaste}
+				placeholder="https://alistapart.com/article/responsive-web-design/"
+				required
+				type="url"
+				value={url}
+				maxLength={2048}
+			/>
+			<Form.Input
 				label="Title"
 				name="title"
 				onChange={setTitle}
@@ -229,16 +277,6 @@ function FormLink({
 				minLength={3}
 				maxLength={255}
 				pattern="[^\p{Cc}]{3,255}"
-			/>
-			<Form.Input
-				label="URL"
-				name="url"
-				onChange={setUrl}
-				placeholder="https://alistapart.com/article/responsive-web-design/"
-				required
-				type="url"
-				value={url}
-				maxLength={2048}
 			/>
 			<Form.Input
 				label="Description"
@@ -282,10 +320,14 @@ function FormLink({
 					value={forLater}
 				/>
 			</Form.Row>
-			<Form.Submit
-				text={isEdit ? "Save changes" : "Add new link"}
-				textLoading={isEdit ? "Saving..." : "Adding..."}
-			/>
+			<Stack direction="row" alignCenter gap={0.5}>
+				<Form.Submit
+					text={isEdit ? "Save changes" : "Add new link"}
+					textLoading={isEdit ? "Saving..." : "Adding..."}
+				/>
+
+				<output>{isFetching ? "Fetching title and description…" : null}</output>
+			</Stack>
 		</Form>
 	);
 }

@@ -63,6 +63,7 @@ function Input({
 	minLength,
 	name,
 	onChange,
+	onPaste,
 	pattern,
 	placeholder,
 	required,
@@ -78,6 +79,7 @@ function Input({
 	minLength?: number;
 	name: string;
 	onChange: (value: string) => void;
+	onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
 	pattern?: string;
 	placeholder?: string;
 	required?: boolean;
@@ -111,6 +113,7 @@ function Input({
 				minLength={minLength}
 				name={name}
 				onChange={(e) => onChange(e.target.value)}
+				onPaste={onPaste}
 				pattern={pattern}
 				placeholder={placeholder}
 				required={required}
