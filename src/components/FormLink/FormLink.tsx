@@ -134,8 +134,8 @@ function FormLink({
 		};
 	}, []);
 
-	function handleUrlPaste(e: React.ClipboardEvent<HTMLInputElement>) {
-		const pasted = e.clipboardData.getData("text").trim();
+	function previewUrl(text: string) {
+		const pasted = text.trim();
 		if (!isValidLinkUrl(pasted) || (title.trim() && description.trim())) {
 			return;
 		}
@@ -342,7 +342,12 @@ function FormLink({
 				label="URL"
 				name="url"
 				onChange={setUrl}
-				onPaste={handleUrlPaste}
+				onDrop={(e) => {
+					previewUrl(e.dataTransfer.getData("text"));
+				}}
+				onPaste={(e) => {
+					previewUrl(e.clipboardData.getData("text"));
+				}}
 				placeholder="https://alistapart.com/article/responsive-web-design/"
 				required
 				type="url"
