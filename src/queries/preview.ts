@@ -9,6 +9,15 @@ export type LinkPreview = {
 const emptyPreview: LinkPreview = { title: "", description: "" };
 const maxBytes = 2 * 1024 * 1024;
 
+const unsupportedHosts = ["youtube.com", "youtu.be"];
+
+function isUnsupportedHost(url: string): boolean {
+	const host = new URL(url).hostname;
+	return unsupportedHosts.some(
+		(unsupported) => host === unsupported || host.endsWith(`.${unsupported}`),
+	);
+}
+
 // Mirrors the backend's ValidateURL: only http/https, no embedded credentials.
 function isValidLinkUrl(value: string): boolean {
 	try {
@@ -232,7 +241,7 @@ export const getLinkPreview = createServerFn()
 		return url;
 	})
 	.handler(async ({ data: url }): Promise<LinkPreview> => {
-		if (!isValidLinkUrl(url)) {
+		if (!isValidLinkUrl(url) || isUnsupportedHost(url)) {
 			return emptyPreview;
 		}
 
