@@ -8,7 +8,6 @@ import { getLinkPreview } from "#/queries/preview.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
 
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
-import Stack from "../Stack/Stack.tsx";
 
 // Mirrors the backend's ValidateURL: only http/https, no embedded credentials.
 function isValidLinkUrl(value: string): boolean {
@@ -255,6 +254,9 @@ function FormLink({
 
 	return (
 		<Form onSubmit={handleSubmit}>
+			<output className="visually-hidden">
+				{isFetching ? "Fetching title and description…" : null}
+			</output>
 			<Form.Input
 				label="URL"
 				name="url"
@@ -270,7 +272,7 @@ function FormLink({
 				label="Title"
 				name="title"
 				onChange={setTitle}
-				placeholder="Responsive Web Design"
+				placeholder={isFetching ? "Fetching title…" : "Responsive Web Design"}
 				required
 				type="text"
 				value={title}
@@ -282,7 +284,11 @@ function FormLink({
 				label="Description"
 				name="description-link"
 				onChange={setDescription}
-				placeholder="Ethan Marcotte advocates we shift our design thinking to appropriate these constraints: using fluid grids, flexible images, and media queries."
+				placeholder={
+					isFetching
+						? "Fetching description…"
+						: "Ethan Marcotte advocates we shift our design thinking to appropriate these constraints: using fluid grids, flexible images, and media queries."
+				}
 				type="text"
 				value={description}
 				maxLength={512}
@@ -320,14 +326,10 @@ function FormLink({
 					value={forLater}
 				/>
 			</Form.Row>
-			<Stack direction="row" alignCenter gap={0.5}>
-				<Form.Submit
-					text={isEdit ? "Save changes" : "Add new link"}
-					textLoading={isEdit ? "Saving..." : "Adding..."}
-				/>
-
-				<output>{isFetching ? "Fetching title and description…" : null}</output>
-			</Stack>
+			<Form.Submit
+				text={isEdit ? "Save changes" : "Add new link"}
+				textLoading={isEdit ? "Saving..." : "Adding..."}
+			/>
 		</Form>
 	);
 }

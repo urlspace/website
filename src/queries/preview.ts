@@ -70,8 +70,9 @@ export const getLinkPreview = createServerFn()
 			return emptyPreview;
 		}
 
-		// Only signed-in users may make this server fetch arbitrary URLs. Going
-		// through /me also puts every preview behind the API's rate limit.
+		// Only signed-in users may make this server fetch arbitrary URLs. Same-zone
+		// Worker subrequests count towards the API's Cloudflare rate limit under the
+		// visitor's IP, so going through /me also rate limits previews.
 		const cookie = getRequest().headers.get("cookie") ?? "";
 		const me = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
 			headers: { cookie },
