@@ -85,6 +85,12 @@ function KeyboardShortcuts() {
 						</dd>
 					</div>
 					<div className={styles.item}>
+						<dt>Refresh</dt>
+						<dd>
+							<kbd>r</kbd>
+						</dd>
+					</div>
+					<div className={styles.item}>
 						<dt>Show keyboard shortcuts</dt>
 						<dd>
 							<kbd>?</kbd>

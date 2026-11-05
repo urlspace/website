@@ -41,6 +41,7 @@ import { clearSession } from "#/queries/session.ts";
 import { type TagRow, tagsQueryOptions } from "#/queries/tags.ts";
 
 const G_SEQUENCE_MS = 500;
+const REFRESH_THROTTLE_MS = 10_000;
 
 function getTitles(container: HTMLElement | null) {
 	return [...(container?.querySelectorAll<HTMLElement>("article h2 a") ?? [])];
@@ -249,6 +250,22 @@ function PageDashboard() {
 		});
 	}
 
+	const lastRefreshRef = useRef(Number.NEGATIVE_INFINITY);
+
+	// Refetches every query on screen (links, tags, collections, me) and marks
+	// the rest stale. Re-running the loader then redirects away from a
+	// collection or tag that was deleted elsewhere. Throttled, because each
+	// refresh makes several API calls that count towards the rate limit.
+	async function refresh() {
+		const now = performance.now();
+		if (now - lastRefreshRef.current < REFRESH_THROTTLE_MS) {
+			return;
+		}
+		lastRefreshRef.current = now;
+		await queryClient.invalidateQueries();
+		await router.invalidate();
+	}
+
 	function openAddLink() {
 		setFormKey((key) => key + 1);
 		setIsAddLinkOpen(true);
@@ -297,15 +314,15 @@ function PageDashboard() {
 
 	// j/k move focus between link card titles (Gmail/GitHub style), G jumps to
 	// the last one and gg to the first (Vim style), ? opens the shortcuts
-	// dialog and n the add link form. Ignored while typing and when a modifier
-	// is held, so browser shortcuts like Ctrl+K keep working.
+	// dialog, n the add link form and r refreshes the data. Ignored while typing
+	// and when a modifier is held, so browser shortcuts like Ctrl+K keep working.
 	useEffect(() => {
 		let lastG = Number.NEGATIVE_INFINITY;
 		function handleKey(e: KeyboardEvent) {
 			if (e.key !== "g") {
 				lastG = Number.NEGATIVE_INFINITY;
 			}
-			if (!["j", "k", "g", "G", "?", "n"].includes(e.key)) {
+			if (!["j", "k", "g", "G", "?", "n", "r"].includes(e.key)) {
 				return;
 			}
 			// ignore modifiers so browser shortcuts like Ctrl+K keeps working
@@ -339,6 +356,14 @@ function PageDashboard() {
 				if (!target.closest("dialog")) {
 					e.preventDefault();
 					openAddLink();
+				}
+				return;
+			}
+
+			if (e.key === "r") {
+				if (!document.querySelector("dialog[open]")) {
+					e.preventDefault();
+					void refresh();
 				}
 				return;
 			}
@@ -525,8 +550,9 @@ function PageDashboard() {
 				<Dashboard.HeaderActions>
 					<Dashboard.StandaloneOnly>
 						<DashboardButton
+							ariaKeyShortcuts="r"
 							icon={<Icon.Refresh />}
-							onClick={() => window.location.reload()}
+							onClick={() => void refresh()}
 							text="Refresh"
 						/>
 					</Dashboard.StandaloneOnly>
