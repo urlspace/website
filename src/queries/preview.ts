@@ -7,7 +7,7 @@ export type LinkPreview = {
 };
 
 const emptyPreview: LinkPreview = { title: "", description: "" };
-const maxBytes = 512 * 1024;
+const maxBytes = 2 * 1024 * 1024;
 
 // Mirrors the backend's ValidateURL: only http/https, no embedded credentials.
 function isValidLinkUrl(value: string): boolean {
@@ -244,6 +244,7 @@ export const getLinkPreview = createServerFn()
 			headers: { cookie },
 		});
 		if (!me.ok) {
+			console.log("preview: /me", me.status);
 			return emptyPreview;
 		}
 
@@ -253,6 +254,12 @@ export const getLinkPreview = createServerFn()
 				signal: AbortSignal.timeout(5000),
 			});
 			if (!res.ok || !res.headers.get("content-type")?.includes("text/html")) {
+				console.log(
+					"preview: upstream",
+					new URL(url).hostname,
+					res.status,
+					res.headers.get("content-type"),
+				);
 				return emptyPreview;
 			}
 
@@ -315,7 +322,8 @@ export const getLinkPreview = createServerFn()
 				title: cleanTitle.length >= 3 ? cleanTitle : "",
 				description: clean(ogDescription || description, 512),
 			};
-		} catch {
+		} catch (error) {
+			console.log("preview: error", new URL(url).hostname, error);
 			return emptyPreview;
 		}
 	});
