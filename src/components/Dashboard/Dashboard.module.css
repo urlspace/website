@@ -74,7 +74,7 @@
 .standaloneOnly {
 	display: none;
 
-	@media (display-mode: standalone) and (width >= 900px) {
+	@media (display-mode: standalone) and (width < 900px) {
 		display: contents;
 	}
 }
