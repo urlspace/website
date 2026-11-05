@@ -139,6 +139,8 @@ function FormLink({
 		if (!isValidLinkUrl(pasted) || (title.trim() && description.trim())) {
 			return;
 		}
+		const titleWasEmpty = !title.trim();
+		const descriptionWasEmpty = !description.trim();
 
 		previewAbortRef.current?.abort();
 		const controller = new AbortController();
@@ -156,11 +158,13 @@ function FormLink({
 				await typeInto(setTitle, preview.title, controller.signal);
 				await typeInto(setDescription, preview.description, controller.signal);
 				if (!controller.signal.aborted) {
-					if (preview.title && preview.description) {
+					const titleFilled = titleWasEmpty && preview.title;
+					const descriptionFilled = descriptionWasEmpty && preview.description;
+					if (titleFilled && descriptionFilled) {
 						setPreviewStatus("Title and description filled in.");
-					} else if (preview.title) {
+					} else if (titleFilled) {
 						setPreviewStatus("Title filled in.");
-					} else if (preview.description) {
+					} else if (descriptionFilled) {
 						setPreviewStatus("Description filled in.");
 					}
 				}
