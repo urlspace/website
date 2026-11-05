@@ -316,7 +316,7 @@ function PageDashboard() {
 		if (query !== value.trim() || isPending) {
 			return;
 		}
-		linksRef.current?.querySelector<HTMLElement>("li a[href]")?.focus();
+		getTitles(linksRef.current)[0]?.focus();
 	}
 
 	// j/k move focus between link card titles (Gmail/GitHub style), G jumps to
@@ -423,9 +423,12 @@ function PageDashboard() {
 
 	const newAccount = user.stats.linksCount === 0;
 
-	// Any change to what defines the list lands the user at its top, no matter
-	// where the change came from. Skips the first render so it never fights the
-	// browser's scroll restoration.
+	// Any change to the filters, search or page scrolls back to the top and
+	// moves focus from the current card to the links section, so j/k and
+	// screen readers start again from the first link.
+	// Doesn't run when the dashboard first opens, so a reload or Back keeps the
+	// scroll position the browser restores.
+	const lastFocusedRef = useRef<{ id: string; index: number } | null>(null);
 	const tagsKey = [...selectedTags].sort().join();
 	const isFirstListRenderRef = useRef(true);
 	useEffect(() => {
@@ -434,9 +437,11 @@ function PageDashboard() {
 			return;
 		}
 		window.scrollTo({ top: 0, behavior: "instant" });
+		if (linksRef.current?.contains(document.activeElement)) {
+			linksRef.current.focus({ preventScroll: true });
+		}
+		lastFocusedRef.current = null;
 	}, [query, selectedCollection, tagsKey, favourite, forLater, page]);
-
-	const lastFocusedRef = useRef<{ id: string; index: number } | null>(null);
 
 	// When the focused card unmounts, the browser drops focus to <body> and the
 	// next j would start from the top. This moves focus to the card now at the
@@ -654,20 +659,6 @@ function PageDashboard() {
 									onFocus={() => {
 										lastFocusedRef.current = { id: link.id, index };
 									}}
-									onBlur={(e) => {
-										// Keep: null (card removed), another card, or a dialog.
-										// Clear: focus left the list on purpose.
-										const next = e.relatedTarget as HTMLElement | null;
-										if (
-											next &&
-											// Moving to another card: its onFocus takes over.
-											!linksRef.current?.contains(next) &&
-											// Edit dialog: keep in case the edit filters the link out.
-											!next.closest("dialog")
-										) {
-											lastFocusedRef.current = null;
-										}
-									}}
 								>
 									<LinkCard
 										link={link}
@@ -681,16 +672,12 @@ function PageDashboard() {
 												}),
 												replace: true,
 											});
-											(document.activeElement as HTMLElement | null)?.blur();
-											lastFocusedRef.current = null;
 										}}
 										onCollectionClick={(collectionId) => {
 											void navigate({
 												search: (prev) => ({ query: prev.query, collectionId }),
 												replace: true,
 											});
-											(document.activeElement as HTMLElement | null)?.blur();
-											lastFocusedRef.current = null;
 										}}
 									/>
 								</li>
