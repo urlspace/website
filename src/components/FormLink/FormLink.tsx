@@ -124,6 +124,7 @@ function FormLink({
 	const [favourite, setFavourite] = useState(link?.favourite ?? false);
 	const [forLater, setForLater] = useState(link?.forLater ?? false);
 	const [isFetching, setIsFetching] = useState(false);
+	const [previewStatus, setPreviewStatus] = useState("");
 	const previewAbortRef = useRef<AbortController | null>(null);
 	const previewRef = useRef<LinkPreview | null>(null);
 
@@ -143,6 +144,7 @@ function FormLink({
 		const controller = new AbortController();
 		previewAbortRef.current = controller;
 		previewRef.current = null;
+		setPreviewStatus("");
 		setIsFetching(true);
 
 		void getLinkPreview({ data: pasted, signal: controller.signal })
@@ -153,6 +155,15 @@ function FormLink({
 				previewRef.current = preview;
 				await typeInto(setTitle, preview.title, controller.signal);
 				await typeInto(setDescription, preview.description, controller.signal);
+				if (!controller.signal.aborted) {
+					if (preview.title && preview.description) {
+						setPreviewStatus("Title and description filled in.");
+					} else if (preview.title) {
+						setPreviewStatus("Title filled in.");
+					} else if (preview.description) {
+						setPreviewStatus("Description filled in.");
+					}
+				}
 			})
 			.catch(() => {})
 			.finally(() => {
@@ -325,7 +336,7 @@ function FormLink({
 	return (
 		<Form onSubmit={handleSubmit}>
 			<output className="visually-hidden">
-				{isFetching ? "Fetching title and description…" : null}
+				{isFetching ? "Fetching title and description…" : previewStatus}
 			</output>
 			<Form.Input
 				label="URL"
