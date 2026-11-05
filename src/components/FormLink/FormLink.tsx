@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { collectionsQueryOptions } from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
-import { getLinkPreview } from "#/queries/preview.ts";
+import { getLinkPreview, type LinkPreview } from "#/queries/preview.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
 
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
@@ -21,6 +21,58 @@ function isValidLinkUrl(value: string): boolean {
 	} catch {
 		return false;
 	}
+}
+
+const typingIntervalMs = 2;
+
+// Types `value` into a field one character every `typingIntervalMs` for its first 100
+// characters (wider fields show about that many), then sets the rest at once.
+// Each step only writes while the field still holds the previous step, so a user
+// typing into the field stops it.
+function typeInto(
+	setValue: React.Dispatch<React.SetStateAction<string>>,
+	value: string,
+	signal: AbortSignal,
+): Promise<void> {
+	const chars = Array.from(value);
+	let written = "";
+
+	function write(next: string) {
+		const previous = written;
+		written = next;
+		setValue((current) =>
+			current === previous || !current.trim() ? next : current,
+		);
+	}
+
+	return new Promise((resolve) => {
+		if (!value || signal.aborted) {
+			resolve();
+			return;
+		}
+		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+			write(value);
+			resolve();
+			return;
+		}
+
+		const start = performance.now();
+		function frame(now: number) {
+			if (signal.aborted) {
+				resolve();
+				return;
+			}
+			const count = Math.floor((now - start) / typingIntervalMs);
+			if (count >= Math.min(chars.length, 100)) {
+				write(value);
+				resolve();
+				return;
+			}
+			write(chars.slice(0, count).join(""));
+			requestAnimationFrame(frame);
+		}
+		requestAnimationFrame(frame);
+	});
 }
 
 type LinkRow = {
@@ -73,6 +125,7 @@ function FormLink({
 	const [forLater, setForLater] = useState(link?.forLater ?? false);
 	const [isFetching, setIsFetching] = useState(false);
 	const previewAbortRef = useRef<AbortController | null>(null);
+	const previewRef = useRef<LinkPreview | null>(null);
 
 	useEffect(() => {
 		return () => {
@@ -89,18 +142,22 @@ function FormLink({
 		previewAbortRef.current?.abort();
 		const controller = new AbortController();
 		previewAbortRef.current = controller;
+		previewRef.current = null;
 		setIsFetching(true);
 
 		void getLinkPreview({ data: pasted, signal: controller.signal })
-			.then((preview) => {
-				setTitle((current) => (current.trim() ? current : preview.title));
-				setDescription((current) =>
-					current.trim() ? current : preview.description,
-				);
+			.then(async (preview) => {
+				if (controller.signal.aborted) {
+					return;
+				}
+				previewRef.current = preview;
+				await typeInto(setTitle, preview.title, controller.signal);
+				await typeInto(setDescription, preview.description, controller.signal);
 			})
 			.catch(() => {})
 			.finally(() => {
 				if (previewAbortRef.current === controller) {
+					previewRef.current = null;
 					setIsFetching(false);
 				}
 			});
@@ -111,7 +168,20 @@ function FormLink({
 		{ setError, setLoading }: SubmitHelpers,
 	) {
 		e.preventDefault();
+
+		// A running preview animation leaves only part of the text in the fields.
+		const preview = previewRef.current;
 		previewAbortRef.current?.abort();
+		const submittedTitle = preview?.title.startsWith(title)
+			? preview.title
+			: title;
+		const submittedDescription = preview?.description.startsWith(description)
+			? preview.description
+			: description;
+		if (preview) {
+			setTitle(submittedTitle);
+			setDescription(submittedDescription);
+		}
 
 		if (!isValidLinkUrl(url)) {
 			setError(
@@ -120,7 +190,7 @@ function FormLink({
 			return;
 		}
 
-		const trimmedTitle = title.trim();
+		const trimmedTitle = submittedTitle.trim();
 		if (trimmedTitle.length < 3) {
 			setError("Title must be at least 3 characters.");
 			return;
@@ -167,7 +237,7 @@ function FormLink({
 					body: JSON.stringify({
 						title: trimmedTitle,
 						url,
-						description: description.trim(),
+						description: submittedDescription.trim(),
 						collectionId: collection || null,
 						tags: selectedTags,
 						favourite,
