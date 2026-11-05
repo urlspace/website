@@ -40,6 +40,7 @@ import LinkCardSlim from "./LinkCard/LinkCardSlim.tsx";
 import Logo from "./Logo/Logo.tsx";
 import Manual from "./Manual/Manual.tsx";
 import Page from "./Page/Page.tsx";
+import Pagination from "./Pagination/Pagination.tsx";
 import Pills from "./Pills/Pills.tsx";
 import Public from "./Public/Public.tsx";
 import PublicHeader from "./PublicHeader/PublicHeader.tsx";
@@ -90,6 +91,7 @@ export {
 	Logo,
 	Manual,
 	Page,
+	Pagination,
 	Pills,
 	Public,
 	PublicHeader,

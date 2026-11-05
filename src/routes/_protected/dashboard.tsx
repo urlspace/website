@@ -7,7 +7,6 @@ import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
 import {
-	Button,
 	Dashboard,
 	DashboardButton,
 	DashboardCollectionInfo,
@@ -22,8 +21,8 @@ import {
 	FormTag,
 	Icon,
 	KeyboardShortcuts,
+	Pagination,
 	Pills,
-	Stack,
 	Stats,
 	LinkCard,
 } from "#/components/index.ts";
@@ -653,29 +652,11 @@ function PageDashboard() {
 
 				{totalPages && totalPages > 1 ? (
 					<Dashboard.Pagination>
-						<Stack direction="row" spaceBetween alignCenter>
-							<Button
-								text="Previous"
-								ariaDisabled={page <= 1}
-								onClick={() => {
-									if (page > 1) {
-										setPage(page - 1);
-									}
-								}}
-							/>
-							<span aria-live="polite">
-								Page {page} of {totalPages}
-							</span>
-							<Button
-								text="Next"
-								ariaDisabled={page >= totalPages}
-								onClick={() => {
-									if (page < totalPages) {
-										setPage(page + 1);
-									}
-								}}
-							/>
-						</Stack>
+						<Pagination
+							page={page}
+							totalPages={totalPages}
+							onPageChange={setPage}
+						/>
 					</Dashboard.Pagination>
 				) : null}
 			</Dashboard.Main>
