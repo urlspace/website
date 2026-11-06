@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { collectionsQueryOptions } from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
-import { getLinkPreview, type LinkPreview } from "#/queries/preview.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
 
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
@@ -22,6 +21,11 @@ function isValidLinkUrl(value: string): boolean {
 		return false;
 	}
 }
+
+type LinkMetadata = {
+	title: string;
+	description: string;
+};
 
 const typingIntervalMs = 2;
 
@@ -126,7 +130,7 @@ function FormLink({
 	const [isFetching, setIsFetching] = useState(false);
 	const [previewStatus, setPreviewStatus] = useState("");
 	const previewAbortRef = useRef<AbortController | null>(null);
-	const previewRef = useRef<LinkPreview | null>(null);
+	const previewRef = useRef<LinkMetadata | null>(null);
 
 	useEffect(() => {
 		return () => {
@@ -149,8 +153,19 @@ function FormLink({
 		setPreviewStatus("");
 		setIsFetching(true);
 
-		void getLinkPreview({ data: pasted, signal: controller.signal })
-			.then(async (preview) => {
+		void fetch(`${import.meta.env.VITE_API_URL}/tools/metadata`, {
+			method: "POST",
+			credentials: "include",
+			headers: { "content-type": "application/json" },
+			body: JSON.stringify({ url: pasted }),
+			signal: controller.signal,
+		})
+			.then(async (res) => {
+				// Any failure leaves the fields for the user to fill in.
+				if (!res.ok) {
+					return;
+				}
+				const preview = ((await res.json()) as { data: LinkMetadata }).data;
 				if (controller.signal.aborted) {
 					return;
 				}
