@@ -1,6 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 
+import { getOriginAuthHeaders } from "#/utils.ts";
+
 export type LinkPreview = {
 	title: string;
 	description: string;
@@ -250,7 +252,7 @@ export const getLinkPreview = createServerFn()
 		// visitor's IP, so going through /me also rate limits previews.
 		const cookie = getRequest().headers.get("cookie") ?? "";
 		const me = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
-			headers: { cookie },
+			headers: { cookie, ...getOriginAuthHeaders() },
 		});
 		if (!me.ok) {
 			console.log("preview: /me", me.status);

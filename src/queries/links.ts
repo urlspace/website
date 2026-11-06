@@ -4,6 +4,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 
 import { clearSession } from "#/queries/session.ts";
+import { getOriginAuthHeaders } from "#/utils.ts";
 
 export type LinkRow = {
 	id: string;
@@ -64,7 +65,7 @@ const getLinks = createServerFn()
 		}
 		const start = performance.now();
 		const res = await fetch(`${import.meta.env.VITE_API_URL}/links?${params}`, {
-			headers: { cookie },
+			headers: { cookie, ...getOriginAuthHeaders() },
 		});
 		if (
 			res.status === 401 &&

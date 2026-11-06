@@ -1,5 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 
+import { getOriginAuthHeaders } from "#/utils.ts";
+
 export type PublicUser = {
 	displayName: string;
 	collections: Array<{
@@ -32,6 +34,7 @@ export const getPublicUser = createServerFn()
 		const res = await fetch(
 			`${import.meta.env.VITE_API_URL}/public/${encodeURIComponent(username)}`,
 			{
+				headers: getOriginAuthHeaders(),
 				// Anonymous request, so Cloudflare can share the response between
 				// visitors: one API call per location every 3 minutes per page.
 				cf: {

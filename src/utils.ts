@@ -1,3 +1,6 @@
+import { createServerOnlyFn } from "@tanstack/react-start";
+import { env } from "cloudflare:workers";
+
 // Pages for signed-out visitors live on the site (url.space), the signed-in app
 // on my.url.space. Locally both point at the same host.
 export const siteUrl = import.meta.env.VITE_SITE_URL;
@@ -12,6 +15,19 @@ export function isDashboardPath(pathname: string) {
 }
 
 export const hasSeparateDashboard = siteUrl !== dashboardUrl;
+
+const isLocalApi = ["localhost", "127.0.0.1"].includes(
+	new URL(import.meta.env.VITE_API_URL).hostname,
+);
+
+// The API's Railway edge rules only let requests through with this header.
+// Cloudflare adds it to browser requests, but same-zone Worker subrequests
+// skip that rule, so server calls send it themselves. The local API has no
+// edge rules.
+export const getOriginAuthHeaders = createServerOnlyFn(
+	(): Record<string, string> =>
+		isLocalApi ? {} : { "x-origin-auth": env.ORIGIN_SECRET },
+);
 
 // Router path → address shown to visitors: dashboard pages on my.url.space,
 // with the dashboard itself at its root, everything else on url.space.

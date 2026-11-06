@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import buildNetscape from "#/parsers/netscape-export.ts";
 import type { CollectionRow } from "#/queries/collections.ts";
 import type { LinkRow, Pagination } from "#/queries/links.ts";
+import { getOriginAuthHeaders } from "#/utils.ts";
 
 const PAGE_SIZE = 500;
 const REQUESTS_PER_BATCH = 30;
@@ -36,7 +37,7 @@ export const Route = createFileRoute("/tools/bookmarks.html")({
 					});
 					const res = await fetch(
 						`${import.meta.env.VITE_API_URL}/links?${params}`,
-						{ headers: { cookie } },
+						{ headers: { cookie, ...getOriginAuthHeaders() } },
 					);
 					if (res.status === 401) {
 						return Response.redirect(new URL("/auth/signin", request.url), 302);
@@ -58,7 +59,7 @@ export const Route = createFileRoute("/tools/bookmarks.html")({
 				}
 
 				const res = await fetch(`${import.meta.env.VITE_API_URL}/collections`, {
-					headers: { cookie },
+					headers: { cookie, ...getOriginAuthHeaders() },
 				});
 				if (res.status === 401) {
 					return Response.redirect(new URL("/auth/signin", request.url), 302);
