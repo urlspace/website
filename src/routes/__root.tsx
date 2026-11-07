@@ -78,7 +78,7 @@ export const Route = createRootRouteWithContext<{
 			{
 				property: "og:title",
 				content:
-					"url.space | A bookmarking service for people who love the web.",
+					"url.space | A bookmarking service for people who love the web",
 			},
 			{
 				property: "og:url",
@@ -98,7 +98,7 @@ export const Route = createRootRouteWithContext<{
 				content: "/og.jpg",
 			},
 			{
-				title: "url.space | A bookmarking service for people who love the web.",
+				title: "url.space | A bookmarking service for people who love the web",
 			},
 			{
 				name: "description",
