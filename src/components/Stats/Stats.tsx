@@ -15,7 +15,7 @@ function Stats({
 		<dl className={styles.stats}>
 			<div className={styles.item} aria-live="polite" aria-atomic="true">
 				<dt className={styles.term}>Results</dt>
-				<dd>{totalResults ? totalResults : "-"}</dd>
+				<dd>{totalResults ? totalResults : 0}</dd>
 			</div>
 
 			{currentPage !== undefined &&
