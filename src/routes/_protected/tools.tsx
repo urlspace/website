@@ -10,6 +10,7 @@ import {
 	Footer,
 } from "#/components/index.ts";
 import { collectionsQueryOptions } from "#/queries/collections.ts";
+import { meQueryOptions } from "#/queries/me.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
 
 export const Route = createFileRoute("/_protected/tools")({
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/_protected/tools")({
 				staleTime: "static",
 			}),
 			context.queryClient.query({ ...tagsQueryOptions, staleTime: "static" }),
+			context.queryClient.query({ ...meQueryOptions, staleTime: "static" }),
 		]),
 	component: PageTools,
 	head: () => ({

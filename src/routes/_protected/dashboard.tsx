@@ -22,7 +22,6 @@ import {
 	Icon,
 	KeyboardShortcuts,
 	Pagination,
-	Pills,
 	Stats,
 	LinkCard,
 } from "#/components/index.ts";
@@ -39,6 +38,14 @@ import {
 import { meQueryOptions } from "#/queries/me.ts";
 import { clearSession } from "#/queries/session.ts";
 import { type TagRow, tagsQueryOptions } from "#/queries/tags.ts";
+import {
+	type IsFilter,
+	isTypingFilter,
+	parseSearchQuery,
+	setCollectionFilter,
+	setIsFilter,
+	setTagFilters,
+} from "#/searchQuery.ts";
 
 const G_SEQUENCE_MS = 500;
 const REFRESH_THROTTLE_MS = 10_000;
@@ -47,7 +54,29 @@ function getTitles(container: HTMLElement | null) {
 	return [...(container?.querySelectorAll<HTMLElement>("article h2 a") ?? [])];
 }
 
-type DashboardSearch = Omit<LinkFilters, "page"> & { page?: number };
+type DashboardSearch = Pick<LinkFilters, "query"> & {
+	page?: number;
+};
+
+function toLinkFilters(
+	{
+		text,
+		favourite,
+		forLater,
+		tagIds,
+		collectionId,
+	}: ReturnType<typeof parseSearchQuery>,
+	page: number,
+): LinkFilters {
+	return {
+		query: text || undefined,
+		collectionId,
+		favourite,
+		forLater,
+		tagIds,
+		page,
+	};
+}
 
 export const Route = createFileRoute("/_protected/dashboard")({
 	validateSearch: (search: Record<string, unknown>): DashboardSearch => ({
@@ -55,16 +84,6 @@ export const Route = createFileRoute("/_protected/dashboard")({
 			typeof search.query === "string" || typeof search.query === "number"
 				? String(search.query).trim() || undefined
 				: undefined,
-		collectionId:
-			typeof search.collectionId === "string" ? search.collectionId : undefined,
-		tagIds:
-			Array.isArray(search.tagIds) &&
-			search.tagIds.length > 0 &&
-			search.tagIds.every((id) => typeof id === "string")
-				? search.tagIds
-				: undefined,
-		favourite: search.favourite === true ? true : undefined,
-		forLater: search.forLater === true ? true : undefined,
 		page:
 			typeof search.page === "number" &&
 			Number.isInteger(search.page) &&
@@ -80,35 +99,20 @@ export const Route = createFileRoute("/_protected/dashboard")({
 				staleTime: "static",
 			}),
 			context.queryClient.query({ ...tagsQueryOptions, staleTime: "static" }),
+			context.queryClient.query({ ...meQueryOptions, staleTime: "static" }),
 		]);
-
-		const isCollectionInvalid =
-			deps.collectionId !== undefined &&
-			!collections.some((c) => c.id === deps.collectionId);
-		const validTagIds = deps.tagIds?.filter((id) =>
-			tags.some((t) => t.id === id),
-		);
-		const hasInvalidTags = validTagIds?.length !== deps.tagIds?.length;
-
-		if (isCollectionInvalid || hasInvalidTags) {
-			throw redirect({
-				to: "/dashboard",
-				search: {
-					...deps,
-					collectionId: isCollectionInvalid ? undefined : deps.collectionId,
-					tagIds: validTagIds?.length ? validTagIds : undefined,
-					page: undefined,
-				},
-				replace: true,
-			});
-		}
 
 		if (cause === "stay") {
 			return;
 		}
 
 		const links = await context.queryClient.query({
-			...linksQueryOptions({ ...deps, page: deps.page ?? 1 }),
+			...linksQueryOptions(
+				toLinkFilters(
+					parseSearchQuery(deps.query ?? "", tags, collections),
+					deps.page ?? 1,
+				),
+			),
 			staleTime: "static",
 		});
 
@@ -136,10 +140,11 @@ function PageDashboard() {
 	// filters
 	const query = search.query ?? "";
 	const [value, setValue] = useState(query);
-	const favourite = search.favourite ?? false;
-	const forLater = search.forLater ?? false;
-	const selectedTags = search.tagIds ?? [];
-	const selectedCollection = search.collectionId ?? null;
+	const parsedQuery = parseSearchQuery(query, tags, collections);
+	const favourite = parsedQuery.favourite ?? false;
+	const forLater = parsedQuery.forLater ?? false;
+	const selectedTags = parsedQuery.tagIds ?? [];
+	const selectedCollection = parsedQuery.collectionId ?? null;
 
 	// pagination
 	const page = search.page ?? 1;
@@ -168,7 +173,8 @@ function PageDashboard() {
 
 	const debouncedValue = useDebouncedValue(value, 250, (settled) => {
 		const next = settled.trim();
-		if (next === query) {
+		// Waiting for a filter to be finished stops results flashing empty.
+		if (next === query || isTypingFilter(settled, tags, collections)) {
 			return;
 		}
 		void navigate({
@@ -192,53 +198,49 @@ function PageDashboard() {
 		}
 	}
 
-	function setFavourite(value: boolean) {
+	function setFilter(filter: IsFilter, on: boolean) {
+		const next = setIsFilter(value, filter, on);
+		setValue(next);
 		void navigate({
 			search: (prev) => ({
 				...prev,
-				favourite: value || undefined,
+				query: next || undefined,
 				page: undefined,
 			}),
 			replace: true,
 		});
 	}
 
-	function setForLater(value: boolean) {
+	function setFavourite(on: boolean) {
+		setFilter("favourite", on);
+	}
+
+	function setForLater(on: boolean) {
+		setFilter("for-later", on);
+	}
+
+	function setSelectedCollection(id: string | null) {
+		const next = setCollectionFilter(value, collections, id);
+		setValue(next);
 		void navigate({
 			search: (prev) => ({
 				...prev,
-				forLater: value || undefined,
+				query: next || undefined,
 				page: undefined,
 			}),
 			replace: true,
 		});
 	}
 
-	function setSelectedCollection(value: string | null) {
+	function setSelectedTags(ids: Array<string>) {
+		const next = setTagFilters(value, tags, ids);
+		setValue(next);
 		void navigate({
 			search: (prev) => ({
 				...prev,
-				collectionId: value ?? undefined,
+				query: next || undefined,
 				page: undefined,
 			}),
-			replace: true,
-		});
-	}
-
-	function setSelectedTags(value: Array<string>) {
-		void navigate({
-			search: (prev) => ({
-				...prev,
-				tagIds: value.length > 0 ? value : undefined,
-				page: undefined,
-			}),
-			replace: true,
-		});
-	}
-
-	function clearFilters() {
-		void navigate({
-			search: (prev) => ({ query: prev.query }),
 			replace: true,
 		});
 	}
@@ -260,9 +262,9 @@ function PageDashboard() {
 	const lastRefreshRef = useRef(Number.NEGATIVE_INFINITY);
 
 	// Refetches every query on screen (links, tags, collections, me) and marks
-	// the rest stale. Re-running the loader then redirects away from a
-	// collection or tag that was deleted elsewhere. Throttled, because each
-	// refresh makes several API calls that count towards the rate limit.
+	// the rest stale. A collection or tag deleted elsewhere then becomes free
+	// text in the search. Throttled, because each refresh makes several API
+	// calls that count towards the rate limit.
 	async function refresh() {
 		const now = performance.now();
 		if (now - lastRefreshRef.current < REFRESH_THROTTLE_MS) {
@@ -302,7 +304,7 @@ function PageDashboard() {
 	}
 
 	const { data: linksResponse, isPending } = useQuery(
-		linksQueryOptions({ ...search, page }),
+		linksQueryOptions(toLinkFilters(parsedQuery, page)),
 	);
 	const links = linksResponse?.data ?? [];
 
@@ -441,7 +443,14 @@ function PageDashboard() {
 			linksRef.current.focus({ preventScroll: true });
 		}
 		lastFocusedRef.current = null;
-	}, [query, selectedCollection, tagsKey, favourite, forLater, page]);
+	}, [
+		parsedQuery.text,
+		selectedCollection,
+		tagsKey,
+		favourite,
+		forLater,
+		page,
+	]);
 
 	// When the focused card unmounts, the browser drops focus to <body> and the
 	// next j would start from the top. This moves focus to the card now at the
@@ -502,43 +511,6 @@ function PageDashboard() {
 		(c) => c.id === selectedCollection,
 	);
 
-	const filterPills = [
-		...(favourite
-			? [
-					{
-						id: "favourite",
-						label: "Favourite",
-						onRemove: () => setFavourite(false),
-					},
-				]
-			: []),
-		...(forLater
-			? [
-					{
-						id: "forLater",
-						label: "For later",
-						onRemove: () => setForLater(false),
-					},
-				]
-			: []),
-		...(selectedCollectionObj
-			? [
-					{
-						id: `collection:${selectedCollectionObj.id}`,
-						label: `Collection: ${selectedCollectionObj.name}`,
-						onRemove: () => setSelectedCollection(null),
-					},
-				]
-			: []),
-		...selectedTags.map((id) => ({
-			id: `tag:${id}`,
-			label: `#${tags.find((tag) => tag.id === id)?.name ?? id}`,
-			onRemove: () => {
-				setSelectedTags(selectedTags.filter((tag) => tag !== id));
-			},
-		})),
-	];
-
 	return (
 		<Dashboard>
 			<Dashboard.Header>
@@ -546,19 +518,12 @@ function PageDashboard() {
 				<Dashboard.HeaderSearch>
 					<Form.SearchInput
 						label="Search"
-						placeholder="Search links"
+						placeholder='Search, #tag, collection:"name", is:favourite'
 						value={value}
 						onValueChange={setValue}
 						onEnter={focusFirstResult}
 						tags={tags}
 						collections={collections}
-						selectedTags={selectedTags}
-						onSelectedTagsChange={setSelectedTags}
-						onSelectedCollectionChange={setSelectedCollection}
-						favourite={favourite}
-						onFavouriteChange={setFavourite}
-						forLater={forLater}
-						onForLaterChange={setForLater}
 					/>
 					<Dashboard.HeaderTrigger>
 						<DashboardButton
@@ -618,24 +583,14 @@ function PageDashboard() {
 			</Dashboard.Filters>
 
 			<Dashboard.Main>
-				<Dashboard.MainPills>
-					<Dashboard.MainPillsStats>
-						<Stats
-							totalResults={totalResults}
-							totalPages={totalPages}
-							currentPage={currentPage}
-							linksResponse={linkResponseMs}
-						/>
-					</Dashboard.MainPillsStats>
-					{filterPills.length > 0 ? (
-						<>
-							<Dashboard.MainPillsContent>
-								<Pills items={filterPills} noWrap />
-							</Dashboard.MainPillsContent>
-							<Dashboard.MainPillsButton onClick={clearFilters} />
-						</>
-					) : null}
-				</Dashboard.MainPills>
+				<Dashboard.MainStats>
+					<Stats
+						totalResults={totalResults}
+						totalPages={totalPages}
+						currentPage={currentPage}
+						linksResponse={linkResponseMs}
+					/>
+				</Dashboard.MainStats>
 
 				{criticalError ? (
 					<Dashboard.MainCritical errorMessage={criticalError} />
@@ -662,20 +617,26 @@ function PageDashboard() {
 								>
 									<LinkCard
 										link={link}
-										query={query}
+										query={parsedQuery.text}
 										onEdit={openEditLink}
 										onTagClick={(tagId) => {
 											void navigate({
-												search: (prev) => ({
-													query: prev.query,
-													tagIds: [tagId],
-												}),
+												search: {
+													query: setTagFilters("", tags, [tagId]) || undefined,
+												},
 												replace: true,
 											});
 										}}
 										onCollectionClick={(collectionId) => {
 											void navigate({
-												search: (prev) => ({ query: prev.query, collectionId }),
+												search: {
+													query:
+														setCollectionFilter(
+															"",
+															collections,
+															collectionId,
+														) || undefined,
+												},
 												replace: true,
 											});
 										}}

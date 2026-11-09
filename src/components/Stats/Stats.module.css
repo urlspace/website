@@ -1,24 +1,19 @@
 .stats {
 	display: flex;
-	flex-wrap: nowrap;
-	text-wrap: nowrap;
+	font-size: 0.8125rem;
+	line-height: 1rlh;
 }
 
 .item {
 	display: flex;
-	flex-wrap: nowrap;
-}
-
-.itemExtra {
-	display: none;
 
 	&::before {
 		content: "·";
 		margin-inline: 0.25rem;
 	}
 
-	@media (width >= 1100px) {
-		display: flex;
+	&:first-child::before {
+		display: none;
 	}
 }
 

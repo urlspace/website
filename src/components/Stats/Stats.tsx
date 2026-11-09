@@ -13,17 +13,15 @@ function Stats({
 }) {
 	return (
 		<dl className={styles.stats}>
-			{totalResults !== undefined ? (
-				<div className={styles.item} aria-live="polite" aria-atomic="true">
-					<dt className={styles.term}>Results</dt>
-					<dd>{totalResults}</dd>
-				</div>
-			) : null}
+			<div className={styles.item} aria-live="polite" aria-atomic="true">
+				<dt className={styles.term}>Results</dt>
+				<dd>{totalResults ? totalResults : "-"}</dd>
+			</div>
 
 			{currentPage !== undefined &&
 			totalPages !== undefined &&
 			totalPages > 1 ? (
-				<div className={[styles.item, styles.itemExtra].join(" ")}>
+				<div className={styles.item}>
 					<dt className={styles.term}>Pages</dt>
 					<dd>
 						{currentPage}/{totalPages}
@@ -32,7 +30,7 @@ function Stats({
 			) : null}
 
 			{linksResponse !== undefined ? (
-				<div className={[styles.item, styles.itemExtra].join(" ")}>
+				<div className={styles.item}>
 					<dt className={styles.term}>Response time</dt>
 					<dd>{linksResponse}ms</dd>
 				</div>

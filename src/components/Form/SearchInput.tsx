@@ -1,108 +1,54 @@
-import { useCombobox } from "downshift";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+
+import {
+	applySuggestion,
+	getSuggestions,
+	parseSearchQuery,
+	type SearchItem,
+} from "#/searchQuery.ts";
 
 import Icon from "../Icons/Icons";
 
 import styles from "./Form.module.css";
 
-type TagRow = {
-	id: string;
-	name: string;
-	createdAt: string;
-	updatedAt: string;
+// OpaqueRange isn't in TypeScript's DOM types yet.
+type OpaqueRangeInput = HTMLInputElement & {
+	createValueRange?: (start: number, end: number) => AbstractRange;
 };
-
-type CollectionRow = {
-	id: string;
-	name: string;
-	description: string;
-	public: boolean;
-	createdAt: string;
-	updatedAt: string;
-};
-
-type Mode = "tag" | "col" | "is";
-
-type ParsedInput = {
-	freeText: string;
-	mode: Mode | null;
-	query: string;
-};
-
-// Active prefix = last "tag:" / "col:" / "is:" in the input that starts the
-// string (or follows whitespace) AND has no whitespace between the colon and
-// end. Whitespace after the query terminates prefix mode — see grilling notes.
-function parseInput(raw: string): ParsedInput {
-	const match = raw.match(/(?:^|\s)(tag:|col:|is:)(\S*)$/);
-	if (!match) return { freeText: raw, mode: null, query: "" };
-
-	const prefix = match[1];
-	const query = match[2];
-	const hasLeadingWs = match[0].length > prefix.length + query.length;
-	const prefixStart = (match.index ?? 0) + (hasLeadingWs ? 1 : 0);
-
-	const mode: Mode =
-		prefix === "tag:" ? "tag" : prefix === "col:" ? "col" : "is";
-
-	return {
-		freeText: raw.slice(0, prefixStart),
-		mode,
-		query,
-	};
-}
-
-type Item = { id: string; name: string };
-
-const IS_OPTIONS: Item[] = [
-	{ id: "favourite", name: "Favourite" },
-	{ id: "forLater", name: "For later" },
-];
 
 function SearchInput({
 	collections,
-	favourite,
-	forLater,
 	label,
 	onEnter,
-	onFavouriteChange,
-	onForLaterChange,
-	onSelectedCollectionChange,
-	onSelectedTagsChange,
 	onValueChange,
 	placeholder,
-	selectedTags,
 	tags,
 	value,
 }: {
-	collections: CollectionRow[];
-	favourite: boolean;
-	forLater: boolean;
+	collections: SearchItem[];
 	label: string;
 	onEnter: () => void;
-	onFavouriteChange: (value: boolean) => void;
-	onForLaterChange: (value: boolean) => void;
-	onSelectedCollectionChange: (value: string | null) => void;
-	onSelectedTagsChange: (value: string[]) => void;
 	onValueChange: (v: string) => void;
 	placeholder: string;
-	selectedTags: string[];
-	tags: TagRow[];
+	tags: SearchItem[];
 	value: string;
 }) {
 	const reactId = useId();
 	const inputId = `search-${reactId}`;
-	const [rawInput, setRawInput] = useState(value);
-	const [escapeClosed, setEscapeClosed] = useState(false);
+	const listId = `${inputId}-list`;
+	const inputRef = useRef<OpaqueRangeInput>(null);
+	const popupRef = useRef<HTMLUListElement>(null);
+	const [caret, setCaret] = useState(0);
+	const [isDismissed, setIsDismissed] = useState(true);
+	const [highlighted, setHighlighted] = useState(0);
 
-	// Sync external value resets (e.g. clear-all elsewhere) into rawInput.
-	useEffect(() => {
-		const currentFree = parseInput(rawInput).freeText.trim();
-		if (currentFree !== value) {
-			setRawInput(value);
-			setEscapeClosed(false);
-		}
-		// oxlint-disable-next-line react-hooks/exhaustive-deps -- only react to external value changes
-	}, [value]);
+	const suggestions = isDismissed
+		? null
+		: getSuggestions(value, caret, tags, collections);
+	const isOpen = suggestions !== null;
+	const activeIndex = suggestions
+		? Math.min(highlighted, suggestions.items.length - 1)
+		: 0;
 
 	useEffect(() => {
 		function handleGlobalKey(e: KeyboardEvent) {
@@ -117,108 +63,78 @@ function SearchInput({
 			)
 				return;
 			e.preventDefault();
-			document.getElementById(inputId)?.focus({ preventScroll: true });
+			inputRef.current?.focus({ preventScroll: true });
 		}
 		window.addEventListener("keydown", handleGlobalKey);
 		return () => window.removeEventListener("keydown", handleGlobalKey);
-	}, [inputId]);
+	}, []);
 
-	const parsed = parseInput(rawInput);
-	const queryLower = parsed.query.toLowerCase();
-	const isOpen = parsed.mode !== null && !escapeClosed;
+	useEffect(() => {
+		popupRef.current?.togglePopover(isOpen);
+	}, [isOpen]);
 
-	const items: Item[] =
-		parsed.mode === "tag"
-			? tags
-					.filter((t) => !selectedTags.includes(t.id))
-					.filter(
-						(t) => !queryLower || t.name.toLowerCase().includes(queryLower),
-					)
-					.map((t) => ({ id: t.id, name: t.name }))
-			: parsed.mode === "col"
-				? collections
-						.filter(
-							(c) => !queryLower || c.name.toLowerCase().includes(queryLower),
-						)
-						.map((c) => ({ id: c.id, name: c.name }))
-				: parsed.mode === "is"
-					? IS_OPTIONS.filter((o) => {
-							if (o.id === "favourite" && favourite) return false;
-							if (o.id === "forLater" && forLater) return false;
-							return !queryLower || o.name.toLowerCase().includes(queryLower);
-						})
-					: [];
+	useEffect(() => {
+		if (!isOpen) return;
+		popupRef.current?.children[activeIndex]?.scrollIntoView({
+			block: "nearest",
+		});
+	}, [isOpen, activeIndex]);
 
-	function updateRawAndValue(next: string) {
-		setRawInput(next);
-		const nextFree = parseInput(next).freeText.trim();
-		if (nextFree !== value) onValueChange(nextFree);
+	useEffect(() => {
+		const input = inputRef.current;
+		if (!input?.createValueRange || !("highlights" in CSS)) return;
+		const createRange = input.createValueRange.bind(input);
+		const ranges = parseSearchQuery(value, tags, collections).ranges.map(
+			({ start, end }) => createRange(start, end),
+		);
+		CSS.highlights.set("search-filter", new Highlight(...ranges));
+		return () => {
+			CSS.highlights.delete("search-filter");
+		};
+	}, [value, tags, collections]);
+
+	function commit(token: string) {
+		const input = inputRef.current;
+		if (!suggestions || !input) return;
+		const next = applySuggestion(value, suggestions, token);
+		input.value = next.value;
+		input.setSelectionRange(next.caret, next.caret);
+		setCaret(next.caret);
+		setHighlighted(0);
+		onValueChange(next.value);
 	}
 
-	function commit(item: Item) {
-		const nextRaw = parsed.freeText;
-		updateRawAndValue(nextRaw);
-		if (parsed.mode === "tag") {
-			onSelectedTagsChange(
-				selectedTags.includes(item.id)
-					? selectedTags
-					: [...selectedTags, item.id],
-			);
-		} else if (parsed.mode === "col") {
-			onSelectedCollectionChange(item.id);
-		} else if (parsed.mode === "is") {
-			if (item.id === "favourite") onFavouriteChange(true);
-			else if (item.id === "forLater") onForLaterChange(true);
+	function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+		if (e.nativeEvent.isComposing) return;
+		if (!suggestions) {
+			if (e.key === "Enter") {
+				e.preventDefault();
+				onEnter();
+			}
+			return;
+		}
+		if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+			e.preventDefault();
+			const count = suggestions.items.length;
+			const step = e.key === "ArrowDown" ? 1 : -1;
+			setHighlighted((activeIndex + step + count) % count);
+		} else if (e.key === "Enter" || e.key === "Tab") {
+			e.preventDefault();
+			commit(suggestions.items[activeIndex]);
+		} else if (e.key === "Escape") {
+			e.preventDefault();
+			setIsDismissed(true);
 		}
 	}
 
 	function clearSearch() {
-		updateRawAndValue("");
-		setEscapeClosed(false);
-		document.getElementById(inputId)?.focus();
+		onValueChange("");
+		inputRef.current?.focus();
 	}
-
-	const {
-		getInputProps,
-		getLabelProps,
-		getMenuProps,
-		getItemProps,
-		highlightedIndex,
-	} = useCombobox<Item>({
-		items,
-		inputValue: rawInput,
-		isOpen,
-		selectedItem: null,
-		defaultHighlightedIndex: 0,
-		inputId,
-		itemToString: (item) => item?.name ?? "",
-		stateReducer(_state, { changes, type }) {
-			switch (type) {
-				case useCombobox.stateChangeTypes.InputKeyDownEnter:
-				case useCombobox.stateChangeTypes.ItemClick:
-					return { ...changes, highlightedIndex: 0 };
-				default:
-					return changes;
-			}
-		},
-		onStateChange({ type, selectedItem }) {
-			switch (type) {
-				case useCombobox.stateChangeTypes.InputKeyDownEnter:
-				case useCombobox.stateChangeTypes.ItemClick:
-					if (selectedItem) commit(selectedItem);
-					break;
-				case useCombobox.stateChangeTypes.InputKeyDownEscape:
-					setEscapeClosed(true);
-					break;
-				default:
-					break;
-			}
-		},
-	});
 
 	return (
 		<search className={styles.field} style={{ marginInline: "-2px" }}>
-			<label {...getLabelProps({ className: styles.visuallyHidden })}>
+			<label htmlFor={inputId} className={styles.visuallyHidden}>
 				{label}
 			</label>
 			<div className={styles.comboboxWrapper}>
@@ -227,40 +143,38 @@ function SearchInput({
 						<Icon.Search />
 					</div>
 					<input
-						{...getInputProps({
-							className: styles.searchInput,
-							placeholder,
-							"aria-keyshortcuts": "/",
-							// Downshift sets aria-activedescendant="" when nothing is
-							// highlighted, and keeps pointing at item 0 (defaultHighlightedIndex)
-							// even when the list is empty. Empty or dangling IDREFs are invalid
-							// ARIA and screen readers handle them inconsistently, so drop the
-							// attribute unless it points at a rendered option. Only override
-							// in that case, otherwise the valid id from Downshift is wiped out.
-							...(isOpen &&
-							highlightedIndex > -1 &&
-							highlightedIndex < items.length
-								? {}
-								: { "aria-activedescendant": undefined }),
-							onChange: (e) => {
-								setEscapeClosed(false);
-								updateRawAndValue(e.currentTarget.value);
-							},
-							onKeyDown: (e) => {
-								if (e.key !== "Enter" || isOpen || e.nativeEvent.isComposing) {
-									return;
-								}
-								e.preventDefault();
-								onEnter();
-							},
-						})}
+						aria-activedescendant={
+							isOpen ? `${listId}-${activeIndex}` : undefined
+						}
+						aria-autocomplete="list"
+						aria-controls={listId}
+						aria-expanded={isOpen}
+						aria-keyshortcuts="/"
+						autoComplete="off"
+						className={styles.searchInput}
+						id={inputId}
+						onBlur={() => setIsDismissed(true)}
+						onChange={(e) => {
+							setCaret(e.currentTarget.selectionStart ?? 0);
+							setIsDismissed(false);
+							setHighlighted(0);
+							onValueChange(e.currentTarget.value);
+						}}
+						onFocus={() => setIsDismissed(false)}
+						onKeyDown={handleKeyDown}
+						onSelect={(e) => setCaret(e.currentTarget.selectionStart ?? 0)}
+						placeholder={placeholder}
+						ref={inputRef}
+						role="combobox"
+						spellCheck={false}
+						type="text"
+						value={value}
 					/>
-					{rawInput === "" ? (
+					{value === "" ? (
 						<span className={styles.searchHint} aria-hidden="true">
 							Press <kbd>/</kbd> to search
 						</span>
-					) : null}
-					{rawInput !== "" ? (
+					) : (
 						<button
 							type="button"
 							className={styles.searchClear}
@@ -269,36 +183,31 @@ function SearchInput({
 						>
 							<Icon.Close />
 						</button>
-					) : null}
+					)}
 				</div>
 
 				<ul
-					{...getMenuProps({
-						className: styles.comboboxPopup,
-						hidden: !isOpen,
-					})}
+					aria-label="Filter suggestions"
+					className={styles.comboboxPopup}
+					id={listId}
+					popover="manual"
+					ref={popupRef}
+					role="listbox"
 				>
-					{isOpen && items.length === 0 ? (
-						<li className={styles.comboboxEmpty}>
-							{parsed.mode === "tag"
-								? "No matching tags"
-								: parsed.mode === "col"
-									? "No matching collections"
-									: "No matching filters"}
+					{suggestions?.items.map((token, index) => (
+						<li
+							aria-selected={index === activeIndex}
+							className={styles.comboboxItem}
+							data-highlighted={index === activeIndex ? "" : undefined}
+							id={`${listId}-${index}`}
+							key={token}
+							onClick={() => commit(token)}
+							onMouseDown={(e) => e.preventDefault()}
+							role="option"
+						>
+							{token}
 						</li>
-					) : null}
-					{isOpen
-						? items.map((item, index) => (
-								<li
-									key={item.id}
-									{...getItemProps({ item, index })}
-									data-highlighted={highlightedIndex === index ? "" : undefined}
-									className={styles.comboboxItem}
-								>
-									{parsed.mode === "tag" ? `#${item.name}` : item.name}
-								</li>
-							))
-						: null}
+					))}
 				</ul>
 			</div>
 		</search>

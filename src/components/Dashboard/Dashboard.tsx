@@ -1,5 +1,3 @@
-import Icon from "../Icons/Icons";
-
 import styles from "./Dashboard.module.css";
 
 function Dashboard({ children }: { children: React.ReactNode }) {
@@ -78,32 +76,8 @@ function DashboardMain({ children }: { children: React.ReactNode }) {
 	return <div className={styles.main}>{children}</div>;
 }
 
-function DashboardMainPills({ children }: { children: React.ReactNode }) {
-	return <div className={styles.pills}>{children}</div>;
-}
-
-function DashboardMainPillsStats({ children }: { children: React.ReactNode }) {
-	return <div className={styles.pillsStats}>{children}</div>;
-}
-
-function DashboardMainPillsContent({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
-	return <div className={styles.pillsContent}>{children}</div>;
-}
-
-function DashboardMainPillsButton({ onClick }: { onClick: () => void }) {
-	return (
-		<button
-			className={styles.pillsButton}
-			onClick={onClick}
-			aria-label="Close filters"
-		>
-			<Icon.Close />
-		</button>
-	);
+function DashboardMainStats({ children }: { children: React.ReactNode }) {
+	return <div className={styles.stats}>{children}</div>;
 }
 
 function DashboardMainCritical({ errorMessage }: { errorMessage: string }) {
@@ -165,10 +139,7 @@ Dashboard.SkipFilters = DashboardSkipFilters;
 Dashboard.Filters = Filters;
 
 Dashboard.Main = DashboardMain;
-Dashboard.MainPills = DashboardMainPills;
-Dashboard.MainPillsStats = DashboardMainPillsStats;
-Dashboard.MainPillsContent = DashboardMainPillsContent;
-Dashboard.MainPillsButton = DashboardMainPillsButton;
+Dashboard.MainStats = DashboardMainStats;
 Dashboard.MainCritical = DashboardMainCritical;
 Dashboard.MainLinks = DashboardMainLinks;
 Dashboard.MainLinksList = DashboardMainLinksList;

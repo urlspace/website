@@ -305,12 +305,13 @@
 }
 
 .comboboxWrapper {
-	position: relative;
+	container-type: inline-size;
 }
 
 .comboboxInputGroup {
 	--outline-color: var(--color-border-input);
 
+	anchor-name: --search-input;
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -360,8 +361,10 @@
 	white-space: nowrap;
 	pointer-events: none;
 
-	@media (hover: hover) and (pointer: fine) and (width >= 900px) {
-		display: block;
+	@media (hover: hover) and (pointer: fine) {
+		@container (width > 540px) {
+			display: block;
+		}
 	}
 
 	.searchInput:focus + & {
@@ -392,31 +395,30 @@
 }
 
 .comboboxPopup {
-	width: calc(100% - 6px);
-	position: absolute;
-	z-index: 2;
-	top: calc(100% + 5px);
-	left: 3px;
-	right: 0;
+	position-anchor: --search-input;
+	inset: auto;
+	top: calc(anchor(bottom) + 6px);
+	left: anchor(left);
+	width: anchor-size(width);
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	background-color: var(--color-bg-fade);
+	border: none;
+	color: inherit;
+	background-color: var(--color-bg);
 	outline: 1px solid var(--color-border-input);
 
-	/* outline-offset: -10px; */
-	max-height: calc(1.5lh * 9);
+	max-height: calc(100dvh - 3rlh);
 	overflow-y: scroll;
 	scrollbar-width: none;
 	overscroll-behavior-y: contain;
 	border-radius: var(--radius);
 
-	&[hidden] {
-		display: none;
-	}
-
-	dialog & {
-		max-height: calc(1.5lh * 4);
+	@supports not (anchor-name: --search-input) {
+		top: 3.5lh;
+		left: 1lh;
+		right: 1lh;
+		width: auto;
 	}
 }
 
@@ -432,9 +434,11 @@
 	}
 }
 
-.comboboxEmpty {
-	padding: 0.25lh 0.5lh;
-	color: color-mix(in srgb, var(--color-fg) 50%, transparent);
+::highlight(search-filter) {
+	color: var(--color-link);
+	text-decoration: underline;
+	text-decoration-thickness: 1.5px;
+	text-underline-offset: 2px;
 }
 
 .searchInput {

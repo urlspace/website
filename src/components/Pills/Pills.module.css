@@ -7,10 +7,6 @@
 	list-style: none;
 }
 
-.tagsListNoWrap {
-	flex-wrap: nowrap;
-}
-
 .tag {
 	display: flex;
 	align-items: center;
