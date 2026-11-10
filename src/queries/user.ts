@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 
-import { getOriginAuthHeaders } from "#/utils.ts";
+import { getOriginAuthHeaders } from "#/utils/getOriginAuthHeaders.ts";
 
 export type PublicUser = {
 	displayName: string;

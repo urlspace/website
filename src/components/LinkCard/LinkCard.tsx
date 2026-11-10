@@ -10,7 +10,7 @@ import {
 } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
-import { formatDate } from "#/utils.ts";
+import { formatDate } from "#/utils/formatDate.ts";
 
 import { DashboardButtonAction, DashboardMenu } from "..";
 

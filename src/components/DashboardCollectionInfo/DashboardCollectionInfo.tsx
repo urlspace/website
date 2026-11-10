@@ -1,5 +1,5 @@
 import type { CollectionRow } from "#/queries/collections.ts";
-import { siteUrl } from "#/utils.ts";
+import { siteUrl } from "#/utils/urls.ts";
 
 import { CopyBox } from "..";
 

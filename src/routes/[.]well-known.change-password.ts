@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getCookie } from "@tanstack/react-start/server";
 
-import { dashboardUrl } from "#/utils.ts";
+import { dashboardUrl } from "#/utils/urls.ts";
 
 export const Route = createFileRoute("/.well-known/change-password")({
 	server: {

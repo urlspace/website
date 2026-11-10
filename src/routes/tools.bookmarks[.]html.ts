@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import buildNetscape from "#/parsers/netscape-export.ts";
 import type { CollectionRow } from "#/queries/collections.ts";
 import type { LinkRow, Pagination } from "#/queries/links.ts";
-import { getOriginAuthHeaders } from "#/utils.ts";
+import { getOriginAuthHeaders } from "#/utils/getOriginAuthHeaders.ts";
 
 const PAGE_SIZE = 500;
 const REQUESTS_PER_BATCH = 30;

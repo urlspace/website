@@ -5,7 +5,8 @@ import { useState } from "react";
 import { collectionsQueryOptions } from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
-import { siteUrl, slugify } from "#/utils.ts";
+import { slugify } from "#/utils/slugify.ts";
+import { siteUrl } from "#/utils/urls.ts";
 
 import { Button } from "../Button/Button.tsx";
 import CopyBox from "../CopyBox/CopyBox.tsx";

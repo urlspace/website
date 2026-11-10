@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 
-import { formatDate } from "#/utils.ts";
+import { formatDate } from "#/utils/formatDate.ts";
 
 import styles from "./LinkCard.module.css";
 

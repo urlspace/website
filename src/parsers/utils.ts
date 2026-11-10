@@ -1,4 +1,4 @@
-import { slugify } from "#/utils.ts";
+import { slugify } from "#/utils/slugify.ts";
 
 import {
 	COLLECTION_DESCRIPTION_LENGTH_MAX,

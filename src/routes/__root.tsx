@@ -11,11 +11,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { getCookie, getRequest } from "@tanstack/react-start/server";
 import { useEffect } from "react";
 
-import {
-	hasSeparateDashboard,
-	reloadOnPreloadError,
-	toPublicUrl,
-} from "#/utils.ts";
+import { reloadOnPreloadError } from "#/utils/reloadOnPreloadError.ts";
+import { toPublicUrl } from "#/utils/toPublicUrl.ts";
+import { hasSeparateDashboard } from "#/utils/urls.ts";
 
 import appCss from "../styles.css?url";
 

@@ -25,7 +25,7 @@ import {
 import { linksQueryKey } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { clearSession } from "#/queries/session.ts";
-import { formatDate } from "#/utils.ts";
+import { formatDate } from "#/utils/formatDate.ts";
 
 type Layout = "list" | "masonry";
 const layoutStorageKey = "public-collection-layout";

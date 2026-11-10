@@ -4,7 +4,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 
 import { clearSession } from "#/queries/session.ts";
-import { getOriginAuthHeaders } from "#/utils.ts";
+import { getOriginAuthHeaders } from "#/utils/getOriginAuthHeaders.ts";
 
 export type SessionRow = {
 	id: string;

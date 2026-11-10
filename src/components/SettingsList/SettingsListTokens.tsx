@@ -6,7 +6,7 @@ import {
 import { useState } from "react";
 
 import { tokensQueryKey, tokensQueryOptions } from "#/queries/tokens.ts";
-import { formatDate } from "#/utils.ts";
+import { formatDate } from "#/utils/formatDate.ts";
 
 import { Button, DashboardButtonAction, Dialog, Stack } from "..";
 

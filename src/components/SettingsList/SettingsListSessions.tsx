@@ -7,7 +7,7 @@ import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { sessionsQueryKey, sessionsQueryOptions } from "#/queries/sessions.ts";
-import { formatDate } from "#/utils.ts";
+import { formatDate } from "#/utils/formatDate.ts";
 
 import { Button, DashboardButtonAction, Dialog, Stack } from "..";
 

@@ -3,7 +3,9 @@ import { createRouter as createTanStackRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 
 import { routeTree } from "./routeTree.gen";
-import { fromPublicUrl, hasSeparateDashboard, toPublicUrl } from "./utils.ts";
+import { fromPublicUrl } from "./utils/fromPublicUrl.ts";
+import { toPublicUrl } from "./utils/toPublicUrl.ts";
+import { hasSeparateDashboard } from "./utils/urls.ts";
 
 export function getRouter() {
 	const queryClient = new QueryClient();

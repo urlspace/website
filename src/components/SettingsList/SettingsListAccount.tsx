@@ -10,7 +10,7 @@ import {
 	type SubscriptionRow,
 	subscriptionsQueryOptions,
 } from "#/queries/subscriptions.ts";
-import { formatDate } from "#/utils.ts";
+import { formatDate } from "#/utils/formatDate.ts";
 
 import {
 	DashboardButtonAction,
