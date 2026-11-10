@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import {
 	createFileRoute,
 	Link,
@@ -7,11 +8,14 @@ import {
 } from "@tanstack/react-router";
 import React from "react";
 
+import type { SubmitHelpers } from "#/components/Form/Form";
 import {
 	Button,
 	ButtonLink,
 	DashboardButton,
 	DashboardButtonLink,
+	Dialog,
+	Form,
 	Heading,
 	Icon,
 	LinkCardSlim,
@@ -85,10 +89,16 @@ export const Route = createFileRoute("/_public/$username/$slug")({
 	component: PagePublicCollection,
 });
 
+function normalizeName(name: string) {
+	return name.normalize("NFC").trim().replace(/\s+/g, " ").toLowerCase();
+}
+
 function PagePublicCollection() {
 	const router = useRouter();
 	const [layout, setLayout] = React.useState<Layout>("list");
-	const [isCloning, setIsCloning] = React.useState(false);
+	const [isCloneOpen, setIsCloneOpen] = React.useState(false);
+	const [cloneName, setCloneName] = React.useState("");
+	const [cloneFormKey, setCloneFormKey] = React.useState(0);
 	const [clonedCollection, setClonedCollection] =
 		React.useState<SearchItem | null>(null);
 	const [isOwnCollection, setIsOwnCollection] = React.useState(false);
@@ -98,6 +108,10 @@ function PagePublicCollection() {
 	const { username, slug } = Route.useParams();
 	const { hasSession, queryClient } = Route.useRouteContext();
 	const canClone = hasSession && !sessionExpired;
+	const { data: collections = [] } = useQuery({
+		...collectionsQueryOptions,
+		enabled: isCloneOpen,
+	});
 
 	async function handleShare() {
 		if (!navigator.share) {
@@ -118,11 +132,37 @@ function PagePublicCollection() {
 		}
 	}
 
-	async function handleClone() {
-		if (!canClone || isCloning || clonedCollection || isOwnCollection) return;
-
+	function openCloneDialog() {
+		setCloneName(collection.name);
 		setCloneError(null);
-		setIsCloning(true);
+		setCloneFormKey((key) => key + 1);
+		setIsCloneOpen(true);
+	}
+
+	async function handleClone(
+		e: React.SubmitEvent<HTMLFormElement>,
+		{ setError, setLoading }: SubmitHelpers,
+	) {
+		e.preventDefault();
+
+		const trimmedName = cloneName.trim();
+		if (trimmedName.length < 2) {
+			setError("Collection name must be at least 2 characters.");
+			return;
+		}
+
+		// Mirrors the API's case-insensitive check; the 409 catches edge cases.
+		if (
+			collections.some(
+				(c) => normalizeName(c.name) === normalizeName(trimmedName),
+			)
+		) {
+			setError("You already have a collection with that name.");
+			return;
+		}
+
+		setError(null);
+		setLoading(true);
 
 		try {
 			const res = await fetch(
@@ -131,10 +171,12 @@ function PagePublicCollection() {
 					method: "POST",
 					credentials: "include",
 					headers: { "content-type": "application/json" },
+					body: JSON.stringify({ name: trimmedName }),
 				},
 			);
 
 			if (res.status === 401) {
+				setIsCloneOpen(false);
 				setSessionExpired(true);
 				setCloneError(
 					"Your session expired. Sign in to clone this collection.",
@@ -154,38 +196,37 @@ function PagePublicCollection() {
 
 			if (!res.ok) {
 				switch (res.status) {
+					case 400:
+						setError("Incorrect body.");
+						break;
 					case 403: {
 						const message = ((await res.json()) as { data: string }).data;
 						if (message === "collection limit reached") {
-							setCloneError(
+							setError(
 								"You've reached the collection limit on a free account. Delete a collection or upgrade your account.",
 							);
 						} else if (message === "link limit reached") {
-							setCloneError(
+							setError(
 								"Cloning this collection would exceed the link limit on a free account. Delete some links or upgrade your account.",
 							);
 						} else {
+							setIsCloneOpen(false);
 							setIsOwnCollection(true);
 							setCloneError("You cannot clone your own collection.");
 						}
 						break;
 					}
 					case 404:
-						setCloneError("This collection is no longer available to clone.");
+						setError("This collection is no longer available to clone.");
 						break;
 					case 409:
-						setCloneError(
-							((await res.json()) as { data: string }).data ===
-								"slug is already taken"
-								? "You already have a collection with that slug."
-								: "You already have a collection with that name.",
-						);
+						setError("You already have a collection with that name.");
 						break;
 					case 429:
-						setCloneError("Too many attempts. Try again in a moment.");
+						setError("Too many attempts. Try again in a moment.");
 						break;
 					default:
-						setCloneError(
+						setError(
 							"We couldn't confirm whether the collection was cloned. Check your collections before trying again.",
 						);
 				}
@@ -193,6 +234,7 @@ function PagePublicCollection() {
 			}
 
 			setClonedCollection(((await res.json()) as { data: SearchItem }).data);
+			setIsCloneOpen(false);
 			await Promise.allSettled([
 				queryClient.invalidateQueries({
 					queryKey: collectionsQueryOptions.queryKey,
@@ -201,11 +243,11 @@ function PagePublicCollection() {
 				queryClient.invalidateQueries({ queryKey: meQueryOptions.queryKey }),
 			]);
 		} catch {
-			setCloneError(
+			setError(
 				"We couldn't confirm whether the collection was cloned. Check your collections before trying again.",
 			);
 		} finally {
-			setIsCloning(false);
+			setLoading(false);
 		}
 	}
 
@@ -242,10 +284,9 @@ function PagePublicCollection() {
 				<ButtonLink text="Sign in" to="/auth/signin" />
 			) : isOwnCollection ? null : hasSession ? (
 				<Button
-					text={isCloning ? "Cloning..." : "Clone collection"}
+					text="Clone collection"
 					type="button"
-					disabled={isCloning}
-					onClick={handleClone}
+					onClick={openCloneDialog}
 				/>
 			) : (
 				<ButtonLink text="Sign up and clone collection" to="/auth/signup" />
@@ -381,6 +422,28 @@ function PagePublicCollection() {
 					<Public.ViewListAside>{cloneSection}</Public.ViewListAside>
 				</Public.ViewList>
 			)}
+			<Dialog
+				open={isCloneOpen}
+				onClose={() => setIsCloneOpen(false)}
+				title="Clone collection"
+			>
+				<Form key={cloneFormKey} onSubmit={handleClone}>
+					<Form.Input
+						label="Collection name"
+						name="collection-name"
+						onChange={setCloneName}
+						placeholder="Keto recipes"
+						required
+						type="text"
+						value={cloneName}
+						minLength={2}
+						maxLength={128}
+						pattern="[^\p{Cc}]{2,128}"
+						description="Between 2 and 128 characters."
+					/>
+					<Form.Submit text="Clone collection" textLoading="Cloning..." />
+				</Form>
+			</Dialog>
 		</Public>
 	);
 }
