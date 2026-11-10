@@ -29,8 +29,13 @@ function splitWords(raw: string) {
 	return [...raw.matchAll(WORD)].map((match) => match[0]);
 }
 
+// Accepts the American spelling of favourite.
+function normalizeWord(word: string) {
+	return word.toLowerCase().replace(/^is:favor/, "is:favour");
+}
+
 function includesToken(tokens: string[], word: string) {
-	return tokens.some((token) => token.toLowerCase() === word.toLowerCase());
+	return tokens.some((token) => normalizeWord(token) === normalizeWord(word));
 }
 
 function candidatesFor(
@@ -75,7 +80,7 @@ export function parseSearchQuery(
 
 	words.forEach((match) => {
 		const word = match[0];
-		const lower = word.toLowerCase();
+		const lower = normalizeWord(word);
 		const end = match.index + word.length;
 		const filter = IS_FILTERS.find((f) => isToken(f) === lower);
 		const tag = tags.find((t) => tagToken(t) === lower);
@@ -109,7 +114,7 @@ export function isTypingFilter(
 	if (!last || last.index + last[0].length !== raw.length) {
 		return false;
 	}
-	const candidates = candidatesFor(last[0].toLowerCase(), tags, collections);
+	const candidates = candidatesFor(normalizeWord(last[0]), tags, collections);
 	return candidates.length > 0 && !includesToken(candidates, last[0]);
 }
 
@@ -125,7 +130,7 @@ export function getSuggestions(
 	if (!active) {
 		return null;
 	}
-	const word = active[0].toLowerCase();
+	const word = normalizeWord(active[0]);
 	const candidates = candidatesFor(word, tags, collections);
 	if (includesToken(candidates, word)) {
 		return null;
