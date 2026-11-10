@@ -25,6 +25,7 @@ import {
 import { linksQueryKey } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { clearSession } from "#/queries/session.ts";
+import { type SearchItem, setCollectionFilter } from "#/searchQuery.ts";
 import { formatDate } from "#/utils/formatDate.ts";
 
 type Layout = "list" | "masonry";
@@ -88,7 +89,8 @@ function PagePublicCollection() {
 	const router = useRouter();
 	const [layout, setLayout] = React.useState<Layout>("list");
 	const [isCloning, setIsCloning] = React.useState(false);
-	const [isCloned, setIsCloned] = React.useState(false);
+	const [clonedCollection, setClonedCollection] =
+		React.useState<SearchItem | null>(null);
 	const [isOwnCollection, setIsOwnCollection] = React.useState(false);
 	const [cloneError, setCloneError] = React.useState<string | null>(null);
 	const [sessionExpired, setSessionExpired] = React.useState(false);
@@ -117,7 +119,7 @@ function PagePublicCollection() {
 	}
 
 	async function handleClone() {
-		if (!canClone || isCloning || isCloned || isOwnCollection) return;
+		if (!canClone || isCloning || clonedCollection || isOwnCollection) return;
 
 		setCloneError(null);
 		setIsCloning(true);
@@ -190,7 +192,7 @@ function PagePublicCollection() {
 				return;
 			}
 
-			setIsCloned(true);
+			setClonedCollection(((await res.json()) as { data: SearchItem }).data);
 			await Promise.allSettled([
 				queryClient.invalidateQueries({
 					queryKey: collectionsQueryOptions.queryKey,
@@ -219,8 +221,23 @@ function PagePublicCollection() {
 					: "Create a free account to save a private copy of this collection. Organise it your way."}
 			</p>
 			{cloneError ? <p role="alert">{cloneError}</p> : null}
-			{isCloned ? (
-				<p role="status">Collection cloned. Your copy is private.</p>
+			{clonedCollection ? (
+				<p role="status">
+					Collection cloned.{" "}
+					<Link
+						to="/dashboard"
+						search={{
+							query: setCollectionFilter(
+								"",
+								[clonedCollection],
+								clonedCollection.id,
+							),
+						}}
+					>
+						Your copy
+					</Link>{" "}
+					is private.
+				</p>
 			) : sessionExpired ? (
 				<ButtonLink text="Sign in" to="/auth/signin" />
 			) : isOwnCollection ? null : hasSession ? (
