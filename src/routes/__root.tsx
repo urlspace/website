@@ -160,7 +160,7 @@ function NotFound() {
 function GenericError() {
 	return (
 		<main>
-			<h1>Generic error</h1>
+			<h1>Error: Something ain't right here</h1>
 		</main>
 	);
 }

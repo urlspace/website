@@ -169,11 +169,15 @@
 
 .critical {
 	grid-column: 1 / -1;
-	padding: 1rlh;
+	padding: 0.5rlh 1rlh;
 	background-color: color-mix(in oklch, var(--color-error) 10%, transparent);
 	color: var(--color-error);
-	box-shadow: inset 0 -1px 0 0 var(--color-border);
-	margin-block-end: 2rlh;
+	font-size: 0.8125rem;
+	line-height: 1rlh;
+
+	@media (width >= 900px) {
+		padding: 0.5rlh 0.75rlh;
+	}
 }
 
 .links {
