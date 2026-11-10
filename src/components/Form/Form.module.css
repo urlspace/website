@@ -414,6 +414,10 @@
 	overscroll-behavior-y: contain;
 	border-radius: var(--radius);
 
+	@media (pointer: coarse) and (width < 600px) {
+		max-height: 7.5rlh;
+	}
+
 	@supports not (anchor-name: --search-input) {
 		top: 3.5lh;
 		left: 1lh;
