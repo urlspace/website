@@ -37,12 +37,14 @@ function LinkCard({
 	onTagClick,
 	onCollectionClick,
 	onEdit,
+	onError,
 	query,
 }: {
 	link: LinkRow;
 	onTagClick: (tagId: string) => void;
 	onCollectionClick: (collectionId: string) => void;
 	onEdit: (link: LinkRow) => void;
+	onError: (message: string | null) => void;
 	query: string;
 }) {
 	const queryClient = useQueryClient();
@@ -79,6 +81,9 @@ function LinkCard({
 			if (!res.ok)
 				throw new Error(`PUT /links/${link.id} failed: ${res.status}`);
 		},
+		onMutate: () => onError(null),
+		onError: () =>
+			onError("We couldn't update this link. Try again in a moment."),
 		onSuccess: (_, patch) => {
 			queryClient.setQueriesData<LinksResponse>(
 				{ queryKey: linksQueryKey },
@@ -125,6 +130,9 @@ function LinkCard({
 			if (!res.ok)
 				throw new Error(`DELETE /links/${link.id} failed: ${res.status}`);
 		},
+		onMutate: () => onError(null),
+		onError: () =>
+			onError("We couldn't delete this link. Try again in a moment."),
 		onSuccess: () =>
 			Promise.all([
 				queryClient.invalidateQueries({ queryKey: linksQueryKey }),

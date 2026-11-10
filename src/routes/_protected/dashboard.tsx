@@ -303,10 +303,15 @@ function PageDashboard() {
 		setIsEditTagOpen(true);
 	}
 
-	const { data: linksResponse, isPending } = useQuery(
-		linksQueryOptions(toLinkFilters(parsedQuery, page)),
-	);
+	const {
+		data: linksResponse,
+		isPending,
+		isError,
+	} = useQuery(linksQueryOptions(toLinkFilters(parsedQuery, page)));
 	const links = linksResponse?.data ?? [];
+	const displayedError =
+		criticalError ??
+		(isError ? "We couldn't load your links. Try again in a moment." : null);
 
 	const linksRef = useRef<HTMLElement>(null);
 
@@ -592,8 +597,8 @@ function PageDashboard() {
 					/>
 				</Dashboard.MainStats>
 
-				{criticalError ? (
-					<Dashboard.MainCritical errorMessage={criticalError} />
+				{displayedError ? (
+					<Dashboard.MainCritical errorMessage={displayedError} />
 				) : null}
 
 				{selectedCollectionObj ? (
@@ -619,6 +624,7 @@ function PageDashboard() {
 										link={link}
 										query={parsedQuery.text}
 										onEdit={openEditLink}
+										onError={setCriticalError}
 										onTagClick={(tagId) => {
 											void navigate({
 												search: {
@@ -644,7 +650,7 @@ function PageDashboard() {
 								</li>
 							))}
 						</Dashboard.MainLinksList>
-					) : (
+					) : isError ? null : (
 						<DashboardEmpty newAccount={newAccount} onAddLink={openAddLink} />
 					)}
 				</Dashboard.MainLinks>
