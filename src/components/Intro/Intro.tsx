@@ -1,4 +1,4 @@
-import { ButtonLink, Heading, Stack } from "#/components";
+import { ButtonLink, Heading, Stack, Icon } from "#/components";
 
 import styles from "./Intro.module.css";
 
@@ -17,52 +17,37 @@ function Intro() {
 						<ButtonLink to="/auth/signup" text="Sign up for free" />
 					</Stack>
 				</div>
+
+				<div className={styles.anime}>
+					<div className={styles.rows}>
+						<div className={styles.row}>
+							<Label icon={<Icon.List />} text="All" />
+							<Label icon={<Icon.Heart />} text="Favourite" />
+							<Label icon={<Icon.Coffee />} text="For later" />
+						</div>
+						<div className={styles.row}>
+							<Label icon={<Icon.Folder />} text="Garden" />
+							<Label icon={<Icon.Folder />} text="Courses" />
+							<Label icon={<Icon.FolderPublic />} text="Conference Talks" />
+						</div>
+						<div className={styles.row}>
+							<Label icon={<Icon.Tag />} text="golang" />
+							<Label icon={<Icon.Tag />} text="productivity" />
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
 }
 
-{
-	/* <div className={styles.boo}> */
-}
-{
-	/* 	<p> */
-}
-{
-	/* 		There are around 1.5 billion websites on the internet, and we’re */
-}
-{
-	/* 		getting 600,000 new ones every day. The good ones are getting lost in */
-}
-{
-	/* 		the maze of AI slop, and search engines don't surface websites */
-}
-{
-	/* 		anymore. Curating your very own collection is the only way. */
-}
-{
-	/* 	</p> */
-}
-{
-	/* 	<p> */
-}
-{
-	/* 		We have a simple, fast and powerful solution to help you curate your */
-}
-{
-	/* 		own collection, browse effectively and share with others. Browser */
-}
-{
-	/* 		extension? Of course! There’s also a powerful public API for */
-}
-{
-	/* 		developers. */
-}
-{
-	/* 	</p> */
-}
-{
-	/* </div> */
+function Label({ icon, text }: { icon: React.ReactNode; text: string }) {
+	return (
+		<div className={styles.label}>
+			{icon}
+			<div className={styles.labelText}>{text}</div>
+		</div>
+	);
 }
 
 export default Intro;

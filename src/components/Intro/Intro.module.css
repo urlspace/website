@@ -3,39 +3,122 @@
 	overflow: clip;
 	box-shadow: 0 1px 0 0 var(--color-border);
 	view-timeline: --intro;
-}
-
-.container {
-	padding-block: 3rlh;
-	margin-inline: auto;
-	width: min(100% - 2rlh, 1300px);
 
 	@media (width >= 900px) {
-		padding-block: 6rlh;
+		&::before {
+			/* mask gradient from left to right */
+			mask-image: linear-gradient(to left, #000 0%, #000 50%, #0000 100%);
+			content: "";
+			position: absolute;
+			inset: 0 0 0 50%;
+
+			--bg-s-size: 2px;
+			--bg-s-color: color-mix(
+				in oklab,
+				var(--color-bg-fade) 90%,
+				var(--color-fg)
+			);
+			--bg-size: 0.5lh;
+
+			background-image: conic-gradient(
+				at var(--bg-s-size) var(--bg-s-size),
+				#0000 75%,
+				var(--bg-s-color) 0
+			);
+			background-size: var(--bg-size) var(--bg-size);
+			background-position: center
+				calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
+		}
 	}
 }
 
-@keyframes parallax {
-	to {
-		transform: translateY(-8%);
-		opacity: 0;
+.container {
+	margin-inline: auto;
+	width: min(100% - 2rlh, 1300px);
+	display: grid;
+
+	@media (width >= 900px) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 2rlh;
+	}
+}
+
+@keyframes pop {
+	50% {
+		transform: scale(1.03);
 	}
 }
 
 .content {
+	padding-block: 3rlh;
+
 	@media (width >= 900px) {
-		width: calc(50% - 1rlh);
+		padding-block: 5rlh;
 	}
 }
 
-.boo {
-	padding-block: 3rlh;
-	display: grid;
-	gap: 1rlh;
-	background-color: var(--color-bg);
+.anime {
+	display: none;
 
-	p {
-		margin-inline: auto;
-		width: min(100% - 2rlh, 700px);
+	@media (width >= 900px) {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
+}
+
+.rows {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rlh;
+}
+
+.row {
+	display: flex;
+	gap: 0.5rlh;
+	justify-content: center;
+
+	&:nth-child(1) {
+		--parallax-offset: 0.5rlh;
+	}
+
+	&:nth-child(2) {
+		--parallax-offset: -0.2rlh;
+	}
+
+	&:nth-child(3) {
+		--parallax-offset: 0.5rlh;
+	}
+
+	@supports ((animation-timeline: view()) and (animation-range: entry)) {
+		@media (prefers-reduced-motion: no-preference) {
+			animation: row-parallax linear both;
+			animation-timeline: --intro;
+		}
+	}
+}
+
+@keyframes row-parallax {
+	to {
+		transform: translateX(var(--parallax-offset));
+	}
+}
+
+.label {
+	display: flex;
+	align-items: center;
+	padding: 0.25rlh 0.5rlh;
+	box-shadow: 0 0 0 1px var(--color-border);
+	border-radius: var(--radius);
+	background-color: var(--color-bg);
+	gap: 0.25rlh;
+
+	&:hover {
+		animation: pop 240ms ease-in-out forwards;
+		cursor: default;
+	}
+}
+
+.labelText {
+	text-wrap: nowrap;
 }
