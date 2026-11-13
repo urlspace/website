@@ -3,7 +3,7 @@
 	background: radial-gradient(circle closest-side, var(--color-bg), #0000);
 	mask-image: linear-gradient(to bottom, #0000, #000 6rlh);
 
-	@media (width >= 900px) {
+	@media (width >= 1200px) {
 		display: flex;
 		justify-content: center;
 		align-items: center;
