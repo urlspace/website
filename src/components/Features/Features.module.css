@@ -27,7 +27,7 @@
 	background: var(--color-bg);
 	display: grid;
 	gap: 1rlh;
-	align-items: start;
+	align-content: start;
 	padding: 1rlh;
 
 	@media (width >= 900px) {

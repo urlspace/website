@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 import { Heading } from "#/components";
 
 import styles from "./Features.module.css";
@@ -14,6 +16,7 @@ function Features() {
 						Group links into collections, add tags, mark favourites and keep a
 						list for later.
 					</p>
+					<Link to="/docs">Learn more about links</Link>
 				</div>
 				<div className={styles.item}>
 					<Heading level={2} text="Private and public collections" />
@@ -24,6 +27,7 @@ function Features() {
 						own page and RSS feed, and let anyone clone it into their own
 						account. Available on Pro.
 					</p>
+					<Link to="/docs">Learn more about collections</Link>
 				</div>
 				<div className={styles.item}>
 					<Heading level={2} text="No AI features" />
@@ -32,6 +36,7 @@ function Features() {
 						toasters, you don't need another one telling you how to save a link.
 						No intelligent suggestions, just you and your curated list of links.
 					</p>
+					<Link to="/docs">Learn more about the no-AI approach</Link>
 				</div>
 				<div className={styles.item}>
 					<Heading level={2} text="Open source" />
@@ -40,6 +45,7 @@ function Features() {
 						data needed to run the service is collected. Every line of code is
 						open source on <a href="https://github.com/urlspace">GitHub</a>.
 					</p>
+					<Link to="/docs">Learn more about the project</Link>
 				</div>
 				<div className={styles.item}>
 					<Heading level={2} text="API for developers" />
@@ -48,6 +54,7 @@ function Features() {
 						collections without opening the website. Automate your workflow,
 						connect your apps, and share what you've built.
 					</p>
+					<Link to="/docs">Learn more about the API</Link>
 				</div>
 			</div>
 		</section>
