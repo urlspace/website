@@ -1,0 +1,115 @@
+.graph {
+	display: none;
+	background: radial-gradient(circle closest-side, var(--color-bg), #0000);
+	mask-image: linear-gradient(to bottom, #0000, #000 6rlh);
+
+	@media (width >= 900px) {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}
+
+.rows {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rlh;
+}
+
+.row {
+	display: flex;
+	gap: 0.5rlh;
+	justify-content: center;
+
+	& > * {
+		&::after {
+			content: "";
+			display: block;
+			width: 0.5rlh;
+			height: 1px;
+			background-color: var(--color-border-input);
+			position: absolute;
+			left: 100%;
+			top: 50%;
+		}
+
+		&:last-child::after {
+			display: none;
+		}
+	}
+}
+
+.wrapper {
+	position: relative;
+}
+
+.flow {
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	translate: -35px 0;
+	overflow: visible;
+	fill: none;
+	stroke: var(--color-border-input);
+	pointer-events: none;
+}
+
+.dot {
+	fill: var(--color-border-input);
+	stroke: none;
+
+	@media (prefers-reduced-motion: no-preference) {
+		animation: flow linear infinite;
+	}
+}
+
+@keyframes flow {
+	to {
+		offset-distance: 100%;
+	}
+}
+
+.label {
+	display: flex;
+	align-items: center;
+	padding: 0.25rlh 0.5rlh;
+	box-shadow: 0 0 0 1px var(--color-border-input);
+	border-radius: var(--radius);
+	background-color: var(--color-bg);
+	gap: 0.25rlh;
+}
+
+.labelText {
+	text-wrap: nowrap;
+}
+
+.labelCounter {
+	opacity: 0.5;
+	font-variant-numeric: tabular-nums;
+}
+
+.url {
+	position: absolute;
+	padding: 0.125rlh 0.25rlh;
+	box-shadow: 0 0 0 1px var(--color-border-input);
+	border-radius: var(--radius);
+	background-color: var(--color-bg);
+	font-size: 0.75rem;
+	font-family: monospace;
+	opacity: 0.75;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%) translateY(2rlh);
+	text-wrap: nowrap;
+
+	&::before {
+		content: "";
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 1px;
+		height: 2rlh;
+		background-color: var(--color-border-input);
+	}
+}

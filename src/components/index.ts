@@ -30,6 +30,7 @@ import FormPassword from "./FormPassword/FormPassword.tsx";
 import FormTag from "./FormTag/FormTag.tsx";
 import FormToken from "./FormToken/FormToken.tsx";
 import FormUsername from "./FormUsername/FormUsername.tsx";
+import Graph from "./Graph/Graph.tsx";
 import HeaderProtected from "./HeaderProtected/HeaderProtected.tsx";
 import Heading from "./Heading/Heading.tsx";
 import Icon from "./Icons/Icons.tsx";
@@ -81,6 +82,7 @@ export {
 	FormTag,
 	FormToken,
 	FormUsername,
+	Graph,
 	HeaderProtected,
 	Heading,
 	Icon,

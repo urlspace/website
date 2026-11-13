@@ -1,4 +1,4 @@
-import { ButtonLink, Heading, Stack, Icon } from "#/components";
+import { ButtonLink, Graph, Heading, Stack } from "#/components";
 
 import styles from "./Intro.module.css";
 
@@ -18,34 +18,8 @@ function Intro() {
 					</Stack>
 				</div>
 
-				<div className={styles.anime}>
-					<div className={styles.rows}>
-						<div className={styles.row}>
-							<Label icon={<Icon.List />} text="All" />
-							<Label icon={<Icon.Heart />} text="Favourite" />
-							<Label icon={<Icon.Coffee />} text="For later" />
-						</div>
-						<div className={styles.row}>
-							<Label icon={<Icon.Folder />} text="Garden" />
-							<Label icon={<Icon.Folder />} text="Courses" />
-							<Label icon={<Icon.FolderPublic />} text="Conference Talks" />
-						</div>
-						<div className={styles.row}>
-							<Label icon={<Icon.Tag />} text="golang" />
-							<Label icon={<Icon.Tag />} text="productivity" />
-						</div>
-					</div>
-				</div>
+				<Graph />
 			</div>
-		</div>
-	);
-}
-
-function Label({ icon, text }: { icon: React.ReactNode; text: string }) {
-	return (
-		<div className={styles.label}>
-			{icon}
-			<div className={styles.labelText}>{text}</div>
 		</div>
 	);
 }
