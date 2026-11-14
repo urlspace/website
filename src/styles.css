@@ -37,7 +37,7 @@
 		var(--color-bg) 66%,
 		var(--color-fg)
 	);
-	--color-link: light-dark(oklch(50% 0.15 275deg), oklch(83% 0.08 285deg));
+	--color-link: light-dark(oklch(50% 0.15 270deg), oklch(83% 0.08 270deg));
 	--color-error: light-dark(
 		oklch(50.5% 0.213 27.518deg),
 		oklch(71.2% 0.194 13.428deg)

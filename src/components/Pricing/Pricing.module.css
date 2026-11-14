@@ -1,0 +1,114 @@
+.wrapper {
+	/* position: relative; */
+	/* overflow: clip; */
+	box-shadow: 0 -1px 0 0 var(--color-border);
+	background-color: var(--color-bg-fade);
+	padding-block: 3rlh;
+	display: flex;
+	flex-direction: column;
+	gap: 2rlh;
+}
+
+.grid {
+	width: min(100% - 2rlh, 900px);
+	display: grid;
+	margin-inline: auto;
+	gap: 1rlh;
+
+	@media (width > 700px) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.plan {
+	padding: 1rlh;
+	background-color: var(--color-bg);
+	box-shadow: 0 0 0 1px var(--color-border);
+	border-radius: var(--radius);
+	display: flex;
+	flex-direction: column;
+	gap: 1rlh;
+}
+
+.price {
+	padding: 0.25rlh 1.5rlh;
+	background-color: var(--color-link);
+	color: var(--color-bg);
+	align-self: flex-start;
+
+	font-weight: 500;
+	margin-inline-start: -1.5rlh;
+	position: relative;
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset-inline-start: 0;
+		inset-block-end: 100%;
+		width: 0.5rlh;
+		height: 0.5rlh;
+		background-color: color-mix(in srgb, var(--color-link), #000 40%);
+		clip-path: polygon(100% 0, 100% 100%, 0 100%);
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		inset-inline-end: 0;
+		inset-block-start: 100%;
+		width: 0.5rlh;
+		height: 0.5rlh;
+		background-color: color-mix(in srgb, var(--color-link), #000 40%);
+		clip-path: polygon(0 0, 100% 0, 0 100%);
+	}
+
+	@media (width > 700px) {
+		.plan:last-child & {
+			align-self: flex-end;
+			margin-inline: 0 -1.5rlh;
+			padding: 0.25rlh 1.5rlh;
+
+			&::before {
+				inset-inline: auto 0;
+				clip-path: polygon(0 0, 0 100%, 100% 100%);
+			}
+
+			&::after {
+				inset-inline: 0 auto;
+				clip-path: polygon(0 0, 100% 0, 100% 100%);
+			}
+		}
+	}
+}
+
+.list {
+	display: grid;
+	gap: 0.5rlh;
+	list-style: none;
+}
+
+.item {
+	min-width: 0;
+}
+
+.term {
+	font-size: 0.875rem;
+}
+
+.value {
+	font-weight: 700;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.action {
+	margin-inline: 1rlh;
+
+	@media (width > 700px) {
+		position: relative;
+		display: flex;
+		justify-content: center;
+	}
+}

@@ -11,6 +11,14 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 	function links(onNavigate?: () => void) {
 		return (
 			<>
+				<li>
+					<DashboardButtonLink
+						to="/"
+						hash="pricing"
+						onClick={onNavigate}
+						text="Pricing"
+					/>
+				</li>
 				{/* <li> */}
 				{/* 	<DashboardButtonLink */}
 				{/* 		to="/docs" */}
@@ -19,11 +27,7 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 				{/* 	/> */}
 				{/* </li> */}
 				{/* <li> */}
-				{/* 	<DashboardButtonLink */}
-				{/* 		to="/pricing" */}
-				{/* 		onClick={onNavigate} */}
-				{/* 		text="Pricing" */}
-				{/* 	/> */}
+				{/* 	 */}
 				{/* </li> */}
 				{hasSession ? (
 					<li>
