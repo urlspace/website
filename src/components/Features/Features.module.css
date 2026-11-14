@@ -29,7 +29,7 @@
 	display: grid;
 	gap: 1rlh;
 	align-content: start;
-	padding: 1rlh;
+	padding: 2rlh 1rlh;
 
 	@media (width >= 900px) {
 		&:nth-child(1),
