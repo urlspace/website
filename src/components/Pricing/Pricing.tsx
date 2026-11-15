@@ -3,10 +3,17 @@ import { useState } from "react";
 
 import { Button, ButtonLink, Heading, Icon } from "#/components";
 import type { User } from "#/queries/me.ts";
+import { getLocalPrice } from "#/utils/getLocalPrice.ts";
 
 import styles from "./Pricing.module.css";
 
-function Pricing({ hasSession }: { hasSession: boolean }) {
+function Pricing({
+	hasSession,
+	country,
+}: {
+	hasSession: boolean;
+	country: string | null;
+}) {
 	const queryClient = useQueryClient();
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -91,7 +98,8 @@ function Pricing({ hasSession }: { hasSession: boolean }) {
 					</dl>
 
 					<div>
-						<span className={styles.price}>£0</span> <span>forever</span>
+						<span className={styles.price}>{getLocalPrice(0, country)}</span>{" "}
+						<span>forever</span>
 					</div>
 				</div>
 
@@ -114,8 +122,8 @@ function Pricing({ hasSession }: { hasSession: boolean }) {
 					</dl>
 
 					<div>
-						<span className={styles.price}>£30</span>{" "}
-						<span>a year or £3 a month</span>
+						<span className={styles.price}>{getLocalPrice(30, country)}</span>{" "}
+						<span>a year or {getLocalPrice(3, country)} a month</span>
 					</div>
 				</div>
 			</div>
