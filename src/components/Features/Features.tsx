@@ -6,7 +6,7 @@ import styles from "./Features.module.css";
 
 function Features() {
 	return (
-		<section className={styles.wrapper}>
+		<section className={styles.wrapper} id="features">
 			<div className={styles.list}>
 				<div className={styles.item}>
 					<Heading level={2} text="Save, organise and browse" />
