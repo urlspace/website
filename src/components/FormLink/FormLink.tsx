@@ -22,6 +22,13 @@ function isValidLinkUrl(value: string): boolean {
 	}
 }
 
+function normalizeName(name: string) {
+	return name.normalize("NFC").trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+// Select value for "New collection"; collection ids are UUIDs, so it can't clash.
+const newCollectionValue = "new";
+
 type LinkMetadata = {
 	title: string;
 	description: string;
@@ -100,6 +107,7 @@ function FormLink({
 	collections: Array<{
 		id: string;
 		name: string;
+		public: boolean;
 	}>;
 	tags: Array<{
 		id: string;
@@ -117,11 +125,19 @@ function FormLink({
 		"You've reached the link limit on a free account. Delete some links or upgrade your account.";
 	const tagLimitError =
 		"You've reached the tag limit on a free account. Use existing tags, delete unused ones, or upgrade your account.";
+	const collectionLimitError =
+		"You've reached the collection limit on a free account. Delete a collection or upgrade your account.";
+	const duplicateCollectionError =
+		"You already have a collection with that name.";
+	const canAddCollection =
+		stats.collectionsLimit === null ||
+		stats.collectionsCount < stats.collectionsLimit;
 
 	const [title, setTitle] = useState(link?.title ?? "");
 	const [url, setUrl] = useState(link?.url ?? "");
 	const [description, setDescription] = useState(link?.description ?? "");
 	const [collection, setCollection] = useState(link?.collection?.id ?? "");
+	const [newCollectionName, setNewCollectionName] = useState("");
 	const [selectedTags, setSelectedTags] = useState<string[]>(
 		link?.tags.map((t) => t.name) ?? [],
 	);
@@ -252,10 +268,88 @@ function FormLink({
 			return;
 		}
 
+		const trimmedCollectionName = newCollectionName.trim();
+		if (collection === newCollectionValue) {
+			if (trimmedCollectionName.length < 2) {
+				setError("Collection name must be at least 2 characters.");
+				return;
+			}
+			if (
+				collections.some(
+					(c) => normalizeName(c.name) === normalizeName(trimmedCollectionName),
+				)
+			) {
+				setError(duplicateCollectionError);
+				return;
+			}
+		}
+
 		setError(null);
 		setLoading(true);
 
 		try {
+			let collectionId = collection;
+			if (collection === newCollectionValue) {
+				const res = await fetch(`${import.meta.env.VITE_API_URL}/collections`, {
+					method: "POST",
+					credentials: "include",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify({
+						name: trimmedCollectionName,
+						description: "",
+						public: false,
+						slug: crypto.randomUUID(),
+					}),
+				});
+
+				// Reload so the route guard can clear the invalid session and cached data.
+				if (
+					res.status === 401 &&
+					((await res.clone().json()) as { data: string }).data ===
+						"unauthorized"
+				) {
+					window.location.reload();
+					return;
+				}
+
+				if (!res.ok) {
+					switch (res.status) {
+						case 400:
+							setError("Incorrect body.");
+							break;
+						case 409:
+							setError(duplicateCollectionError);
+							break;
+						case 403:
+							setError(
+								((await res.json()) as { data: string }).data ===
+									"collection limit reached"
+									? collectionLimitError
+									: "Something went wrong. Try again in a moment.",
+							);
+							break;
+						case 429:
+							setError("Too many attempts. Try again in a moment.");
+							break;
+						default:
+							setError("Something went wrong. Try again in a moment.");
+					}
+					return;
+				}
+
+				// Select the new collection, so a retry after a failed link save
+				// doesn't create it again.
+				collectionId = ((await res.json()) as { data: { id: string } }).data.id;
+				setCollection(collectionId);
+				setNewCollectionName("");
+				await Promise.all([
+					queryClient.invalidateQueries({
+						queryKey: collectionsQueryOptions.queryKey,
+					}),
+					queryClient.invalidateQueries({ queryKey: meQueryOptions.queryKey }),
+				]);
+			}
+
 			const res = await fetch(
 				isEdit
 					? `${import.meta.env.VITE_API_URL}/links/${link.id}`
@@ -268,7 +362,7 @@ function FormLink({
 						title: trimmedTitle,
 						url,
 						description: submittedDescription.trim(),
-						collectionId: collection || null,
+						collectionId: collectionId || null,
 						tags: selectedTags,
 						favourite,
 						forLater,
@@ -314,7 +408,7 @@ function FormLink({
 			const tagsChanged =
 				previousTags.length !== selectedTags.length ||
 				previousTags.some((name) => !selectedTags.includes(name));
-			const collectionChanged = (link?.collection?.id ?? "") !== collection;
+			const collectionChanged = (link?.collection?.id ?? "") !== collectionId;
 
 			await Promise.all([
 				queryClient.invalidateQueries({ queryKey: linksQueryKey }),
@@ -340,6 +434,7 @@ function FormLink({
 				setUrl("");
 				setDescription("");
 				setCollection("");
+				setNewCollectionName("");
 				setSelectedTags([]);
 				setFavourite(false);
 				setForLater(false);
@@ -399,14 +494,39 @@ function FormLink({
 				maxLength={512}
 				pattern="[^\p{Cc}]{0,512}"
 			/>
-			{collections.length > 0 ? (
+			{collections.length > 0 || canAddCollection ? (
 				<Form.Select
 					label="Collection"
 					name="collection"
 					onChange={setCollection}
 					value={collection}
-					options={collections.map((c) => ({ name: c.name, value: c.id }))}
+					options={[
+						collections.filter((c) => !c.public),
+						collections.filter((c) => c.public),
+						canAddCollection
+							? [{ name: "New collection", id: newCollectionValue }]
+							: [],
+					]
+						.filter((group) => group.length > 0)
+						.flatMap((group) => [
+							"hr" as const,
+							...group.map((c) => ({ name: c.name, value: c.id })),
+						])}
 					placeholder="No collection"
+				/>
+			) : null}
+			{collection === newCollectionValue ? (
+				<Form.Input
+					label="New collection name"
+					name="new-collection-name"
+					onChange={setNewCollectionName}
+					placeholder="Keto recipes"
+					required
+					type="text"
+					value={newCollectionName}
+					minLength={2}
+					maxLength={128}
+					pattern="[^\p{Cc}]{2,128}"
 				/>
 			) : null}
 			<Form.TagsInput
