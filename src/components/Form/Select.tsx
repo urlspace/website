@@ -4,7 +4,7 @@ import { useFieldIds } from "./context";
 
 import styles from "./Form.module.css";
 
-export type SelectOption = { name: string; value: string };
+export type SelectOption = { name: string; value: string; icon?: ReactNode };
 
 function Select({
 	description,
@@ -65,6 +65,7 @@ function Select({
 							<hr key={`hr-${index}`} />
 						) : (
 							<option key={option.value} value={option.value}>
+								{option.icon}
 								{option.name}
 							</option>
 						),

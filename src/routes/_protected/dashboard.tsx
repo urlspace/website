@@ -353,7 +353,8 @@ function PageDashboard() {
 			if (
 				target.tagName === "INPUT" ||
 				target.tagName === "TEXTAREA" ||
-				target.tagName === "SELECT" ||
+				// options take focus while a customizable select is open
+				target.closest("select") ||
 				target.isContentEditable
 			) {
 				return;
