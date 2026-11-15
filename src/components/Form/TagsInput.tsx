@@ -141,6 +141,9 @@ function TagsInput({
 			<div className={styles.fieldRow}>
 				<input
 					autoComplete="off"
+					autoCapitalize="none"
+					autoCorrect="off"
+					spellCheck={false}
 					aria-describedby={
 						[ariaDescribedBy, error ? errorId : null]
 							.filter(Boolean)
