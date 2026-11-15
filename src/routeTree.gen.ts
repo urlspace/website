@@ -18,7 +18,6 @@ import { Route as ProtectedToolsRouteImport } from './routes/_protected/tools'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicAuthRouteRouteImport } from './routes/_public/auth/route'
 import { Route as PublicDocsRouteImport } from './routes/_public/docs'
-import { Route as PublicPricingRouteImport } from './routes/_public/pricing'
 import { Route as PublicPrivacyPolicyRouteImport } from './routes/_public/privacy-policy'
 import { Route as PublicTermsOfServiceRouteImport } from './routes/_public/terms-of-service'
 import { Route as ToolsBookmarksDothtmlRouteImport } from './routes/tools.bookmarks[.]html'
@@ -74,11 +73,6 @@ const PublicAuthRouteRoute = PublicAuthRouteRouteImport.update({
 const PublicDocsRoute = PublicDocsRouteImport.update({
   id: '/docs',
   path: '/docs',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicPricingRoute = PublicPricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicPrivacyPolicyRoute = PublicPrivacyPolicyRouteImport.update({
@@ -153,7 +147,6 @@ export interface FileRoutesByFullPath {
   '/settings': typeof ProtectedSettingsRoute
   '/tools': typeof ProtectedToolsRoute
   '/docs': typeof PublicDocsRoute
-  '/pricing': typeof PublicPricingRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/tools/bookmarks.html': typeof ToolsBookmarksDothtmlRoute
@@ -175,7 +168,6 @@ export interface FileRoutesByTo {
   '/settings': typeof ProtectedSettingsRoute
   '/tools': typeof ProtectedToolsRoute
   '/docs': typeof PublicDocsRoute
-  '/pricing': typeof PublicPricingRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/tools/bookmarks.html': typeof ToolsBookmarksDothtmlRoute
@@ -199,7 +191,6 @@ export interface FileRoutesById {
   '/_protected/settings': typeof ProtectedSettingsRoute
   '/_protected/tools': typeof ProtectedToolsRoute
   '/_public/docs': typeof PublicDocsRoute
-  '/_public/pricing': typeof PublicPricingRoute
   '/_public/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/_public/terms-of-service': typeof PublicTermsOfServiceRoute
   '/tools/bookmarks.html': typeof ToolsBookmarksDothtmlRoute
@@ -224,7 +215,6 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tools'
     | '/docs'
-    | '/pricing'
     | '/privacy-policy'
     | '/terms-of-service'
     | '/tools/bookmarks.html'
@@ -246,7 +236,6 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tools'
     | '/docs'
-    | '/pricing'
     | '/privacy-policy'
     | '/terms-of-service'
     | '/tools/bookmarks.html'
@@ -269,7 +258,6 @@ export interface FileRouteTypes {
     | '/_protected/settings'
     | '/_protected/tools'
     | '/_public/docs'
-    | '/_public/pricing'
     | '/_public/privacy-policy'
     | '/_public/terms-of-service'
     | '/tools/bookmarks.html'
@@ -356,13 +344,6 @@ declare module '@tanstack/react-router' {
       path: '/docs'
       fullPath: '/docs'
       preLoaderRoute: typeof PublicDocsRouteImport
-      parentRoute: typeof PublicRoute
-    }
-    '/_public/pricing': {
-      id: '/_public/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PublicPricingRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/privacy-policy': {
@@ -493,7 +474,6 @@ const PublicAuthRouteRouteWithChildren = PublicAuthRouteRoute._addFileChildren(
 interface PublicRouteChildren {
   PublicAuthRouteRoute: typeof PublicAuthRouteRouteWithChildren
   PublicDocsRoute: typeof PublicDocsRoute
-  PublicPricingRoute: typeof PublicPricingRoute
   PublicPrivacyPolicyRoute: typeof PublicPrivacyPolicyRoute
   PublicTermsOfServiceRoute: typeof PublicTermsOfServiceRoute
   PublicIndexRoute: typeof PublicIndexRoute
@@ -504,7 +484,6 @@ interface PublicRouteChildren {
 const PublicRouteChildren: PublicRouteChildren = {
   PublicAuthRouteRoute: PublicAuthRouteRouteWithChildren,
   PublicDocsRoute: PublicDocsRoute,
-  PublicPricingRoute: PublicPricingRoute,
   PublicPrivacyPolicyRoute: PublicPrivacyPolicyRoute,
   PublicTermsOfServiceRoute: PublicTermsOfServiceRoute,
   PublicIndexRoute: PublicIndexRoute,
