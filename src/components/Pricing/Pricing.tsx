@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { Button, ButtonLink, Heading } from "#/components";
+import { Button, ButtonLink, Heading, Icon } from "#/components";
 import type { User } from "#/queries/me.ts";
 
 import styles from "./Pricing.module.css";
@@ -123,7 +123,33 @@ function Pricing({ hasSession }: { hasSession: boolean }) {
 			{action ? <div className={styles.action}>{action}</div> : null}
 			{errorMessage ? <p role="alert">{errorMessage}</p> : null}
 
-			{/* FAQ section */}
+			<div className={styles.faq}>
+				<Heading level={2} text="Frequently asked questions" bg="bg" />
+				<div>
+					<details className={styles.question}>
+						<summary className={styles.summary}>
+							One
+							<Icon.ChevronDown />
+						</summary>
+						<p>
+							Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+							Assumenda sunt quia dolorum placeat a tempore eius blanditiis
+							nesciunt omnis iusto!
+						</p>
+					</details>
+					<details className={styles.question}>
+						<summary className={styles.summary}>
+							Two
+							<Icon.ChevronDown />
+						</summary>
+						<p>
+							Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+							Assumenda sunt quia dolorum placeat a tempore eius blanditiis
+							nesciunt omnis iusto!
+						</p>
+					</details>
+				</div>
+			</div>
 		</section>
 	);
 }
