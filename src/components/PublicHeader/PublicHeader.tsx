@@ -14,21 +14,26 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 				<li>
 					<DashboardButtonLink
 						to="/"
+						hash="features"
+						onClick={onNavigate}
+						text="Features"
+					/>
+				</li>
+				<li>
+					<DashboardButtonLink
+						to="/"
 						hash="pricing"
 						onClick={onNavigate}
 						text="Pricing"
 					/>
 				</li>
-				{/* <li> */}
-				{/* 	<DashboardButtonLink */}
-				{/* 		to="/docs" */}
-				{/* 		onClick={onNavigate} */}
-				{/* 		text="Documentation" */}
-				{/* 	/> */}
-				{/* </li> */}
-				{/* <li> */}
-				{/* 	 */}
-				{/* </li> */}
+				<li>
+					<DashboardButtonLink
+						to="/docs"
+						onClick={onNavigate}
+						text="Documentation"
+					/>
+				</li>
 				{hasSession ? (
 					<li>
 						<DashboardButtonLink
