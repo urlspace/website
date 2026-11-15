@@ -78,25 +78,21 @@ function Pricing({ hasSession }: { hasSession: boolean }) {
 					<dl className={styles.list}>
 						<div className={styles.item}>
 							<dt className={styles.term}>Links</dt>
-							<dd className={styles.value}>
-								<span className={styles.value}>Up to 1000</span>
-							</dd>
+							<dd className={styles.value}>Up to 1000</dd>
 						</div>
 						<div className={styles.item}>
 							<dt className={styles.term}>Collections and tags</dt>
-							<dd className={styles.value}>
-								<span className={styles.value}>Up to 100</span>
-							</dd>
+							<dd className={styles.value}>Up to 100</dd>
 						</div>
 						<div className={styles.item}>
 							<dt className={styles.term}>Public collections and profile</dt>
-							<dd className={styles.value}>
-								<span className={styles.value}>Nope</span>
-							</dd>
+							<dd className={styles.value}>Not included</dd>
 						</div>
 					</dl>
 
-					<p className={styles.price}>Not a penny, not a dime!</p>
+					<div>
+						<span className={styles.price}>£0</span> <span>forever</span>
+					</div>
 				</div>
 
 				<div className={styles.plan}>
@@ -105,30 +101,29 @@ function Pricing({ hasSession }: { hasSession: boolean }) {
 					<dl className={styles.list}>
 						<div className={styles.item}>
 							<dt className={styles.term}>Links</dt>
-							<dd className={styles.value}>
-								<span className={styles.value}>Unlimited</span>
-							</dd>
+							<dd className={styles.value}>Unlimited</dd>
 						</div>
 						<div className={styles.item}>
 							<dt className={styles.term}>Collections and tags</dt>
-							<dd className={styles.value}>
-								<span className={styles.value}>Unlimited</span>
-							</dd>
+							<dd className={styles.value}>Unlimited</dd>
 						</div>
 						<div className={styles.item}>
 							<dt className={styles.term}>Public collections and profile</dt>
-							<dd className={styles.value}>
-								<span className={styles.value}>Yeep</span>
-							</dd>
+							<dd className={styles.value}>Included</dd>
 						</div>
 					</dl>
 
-					<p className={styles.price}>£30/year or £3/month</p>
+					<div>
+						<span className={styles.price}>£30</span>{" "}
+						<span>a year or £3 a month</span>
+					</div>
 				</div>
 			</div>
 
 			{action ? <div className={styles.action}>{action}</div> : null}
 			{errorMessage ? <p role="alert">{errorMessage}</p> : null}
+
+			{/* FAQ section */}
 		</section>
 	);
 }
