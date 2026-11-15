@@ -104,28 +104,43 @@ function Pricing({
 				</div>
 
 				<div className={styles.plan}>
-					<Heading level={2} text="Paid" />
-
+					<Heading level={2} text="Unlimited" />
 					<dl className={styles.list}>
 						<div className={styles.item}>
 							<dt className={styles.term}>Links</dt>
-							<dd className={styles.value}>Unlimited</dd>
+							<dd className={styles.value}>
+								Unlimited
+								<a href="#fair-use" aria-label="Fair use policy">
+									*
+								</a>
+							</dd>
 						</div>
 						<div className={styles.item}>
 							<dt className={styles.term}>Collections and tags</dt>
-							<dd className={styles.value}>Unlimited</dd>
+							<dd className={styles.value}>
+								Unlimited
+								<a href="#fair-use" aria-label="Fair use policy">
+									*
+								</a>
+							</dd>
 						</div>
 						<div className={styles.item}>
 							<dt className={styles.term}>Public collections and profile</dt>
 							<dd className={styles.value}>Included</dd>
 						</div>
 					</dl>
-
 					<div>
 						<span className={styles.price}>{getLocalPrice(30, country)}</span>{" "}
 						<span>a year or {getLocalPrice(3, country)} a month</span>
 					</div>
 				</div>
+
+				<p className={styles.fairUse} id="fair-use">
+					<small>
+						* Unlimited for people, not bots. Automated or abusive use may get
+						your account limited or suspended.
+					</small>
+				</p>
 			</div>
 
 			{action ? <div className={styles.action}>{action}</div> : null}
