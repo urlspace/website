@@ -19,10 +19,18 @@ function DashbrardButtonLink({
 	preload?: false;
 	onClick?: () => void;
 }) {
+	if (hash) {
+		return (
+			<a href={`${to}#${hash}`} className={styles.button} onClick={onClick}>
+				{icon ? <span className={styles.icon}>{icon}</span> : null}
+				<span className={styles.text}>{text} </span>
+			</a>
+		);
+	}
+
 	return (
 		<Link
 			to={to}
-			hash={hash}
 			reloadDocument={reloadDocument}
 			preload={preload}
 			className={styles.button}
