@@ -11,7 +11,7 @@ function App() {
 
 	return (
 		<div>
-			<Intro />
+			<Intro hasSession={hasSession} />
 			<Features />
 			<Pricing hasSession={hasSession} />
 		</div>

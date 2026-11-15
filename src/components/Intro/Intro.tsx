@@ -2,7 +2,7 @@ import { ButtonLink, Graph, Heading, Stack } from "#/components";
 
 import styles from "./Intro.module.css";
 
-function Intro() {
+function Intro({ hasSession }: { hasSession: boolean }) {
 	return (
 		<div className={styles.intro}>
 			<div className={styles.container}>
@@ -14,7 +14,11 @@ function Intro() {
 							and share links. Open source, no ads, no tracking, no AI. Free for
 							everyday use, unlimited for a small fee.
 						</p>
-						<ButtonLink to="/auth/signup" text="Sign up for free" />
+						{hasSession ? (
+							<ButtonLink to="/dashboard" text="Go to your dashboard" />
+						) : (
+							<ButtonLink to="/auth/signup" text="Sign up for free" />
+						)}
 					</Stack>
 				</div>
 
