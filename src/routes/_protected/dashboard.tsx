@@ -691,6 +691,39 @@ function PageDashboard() {
 		(c) => c.id === selectedCollection,
 	);
 
+	// The sidebar and the mobile drawer show the same navigation.
+	const nav = (
+		<DashboardNav
+			collections={collections}
+			favourite={favourite}
+			forLater={forLater}
+			handleSignOut={handleSignOut}
+			deletingCollectionId={
+				deleteCollection.isPending
+					? (deleteCollection.variables?.id ?? null)
+					: null
+			}
+			deletingTagId={
+				deleteTag.isPending ? (deleteTag.variables?.id ?? null) : null
+			}
+			onDeleteCollection={handleDeleteCollection}
+			onDeleteTag={handleDeleteTag}
+			onEditCollection={openEditCollection}
+			onRenameTag={openEditTag}
+			selectedCollection={selectedCollection}
+			selectedTags={selectedTags}
+			setFavourite={setFavourite}
+			setForLater={setForLater}
+			onAddCollection={openAddCollection}
+			onAddLink={openAddLink}
+			onClearFiltersAndSearchQuery={clearFiltersAndSearchQuery}
+			setIsShortcutsOpen={setIsShortcutsOpen}
+			setSelectedCollection={setSelectedCollection}
+			setSelectedTags={setSelectedTags}
+			tags={tags}
+		/>
+	);
+
 	return (
 		<Dashboard>
 			<Dashboard.Header>
@@ -739,37 +772,7 @@ function PageDashboard() {
 			<Dashboard.SkipFilters />
 			<Dashboard.SkipMain />
 
-			<Dashboard.Filters>
-				<DashboardNav
-					collections={collections}
-					favourite={favourite}
-					forLater={forLater}
-					handleSignOut={handleSignOut}
-					deletingCollectionId={
-						deleteCollection.isPending
-							? (deleteCollection.variables?.id ?? null)
-							: null
-					}
-					deletingTagId={
-						deleteTag.isPending ? (deleteTag.variables?.id ?? null) : null
-					}
-					onDeleteCollection={handleDeleteCollection}
-					onDeleteTag={handleDeleteTag}
-					onEditCollection={openEditCollection}
-					onRenameTag={openEditTag}
-					selectedCollection={selectedCollection}
-					selectedTags={selectedTags}
-					setFavourite={setFavourite}
-					setForLater={setForLater}
-					onAddCollection={openAddCollection}
-					onAddLink={openAddLink}
-					onClearFiltersAndSearchQuery={clearFiltersAndSearchQuery}
-					setIsShortcutsOpen={setIsShortcutsOpen}
-					setSelectedCollection={setSelectedCollection}
-					setSelectedTags={setSelectedTags}
-					tags={tags}
-				/>
-			</Dashboard.Filters>
+			<Dashboard.Filters>{nav}</Dashboard.Filters>
 
 			<Dashboard.Main>
 				<Dashboard.MainStats>
@@ -846,35 +849,7 @@ function PageDashboard() {
 			</Dashboard.Main>
 
 			<Drawer open={isNavOpen} onClose={() => setIsNavOpen(false)} title="Menu">
-				<DashboardNav
-					collections={collections}
-					favourite={favourite}
-					forLater={forLater}
-					handleSignOut={handleSignOut}
-					deletingCollectionId={
-						deleteCollection.isPending
-							? (deleteCollection.variables?.id ?? null)
-							: null
-					}
-					deletingTagId={
-						deleteTag.isPending ? (deleteTag.variables?.id ?? null) : null
-					}
-					onDeleteCollection={handleDeleteCollection}
-					onDeleteTag={handleDeleteTag}
-					onEditCollection={openEditCollection}
-					onRenameTag={openEditTag}
-					selectedCollection={selectedCollection}
-					selectedTags={selectedTags}
-					setFavourite={setFavourite}
-					setForLater={setForLater}
-					onAddCollection={openAddCollection}
-					onAddLink={openAddLink}
-					onClearFiltersAndSearchQuery={clearFiltersAndSearchQuery}
-					setIsShortcutsOpen={setIsShortcutsOpen}
-					setSelectedCollection={setSelectedCollection}
-					setSelectedTags={setSelectedTags}
-					tags={tags}
-				/>
+				{nav}
 			</Drawer>
 
 			<Dialog
