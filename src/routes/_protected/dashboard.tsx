@@ -29,6 +29,7 @@ import {
 	LinkCard,
 } from "#/components/index.ts";
 import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
+import useKeyboardShortcuts from "#/hooks/useKeyboardShortcuts.ts";
 import {
 	type CollectionRow,
 	collectionsQueryOptions,
@@ -51,7 +52,6 @@ import {
 	setTagFilters,
 } from "#/searchQuery.ts";
 
-const G_SEQUENCE_MS = 500;
 const REFRESH_THROTTLE_MS = 10_000;
 
 function getTitles(container: HTMLElement | null) {
@@ -175,6 +175,19 @@ function PageDashboard() {
 	const signingOut = useRef(false);
 	const [criticalError, setCriticalError] = useState<string | null>(null);
 
+	// Writes a search query to the URL and goes back to the first page. The
+	// history entry is replaced, so filter changes don't pile up behind Back.
+	function applyQuery(next: string) {
+		void navigate({
+			search: (prev) => ({
+				...prev,
+				query: next || undefined,
+				page: undefined,
+			}),
+			replace: true,
+		});
+	}
+
 	const debouncedValue = useDebouncedValue(value, 250, (settled) => {
 		const next = settled.trim();
 		// Waiting for a filter to be finished stops results flashing empty.
@@ -193,19 +206,6 @@ function PageDashboard() {
 		if (query !== debouncedValue.trim()) {
 			setValue(query);
 		}
-	}
-
-	// Writes a search query to the URL and goes back to the first page. The
-	// history entry is replaced, so filter changes don't pile up behind Back.
-	function applyQuery(next: string) {
-		void navigate({
-			search: (prev) => ({
-				...prev,
-				query: next || undefined,
-				page: undefined,
-			}),
-			replace: true,
-		});
 	}
 
 	function setFilter(filter: IsFilter, on: boolean) {
@@ -450,99 +450,13 @@ function PageDashboard() {
 		getTitles(linksRef.current)[0]?.focus();
 	}
 
-	// j/k move focus between link card titles (Gmail/GitHub style), G jumps to
-	// the last one and gg to the first (Vim style), ? opens the shortcuts
-	// dialog, n the add link form, r refreshes the data and x clears every
-	// filter. Ignored while typing and when a modifier is held, so browser
-	// shortcuts like Ctrl+K keep working.
-	useEffect(() => {
-		let lastG = Number.NEGATIVE_INFINITY;
-		function handleKey(e: KeyboardEvent) {
-			if (e.key !== "g") {
-				lastG = Number.NEGATIVE_INFINITY;
-			}
-			if (!["j", "k", "g", "G", "?", "n", "r", "x"].includes(e.key)) {
-				return;
-			}
-			// ignore modifiers so browser shortcuts like Ctrl+K keeps working
-			if (e.ctrlKey || e.metaKey || e.altKey) {
-				return;
-			}
-			// prevent holding down g to trigger gg
-			if (e.key === "g" && e.repeat) {
-				return;
-			}
-			const target = e.target as HTMLElement;
-			// ignore typing in the fields
-			if (
-				target.tagName === "INPUT" ||
-				target.tagName === "TEXTAREA" ||
-				target.tagName === "SELECT" ||
-				target.isContentEditable
-			) {
-				return;
-			}
-			// Shortcuts are off while a dialog or the drawer is open. That includes
-			// the closing animation, since the element stays [open] until it ends.
-			if (document.querySelector("dialog[open]")) {
-				return;
-			}
-
-			if (e.key === "?") {
-				e.preventDefault();
-				setIsShortcutsOpen(true);
-				return;
-			}
-
-			if (e.key === "n") {
-				e.preventDefault();
-				openAddLink();
-				return;
-			}
-
-			if (e.key === "r") {
-				e.preventDefault();
-				void refresh();
-				return;
-			}
-
-			if (e.key === "x") {
-				e.preventDefault();
-				clearFiltersAndSearchQuery();
-				return;
-			}
-
-			const titles = getTitles(linksRef.current);
-			if (!titles.length) {
-				return;
-			}
-
-			let next: number;
-			if (e.key === "G") {
-				next = titles.length - 1;
-			} else if (e.key === "g") {
-				if (e.timeStamp - lastG > G_SEQUENCE_MS) {
-					lastG = e.timeStamp;
-					return;
-				}
-				lastG = Number.NEGATIVE_INFINITY;
-				next = 0;
-			} else {
-				const current = titles.findIndex((a) =>
-					a.closest("article")?.contains(target),
-				);
-				next = current === -1 ? 0 : current + (e.key === "j" ? 1 : -1);
-			}
-			e.preventDefault();
-
-			// clamp so the j and k do not go out of bounds
-			const title = titles[Math.max(0, Math.min(next, titles.length - 1))];
-			title.focus({ preventScroll: true });
-			title.closest("article")?.scrollIntoView({ block: "nearest" });
-		}
-		window.addEventListener("keydown", handleKey);
-		return () => window.removeEventListener("keydown", handleKey);
-	}, []);
+	useKeyboardShortcuts({
+		getTitles: () => getTitles(linksRef.current),
+		onShowShortcuts: () => setIsShortcutsOpen(true),
+		onAddLink: openAddLink,
+		onRefresh: () => void refresh(),
+		onClearFilters: clearFiltersAndSearchQuery,
+	});
 
 	const totalPages = linksResponse?.pagination.totalPages;
 
