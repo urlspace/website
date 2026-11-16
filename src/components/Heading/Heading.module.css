@@ -26,7 +26,7 @@
 
 .inner {
 	background-color: var(--inner-bg);
-	display: inline;
+	display: inline-block;
 	box-shadow: 1rlh 0 0 0 var(--inner-bg);
 }
 
@@ -50,33 +50,33 @@
 
 .h1 {
 	font-size: 2.5rem;
-	line-height: 2lh;
+	line-height: 2rlh;
 }
 
 .h2 {
 	font-size: 1.5rem;
-	line-height: 1.5lh;
+	line-height: 1.5rlh;
 }
 
 .h3 {
 	font-size: 1.25rem;
-	line-height: 1.5lh;
+	line-height: 1.5rlh;
 }
 
 .h4 {
 	font-weight: 500;
 	font-size: 1lh;
-	line-height: 1.5lh;
+	line-height: 1.5rlh;
 }
 
 .h5 {
 	font-weight: 500;
-	font-size: 0.75lh;
-	line-height: 1lh;
+	font-size: 0.75rem;
+	line-height: 1rlh;
 }
 
 .h6 {
 	font-weight: 500;
-	font-size: 0.625lh;
-	line-height: 1lh;
+	font-size: 0.625rem;
+	line-height: 1rlh;
 }
