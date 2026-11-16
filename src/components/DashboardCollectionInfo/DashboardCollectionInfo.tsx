@@ -20,43 +20,45 @@ function DashboardCollectionInfo({
 
 	return (
 		<section className={styles.wrapper}>
-			<dl className={styles.list}>
-				<div className={styles.item}>
-					<dt className={styles.term}>Collection</dt>
-					<dd className={styles.name}>{collection.name}</dd>
-				</div>
-				{collection.description !== "" ? (
+			<div className={styles.content}>
+				<dl className={styles.list}>
 					<div className={styles.item}>
-						<dt className={styles.term}>Description</dt>
-						<dd>{collection.description}</dd>
+						<dt className={styles.term}>Collection</dt>
+						<dd className={styles.name}>{collection.name}</dd>
 					</div>
-				) : null}
-				{collection.public ? (
-					<div className={styles.item}>
-						<dt className={styles.term}>Public URL</dt>
-						<dd>
-							<CopyBox value={url} label="Public URL" />
-						</dd>
-					</div>
-				) : null}
-				{collection.password !== null ? (
-					<div className={styles.item}>
-						<dt className={styles.term}>Password</dt>
-						<dd>
-							<CopyBox value={collection.password} label="Password" />
-						</dd>
-					</div>
-				) : null}
-			</dl>
-			<div className={styles.buttons}>
-				<DashboardButton icon={<Icon.Edit />} onClick={onEdit} text="Edit" />
+					{collection.description !== "" ? (
+						<div className={styles.item}>
+							<dt className={styles.term}>Description</dt>
+							<dd>{collection.description}</dd>
+						</div>
+					) : null}
+					{collection.public ? (
+						<div className={styles.item}>
+							<dt className={styles.term}>Public URL</dt>
+							<dd>
+								<CopyBox value={url} label="Public URL" />
+							</dd>
+						</div>
+					) : null}
+					{collection.password !== null ? (
+						<div className={styles.item}>
+							<dt className={styles.term}>Password</dt>
+							<dd>
+								<CopyBox value={collection.password} label="Password" />
+							</dd>
+						</div>
+					) : null}
+				</dl>
+				<div className={styles.buttons}>
+					<DashboardButton icon={<Icon.Edit />} onClick={onEdit} text="Edit" />
 
-				<DashboardButton
-					icon={<Icon.Trash />}
-					onClick={onDelete}
-					text="Delete"
-					destructive
-				/>
+					<DashboardButton
+						icon={<Icon.Trash />}
+						onClick={onDelete}
+						text="Delete"
+						destructive
+					/>
+				</div>
 			</div>
 		</section>
 	);
