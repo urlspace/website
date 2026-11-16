@@ -178,13 +178,17 @@ function LinkCard({
 		};
 	}, [isHolding, mutateDeleteLink]);
 
-	const { collection, id, url, title, description, createdAt, tags } = link;
-	// While an update is in flight, show the value being sent, so the buttons
-	// flip straight away instead of after the server responds. If it fails,
-	// the update stops being pending and the stored value comes back.
-	const pending = updateLink.isPending ? updateLink.variables : undefined;
-	const favourite = pending?.favourite ?? link.favourite;
-	const forLater = pending?.forLater ?? link.forLater;
+	const {
+		collection,
+		id,
+		url,
+		title,
+		description,
+		createdAt,
+		tags,
+		favourite,
+		forLater,
+	} = link;
 	const titleRef = useRef<HTMLAnchorElement>(null);
 
 	function handleClick(e: React.MouseEvent<HTMLElement>) {
