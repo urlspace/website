@@ -17,11 +17,11 @@ function isToken(filter: IsFilter) {
 	return `${IS_PREFIX}${filter}`;
 }
 
-function tagToken({ name }: SearchItem) {
+function tagToken({ name }: Pick<SearchItem, "name">) {
 	return `${TAG_PREFIX}${name}`;
 }
 
-function collectionToken({ name }: SearchItem) {
+function collectionToken({ name }: Pick<SearchItem, "name">) {
 	return `${COLLECTION_PREFIX}"${escapeName(name)}"`;
 }
 
@@ -170,6 +170,40 @@ function replaceTokens(raw: string, family: string[], selected: string[]) {
 		...words,
 		...selected.filter((token) => !includesToken(words, token)),
 	].join(" ");
+}
+
+// Swaps one filter token for another and keeps the rest of the query as typed.
+// Returns the query unchanged when the token isn't in it.
+function swapToken(raw: string, from: string, to: string) {
+	const words = splitWords(raw);
+	if (!includesToken(words, from)) {
+		return raw;
+	}
+	return words
+		.map((word) => (includesToken([from], word) ? to : word))
+		.join(" ");
+}
+
+// Filters store names, so a renamed tag or collection would otherwise leave
+// the query filtering by a name that no longer exists.
+export function renameTagFilter(raw: string, oldName: string, newName: string) {
+	return swapToken(
+		raw,
+		tagToken({ name: oldName }),
+		tagToken({ name: newName }),
+	);
+}
+
+export function renameCollectionFilter(
+	raw: string,
+	oldName: string,
+	newName: string,
+) {
+	return swapToken(
+		raw,
+		collectionToken({ name: oldName }),
+		collectionToken({ name: newName }),
+	);
 }
 
 export function setIsFilter(raw: string, filter: IsFilter, on: boolean) {

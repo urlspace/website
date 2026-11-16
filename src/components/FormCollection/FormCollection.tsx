@@ -5,7 +5,10 @@ import {
 } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { collectionsQueryOptions } from "#/queries/collections.ts";
+import {
+	type CollectionRow,
+	collectionsQueryOptions,
+} from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { slugify } from "#/utils/slugify.ts";
@@ -27,6 +30,7 @@ function FormCollection({
 	isAdmin,
 	username,
 	onClose,
+	onRenamed,
 }: {
 	collection?: {
 		id: string;
@@ -45,6 +49,7 @@ function FormCollection({
 	isAdmin: boolean;
 	username: string;
 	onClose: () => void;
+	onRenamed?: (name: string) => void;
 }) {
 	const queryClient = useQueryClient();
 	const {
@@ -235,9 +240,28 @@ function FormCollection({
 
 			const savedCollection = (
 				(await res.json()) as {
-					data: { slug: string; public: boolean; password: string | null };
+					data: {
+						name: string;
+						slug: string;
+						public: boolean;
+						password: string | null;
+					};
 				}
 			).data;
+
+			// The cached list gets the saved name (the API normalises it) before
+			// onRenamed rewrites the search query, so the query never points at a
+			// name the list lacks.
+			if (isEdit && savedCollection.name !== collection.name) {
+				queryClient.setQueryData<CollectionRow[]>(
+					collectionsQueryOptions.queryKey,
+					(old) =>
+						old?.map((c) =>
+							c.id === collection.id ? { ...c, name: savedCollection.name } : c,
+						),
+				);
+				onRenamed?.(savedCollection.name);
+			}
 
 			await Promise.all([
 				queryClient.invalidateQueries({

@@ -47,6 +47,8 @@ import {
 	type IsFilter,
 	isTypingFilter,
 	parseSearchQuery,
+	renameCollectionFilter,
+	renameTagFilter,
 	setCollectionFilter,
 	setIsFilter,
 	setTagFilters,
@@ -206,6 +208,16 @@ function PageDashboard() {
 		if (query !== debouncedValue.trim()) {
 			setValue(query);
 		}
+	}
+
+	// Keeps a filter on a renamed tag or collection working by pointing it at
+	// the new name. Nothing happens when the query doesn't use it.
+	function applyRenamedFilter(next: string) {
+		if (next === value) {
+			return;
+		}
+		setValue(next);
+		applyQuery(next);
 	}
 
 	function setFilter(filter: IsFilter, on: boolean) {
@@ -777,6 +789,11 @@ function PageDashboard() {
 						isAdmin={user.isAdmin}
 						username={user.username}
 						onClose={() => setIsEditCollectionOpen(false)}
+						onRenamed={(name) =>
+							applyRenamedFilter(
+								renameCollectionFilter(value, editingCollection.name, name),
+							)
+						}
 					/>
 				) : null}
 			</Dialog>
@@ -792,6 +809,9 @@ function PageDashboard() {
 						tag={editingTag}
 						tags={tags}
 						onClose={() => setIsEditTagOpen(false)}
+						onRenamed={(name) =>
+							applyRenamedFilter(renameTagFilter(value, editingTag.name, name))
+						}
 					/>
 				) : null}
 			</Dialog>

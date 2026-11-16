@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { linksQueryKey } from "#/queries/links.ts";
-import { tagsQueryOptions } from "#/queries/tags.ts";
+import { type TagRow, tagsQueryOptions } from "#/queries/tags.ts";
 
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
@@ -13,10 +13,12 @@ const tagNamePattern = "(?=.{2,50}$)[a-z0-9]+(-[a-z0-9]+)*";
 
 function FormTag({
 	onClose,
+	onRenamed,
 	tag,
 	tags,
 }: {
 	onClose: () => void;
+	onRenamed?: (name: string) => void;
 	tag: {
 		id: string;
 		name: string;
@@ -79,6 +81,16 @@ function FormTag({
 						setError("Something went wrong. Try again in a moment.");
 				}
 				return;
+			}
+
+			// The cached list gets the new name before onRenamed rewrites the
+			// search query, so the query never points at a name the list lacks.
+			const newName = name.trim();
+			if (newName !== tag.name) {
+				queryClient.setQueryData<TagRow[]>(tagsQueryOptions.queryKey, (old) =>
+					old?.map((t) => (t.id === tag.id ? { ...t, name: newName } : t)),
+				);
+				onRenamed?.(newName);
 			}
 
 			await Promise.all([
