@@ -67,6 +67,10 @@ function PublicViewMasonryAside({ children }: { children: React.ReactNode }) {
 	return <aside className={styles.viewMasonryAside}>{children}</aside>;
 }
 
+function PublicAuth({ children }: { children: React.ReactNode }) {
+	return <aside className={styles.auth}>{children}</aside>;
+}
+
 Public.Header = PublicHeader;
 Public.Description = PublicDescription;
 Public.Author = PublicAuthor;
@@ -80,5 +84,6 @@ Public.ViewMasonry = PublicViewMasonry;
 Public.ViewMasonryHeader = PublicViewMasonryHeader;
 Public.ViewMasonryMain = PublicViewMasonryMain;
 Public.ViewMasonryAside = PublicViewMasonryAside;
+Public.Auth = PublicAuth;
 
 export default Public;

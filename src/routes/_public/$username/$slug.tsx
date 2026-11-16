@@ -172,27 +172,20 @@ function PublicCollectionLocked({
 
 	return (
 		<Public>
-			<Public.Header>
-				<Heading level={1} text="This collection is password protected" />
-				<Public.Author>
-					Shared by{" "}
-					<Link to="/$username" params={{ username }}>
-						@{username}
-					</Link>
-				</Public.Author>
-			</Public.Header>
-			<Form onSubmit={handleUnlock}>
-				<Form.Input
-					label="Password"
-					name="collection-password"
-					onChange={setPassword}
-					required
-					type="password"
-					autoComplete="off"
-					value={password}
-				/>
-				<Form.Submit text="Unlock" textLoading="Unlocking..." />
-			</Form>
+			<Public.Auth>
+				<Form onSubmit={handleUnlock}>
+					<Form.Input
+						label="Password"
+						name="collection-password"
+						onChange={setPassword}
+						required
+						type="password"
+						autoComplete="off"
+						value={password}
+					/>
+					<Form.Submit text="Unlock collection" textLoading="Unlocking..." />
+				</Form>
+			</Public.Auth>
 		</Public>
 	);
 }

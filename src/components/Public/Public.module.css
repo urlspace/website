@@ -132,3 +132,9 @@
 		max-width: 700px;
 	}
 }
+
+.auth {
+	padding-block: 2rlh;
+	width: min(100% - 2rlh, 700px);
+	margin-inline: auto;
+}
