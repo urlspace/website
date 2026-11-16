@@ -7,7 +7,6 @@ import {
 import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
-import type { SubmitHelpers } from "#/components/Form/Form";
 import {
 	Dashboard,
 	DashboardButton,
@@ -19,6 +18,8 @@ import {
 	Drawer,
 	Form,
 	FormCollection,
+	FormDeleteCollection,
+	FormDeleteTag,
 	FormLink,
 	FormTag,
 	Icon,
@@ -245,7 +246,6 @@ function PageDashboard() {
 	const [isDeleteCollectionOpen, setIsDeleteCollectionOpen] = useState(false);
 	const [deletingTag, setDeletingTag] = useState<TagRow | null>(null);
 	const [isDeleteTagOpen, setIsDeleteTagOpen] = useState(false);
-	const [cascade, setCascade] = useState(false);
 	const focusAfterDeleteRef = useRef<HTMLElement | null>(null);
 
 	function focusTargetAfterDelete(button?: HTMLElement) {
@@ -257,6 +257,8 @@ function PageDashboard() {
 		);
 	}
 
+	// A failed delete keeps the item, so the focus target picked for after the
+	// delete no longer makes sense.
 	const deleteCollection = useMutation({
 		mutationFn: async ({ id, cascade }: { id: string; cascade: boolean }) => {
 			const res = await fetch(
@@ -292,6 +294,9 @@ function PageDashboard() {
 				queryClient.invalidateQueries({ queryKey: linksQueryKey }),
 				queryClient.invalidateQueries({ queryKey: meQueryOptions.queryKey }),
 			]);
+		},
+		onError: () => {
+			focusAfterDeleteRef.current = null;
 		},
 	});
 
@@ -329,6 +334,9 @@ function PageDashboard() {
 				queryClient.invalidateQueries({ queryKey: meQueryOptions.queryKey }),
 			]);
 		},
+		onError: () => {
+			focusAfterDeleteRef.current = null;
+		},
 	});
 
 	function handleDeleteCollection(c: CollectionRow, button?: HTMLElement) {
@@ -337,7 +345,6 @@ function PageDashboard() {
 		if (c.count > 0) {
 			focusAfterDeleteRef.current = target ?? null;
 			setFormKey((key) => key + 1);
-			setCascade(false);
 			setDeletingCollection(c);
 			setIsDeleteCollectionOpen(true);
 			return;
@@ -360,7 +367,6 @@ function PageDashboard() {
 		if (t.count > 0) {
 			focusAfterDeleteRef.current = target ?? null;
 			setFormKey((key) => key + 1);
-			setCascade(false);
 			setDeletingTag(t);
 			setIsDeleteTagOpen(true);
 			return;
@@ -375,55 +381,6 @@ function PageDashboard() {
 					),
 			},
 		);
-	}
-
-	async function handleSubmitDeleteCollection(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-		if (!deletingCollection) {
-			return;
-		}
-		setError(null);
-		setLoading(true);
-		try {
-			await deleteCollection.mutateAsync({
-				id: deletingCollection.id,
-				cascade,
-			});
-			setIsDeleteCollectionOpen(false);
-		} catch {
-			focusAfterDeleteRef.current = null;
-			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
-		}
-	}
-
-	async function handleSubmitDeleteTag(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-		if (!deletingTag) {
-			return;
-		}
-		setError(null);
-		setLoading(true);
-		try {
-			await deleteTag.mutateAsync({ id: deletingTag.id, cascade });
-			setIsDeleteTagOpen(false);
-		} catch {
-			focusAfterDeleteRef.current = null;
-			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
-		}
-	}
-
-	function linksLabel(count: number) {
-		return count === 1 ? "1 link" : `${count} links`;
 	}
 
 	const lastRefreshRef = useRef(Number.NEGATIVE_INFINITY);
@@ -935,42 +892,17 @@ function PageDashboard() {
 				title="Delete collection"
 			>
 				{deletingCollection ? (
-					<Form key={formKey} onSubmit={handleSubmitDeleteCollection}>
-						<p>
-							Deleting this collection cannot be undone. All links will lose
-							their association with the collection. Tick the box below to also
-							permanently remove those links.
-						</p>
-						<Form.Checkbox
-							label={`Also delete ${linksLabel(deletingCollection.count)} in this collection`}
-							name="cascade-collection"
-							onChange={setCascade}
-							value={cascade}
-						/>
-						{deletingCollection.public ? (
-							<Form.Warning>
-								Sir Tim Berners-Lee, the man who invented the World Wide Web,
-								published{" "}
-								<a
-									href="https://www.w3.org/Provider/Style/URI"
-									target="_blank"
-									rel="noreferrer"
-									aria-description="Opens in a new tab"
-								>
-									"Cool URIs don't change"
-								</a>{" "}
-								in 1998. Think twice before deleting this public collection.
-							</Form.Warning>
-						) : null}
-						<Form.Submit
-							text={
-								cascade
-									? `Delete collection and ${linksLabel(deletingCollection.count)}`
-									: "Delete collection"
-							}
-							textLoading="Deleting..."
-						/>
-					</Form>
+					<FormDeleteCollection
+						key={formKey}
+						collection={deletingCollection}
+						onDelete={(cascade) =>
+							deleteCollection.mutateAsync({
+								id: deletingCollection.id,
+								cascade,
+							})
+						}
+						onClose={() => setIsDeleteCollectionOpen(false)}
+					/>
 				) : null}
 			</Dialog>
 
@@ -984,27 +916,14 @@ function PageDashboard() {
 				title="Delete tag"
 			>
 				{deletingTag ? (
-					<Form key={formKey} onSubmit={handleSubmitDeleteTag}>
-						<p>
-							Deleting this tag cannot be undone. All links will lose their
-							association with the tag. Tick the box below to also permanently
-							remove those links.
-						</p>
-						<Form.Checkbox
-							label={`Also delete ${linksLabel(deletingTag.count)} with this tag`}
-							name="cascade-tag"
-							onChange={setCascade}
-							value={cascade}
-						/>
-						<Form.Submit
-							text={
-								cascade
-									? `Delete tag and ${linksLabel(deletingTag.count)}`
-									: "Delete tag"
-							}
-							textLoading="Deleting..."
-						/>
-					</Form>
+					<FormDeleteTag
+						key={formKey}
+						tag={deletingTag}
+						onDelete={(cascade) =>
+							deleteTag.mutateAsync({ id: deletingTag.id, cascade })
+						}
+						onClose={() => setIsDeleteTagOpen(false)}
+					/>
 				) : null}
 			</Dialog>
 		</Dashboard>

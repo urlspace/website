@@ -22,6 +22,8 @@ import Footer from "./Footer/Footer.tsx";
 import Form from "./Form/Form.tsx";
 import FormCollection from "./FormCollection/FormCollection.tsx";
 import FormDeleteAccount from "./FormDeleteAccount/FormDeleteAccount.tsx";
+import FormDeleteCollection from "./FormDeleteCollection/FormDeleteCollection.tsx";
+import FormDeleteTag from "./FormDeleteTag/FormDeleteTag.tsx";
 import FormDisplayName from "./FormDisplayName/FormDisplayName.tsx";
 import FormEmail from "./FormEmail/FormEmail.tsx";
 import FormImport from "./FormImport/FormImport.tsx";
@@ -75,6 +77,8 @@ export {
 	Form,
 	FormCollection,
 	FormDeleteAccount,
+	FormDeleteCollection,
+	FormDeleteTag,
 	FormDisplayName,
 	FormEmail,
 	FormImport,
