@@ -78,6 +78,8 @@ function FormCollection({
 				{
 					method: "POST",
 					credentials: "include",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify({ returnTo: "dashboard" }),
 				},
 			);
 			// Reload so the route guard can clear the invalid session and cached data.

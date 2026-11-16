@@ -36,7 +36,12 @@ function Pricing({
 		mutationFn: async () => {
 			const res = await fetch(
 				`${import.meta.env.VITE_API_URL}/subscriptions/checkout`,
-				{ method: "POST", credentials: "include" },
+				{
+					method: "POST",
+					credentials: "include",
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify({ returnTo: "home" }),
+				},
 			);
 			if (res.status === 401) {
 				window.location.assign("/auth/signin");
