@@ -148,6 +148,10 @@
 		}
 	}
 
+	details[open] & {
+		font-weight: 600;
+	}
+
 	details[open] > & svg {
 		rotate: 180deg;
 	}

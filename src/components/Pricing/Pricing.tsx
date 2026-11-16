@@ -181,6 +181,50 @@ function Pricing({
 							you changing anything.
 						</p>
 					</details>
+					<details className={styles.question}>
+						<summary className={styles.summary}>
+							Can I cancel any time?
+							<Icon.ChevronDown />
+						</summary>
+						<p>
+							Yes, in Settings: choose Manage next to your account type. You keep
+							Unlimited until the end of the period you've paid for.
+						</p>
+					</details>
+					<details className={styles.question}>
+						<summary className={styles.summary}>
+							Do you offer refunds?
+							<Icon.ChevronDown />
+						</summary>
+						<p>
+							No, we don't offer refunds. The free plan is generous, so give it a
+							proper try first. If you're still unsure, start with a single month
+							of Unlimited and switch to yearly once you're sure you love it.
+						</p>
+					</details>
+					<details className={styles.question}>
+						<summary className={styles.summary}>
+							Can I import and export my data?
+							<Icon.ChevronDown />
+						</summary>
+						<p>
+							Yes. Bringing your existing bookmarks from popular browsers and
+							other bookmarking services takes just a few clicks. Getting it out
+							is just as easy: your data is yours, so you can export it at any
+							time.
+						</p>
+					</details>
+					<details className={styles.question}>
+						<summary className={styles.summary}>
+							What happens when I delete my account?
+							<Icon.ChevronDown />
+						</summary>
+						<p>
+							Deleting your account takes only a moment. We don't just hide
+							deleted accounts: everything associated with yours is permanently
+							removed, and any active subscription is cancelled straight away.
+						</p>
+					</details>
 				</div>
 			</div>
 		</section>
