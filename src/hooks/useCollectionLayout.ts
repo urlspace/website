@@ -1,60 +1,53 @@
+import { createIsomorphicFn } from "@tanstack/react-start";
+import { getCookie } from "@tanstack/react-start/server";
 import { useSyncExternalStore } from "react";
 
 type Layout = "list" | "masonry";
 
-const storageKey = "public-collection-layout";
+const cookieName = "collection-layout";
 const listeners = new Set<() => void>();
-// Used when storage is unavailable (private browsing, blocked site data), so
-// switching layout still works for the rest of the visit.
-let memoryLayout: Layout = "list";
+// Used when cookies are blocked, so switching layout still works for the
+// rest of the visit.
+let memoryLayout: Layout | null = null;
 
-function getSnapshot(): Layout {
-	try {
-		const saved = window.localStorage.getItem(storageKey);
-		if (saved === "list" || saved === "masonry") {
-			return saved;
-		}
-	} catch {
-		return memoryLayout;
-	}
-	return memoryLayout;
+function toLayout(value: string | undefined): Layout {
+	return value === "masonry" ? "masonry" : "list";
 }
 
-// The server can't know the saved layout, so it renders the list and the
-// browser switches after hydration without a mismatch.
-function getServerSnapshot(): Layout {
-	return "list";
-}
+// A cookie rather than localStorage: the server reads it from the request and
+// renders the saved layout straight away, and the browser reads the same
+// cookie while hydrating, so the page never jumps between layouts.
+const getLayout = createIsomorphicFn()
+	.server(() => toLayout(getCookie(cookieName)))
+	.client(() => {
+		const saved = document.cookie
+			.split("; ")
+			.find((cookie) => cookie.startsWith(`${cookieName}=`))
+			?.slice(cookieName.length + 1);
+		return saved === undefined && memoryLayout !== null
+			? memoryLayout
+			: toLayout(saved);
+	});
 
-// The storage event covers other tabs. Writes in this tab notify listeners
-// directly, since that event doesn't fire in the tab that wrote.
 function subscribe(listener: () => void) {
 	listeners.add(listener);
-	window.addEventListener("storage", listener);
 	return () => {
 		listeners.delete(listener);
-		window.removeEventListener("storage", listener);
 	};
 }
 
+// Written in the browser, so switching needs no request. Not HttpOnly, since
+// a layout preference has nothing to protect.
 function setLayout(layout: Layout) {
 	memoryLayout = layout;
-	try {
-		window.localStorage.setItem(storageKey, layout);
-	} catch {
-		// Storage is unavailable, memoryLayout keeps the choice for this visit.
-	}
+	document.cookie = `${cookieName}=${layout}; Path=/; Max-Age=31536000; SameSite=Lax; Secure`;
 	for (const listener of listeners) {
 		listener();
 	}
 }
 
 function useCollectionLayout() {
-	const layout = useSyncExternalStore(
-		subscribe,
-		getSnapshot,
-		getServerSnapshot,
-	);
+	const layout = useSyncExternalStore(subscribe, getLayout, getLayout);
 	return [layout, setLayout] as const;
 }
 

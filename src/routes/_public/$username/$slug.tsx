@@ -106,38 +106,15 @@ function normalizeName(name: string) {
 
 function PagePublicCollection() {
 	const data = Route.useLoaderData();
-	// Unlocking lasts for this page view only: a reload asks for the password
-	// again.
-	const [unlocked, setUnlocked] = React.useState<{
-		collection: PublicCollection;
-		password: string;
-	} | null>(null);
 
-	if (unlocked) {
-		return (
-			<PublicCollectionView
-				collection={unlocked.collection}
-				password={unlocked.password}
-			/>
-		);
-	}
 	if ("passwordProtected" in data) {
-		return (
-			<PublicCollectionLocked
-				onUnlock={(collection, password) =>
-					setUnlocked({ collection, password })
-				}
-			/>
-		);
+		return <PublicCollectionLocked />;
 	}
-	return <PublicCollectionView collection={data} password={null} />;
+	return <PublicCollectionView collection={data} password={data.password} />;
 }
 
-function PublicCollectionLocked({
-	onUnlock,
-}: {
-	onUnlock: (collection: PublicCollection, password: string) => void;
-}) {
+function PublicCollectionLocked() {
+	const router = useRouter();
 	const { username, slug } = Route.useParams();
 	const [password, setPassword] = React.useState("");
 
@@ -155,7 +132,9 @@ function PublicCollectionLocked({
 				setError("That password isn't right.");
 				return;
 			}
-			onUnlock(result, password);
+			// The unlock set the session cookie, so reloading the page data now
+			// returns the collection, and refreshes keep it unlocked.
+			await router.invalidate();
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
 		}

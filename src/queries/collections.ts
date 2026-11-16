@@ -1,7 +1,13 @@
 import { queryOptions } from "@tanstack/react-query";
 import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { getRequest } from "@tanstack/react-start/server";
+import {
+	deleteCookie,
+	getCookie,
+	getRequest,
+	setCookie,
+	setResponseHeader,
+} from "@tanstack/react-start/server";
 
 import { clearSession } from "#/queries/session.ts";
 import { getOriginAuthHeaders } from "#/utils/getOriginAuthHeaders.ts";
@@ -70,6 +76,14 @@ export type PasswordProtectedCollection = { passwordProtected: true };
 const usernamePattern = /^[a-z0-9_-]{3,32}$/;
 const slugPattern = /^(?=.{2,128}$)[a-z0-9]+(-[a-z0-9]+)*$/;
 
+// One cookie per unlocked collection. Dots separate the parts, since
+// usernames and slugs never contain one. Path=/ because the app also loads
+// page data through /_serverFn/ requests, which a cookie limited to the
+// collection's address would miss.
+function collectionPasswordCookie(username: string, slug: string) {
+	return `collection-password.${username}.${slug}`;
+}
+
 export const getPublicCollection = createServerFn()
 	.validator((input: { username: string; slug: string }) => {
 		if (
@@ -90,6 +104,23 @@ export const getPublicCollection = createServerFn()
 		if (!usernamePattern.test(username) || !slugPattern.test(slug)) {
 			return null;
 		}
+
+		// Unlocked earlier in this browser session: ask with the password, so
+		// the page renders unlocked straight away.
+		const cookieName = collectionPasswordCookie(username, slug);
+		const password = getCookie(cookieName);
+		if (password !== undefined) {
+			// The response holds an unlocked collection, so nothing may cache it.
+			setResponseHeader("Cache-Control", "private, no-store");
+			const unlocked = await fetchUnlockedCollection(username, slug, password);
+			if (unlocked === "invalid-password") {
+				// The owner changed the password since this browser unlocked it.
+				deleteCookie(cookieName, { path: "/" });
+				return { passwordProtected: true } as PasswordProtectedCollection;
+			}
+			return unlocked && { ...unlocked, password };
+		}
+
 		const res = await fetch(
 			`${import.meta.env.VITE_API_URL}/public/${encodeURIComponent(username)}/${encodeURIComponent(slug)}`,
 			{
@@ -110,8 +141,34 @@ export const getPublicCollection = createServerFn()
 			throw new Error(`/public collection failed: ${res.status}`);
 		}
 		const json = (await res.json()) as { data: PublicCollection };
-		return json.data;
+		return { ...json.data, password: null };
 	});
+
+// Headers only carry Latin-1, so the password is percent-encoded and the API
+// decodes it. No Cloudflare caching: this response must never be shared with
+// another visitor.
+async function fetchUnlockedCollection(
+	username: string,
+	slug: string,
+	password: string,
+) {
+	const res = await fetch(
+		`${import.meta.env.VITE_API_URL}/public/${encodeURIComponent(username)}/${encodeURIComponent(slug)}`,
+		{
+			headers: {
+				...getOriginAuthHeaders(),
+				"x-collection-password": encodeURIComponent(password),
+			},
+		},
+	);
+	if (res.status === 404) return null;
+	if (res.status === 401) return "invalid-password" as const;
+	if (!res.ok) {
+		throw new Error(`/public collection unlock failed: ${res.status}`);
+	}
+	const json = (await res.json()) as { data: PublicCollection };
+	return json.data;
+}
 
 export const unlockPublicCollection = createServerFn({ method: "POST" })
 	.validator((input: { username: string; slug: string; password: string }) => {
@@ -129,23 +186,20 @@ export const unlockPublicCollection = createServerFn({ method: "POST" })
 		if (!usernamePattern.test(username) || !slugPattern.test(slug)) {
 			return null;
 		}
-		// Headers only carry Latin-1, so the password is percent-encoded and the
-		// API decodes it. No Cloudflare caching: this response must never be
-		// shared with another visitor.
-		const res = await fetch(
-			`${import.meta.env.VITE_API_URL}/public/${encodeURIComponent(username)}/${encodeURIComponent(slug)}`,
-			{
-				headers: {
-					...getOriginAuthHeaders(),
-					"x-collection-password": encodeURIComponent(password),
-				},
-			},
-		);
-		if (res.status === 404) return null;
-		if (res.status === 401) return { invalidPassword: true } as const;
-		if (!res.ok) {
-			throw new Error(`/public collection unlock failed: ${res.status}`);
+		const unlocked = await fetchUnlockedCollection(username, slug, password);
+		if (unlocked === "invalid-password") {
+			return { invalidPassword: true } as const;
 		}
-		const json = (await res.json()) as { data: PublicCollection };
-		return json.data;
+		if (unlocked === null) {
+			return null;
+		}
+		// No Expires or Max-Age: a session cookie the browser drops when it
+		// quits, so the password is asked for once per browser session.
+		setCookie(collectionPasswordCookie(username, slug), password, {
+			path: "/",
+			httpOnly: true,
+			secure: true,
+			sameSite: "lax",
+		});
+		return { unlocked: true } as const;
 	});
