@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 
 function useDebouncedValue<T>(
 	value: T,
@@ -6,16 +6,15 @@ function useDebouncedValue<T>(
 	onSettled?: (value: T) => void,
 ): T {
 	const [debounced, setDebounced] = useState(value);
-	const callbackRef = useRef(onSettled);
-
-	useEffect(() => {
-		callbackRef.current = onSettled;
+	// Calls the latest onSettled without restarting the timer when it changes.
+	const settle = useEffectEvent((settled: T) => {
+		onSettled?.(settled);
 	});
 
 	useEffect(() => {
 		const t = setTimeout(() => {
 			setDebounced(value);
-			callbackRef.current?.(value);
+			settle(value);
 		}, delay);
 		return () => clearTimeout(t);
 	}, [value, delay]);
