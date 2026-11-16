@@ -22,6 +22,7 @@ import {
 	Public,
 	Stack,
 } from "#/components/index.ts";
+import useCollectionLayout from "#/hooks/useCollectionLayout.ts";
 import {
 	collectionsQueryOptions,
 	getPublicCollection,
@@ -33,9 +34,6 @@ import { meQueryOptions } from "#/queries/me.ts";
 import { clearSession } from "#/queries/session.ts";
 import { type SearchItem, setCollectionFilter } from "#/searchQuery.ts";
 import { formatDate } from "#/utils/formatDate.ts";
-
-type Layout = "list" | "masonry";
-const layoutStorageKey = "public-collection-layout";
 
 export const Route = createFileRoute("/_public/$username/$slug")({
 	// Usernames and slugs are stored lowercase. Mixed-case links redirect so
@@ -191,7 +189,7 @@ function PublicCollectionView({
 	password: string | null;
 }) {
 	const router = useRouter();
-	const [layout, setLayout] = React.useState<Layout>("list");
+	const [layout, setLayout] = useCollectionLayout();
 	const [isCloneOpen, setIsCloneOpen] = React.useState(false);
 	const [cloneName, setCloneName] = React.useState("");
 	const [cloneFormKey, setCloneFormKey] = React.useState(0);
@@ -393,27 +391,6 @@ function PublicCollectionView({
 		</>
 	);
 
-	React.useEffect(() => {
-		try {
-			const savedLayout = window.localStorage.getItem(layoutStorageKey);
-			if (savedLayout === "list" || savedLayout === "masonry") {
-				setLayout(savedLayout);
-			}
-		} catch {
-			return;
-		}
-	}, []);
-
-	function changeLayout(nextLayout: Layout) {
-		setLayout(nextLayout);
-
-		try {
-			window.localStorage.setItem(layoutStorageKey, nextLayout);
-		} catch {
-			return;
-		}
-	}
-
 	return (
 		<Public>
 			<Public.Header>
@@ -436,7 +413,7 @@ function PublicCollectionView({
 					<Public.Option layout>
 						<DashboardButton
 							text="List"
-							onClick={() => changeLayout("list")}
+							onClick={() => setLayout("list")}
 							icon={<Icon.List />}
 							ariaPressed={layout === "list"}
 						/>
@@ -444,7 +421,7 @@ function PublicCollectionView({
 					<Public.Option layout>
 						<DashboardButton
 							text="Waterfall"
-							onClick={() => changeLayout("masonry")}
+							onClick={() => setLayout("masonry")}
 							icon={<Icon.Masonry />}
 							ariaPressed={layout === "masonry"}
 						/>

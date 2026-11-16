@@ -1,5 +1,4 @@
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
-import React from "react";
 
 import {
 	ButtonLink,
@@ -10,10 +9,8 @@ import {
 	Public,
 	Stack,
 } from "#/components/index.ts";
+import useCollectionLayout from "#/hooks/useCollectionLayout.ts";
 import { getPublicUser } from "#/queries/user.ts";
-
-type Layout = "list" | "masonry";
-const layoutStorageKey = "public-collection-layout";
 
 export const Route = createFileRoute("/_public/$username/")({
 	// Usernames are stored lowercase. Mixed-case links redirect so every
@@ -58,7 +55,7 @@ export const Route = createFileRoute("/_public/$username/")({
 });
 
 function PagePublicUser() {
-	const [layout, setLayout] = React.useState<Layout>("list");
+	const [layout, setLayout] = useCollectionLayout();
 	const user = Route.useLoaderData();
 	const { username } = Route.useParams();
 	const { hasSession } = Route.useRouteContext();
@@ -102,26 +99,6 @@ function PagePublicUser() {
 		</>
 	);
 
-	React.useEffect(() => {
-		try {
-			const savedLayout = window.localStorage.getItem(layoutStorageKey);
-			if (savedLayout === "list" || savedLayout === "masonry") {
-				setLayout(savedLayout);
-			}
-		} catch {
-			return;
-		}
-	}, []);
-
-	function changeLayout(nextLayout: Layout) {
-		setLayout(nextLayout);
-		try {
-			window.localStorage.setItem(layoutStorageKey, nextLayout);
-		} catch {
-			return;
-		}
-	}
-
 	const heading = (
 		<Heading
 			level={2}
@@ -155,7 +132,7 @@ function PagePublicUser() {
 					<Public.Option layout>
 						<DashboardButton
 							text="List"
-							onClick={() => changeLayout("list")}
+							onClick={() => setLayout("list")}
 							icon={<Icon.List />}
 							ariaPressed={layout === "list"}
 						/>
@@ -163,7 +140,7 @@ function PagePublicUser() {
 					<Public.Option layout>
 						<DashboardButton
 							text="Waterfall"
-							onClick={() => changeLayout("masonry")}
+							onClick={() => setLayout("masonry")}
 							icon={<Icon.Masonry />}
 							ariaPressed={layout === "masonry"}
 						/>
