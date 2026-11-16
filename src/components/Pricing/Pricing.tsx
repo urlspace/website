@@ -62,7 +62,7 @@ function Pricing({
 	let action: React.ReactNode = null;
 	if (!hasSession || user === null) {
 		action = <ButtonLink to="/auth/signup" text="Sign up for free" />;
-	} else if (user && !user.isPro && !user.isAdmin) {
+	} else if (user && !user.isUnlimited && !user.isAdmin) {
 		action = (
 			<Button
 				type="button"

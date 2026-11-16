@@ -65,14 +65,14 @@ function PageProfile() {
 		refetchInterval: payment === "processing" ? 2000 : false,
 	});
 	const { data: tokens } = useSuspenseQuery(tokensQueryOptions);
-	const isPaymentProcessing = payment === "processing" && !user.isPro;
+	const isPaymentProcessing = payment === "processing" && !user.isUnlimited;
 
 	useEffect(() => {
-		if (payment === "processing" && user.isPro) {
+		if (payment === "processing" && user.isUnlimited) {
 			void queryClient.invalidateQueries({ queryKey: subscriptionsQueryKey });
 			void navigate({ search: {}, replace: true });
 		}
-	}, [payment, user.isPro, queryClient, navigate]);
+	}, [payment, user.isUnlimited, queryClient, navigate]);
 
 	const [isCreateTokenOpen, setIsCreateTokenOpen] = useState(false);
 	const [isDeleteAccountOpen, setIsDeleteAccountOpen] = useState(false);
@@ -170,7 +170,7 @@ function PageProfile() {
 			>
 				<FormDeleteAccount
 					key={formKey}
-					isPro={user.isPro}
+					isUnlimited={user.isUnlimited}
 					onClose={() => setIsDeleteAccountOpen(false)}
 				/>
 			</Dialog>

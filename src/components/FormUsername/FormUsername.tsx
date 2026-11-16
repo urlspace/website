@@ -6,16 +6,16 @@ import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 function FormUsername({
 	onClose,
 	username,
-	isPro,
+	isUnlimited,
 	isAdmin,
 }: {
 	onClose: () => void;
 	username: string;
-	isPro: boolean;
+	isUnlimited: boolean;
 	isAdmin: boolean;
 }) {
 	const queryClient = useQueryClient();
-	const canPublish = isPro || isAdmin;
+	const canPublish = isUnlimited || isAdmin;
 
 	const [value, setValue] = useState(username);
 	const [password, setPassword] = useState("");

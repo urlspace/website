@@ -736,7 +736,7 @@ function PageDashboard() {
 				<FormCollection
 					key={formKey}
 					onClose={() => setIsAddCollectionOpen(false)}
-					isPro={user.isPro}
+					isUnlimited={user.isUnlimited}
 					isAdmin={user.isAdmin}
 					username={user.username}
 					collections={collections}
@@ -753,7 +753,7 @@ function PageDashboard() {
 						key={formKey}
 						collection={editingCollection}
 						collections={collections}
-						isPro={user.isPro}
+						isUnlimited={user.isUnlimited}
 						isAdmin={user.isAdmin}
 						username={user.username}
 						onClose={() => setIsEditCollectionOpen(false)}

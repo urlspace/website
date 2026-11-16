@@ -5,10 +5,10 @@ import { useState } from "react";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 
 function FormDeleteAccount({
-	isPro,
+	isUnlimited,
 	onClose,
 }: {
-	isPro: boolean;
+	isUnlimited: boolean;
 	onClose: () => void;
 }) {
 	const queryClient = useQueryClient();
@@ -79,11 +79,11 @@ function FormDeleteAccount({
 				cannot be undone.
 			</p>
 
-			{isPro ? (
+			{isUnlimited ? (
 				<p>
-					You’ll lose your Pro account immediately. Any active subscription is
-					cancelled straight away, and the remaining time in your current
-					billing period is not refunded.
+					You’ll lose your Unlimited account immediately. Any active
+					subscription is cancelled straight away, and the remaining time in
+					your current billing period is not refunded.
 				</p>
 			) : null}
 

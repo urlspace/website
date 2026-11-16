@@ -20,7 +20,7 @@ function normalizeName(name: string) {
 function FormCollection({
 	collection,
 	collections,
-	isPro,
+	isUnlimited,
 	isAdmin,
 	username,
 	onClose,
@@ -37,7 +37,7 @@ function FormCollection({
 		name: string;
 		slug: string;
 	}>;
-	isPro: boolean;
+	isUnlimited: boolean;
 	isAdmin: boolean;
 	username: string;
 	onClose: () => void;
@@ -47,7 +47,7 @@ function FormCollection({
 		data: { stats },
 	} = useSuspenseQuery(meQueryOptions);
 	const isEdit = !!collection;
-	const canPublish = isPro || isAdmin;
+	const canPublish = isUnlimited || isAdmin;
 	const duplicateNameError = "You already have a collection with that name.";
 	const duplicateSlugError = "Another collection already uses that slug.";
 	const collectionLimitError =
@@ -262,7 +262,7 @@ function FormCollection({
 				description={
 					canPublish ? null : (
 						<>
-							Available only to pro users.{" "}
+							Available only to Unlimited users.{" "}
 							{
 								// TODO: change to /upgrade when the page is ready
 							}

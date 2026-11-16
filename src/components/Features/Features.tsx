@@ -25,7 +25,7 @@ function Features() {
 						shared, like a wedding wishlist, a course reading list or your
 						favourite conference talks. Make a collection public to give it its
 						own page and RSS feed, and let anyone clone it into their own
-						account. Available on Pro.
+						account. Available on Unlimited.
 					</p>
 					<Link to="/docs">Learn more about collections</Link>
 				</div>

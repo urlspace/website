@@ -12,7 +12,7 @@ export type User = {
 	username: string;
 	displayName: string;
 	isAdmin: boolean;
-	isPro: boolean;
+	isUnlimited: boolean;
 	createdAt: string;
 	updatedAt: string;
 	stats: {

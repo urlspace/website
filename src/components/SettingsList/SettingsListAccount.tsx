@@ -25,25 +25,25 @@ import styles from "./SettingsList.module.css";
 
 function getAccountType(
 	isAdmin: boolean,
-	isPro: boolean,
+	isUnlimited: boolean,
 	activeSubscription: SubscriptionRow | undefined,
 ) {
 	if (isAdmin) {
 		return "Admin";
 	}
-	if (!isPro) {
+	if (!isUnlimited) {
 		return "Free";
 	}
 	if (!activeSubscription) {
-		return "Pro";
+		return "Unlimited";
 	}
 	if (activeSubscription.status === "past_due") {
-		return "Pro (payment failed)";
+		return "Unlimited (payment failed)";
 	}
 	if (activeSubscription.cancelAtPeriodEnd) {
-		return `Pro, valid until ${formatDate(activeSubscription.currentPeriodEnd)}`;
+		return `Unlimited, valid until ${formatDate(activeSubscription.currentPeriodEnd)}`;
 	}
-	return `Pro, renews on ${formatDate(activeSubscription.currentPeriodEnd)}`;
+	return `Unlimited, renews on ${formatDate(activeSubscription.currentPeriodEnd)}`;
 }
 
 function SettingsListAccount({
@@ -219,9 +219,13 @@ function SettingsListAccount({
 						<span className={styles.value}>
 							{isPaymentProcessing
 								? "Processing payment..."
-								: getAccountType(user.isAdmin, user.isPro, activeSubscription)}
+								: getAccountType(
+										user.isAdmin,
+										user.isUnlimited,
+										activeSubscription,
+									)}
 						</span>
-						{user.isAdmin || isPaymentProcessing ? null : user.isPro ? (
+						{user.isAdmin || isPaymentProcessing ? null : user.isUnlimited ? (
 							activeSubscription ? (
 								<span className={styles.action}>
 									<DashboardButtonAction
@@ -260,7 +264,7 @@ function SettingsListAccount({
 					</dd>
 				</div>
 
-				{!user.isPro &&
+				{!user.isUnlimited &&
 				!isPaymentProcessing &&
 				!user.isAdmin &&
 				user.stats.linksLimit !== null ? (
@@ -274,7 +278,7 @@ function SettingsListAccount({
 					</div>
 				) : null}
 
-				{!user.isPro &&
+				{!user.isUnlimited &&
 				!isPaymentProcessing &&
 				!user.isAdmin &&
 				user.stats.collectionsLimit !== null ? (
@@ -288,7 +292,7 @@ function SettingsListAccount({
 					</div>
 				) : null}
 
-				{!user.isPro &&
+				{!user.isUnlimited &&
 				!isPaymentProcessing &&
 				!user.isAdmin &&
 				user.stats.tagsLimit !== null ? (
@@ -311,7 +315,7 @@ function SettingsListAccount({
 				<FormUsername
 					key={formKey}
 					username={user.username}
-					isPro={user.isPro}
+					isUnlimited={user.isUnlimited}
 					isAdmin={user.isAdmin}
 					onClose={() => setIsChangeUsernameOpen(false)}
 				/>
