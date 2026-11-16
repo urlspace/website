@@ -37,7 +37,8 @@ export const Route = createFileRoute("/$username/$slug/feed.xml")({
 				const collection = await getPublicCollection({
 					data: { username: params.username, slug: params.slug },
 				});
-				if (collection === null) {
+				// Password protected collections have no feed.
+				if (collection === null || "passwordProtected" in collection) {
 					return new Response("Collection not found", {
 						status: 404,
 						headers: { "Cache-Control": "no-store" },

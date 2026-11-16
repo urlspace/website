@@ -25,6 +25,8 @@ import {
 import {
 	collectionsQueryOptions,
 	getPublicCollection,
+	type PublicCollection,
+	unlockPublicCollection,
 } from "#/queries/collections.ts";
 import { linksQueryKey } from "#/queries/links.ts";
 import { meQueryOptions } from "#/queries/me.ts";
@@ -60,6 +62,17 @@ export const Route = createFileRoute("/_public/$username/$slug")({
 	head: ({ loaderData, params }) => {
 		if (!loaderData) return { meta: [] };
 
+		// Nothing about a password protected collection goes into the page
+		// metadata, so link previews and search engines don't reveal it.
+		if ("passwordProtected" in loaderData) {
+			return {
+				meta: [
+					{ title: "Password protected collection | url.space" },
+					{ name: "robots", content: "noindex" },
+				],
+			};
+		}
+
 		const title = `${loaderData.name} by ${loaderData.author.displayName} | url.space`;
 		const description = loaderData.description.trim();
 		const collectionUrl = `https://url.space/${encodeURIComponent(params.username)}/${encodeURIComponent(params.slug)}`;
@@ -94,6 +107,103 @@ function normalizeName(name: string) {
 }
 
 function PagePublicCollection() {
+	const data = Route.useLoaderData();
+	// Unlocking lasts for this page view only: a reload asks for the password
+	// again.
+	const [unlocked, setUnlocked] = React.useState<{
+		collection: PublicCollection;
+		password: string;
+	} | null>(null);
+
+	if (unlocked) {
+		return (
+			<PublicCollectionView
+				collection={unlocked.collection}
+				password={unlocked.password}
+			/>
+		);
+	}
+	if ("passwordProtected" in data) {
+		return (
+			<PublicCollectionLocked
+				onUnlock={(collection, password) =>
+					setUnlocked({ collection, password })
+				}
+			/>
+		);
+	}
+	return <PublicCollectionView collection={data} password={null} />;
+}
+
+function PublicCollectionLocked({
+	onUnlock,
+}: {
+	onUnlock: (collection: PublicCollection, password: string) => void;
+}) {
+	const { username, slug } = Route.useParams();
+	const [password, setPassword] = React.useState("");
+
+	async function handleUnlock(
+		e: React.SubmitEvent<HTMLFormElement>,
+		{ setError, setLoading }: SubmitHelpers,
+	) {
+		e.preventDefault();
+		setError(null);
+		setLoading(true);
+		try {
+			const result = await unlockPublicCollection({
+				data: { username, slug, password },
+			});
+			if (result === null) {
+				setError("This collection is no longer available.");
+				return;
+			}
+			if ("invalidPassword" in result) {
+				setError("That password isn't right.");
+				return;
+			}
+			onUnlock(result, password.trim());
+		} catch {
+			setError("Something went wrong. Try again in a moment.");
+		} finally {
+			setLoading(false);
+		}
+	}
+
+	return (
+		<Public>
+			<Public.Header>
+				<Heading level={1} text="This collection is password protected" />
+				<Public.Author>
+					Shared by{" "}
+					<Link to="/$username" params={{ username }}>
+						@{username}
+					</Link>
+				</Public.Author>
+			</Public.Header>
+			<Form onSubmit={handleUnlock}>
+				<Form.Input
+					label="Password"
+					name="collection-password"
+					onChange={setPassword}
+					required
+					type="password"
+					autoComplete="off"
+					value={password}
+				/>
+				<Form.Submit text="Unlock" textLoading="Unlocking..." />
+			</Form>
+		</Public>
+	);
+}
+
+function PublicCollectionView({
+	collection,
+	password,
+}: {
+	collection: PublicCollection;
+	password: string | null;
+}) {
 	const router = useRouter();
 	const [layout, setLayout] = React.useState<Layout>("list");
 	const [isCloneOpen, setIsCloneOpen] = React.useState(false);
@@ -104,7 +214,6 @@ function PagePublicCollection() {
 	const [isOwnCollection, setIsOwnCollection] = React.useState(false);
 	const [cloneError, setCloneError] = React.useState<string | null>(null);
 	const [sessionExpired, setSessionExpired] = React.useState(false);
-	const collection = Route.useLoaderData();
 	const { username, slug } = Route.useParams();
 	const { hasSession, queryClient } = Route.useRouteContext();
 	const canClone = hasSession && !sessionExpired;
@@ -171,9 +280,25 @@ function PagePublicCollection() {
 					method: "POST",
 					credentials: "include",
 					headers: { "content-type": "application/json" },
-					body: JSON.stringify({ name: trimmedName }),
+					body: JSON.stringify(
+						password === null
+							? { name: trimmedName }
+							: { name: trimmedName, password },
+					),
 				},
 			);
+
+			// The owner changed the password since this page was unlocked.
+			if (
+				res.status === 401 &&
+				((await res.clone().json()) as { data: string }).data ===
+					"invalid password"
+			) {
+				setError(
+					"The password for this collection has changed. Reload the page and enter the new one.",
+				);
+				return;
+			}
 
 			if (res.status === 401) {
 				setIsCloneOpen(false);
@@ -350,14 +475,16 @@ function PagePublicCollection() {
 							ariaPressed={layout === "masonry"}
 						/>
 					</Public.Option>
-					<Public.Option>
-						<DashboardButtonLink
-							text="Feed"
-							to={`/${encodeURIComponent(username)}/${encodeURIComponent(slug)}/feed.xml`}
-							icon={<Icon.Rss />}
-							reloadDocument
-						/>
-					</Public.Option>
+					{password === null ? (
+						<Public.Option>
+							<DashboardButtonLink
+								text="Feed"
+								to={`/${encodeURIComponent(username)}/${encodeURIComponent(slug)}/feed.xml`}
+								icon={<Icon.Rss />}
+								reloadDocument
+							/>
+						</Public.Option>
+					) : null}
 					<Public.Option>
 						<DashboardButton
 							text="Share"

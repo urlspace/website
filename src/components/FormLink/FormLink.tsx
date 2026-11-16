@@ -109,6 +109,7 @@ function FormLink({
 		id: string;
 		name: string;
 		public: boolean;
+		password: string | null;
 	}>;
 	tags: Array<{
 		id: string;
@@ -510,11 +511,18 @@ function FormLink({
 								icon: <Icon.Folder />,
 							})),
 						collections
-							.filter((c) => c.public)
+							.filter((c) => c.public && c.password === null)
 							.map((c) => ({
 								name: c.name,
 								value: c.id,
 								icon: <Icon.FolderPublic />,
+							})),
+						collections
+							.filter((c) => c.password !== null)
+							.map((c) => ({
+								name: c.name,
+								value: c.id,
+								icon: <Icon.Lock />,
 							})),
 						canAddCollection
 							? [

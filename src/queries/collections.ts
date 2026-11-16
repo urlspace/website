@@ -12,6 +12,7 @@ export type CollectionRow = {
 	slug: string;
 	description: string;
 	public: boolean;
+	password: string | null;
 	createdAt: string;
 	updatedAt: string;
 	count: number;
@@ -64,6 +65,8 @@ export type PublicCollection = {
 	}>;
 };
 
+export type PasswordProtectedCollection = { passwordProtected: true };
+
 const usernamePattern = /^[a-z0-9_-]{3,32}$/;
 const slugPattern = /^(?=.{2,128}$)[a-z0-9]+(-[a-z0-9]+)*$/;
 
@@ -100,8 +103,48 @@ export const getPublicCollection = createServerFn()
 			},
 		);
 		if (res.status === 404) return null;
+		// Password protected. The response carries nothing about the collection.
+		if (res.status === 401)
+			return { passwordProtected: true } as PasswordProtectedCollection;
 		if (!res.ok) {
 			throw new Error(`/public collection failed: ${res.status}`);
+		}
+		const json = (await res.json()) as { data: PublicCollection };
+		return json.data;
+	});
+
+export const unlockPublicCollection = createServerFn({ method: "POST" })
+	.validator((input: { username: string; slug: string; password: string }) => {
+		if (
+			typeof input?.username !== "string" ||
+			typeof input?.slug !== "string" ||
+			typeof input?.password !== "string"
+		) {
+			throw new Error("Invalid collection address");
+		}
+		return input;
+	})
+	.handler(async ({ data: { username, slug, password } }) => {
+		// Same guard as getPublicCollection, see the comment there.
+		if (!usernamePattern.test(username) || !slugPattern.test(slug)) {
+			return null;
+		}
+		// Headers only carry Latin-1, so the password is percent-encoded and the
+		// API decodes it. No Cloudflare caching: this response must never be
+		// shared with another visitor.
+		const res = await fetch(
+			`${import.meta.env.VITE_API_URL}/public/${encodeURIComponent(username)}/${encodeURIComponent(slug)}`,
+			{
+				headers: {
+					...getOriginAuthHeaders(),
+					"x-collection-password": encodeURIComponent(password.trim()),
+				},
+			},
+		);
+		if (res.status === 404) return null;
+		if (res.status === 401) return { invalidPassword: true } as const;
+		if (!res.ok) {
+			throw new Error(`/public collection unlock failed: ${res.status}`);
 		}
 		const json = (await res.json()) as { data: PublicCollection };
 		return json.data;

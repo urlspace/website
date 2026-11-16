@@ -35,6 +35,14 @@ function DashboardCollectionInfo({
 						</dd>
 					</div>
 				) : null}
+				{collection.password !== null ? (
+					<div className={styles.item}>
+						<dt className={styles.term}>Password</dt>
+						<dd>
+							<CopyBox value={collection.password} label="Password" />
+						</dd>
+					</div>
+				) : null}
 			</dl>
 		</section>
 	);

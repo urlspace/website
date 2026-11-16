@@ -27,6 +27,7 @@ type CollectionRow = {
 	slug: string;
 	description: string;
 	public: boolean;
+	password: string | null;
 	createdAt: string;
 	updatedAt: string;
 	count: number;
@@ -365,10 +366,10 @@ function DashboardNav({
 							</DashboardList>
 						) : null}
 
-						{collections.some((c) => c.public) ? (
+						{collections.some((c) => c.public && c.password === null) ? (
 							<DashboardList ariaLabel="Public collections">
 								{collections
-									.filter((c) => c.public)
+									.filter((c) => c.public && c.password === null)
 									.map((c, index, arr) => {
 										const isDeleting =
 											deleteCollection.isPending &&
@@ -381,9 +382,64 @@ function DashboardNav({
 													}}
 												>
 													<DashboardButton
-														icon={
-															c.public ? <Icon.FolderPublic /> : <Icon.Folder />
+														icon={<Icon.FolderPublic />}
+														onClick={() =>
+															setSelectedCollection(
+																selectedCollection === c.id ? null : c.id,
+															)
 														}
+														ariaPressed={selectedCollection === c.id}
+														disabled={isDeleting}
+														text={c.name}
+														counter={c.count}
+													/>
+												</div>
+												{editModeCollections ? (
+													<DashboardMenu fadeIn order={arr.length - index}>
+														<DashboardMenu.Li>
+															<DashboardButtonAction
+																text="Edit"
+																ariaLabel={`Edit collection "${c.name}"`}
+																disabled={isDeleting}
+																onClick={() => onEditCollection(c)}
+															/>
+														</DashboardMenu.Li>
+														<DashboardMenu.Li>
+															<DashboardButtonAction
+																text="Delete"
+																ariaLabel={`Delete collection "${c.name}"`}
+																disabled={isDeleting}
+																onClick={(e) =>
+																	handleDeleteCollection(c, e.currentTarget)
+																}
+																destructive
+															/>
+														</DashboardMenu.Li>
+													</DashboardMenu>
+												) : null}
+											</DashboardList.Li>
+										);
+									})}
+							</DashboardList>
+						) : null}
+
+						{collections.some((c) => c.password !== null) ? (
+							<DashboardList ariaLabel="Password protected collections">
+								{collections
+									.filter((c) => c.password !== null)
+									.map((c, index, arr) => {
+										const isDeleting =
+											deleteCollection.isPending &&
+											deleteCollection.variables?.id === c.id;
+										return (
+											<DashboardList.Li key={c.id} loading={isDeleting}>
+												<div
+													style={{
+														minWidth: 0,
+													}}
+												>
+													<DashboardButton
+														icon={<Icon.Lock />}
 														onClick={() =>
 															setSelectedCollection(
 																selectedCollection === c.id ? null : c.id,

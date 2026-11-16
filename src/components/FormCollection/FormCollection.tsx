@@ -34,6 +34,7 @@ function FormCollection({
 		slug: string;
 		description: string;
 		public: boolean;
+		password: string | null;
 	};
 	collections: Array<{
 		id: string;
@@ -58,10 +59,20 @@ function FormCollection({
 
 	const [name, setName] = useState(collection?.name ?? "");
 	const [description, setDescription] = useState(collection?.description ?? "");
-	const [visibility, setVisibility] = useState<"private" | "public">(
-		canPublish && collection?.public ? "public" : "private",
+	const [visibility, setVisibility] = useState<
+		"private" | "public" | "protected"
+	>(
+		!canPublish || !collection?.public
+			? "private"
+			: collection.password !== null
+				? "protected"
+				: "public",
 	);
-	const isPublic = canPublish && visibility === "public";
+	// Password protected collections are public with a password, so they have
+	// an address too.
+	const isPublic = canPublish && visibility !== "private";
+	const isProtected = canPublish && visibility === "protected";
+	const [password, setPassword] = useState(collection?.password ?? "");
 	// Public collections keep their slug, since it may be in links already
 	// shared. Everything else suggests one from the name until it's edited.
 	// Private collections get a random slug on save.
@@ -69,6 +80,7 @@ function FormCollection({
 	const [isSlugEdited, setIsSlugEdited] = useState(collection?.public ?? false);
 	const slugValue = isSlugEdited ? slug : slugify(name);
 	const [savedUrl, setSavedUrl] = useState<string | null>(null);
+	const [savedPassword, setSavedPassword] = useState<string | null>(null);
 	const [upgradeError, setUpgradeError] = useState<string | null>(null);
 
 	const createCheckout = useMutation({
@@ -156,6 +168,15 @@ function FormCollection({
 			return;
 		}
 
+		const trimmedPassword = password.trim();
+		if (
+			isProtected &&
+			(trimmedPassword.length < 6 || trimmedPassword.length > 64)
+		) {
+			setError("Password must be between 6 and 64 characters.");
+			return;
+		}
+
 		setError(null);
 		setLoading(true);
 		try {
@@ -172,6 +193,7 @@ function FormCollection({
 						description: description.trim(),
 						public: isPublic,
 						slug: isPublic ? slugValue.trim() : crypto.randomUUID(),
+						password: isProtected ? trimmedPassword : null,
 					}),
 				},
 			);
@@ -216,7 +238,9 @@ function FormCollection({
 			}
 
 			const saved = (
-				(await res.json()) as { data: { slug: string; public: boolean } }
+				(await res.json()) as {
+					data: { slug: string; public: boolean; password: string | null };
+				}
 			).data;
 
 			await Promise.all([
@@ -237,13 +261,16 @@ function FormCollection({
 				setName("");
 				setDescription("");
 				setVisibility("private");
+				setPassword("");
 				setSlug("");
 				setIsSlugEdited(false);
 			}
 
-			// Public collections stay in the dialog to show the saved address.
+			// Public collections stay in the dialog to show the saved address, and
+			// the password for protected ones.
 			if (saved.public) {
 				setSavedUrl(`${siteUrl}/${username}/${saved.slug}`);
+				setSavedPassword(saved.password);
 				return;
 			}
 			onClose();
@@ -257,8 +284,29 @@ function FormCollection({
 	if (savedUrl) {
 		return (
 			<Stack>
-				<p role="status">Collection saved. It's public at this address:</p>
-				<CopyBox value={savedUrl} label="Public URL" />
+				{savedPassword !== null ? (
+					<>
+						<Stack gap={0.5}>
+							<p role="status">
+								Collection saved. It's password protected at this address:
+							</p>
+							<CopyBox value={savedUrl} label="Public URL" />
+						</Stack>
+						<Stack gap={0.5}>
+							<p>Visitors need this password to open it:</p>
+							<CopyBox value={savedPassword} label="Password" />
+						</Stack>
+					</>
+				) : (
+					<>
+						<Stack gap={0.5}>
+							<p role="status">
+								Collection saved. It's public at this address:
+							</p>
+							<CopyBox value={savedUrl} label="Public URL" />
+						</Stack>
+					</>
+				)}
 				<Button text="Done" type="button" onClick={onClose} />
 			</Stack>
 		);
@@ -314,11 +362,17 @@ function FormCollection({
 						value: "public",
 						disabled: !canPublish,
 					},
+					{
+						name: "Password protected",
+						value: "protected",
+						disabled: !canPublish,
+					},
 				]}
 				description={
 					<>
-						Keep a collection private for yourself, or make it public so anyone
-						can see it and follow it via RSS.
+						Keep a collection private, make it public so anyone can see it and
+						follow it via RSS, or protect it with a password to share it with a
+						few people.
 						{canPublish ? null : (
 							<>
 								{" "}
@@ -331,7 +385,7 @@ function FormCollection({
 									}}
 									text="Upgrade to Unlimited"
 								/>{" "}
-								to make collections public.
+								to make collections public or password protected.
 							</>
 						)}
 					</>
@@ -355,7 +409,26 @@ function FormCollection({
 					minLength={2}
 					maxLength={128}
 					pattern="(?=.{2,128}$)[a-z0-9]+(-[a-z0-9]+)*"
-					description={`Your collection will be public at ${siteUrl}/${username}/${slugValue.trim()}. Lowercase letters, numbers and hyphens only.`}
+					description={`Your collection will be ${isProtected ? "password protected" : "public"} at ${siteUrl}/${username}/${slugValue.trim()}. Lowercase letters, numbers and hyphens only.`}
+				/>
+			) : null}
+
+			{isProtected ? (
+				<Form.Input
+					label="Password"
+					name="collection-password"
+					onChange={setPassword}
+					placeholder="open-sesame"
+					required
+					// Text, not password: the owner shares it, and a password field
+					// would make password managers save it as the url.space login.
+					type="text"
+					autoComplete="off"
+					value={password}
+					minLength={6}
+					maxLength={64}
+					pattern="[^\p{Cc}]{6,64}"
+					description="6 to 64 characters. Don't use a password you use elsewhere."
 				/>
 			) : null}
 
