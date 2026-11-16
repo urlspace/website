@@ -1,16 +1,20 @@
 import type { CollectionRow } from "#/queries/collections.ts";
 import { siteUrl } from "#/utils/urls.ts";
 
-import { CopyBox } from "..";
+import { CopyBox, DashboardButton, Icon } from "..";
 
 import styles from "./DashboardCollectionInfo.module.css";
 
 function DashboardCollectionInfo({
 	collection,
 	username,
+	onEdit,
+	onDelete,
 }: {
 	collection: CollectionRow;
 	username: string;
+	onEdit: () => void;
+	onDelete: () => void;
 }) {
 	const url = `${siteUrl}/${username}/${collection.slug}`;
 
@@ -44,6 +48,15 @@ function DashboardCollectionInfo({
 					</div>
 				) : null}
 			</dl>
+			<div className={styles.buttons}>
+				<DashboardButton icon={<Icon.Edit />} onClick={onEdit} text="Edit" />
+
+				<DashboardButton
+					icon={<Icon.Trash />}
+					onClick={onDelete}
+					text="Delete"
+				/>
+			</div>
 		</section>
 	);
 }
