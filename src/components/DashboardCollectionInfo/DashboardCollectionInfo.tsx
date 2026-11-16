@@ -55,6 +55,7 @@ function DashboardCollectionInfo({
 					icon={<Icon.Trash />}
 					onClick={onDelete}
 					text="Delete"
+					destructive
 				/>
 			</div>
 		</section>

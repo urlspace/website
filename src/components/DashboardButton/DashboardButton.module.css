@@ -36,6 +36,17 @@
 	}
 }
 
+.buttonDestructive {
+	&:hover {
+		@media (hover: hover) and (pointer: fine) {
+			color: light-dark(
+				oklch(51.4% 0.222 16.935deg),
+				oklch(71.2% 0.194 13.428deg)
+			);
+		}
+	}
+}
+
 .icon {
 	flex-shrink: 0;
 

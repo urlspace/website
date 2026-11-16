@@ -1,26 +1,31 @@
 import styles from "./DashboardButton.module.css";
 
 function DashbrardButton({
-	ariaPressed,
 	ariaKeyShortcuts,
-	text,
+	ariaPressed,
 	counter,
+	destructive,
 	disabled,
 	icon,
 	onClick,
+	text,
 }: {
-	ariaPressed?: boolean;
 	ariaKeyShortcuts?: string;
-	icon?: React.ReactNode;
-	text: string;
+	ariaPressed?: boolean;
 	counter?: number;
+	destructive?: boolean;
 	disabled?: boolean;
+	icon?: React.ReactNode;
 	onClick: () => void;
+	text: string;
 }) {
 	return (
 		<button
 			type="button"
-			className={styles.button}
+			className={[
+				styles.button,
+				destructive ? styles.buttonDestructive : null,
+			].join(" ")}
 			onClick={disabled ? undefined : onClick}
 			aria-disabled={disabled || undefined}
 			aria-pressed={ariaPressed}
