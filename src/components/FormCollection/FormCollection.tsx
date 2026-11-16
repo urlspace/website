@@ -383,32 +383,31 @@ function FormCollection({
 						disabled: !canPublish,
 					},
 					{
-						name: "Password protected",
+						name: "Protected",
 						value: "protected",
 						disabled: !canPublish,
 					},
 				]}
+				// Unlimited users already know what the options do, so the
+				// explanation is only there to sell the upgrade.
 				description={
-					<>
-						Keep a collection private, make it public so anyone can see it and
-						follow it via RSS, or protect it with a password to share it with a
-						few people.
-						{canPublish ? null : (
-							<>
-								{" "}
-								<ButtonLinkLike
-									type="button"
-									disabled={isRedirecting}
-									onClick={() => {
-										setUpgradeError(null);
-										createCheckout.mutate();
-									}}
-									text="Upgrade to Unlimited"
-								/>{" "}
-								to make collections public or password protected.
-							</>
-						)}
-					</>
+					canPublish ? null : (
+						<>
+							Keep a collection private, make it public so anyone can see it and
+							follow it via RSS, or protect it with a password to share it with
+							a few people.{" "}
+							<ButtonLinkLike
+								type="button"
+								disabled={isRedirecting}
+								onClick={() => {
+									setUpgradeError(null);
+									createCheckout.mutate();
+								}}
+								text="Upgrade to Unlimited"
+							/>{" "}
+							to make collections public or password protected.
+						</>
+					)
 				}
 			/>
 
