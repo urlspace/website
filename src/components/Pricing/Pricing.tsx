@@ -160,24 +160,25 @@ function Pricing({
 				<div>
 					<details className={styles.question}>
 						<summary className={styles.summary}>
-							One
+							What happens to my links if I downgrade to the free plan?
 							<Icon.ChevronDown />
 						</summary>
 						<p>
-							Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-							Assumenda sunt quia dolorum placeat a tempore eius blanditiis
-							nesciunt omnis iusto!
+							We never remove your links. Everything you've saved stays in your
+							account. If you're over the free plan's limit, adding new links is
+							paused until you delete some or upgrade again.
 						</p>
 					</details>
 					<details className={styles.question}>
 						<summary className={styles.summary}>
-							Two
+							Will my shared collections stay online if I cancel Unlimited?
 							<Icon.ChevronDown />
 						</summary>
 						<p>
-							Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-							Assumenda sunt quia dolorum placeat a tempore eius blanditiis
-							nesciunt omnis iusto!
+							Sharing is part of Unlimited, so after a downgrade those pages go
+							offline and show "not found". We keep everything, including
+							addresses and passwords, so upgrading again restores them without
+							you changing anything.
 						</p>
 					</details>
 				</div>

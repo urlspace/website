@@ -127,7 +127,6 @@
 	gap: 1rlh;
 	padding-block: 0.5rlh;
 	cursor: pointer;
-	font-weight: 600;
 
 	&::-webkit-details-marker {
 		display: none;
