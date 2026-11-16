@@ -137,7 +137,7 @@ export const unlockPublicCollection = createServerFn({ method: "POST" })
 			{
 				headers: {
 					...getOriginAuthHeaders(),
-					"x-collection-password": encodeURIComponent(password.trim()),
+					"x-collection-password": encodeURIComponent(password),
 				},
 			},
 		);

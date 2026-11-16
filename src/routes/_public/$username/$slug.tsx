@@ -162,7 +162,7 @@ function PublicCollectionLocked({
 				setError("That password isn't right.");
 				return;
 			}
-			onUnlock(result, password.trim());
+			onUnlock(result, password);
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
 		} finally {
@@ -280,11 +280,7 @@ function PublicCollectionView({
 					method: "POST",
 					credentials: "include",
 					headers: { "content-type": "application/json" },
-					body: JSON.stringify(
-						password === null
-							? { name: trimmedName }
-							: { name: trimmedName, password },
-					),
+					body: JSON.stringify({ name: trimmedName, password }),
 				},
 			);
 

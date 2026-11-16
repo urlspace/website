@@ -323,9 +323,7 @@ function DashboardNav({
 													}}
 												>
 													<DashboardButton
-														icon={
-															c.public ? <Icon.FolderPublic /> : <Icon.Folder />
-														}
+														icon={<Icon.Folder />}
 														onClick={() =>
 															setSelectedCollection(
 																selectedCollection === c.id ? null : c.id,

@@ -79,8 +79,10 @@ function FormCollection({
 	const [slug, setSlug] = useState(collection?.public ? collection.slug : "");
 	const [isSlugEdited, setIsSlugEdited] = useState(collection?.public ?? false);
 	const slugValue = isSlugEdited ? slug : slugify(name);
-	const [savedUrl, setSavedUrl] = useState<string | null>(null);
-	const [savedPassword, setSavedPassword] = useState<string | null>(null);
+	const [saved, setSaved] = useState<{
+		url: string;
+		password: string | null;
+	} | null>(null);
 	const [upgradeError, setUpgradeError] = useState<string | null>(null);
 
 	const createCheckout = useMutation({
@@ -237,7 +239,7 @@ function FormCollection({
 				return;
 			}
 
-			const saved = (
+			const savedCollection = (
 				(await res.json()) as {
 					data: { slug: string; public: boolean; password: string | null };
 				}
@@ -268,9 +270,11 @@ function FormCollection({
 
 			// Public collections stay in the dialog to show the saved address, and
 			// the password for protected ones.
-			if (saved.public) {
-				setSavedUrl(`${siteUrl}/${username}/${saved.slug}`);
-				setSavedPassword(saved.password);
+			if (savedCollection.public) {
+				setSaved({
+					url: `${siteUrl}/${username}/${savedCollection.slug}`,
+					password: savedCollection.password,
+				});
 				return;
 			}
 			onClose();
@@ -281,20 +285,20 @@ function FormCollection({
 		}
 	}
 
-	if (savedUrl) {
+	if (saved) {
 		return (
 			<Stack>
-				{savedPassword !== null ? (
+				{saved.password !== null ? (
 					<>
 						<Stack gap={0.5}>
 							<p role="status">
 								Collection saved. It's password protected at this address:
 							</p>
-							<CopyBox value={savedUrl} label="Public URL" />
+							<CopyBox value={saved.url} label="Public URL" />
 						</Stack>
 						<Stack gap={0.5}>
 							<p>Visitors need this password to open it:</p>
-							<CopyBox value={savedPassword} label="Password" />
+							<CopyBox value={saved.password} label="Password" />
 						</Stack>
 					</>
 				) : (
@@ -303,7 +307,7 @@ function FormCollection({
 							<p role="status">
 								Collection saved. It's public at this address:
 							</p>
-							<CopyBox value={savedUrl} label="Public URL" />
+							<CopyBox value={saved.url} label="Public URL" />
 						</Stack>
 					</>
 				)}
