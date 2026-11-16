@@ -97,7 +97,9 @@ function Pricing({
 							<dd className={styles.value}>Up to 100</dd>
 						</div>
 						<div className={styles.item}>
-							<dt className={styles.term}>Public collections and profile</dt>
+							<dt className={styles.term}>
+								Public and password protected collections
+							</dt>
 							<dd className={styles.value}>Not included</dd>
 						</div>
 					</dl>
@@ -130,7 +132,9 @@ function Pricing({
 							</dd>
 						</div>
 						<div className={styles.item}>
-							<dt className={styles.term}>Public collections and profile</dt>
+							<dt className={styles.term}>
+								Public and password protected collections
+							</dt>
 							<dd className={styles.value}>Included</dd>
 						</div>
 					</dl>
