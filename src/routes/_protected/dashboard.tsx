@@ -180,14 +180,7 @@ function PageDashboard() {
 		if (next === query || isTypingFilter(settled, tags, collections)) {
 			return;
 		}
-		void navigate({
-			search: (prev) => ({
-				...prev,
-				query: next || undefined,
-				page: undefined,
-			}),
-			replace: true,
-		});
+		applyQuery(next);
 	});
 
 	// Back/Forward can change the URL query while the input still shows the old
@@ -201,9 +194,9 @@ function PageDashboard() {
 		}
 	}
 
-	function setFilter(filter: IsFilter, on: boolean) {
-		const next = setIsFilter(value, filter, on);
-		setValue(next);
+	// Writes a search query to the URL and goes back to the first page. The
+	// history entry is replaced, so filter changes don't pile up behind Back.
+	function applyQuery(next: string) {
 		void navigate({
 			search: (prev) => ({
 				...prev,
@@ -212,6 +205,12 @@ function PageDashboard() {
 			}),
 			replace: true,
 		});
+	}
+
+	function setFilter(filter: IsFilter, on: boolean) {
+		const next = setIsFilter(value, filter, on);
+		setValue(next);
+		applyQuery(next);
 	}
 
 	function setFavourite(on: boolean) {
@@ -225,27 +224,13 @@ function PageDashboard() {
 	function setSelectedCollection(id: string | null) {
 		const next = setCollectionFilter(value, collections, id);
 		setValue(next);
-		void navigate({
-			search: (prev) => ({
-				...prev,
-				query: next || undefined,
-				page: undefined,
-			}),
-			replace: true,
-		});
+		applyQuery(next);
 	}
 
 	function setSelectedTags(ids: Array<string>) {
 		const next = setTagFilters(value, tags, ids);
 		setValue(next);
-		void navigate({
-			search: (prev) => ({
-				...prev,
-				query: next || undefined,
-				page: undefined,
-			}),
-			replace: true,
-		});
+		applyQuery(next);
 	}
 
 	// "All" and x go back to the unfiltered dashboard. Pushes a history entry,
@@ -827,25 +812,18 @@ function PageDashboard() {
 										onEdit={openEditLink}
 										onError={setCriticalError}
 										onTagClick={(tagId) => {
-											void navigate({
-												search: {
-													query: setTagFilters("", tags, [tagId]) || undefined,
-												},
-												replace: true,
-											});
+											const next = setTagFilters("", tags, [tagId]);
+											setValue(next);
+											applyQuery(next);
 										}}
 										onCollectionClick={(collectionId) => {
-											void navigate({
-												search: {
-													query:
-														setCollectionFilter(
-															"",
-															collections,
-															collectionId,
-														) || undefined,
-												},
-												replace: true,
-											});
+											const next = setCollectionFilter(
+												"",
+												collections,
+												collectionId,
+											);
+											setValue(next);
+											applyQuery(next);
 										}}
 									/>
 								</li>
