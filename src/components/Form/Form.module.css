@@ -28,6 +28,7 @@
 	font-size: 0.9375rem;
 	font-weight: 500;
 	align-self: flex-start;
+	line-height: 1rlh;
 }
 
 .labelDisabled {
@@ -246,6 +247,7 @@
 .description {
 	font-size: 0.875rem;
 	opacity: 0.75;
+	line-height: 0.75rlh;
 }
 
 /* this one is used to put checkboxes next to each other
@@ -297,6 +299,56 @@
 		opacity: 0.75;
 		cursor: not-allowed;
 	}
+}
+
+.fieldset {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25lh;
+	min-inline-size: 0;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+.radio {
+	--radio-bg: var(--color-bg);
+
+	appearance: none;
+	flex-shrink: 0;
+	width: 0.75rlh;
+	height: 0.75rlh;
+	margin: 0;
+	background-color: var(--radio-bg);
+	border-radius: var(--radius);
+	border: 1px solid var(--color-border-input);
+	outline-offset: 2px;
+
+	@media (prefers-color-scheme: dark) {
+		--radio-bg: var(--color-bg-fade);
+	}
+
+	&:checked {
+		background-color: var(--color-link);
+		border: 1px solid var(--color-link);
+		box-shadow: inset 0 0 0 2px var(--radio-bg);
+	}
+
+	&:focus {
+		outline: 2px solid color-mix(in srgb, var(--color-link) 50%, transparent);
+	}
+
+	&:disabled {
+		opacity: 0.75;
+		cursor: not-allowed;
+	}
+}
+
+.radioOptions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rlh;
 }
 
 .submit {

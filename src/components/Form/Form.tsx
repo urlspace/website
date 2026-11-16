@@ -7,6 +7,7 @@ import {
 	useFormContext,
 } from "./context";
 import FileInput from "./FileInput";
+import RadioGroup from "./RadioGroup";
 import SearchInput from "./SearchInput";
 import Select from "./Select";
 import TagsInput from "./TagsInput";
@@ -215,6 +216,7 @@ Form.FileInput = FileInput;
 Form.TagsInput = TagsInput;
 Form.SearchInput = SearchInput;
 Form.Checkbox = Checkbox;
+Form.RadioGroup = RadioGroup;
 Form.Row = Row;
 Form.Warning = Warning;
 Form.Submit = Submit;

@@ -1,5 +1,8 @@
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
+import {
+	useMutation,
+	useQueryClient,
+	useSuspenseQuery,
+} from "@tanstack/react-query";
 import { useState } from "react";
 
 import { collectionsQueryOptions } from "#/queries/collections.ts";
@@ -8,7 +11,7 @@ import { meQueryOptions } from "#/queries/me.ts";
 import { slugify } from "#/utils/slugify.ts";
 import { siteUrl } from "#/utils/urls.ts";
 
-import { Button } from "../Button/Button.tsx";
+import { Button, ButtonLinkLike } from "../Button/Button.tsx";
 import CopyBox from "../CopyBox/CopyBox.tsx";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 import Stack from "../Stack/Stack.tsx";
@@ -55,10 +58,10 @@ function FormCollection({
 
 	const [name, setName] = useState(collection?.name ?? "");
 	const [description, setDescription] = useState(collection?.description ?? "");
-	const [publicCollection, setPublicCollection] = useState(
-		canPublish ? (collection?.public ?? false) : false,
+	const [visibility, setVisibility] = useState<"private" | "public">(
+		canPublish && collection?.public ? "public" : "private",
 	);
-	const isPublic = canPublish && publicCollection;
+	const isPublic = canPublish && visibility === "public";
 	// Public collections keep their slug, since it may be in links already
 	// shared. Everything else suggests one from the name until it's edited.
 	// Private collections get a random slug on save.
@@ -66,6 +69,46 @@ function FormCollection({
 	const [isSlugEdited, setIsSlugEdited] = useState(collection?.public ?? false);
 	const slugValue = isSlugEdited ? slug : slugify(name);
 	const [savedUrl, setSavedUrl] = useState<string | null>(null);
+	const [upgradeError, setUpgradeError] = useState<string | null>(null);
+
+	const createCheckout = useMutation({
+		mutationFn: async () => {
+			const res = await fetch(
+				`${import.meta.env.VITE_API_URL}/subscriptions/checkout`,
+				{
+					method: "POST",
+					credentials: "include",
+				},
+			);
+			// Reload so the route guard can clear the invalid session and cached data.
+			if (
+				res.status === 401 &&
+				((await res.clone().json()) as { data: string }).data === "unauthorized"
+			) {
+				window.location.reload();
+				throw new Error("Session expired.");
+			}
+
+			if (res.status === 409) {
+				return null;
+			}
+
+			if (!res.ok) throw new Error(`create checkout failed: ${res.status}`);
+
+			const json = (await res.json()) as { data: { url: string } };
+			return json.data.url;
+		},
+		onSuccess: (url) => {
+			if (url === null) {
+				return queryClient.invalidateQueries({ queryKey: ["me"] });
+			}
+			window.location.assign(url);
+		},
+		onError: () => {
+			setUpgradeError("We couldn't start the upgrade. Please try again.");
+		},
+	});
+	const isRedirecting = createCheckout.isPending || createCheckout.isSuccess;
 
 	async function handleSubmit(
 		e: React.SubmitEvent<HTMLFormElement>,
@@ -191,7 +234,7 @@ function FormCollection({
 			if (!isEdit) {
 				setName("");
 				setDescription("");
-				setPublicCollection(false);
+				setVisibility("private");
 				setSlug("");
 				setIsSlugEdited(false);
 			}
@@ -253,24 +296,47 @@ function FormCollection({
 				description="Up to 1024 characters."
 			/>
 
-			<Form.Checkbox
-				label="Public collection"
-				name="public"
-				onChange={setPublicCollection}
-				value={isPublic}
-				disabled={!canPublish}
+			<Form.RadioGroup
+				label="Visibility"
+				disabled={isRedirecting}
+				name="visibility"
+				onChange={setVisibility}
+				value={visibility}
+				options={[
+					{
+						name: "Private",
+						value: "private",
+					},
+					{
+						name: "Public",
+						value: "public",
+						disabled: !canPublish,
+					},
+				]}
 				description={
-					canPublish ? null : (
-						<>
-							Available only to Unlimited users.{" "}
-							{
-								// TODO: change to /upgrade when the page is ready
-							}
-							<Link to="/docs">Upgrade now</Link>.
-						</>
-					)
+					<>
+						Keep a collection private for yourself, or make it public so anyone
+						can see it and follow it via RSS.
+						{canPublish ? null : (
+							<>
+								{" "}
+								<ButtonLinkLike
+									type="button"
+									disabled={isRedirecting}
+									onClick={() => {
+										setUpgradeError(null);
+										createCheckout.mutate();
+									}}
+									text="Upgrade to Unlimited"
+								/>{" "}
+								to make collections public.
+							</>
+						)}
+					</>
 				}
 			/>
+
+			{upgradeError ? <p role="alert">{upgradeError}</p> : null}
 
 			{isPublic ? (
 				<Form.Input
@@ -293,7 +359,7 @@ function FormCollection({
 
 			{isEdit &&
 			collection.public &&
-			publicCollection &&
+			isPublic &&
 			slugValue.trim() !== collection.slug ? (
 				<Form.Warning>
 					Sir Tim Berners-Lee, the man who invented the World Wide Web,
