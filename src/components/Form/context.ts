@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useContext } from "react";
+import { createContext, type ReactNode, use } from "react";
 
 type FormContextValue = {
 	formId: string;
@@ -9,7 +9,7 @@ type FormContextValue = {
 export const FormContext = createContext<FormContextValue | null>(null);
 
 export function useFormContext() {
-	const ctx = useContext(FormContext);
+	const ctx = use(FormContext);
 	if (!ctx) throw new Error("Form.* must be used inside <Form>");
 	return ctx;
 }

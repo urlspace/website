@@ -29,7 +29,7 @@ function Form({
 	const [loading, startTransition] = useTransition();
 
 	return (
-		<FormContext.Provider value={{ formId, error, loading }}>
+		<FormContext value={{ formId, error, loading }}>
 			<form
 				className={styles.form}
 				aria-busy={loading || undefined}
@@ -53,7 +53,7 @@ function Form({
 				) : null}
 				{children}
 			</form>
-		</FormContext.Provider>
+		</FormContext>
 	);
 }
 
