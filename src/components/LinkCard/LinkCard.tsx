@@ -151,7 +151,10 @@ function LinkCard({
 	});
 
 	const { mutate: mutateDeleteLink } = deleteLink;
-	const isPending = updateLink.isPending || deleteLink.isPending;
+	// Only a delete dims the card. Favourite and For later flip straight away
+	// (see below), so an update in flight shows no loading state.
+	const isDeleting = deleteLink.isPending;
+	const isPending = updateLink.isPending || isDeleting;
 	const [isHolding, setIsHolding] = useState(false);
 	const [isHoldComplete, setIsHoldComplete] = useState(false);
 
@@ -178,17 +181,21 @@ function LinkCard({
 		};
 	}, [isHolding, mutateDeleteLink]);
 
-	const {
-		collection,
-		id,
-		url,
-		title,
-		description,
-		createdAt,
-		tags,
-		favourite,
-		forLater,
-	} = link;
+	const { collection, id, url, title, description, createdAt, tags } = link;
+	// While an update is in flight, show the value being sent, so the buttons
+	// flip straight away instead of after the server responds. If it fails,
+	// the update stops being pending and the stored value comes back.
+	const pendingUpdate = updateLink.isPending ? updateLink.variables : undefined;
+	const favourite = pendingUpdate?.favourite ?? link.favourite;
+	const forLater = pendingUpdate?.forLater ?? link.forLater;
+
+	// One update at a time: presses while one is in flight are ignored.
+	function updateFlags(patch: { favourite?: boolean; forLater?: boolean }) {
+		if (updateLink.isPending) {
+			return;
+		}
+		updateLink.mutate(patch);
+	}
 	const titleRef = useRef<HTMLAnchorElement>(null);
 
 	function handleClick(e: React.MouseEvent<HTMLElement>) {
@@ -208,10 +215,10 @@ function LinkCard({
 		}
 		switch (e.key) {
 			case "f":
-				updateLink.mutate({ favourite: !favourite });
+				updateFlags({ favourite: !favourite });
 				break;
 			case "l":
-				updateLink.mutate({ forLater: !forLater });
+				updateFlags({ forLater: !forLater });
 				break;
 			case "e":
 				onEdit(link);
@@ -242,11 +249,11 @@ function LinkCard({
 	return (
 		// oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
 		<article
-			className={[styles.link, isPending && styles.linkLoading]
+			className={[styles.link, isDeleting && styles.linkLoading]
 				.filter(Boolean)
 				.join(" ")}
 			aria-labelledby={id}
-			aria-busy={isPending || undefined}
+			aria-busy={isDeleting || undefined}
 			style={{ "--hold-ms": `${HOLD_TO_DELETE_MS}ms` } as React.CSSProperties}
 			onClick={handleClick}
 			onKeyDown={handleKeyDown}
@@ -287,9 +294,9 @@ function LinkCard({
 									type="button"
 									className={styles.metaButton}
 									aria-description="Show all links in this collection"
-									aria-disabled={isPending || undefined}
+									aria-disabled={isDeleting || undefined}
 									onClick={
-										isPending
+										isDeleting
 											? undefined
 											: () => onCollectionClick(collection.id)
 									}
@@ -311,9 +318,9 @@ function LinkCard({
 												type="button"
 												className={styles.metaButton}
 												aria-description="Show all links with this tag"
-												aria-disabled={isPending || undefined}
+												aria-disabled={isDeleting || undefined}
 												onClick={
-													isPending ? undefined : () => onTagClick(tag.id)
+													isDeleting ? undefined : () => onTagClick(tag.id)
 												}
 											>
 												{tag.name}
@@ -332,8 +339,8 @@ function LinkCard({
 							ariaPressed={favourite}
 							ariaLabel={`Favourite "${title}"`}
 							ariaKeyShortcuts="f"
-							disabled={isPending}
-							onClick={() => updateLink.mutate({ favourite: !favourite })}
+							disabled={isDeleting}
+							onClick={() => updateFlags({ favourite: !favourite })}
 							text="Favourite"
 						/>
 					</DashboardMenu.Li>
@@ -342,8 +349,8 @@ function LinkCard({
 							ariaPressed={forLater}
 							ariaLabel={`For later "${title}"`}
 							ariaKeyShortcuts="l"
-							disabled={isPending}
-							onClick={() => updateLink.mutate({ forLater: !forLater })}
+							disabled={isDeleting}
+							onClick={() => updateFlags({ forLater: !forLater })}
 							text="For later"
 						/>
 					</DashboardMenu.Li>
@@ -352,7 +359,7 @@ function LinkCard({
 							text="Edit"
 							ariaLabel={`Edit "${title}"`}
 							ariaKeyShortcuts="e"
-							disabled={isPending}
+							disabled={isDeleting}
 							onClick={() => onEdit(link)}
 						/>
 					</DashboardMenu.Li>
@@ -361,7 +368,7 @@ function LinkCard({
 							text="Delete"
 							ariaLabel={`Delete "${title}"`}
 							ariaKeyShortcuts="d"
-							disabled={isPending}
+							disabled={isDeleting}
 							onClick={() => deleteLink.mutate()}
 							destructive
 							holding={isHolding || isHoldComplete}
