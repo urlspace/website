@@ -533,36 +533,33 @@ function PageDashboard() {
 			) {
 				return;
 			}
+			// Shortcuts are off while a dialog or the drawer is open. That includes
+			// the closing animation, since the element stays [open] until it ends.
+			if (document.querySelector("dialog[open]")) {
+				return;
+			}
 
 			if (e.key === "?") {
-				if (!target.closest("dialog")) {
-					e.preventDefault();
-					setIsShortcutsOpen(true);
-				}
+				e.preventDefault();
+				setIsShortcutsOpen(true);
 				return;
 			}
 
 			if (e.key === "n") {
-				if (!target.closest("dialog")) {
-					e.preventDefault();
-					openAddLink();
-				}
+				e.preventDefault();
+				openAddLink();
 				return;
 			}
 
 			if (e.key === "r") {
-				if (!document.querySelector("dialog[open]")) {
-					e.preventDefault();
-					void refresh();
-				}
+				e.preventDefault();
+				void refresh();
 				return;
 			}
 
 			if (e.key === "x") {
-				if (!document.querySelector("dialog[open]")) {
-					e.preventDefault();
-					clearFiltersAndSearchQuery();
-				}
+				e.preventDefault();
+				clearFiltersAndSearchQuery();
 				return;
 			}
 
