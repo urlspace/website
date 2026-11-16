@@ -213,14 +213,6 @@ function PageDashboard() {
 		applyQuery(next);
 	}
 
-	function setFavourite(on: boolean) {
-		setFilter("favourite", on);
-	}
-
-	function setForLater(on: boolean) {
-		setFilter("for-later", on);
-	}
-
 	function setSelectedCollection(id: string | null) {
 		const next = setCollectionFilter(value, collections, id);
 		setValue(next);
@@ -595,12 +587,7 @@ function PageDashboard() {
 		return () => window.removeEventListener("keydown", handleKey);
 	}, []);
 
-	const totalResults = linksResponse?.pagination.totalCount;
-	const currentPage = linksResponse?.pagination.currentPage;
 	const totalPages = linksResponse?.pagination.totalPages;
-	const linkResponseMs = linksResponse?.meta.durationMs;
-
-	const newAccount = user.stats.linksCount === 0;
 
 	// Any change to the filters, search or page scrolls back to the top and
 	// moves focus from the current card to the links section, so j/k and
@@ -709,8 +696,8 @@ function PageDashboard() {
 			onRenameTag={openEditTag}
 			selectedCollection={selectedCollection}
 			selectedTags={selectedTags}
-			setFavourite={setFavourite}
-			setForLater={setForLater}
+			setFavourite={(on) => setFilter("favourite", on)}
+			setForLater={(on) => setFilter("for-later", on)}
 			onAddCollection={openAddCollection}
 			onAddLink={openAddLink}
 			onClearFiltersAndSearchQuery={clearFiltersAndSearchQuery}
@@ -774,10 +761,10 @@ function PageDashboard() {
 			<Dashboard.Main>
 				<Dashboard.MainStats>
 					<Stats
-						totalResults={totalResults}
+						totalResults={linksResponse?.pagination.totalCount}
 						totalPages={totalPages}
-						currentPage={currentPage}
-						linksResponse={linkResponseMs}
+						currentPage={linksResponse?.pagination.currentPage}
+						linksResponse={linksResponse?.meta.durationMs}
 					/>
 				</Dashboard.MainStats>
 
@@ -830,7 +817,10 @@ function PageDashboard() {
 							))}
 						</Dashboard.MainLinksList>
 					) : isError ? null : (
-						<DashboardEmpty newAccount={newAccount} onAddLink={openAddLink} />
+						<DashboardEmpty
+							newAccount={user.stats.linksCount === 0}
+							onAddLink={openAddLink}
+						/>
 					)}
 				</Dashboard.MainLinks>
 
