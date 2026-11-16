@@ -16,14 +16,8 @@ function FormDeleteAccount({
 
 	const [password, setPassword] = useState("");
 
-	async function handleSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleSubmit({ setError }: SubmitHelpers) {
 		setError(null);
-		setLoading(true);
 		try {
 			const res = await fetch(`${import.meta.env.VITE_API_URL}/me`, {
 				method: "DELETE",
@@ -65,8 +59,6 @@ function FormDeleteAccount({
 			await router.navigate({ to: "/" });
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

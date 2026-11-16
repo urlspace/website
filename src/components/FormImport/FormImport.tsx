@@ -42,19 +42,13 @@ function FormImport() {
 		setParsed(mergeParsed(texts.map(parser)));
 	}
 
-	async function handleSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleSubmit({ setError }: SubmitHelpers) {
 		if (!parsed || parsed.links.length === 0) {
 			setError("There are no links to import. Choose a different file.");
 			return;
 		}
 
 		setError(null);
-		setLoading(true);
 
 		try {
 			const res = await fetch(`${import.meta.env.VITE_API_URL}/tools/import`, {
@@ -128,8 +122,6 @@ function FormImport() {
 			setImported(parsed.links.length);
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

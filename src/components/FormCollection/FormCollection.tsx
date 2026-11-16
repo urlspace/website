@@ -126,12 +126,7 @@ function FormCollection({
 	});
 	const isRedirecting = createCheckout.isPending || createCheckout.isSuccess;
 
-	async function handleSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleSubmit({ setError }: SubmitHelpers) {
 		if (
 			!isEdit &&
 			stats.collectionsLimit !== null &&
@@ -180,7 +175,6 @@ function FormCollection({
 		}
 
 		setError(null);
-		setLoading(true);
 		try {
 			const res = await fetch(
 				isEdit
@@ -280,8 +274,6 @@ function FormCollection({
 			onClose();
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

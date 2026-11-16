@@ -33,14 +33,8 @@ function SignIn() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	async function handleSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleSubmit({ setError }: SubmitHelpers) {
 		setError(null);
-		setLoading(true);
 
 		try {
 			const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signin`, {
@@ -85,8 +79,6 @@ function SignIn() {
 			await router.navigate({ to: "/dashboard" });
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

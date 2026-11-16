@@ -12,19 +12,13 @@ function FormPassword({ onClose }: { onClose: () => void }) {
 	const [newPassword, setNewPassword] = useState("");
 	const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
 
-	async function handleSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleSubmit({ setError }: SubmitHelpers) {
 		if (newPassword !== newPasswordConfirm) {
 			setError("Passwords do not match.");
 			return;
 		}
 
 		setError(null);
-		setLoading(true);
 		try {
 			const res = await fetch(
 				`${import.meta.env.VITE_API_URL}/me/update-password`,
@@ -69,8 +63,6 @@ function FormPassword({ onClose }: { onClose: () => void }) {
 			await router.navigate({ to: "/auth/signin" });
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

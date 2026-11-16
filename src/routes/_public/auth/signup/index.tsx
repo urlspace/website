@@ -37,19 +37,12 @@ function SignUp() {
 	const [password, setPassword] = useState("");
 	const [done, setDone] = useState(false);
 
-	async function handleSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleSubmit({ setError }: SubmitHelpers) {
 		setError(null);
-		setLoading(true);
 
 		const emailLocalPart = email.split("@")[0] ?? "";
 		if (containsContext(password, username, emailLocalPart)) {
 			setError("Password cannot contain your username or email.");
-			setLoading(false);
 			return;
 		}
 
@@ -84,8 +77,6 @@ function SignUp() {
 			setDone(true);
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

@@ -14,12 +14,7 @@ function FormDisplayName({
 
 	const [value, setValue] = useState(displayName);
 
-	async function handleSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleSubmit({ setError }: SubmitHelpers) {
 		const trimmedValue = value.trim();
 		if (trimmedValue.length < 1) {
 			setError("Display name is required.");
@@ -27,7 +22,6 @@ function FormDisplayName({
 		}
 
 		setError(null);
-		setLoading(true);
 		try {
 			const res = await fetch(
 				`${import.meta.env.VITE_API_URL}/me/update-display-name`,
@@ -67,8 +61,6 @@ function FormDisplayName({
 			onClose();
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

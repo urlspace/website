@@ -25,14 +25,8 @@ function ResendVerification() {
 	const [done, setDone] = useState(false);
 	const [email, setEmail] = useState("");
 
-	async function handleSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleSubmit({ setError }: SubmitHelpers) {
 		setError(null);
-		setLoading(true);
 
 		try {
 			const res = await fetch(
@@ -60,8 +54,6 @@ function ResendVerification() {
 			setDone(true);
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

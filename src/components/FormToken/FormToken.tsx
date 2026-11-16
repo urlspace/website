@@ -13,14 +13,8 @@ function FormToken() {
 	const [description, setDescription] = useState("");
 	const [rawToken, setRawToken] = useState<string | null>(null);
 
-	async function handleSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleSubmit({ setError }: SubmitHelpers) {
 		setError(null);
-		setLoading(true);
 		try {
 			const res = await fetch(`${import.meta.env.VITE_API_URL}/tokens`, {
 				method: "POST",
@@ -66,8 +60,6 @@ function FormToken() {
 			setRawToken(json.data);
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

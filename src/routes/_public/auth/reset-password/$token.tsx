@@ -27,19 +27,13 @@ function ResetPasswordConfirm() {
 	const [passwordConfirm, setPasswordConfirm] = useState("");
 	const { token } = Route.useParams();
 
-	async function handleSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleSubmit({ setError }: SubmitHelpers) {
 		if (password !== passwordConfirm) {
 			setError("Passwords do not match.");
 			return;
 		}
 
 		setError(null);
-		setLoading(true);
 
 		try {
 			const res = await fetch(
@@ -80,8 +74,6 @@ function ResetPasswordConfirm() {
 			setDone(true);
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

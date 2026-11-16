@@ -210,12 +210,7 @@ function FormLink({
 			});
 	}
 
-	async function handleSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleSubmit({ setError }: SubmitHelpers) {
 		// A running preview animation leaves only part of the text in the fields.
 		const preview = previewRef.current;
 		previewAbortRef.current?.abort();
@@ -286,7 +281,6 @@ function FormLink({
 		}
 
 		setError(null);
-		setLoading(true);
 
 		try {
 			let collectionId = collection;
@@ -443,8 +437,6 @@ function FormLink({
 			onClose();
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

@@ -31,12 +31,7 @@ function FormTag({
 
 	const [name, setName] = useState(tag.name);
 
-	async function handleSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleSubmit({ setError }: SubmitHelpers) {
 		// Catch duplicate names, but allow keeping the existing tag name.
 		if (
 			tags.some(
@@ -49,7 +44,6 @@ function FormTag({
 		}
 
 		setError(null);
-		setLoading(true);
 		try {
 			const res = await fetch(
 				`${import.meta.env.VITE_API_URL}/tags/${tag.id}`,
@@ -95,8 +89,6 @@ function FormTag({
 			onClose();
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

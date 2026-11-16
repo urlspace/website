@@ -143,13 +143,8 @@ function PublicCollectionLocked({
 	const { username, slug } = Route.useParams();
 	const [password, setPassword] = React.useState("");
 
-	async function handleUnlock(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
+	async function handleUnlock({ setError }: SubmitHelpers) {
 		setError(null);
-		setLoading(true);
 		try {
 			const result = await unlockPublicCollection({
 				data: { username, slug, password },
@@ -165,8 +160,6 @@ function PublicCollectionLocked({
 			onUnlock(result, password);
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 
@@ -241,12 +234,7 @@ function PublicCollectionView({
 		setIsCloneOpen(true);
 	}
 
-	async function handleClone(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleClone({ setError }: SubmitHelpers) {
 		const trimmedName = cloneName.trim();
 		if (trimmedName.length < 2) {
 			setError("Collection name must be at least 2 characters.");
@@ -264,7 +252,6 @@ function PublicCollectionView({
 		}
 
 		setError(null);
-		setLoading(true);
 
 		try {
 			const res = await fetch(
@@ -360,8 +347,6 @@ function PublicCollectionView({
 			setError(
 				"We couldn't confirm whether the collection was cloned. Check your collections before trying again.",
 			);
-		} finally {
-			setLoading(false);
 		}
 	}
 

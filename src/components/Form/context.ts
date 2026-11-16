@@ -27,5 +27,4 @@ export function useFieldIds(name: string, hasDescription: boolean) {
 
 export type SubmitHelpers = {
 	setError: (msg: ReactNode) => void;
-	setLoading: (loading: boolean) => void;
 };

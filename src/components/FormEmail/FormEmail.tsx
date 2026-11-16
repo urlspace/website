@@ -12,14 +12,8 @@ function FormEmail({ onClose }: { onClose: () => void }) {
 	const [code, setCode] = useState("");
 	const [step, setStep] = useState<"request" | "confirm">("request");
 
-	async function handleRequestSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleRequestSubmit({ setError }: SubmitHelpers) {
 		setError(null);
-		setLoading(true);
 		try {
 			const res = await fetch(
 				`${import.meta.env.VITE_API_URL}/me/update-email`,
@@ -64,19 +58,11 @@ function FormEmail({ onClose }: { onClose: () => void }) {
 			setStep("confirm");
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 
-	async function handleConfirmSubmit(
-		e: React.SubmitEvent<HTMLFormElement>,
-		{ setError, setLoading }: SubmitHelpers,
-	) {
-		e.preventDefault();
-
+	async function handleConfirmSubmit({ setError }: SubmitHelpers) {
 		setError(null);
-		setLoading(true);
 		try {
 			const res = await fetch(
 				`${import.meta.env.VITE_API_URL}/me/update-email-confirm`,
@@ -130,8 +116,6 @@ function FormEmail({ onClose }: { onClose: () => void }) {
 			onClose();
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
-		} finally {
-			setLoading(false);
 		}
 	}
 

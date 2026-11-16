@@ -1,4 +1,4 @@
-import { type ReactNode, useId, useState } from "react";
+import { type ReactNode, useId, useState, useTransition } from "react";
 
 import {
 	FormContext,
@@ -20,15 +20,13 @@ function Form({
 	onSubmit,
 	children,
 }: {
-	onSubmit: (
-		e: React.SubmitEvent<HTMLFormElement>,
-		helpers: SubmitHelpers,
-	) => void;
+	onSubmit: (helpers: SubmitHelpers) => Promise<void> | void;
 	children: React.ReactNode;
 }) {
 	const formId = useId();
 	const [error, setError] = useState<ReactNode>(null);
-	const [loading, setLoading] = useState(false);
+	// The form is loading for as long as onSubmit's promise is pending.
+	const [loading, startTransition] = useTransition();
 
 	return (
 		<FormContext.Provider value={{ formId, error, loading }}>
@@ -36,11 +34,16 @@ function Form({
 				className={styles.form}
 				aria-busy={loading || undefined}
 				onSubmit={(e) => {
+					e.preventDefault();
 					if (loading) {
-						e.preventDefault();
 						return;
 					}
-					onSubmit(e, { setError, setLoading });
+					// Cleared outside the transition, so an old error disappears as
+					// soon as the form is submitted again.
+					setError(null);
+					startTransition(async () => {
+						await onSubmit({ setError });
+					});
 				}}
 			>
 				{error ? (
