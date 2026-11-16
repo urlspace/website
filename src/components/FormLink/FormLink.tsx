@@ -7,7 +7,6 @@ import { meQueryOptions } from "#/queries/me.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
 
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
-import Icon from "../Icons/Icons";
 
 // Mirrors the backend's ValidateURL: only http/https, no embedded credentials.
 function isValidLinkUrl(value: string): boolean {
@@ -503,39 +502,18 @@ function FormLink({
 					onChange={setCollection}
 					value={collection}
 					options={[
-						collections
-							.filter((c) => !c.public)
-							.map((c) => ({
-								name: c.name,
-								value: c.id,
-								icon: <Icon.Folder />,
-							})),
-						collections
-							.filter((c) => c.public && c.password === null)
-							.map((c) => ({
-								name: c.name,
-								value: c.id,
-								icon: <Icon.FolderPublic />,
-							})),
-						collections
-							.filter((c) => c.password !== null)
-							.map((c) => ({
-								name: c.name,
-								value: c.id,
-								icon: <Icon.Lock />,
-							})),
+						collections.filter((c) => !c.public),
+						collections.filter((c) => c.public && c.password === null),
+						collections.filter((c) => c.password !== null),
 						canAddCollection
-							? [
-									{
-										name: "New collection",
-										value: newCollectionValue,
-										icon: <Icon.Plus />,
-									},
-								]
+							? [{ name: "New collection", id: newCollectionValue }]
 							: [],
 					]
 						.filter((group) => group.length > 0)
-						.flatMap((group) => ["hr" as const, ...group])}
+						.flatMap((group) => [
+							"hr" as const,
+							...group.map((c) => ({ name: c.name, value: c.id })),
+						])}
 					placeholder="No collection"
 				/>
 			) : null}

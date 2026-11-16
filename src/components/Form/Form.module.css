@@ -104,10 +104,6 @@
 
 .select {
 	appearance: none;
-	/* Customizable select: options can hold icons. Browsers without support
-	   keep appearance: none and show text-only options. */
-	appearance: base-select;
-	align-items: center;
 	inline-size: 100%;
 	block-size: 1.5rlh;
 	padding-block: 0;
@@ -119,49 +115,8 @@
 		color: color-mix(in srgb, var(--color-fg) 25%, transparent);
 	}
 
-	/* .selectWrapper draws the arrow */
-	&::picker-icon {
-		display: none;
-	}
-
-	&::picker(select) {
-		appearance: base-select;
-		background-color: var(--color-bg);
-		border: 1px solid var(--color-border-input);
-		border-radius: var(--radius);
-	}
-
-	hr {
-		height: 1px;
-		background-image: none;
-		background-color: var(--color-border);
-	}
-
 	option {
 		color: var(--color-fg);
-		display: flex;
-		align-items: center;
-		gap: 0.25rlh;
-		padding: 0.125lh 0.5lh;
-		border: 1px solid transparent;
-
-		&::checkmark {
-			display: none;
-		}
-
-		&:focus-visible {
-			outline: none;
-			background-color: var(--color-border);
-		}
-
-		&:checked {
-			background-color: var(--color-link);
-			color: var(--color-bg);
-
-			&:focus-visible {
-				border-color: var(--color-fg);
-			}
-		}
 	}
 }
 
