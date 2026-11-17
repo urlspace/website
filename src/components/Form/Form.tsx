@@ -59,6 +59,8 @@ function Form({
 
 function Input({
 	autoComplete,
+	autoCapitalize,
+	autoCorrect,
 	description,
 	disabled,
 	inputMode,
@@ -72,10 +74,13 @@ function Input({
 	pattern,
 	placeholder,
 	required,
+	spellCheck,
 	type,
 	value,
 }: {
 	autoComplete?: string;
+	autoCapitalize?: string;
+	autoCorrect?: "on" | "off";
 	description?: ReactNode;
 	disabled?: boolean;
 	inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
@@ -89,6 +94,7 @@ function Input({
 	pattern?: string;
 	placeholder?: string;
 	required?: boolean;
+	spellCheck?: boolean;
 	type: "text" | "email" | "password" | "url";
 	value: string;
 }) {
@@ -111,6 +117,8 @@ function Input({
 			<input
 				aria-describedby={ariaDescribedBy}
 				autoComplete={autoComplete}
+				autoCapitalize={autoCapitalize}
+				autoCorrect={autoCorrect}
 				className={styles.input}
 				disabled={disabled || loading}
 				id={inputId}
@@ -124,6 +132,7 @@ function Input({
 				pattern={pattern}
 				placeholder={placeholder}
 				required={required}
+				spellCheck={spellCheck}
 				type={type}
 				value={value}
 			/>

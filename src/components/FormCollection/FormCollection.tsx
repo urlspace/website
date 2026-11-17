@@ -443,6 +443,9 @@ function FormCollection({
 					// would make password managers save it as the url.space login.
 					type="text"
 					autoComplete="off"
+					autoCapitalize="none"
+					autoCorrect="off"
+					spellCheck={false}
 					value={password}
 					minLength={6}
 					maxLength={64}
