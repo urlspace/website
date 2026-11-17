@@ -496,7 +496,7 @@ function PublicCollectionView({
 						minLength={2}
 						maxLength={128}
 						pattern="[^\p{Cc}]{2,128}"
-						description="Between 2 and 128 characters."
+						description="2 to 128 characters."
 					/>
 					<Form.Submit text="Clone collection" textLoading="Cloning..." />
 				</Form>

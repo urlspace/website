@@ -93,7 +93,7 @@ function SignUp() {
 					<Form onSubmit={handleSubmit}>
 						<Form.Input
 							autoComplete="nickname"
-							description="Use 3–32 lowercase letters or numbers. You can also use hyphens and underscores, but not at the beginning or end."
+							description="Use 3 to 32 lowercase letters or numbers. You can also use hyphens and underscores, but not at the beginning or end."
 							label="Username"
 							maxLength={32}
 							minLength={3}

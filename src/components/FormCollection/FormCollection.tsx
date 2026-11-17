@@ -351,7 +351,7 @@ function FormCollection({
 				minLength={2}
 				maxLength={128}
 				pattern="[^\p{Cc}]{2,128}"
-				description="Between 2 and 128 characters."
+				description="2 to 128 characters."
 			/>
 
 			<Form.Input
@@ -363,7 +363,7 @@ function FormCollection({
 				value={description}
 				maxLength={1024}
 				pattern="[^\p{Cc}]{0,1024}"
-				description="Up to 1024 characters."
+				description="Up to 1,024 characters."
 			/>
 
 			<Form.RadioGroup
@@ -428,7 +428,7 @@ function FormCollection({
 					minLength={2}
 					maxLength={128}
 					pattern="(?=.{2,128}$)[a-z0-9]+(-[a-z0-9]+)*"
-					description={`Your collection will be ${isProtected ? "password protected" : "public"} at ${siteUrl}/${username}/${slugValue.trim()}. Lowercase letters, numbers and hyphens only.`}
+					description="Lowercase letters, numbers and hyphens only."
 				/>
 			) : null}
 
@@ -447,7 +447,7 @@ function FormCollection({
 					minLength={6}
 					maxLength={64}
 					pattern="[^\p{Cc}]{6,64}"
-					description="6 to 64 characters. Don't use a password you use elsewhere."
+					description="6 to 64 characters."
 				/>
 			) : null}
 

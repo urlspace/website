@@ -90,7 +90,7 @@ function ResetPasswordConfirm() {
 				<Form onSubmit={handleSubmit}>
 					<Form.Input
 						autoComplete="new-password"
-						description="Use a strong password that is a minimum of 12 characters long. Please do not include parts of your email address or username in your password."
+						description="Use a strong password that is a minimum of 12 characters long. Don't include parts of your email address or username in your password."
 						label="New password"
 						maxLength={128}
 						minLength={12}

@@ -117,7 +117,7 @@ function FormTag({
 				minLength={2}
 				maxLength={50}
 				pattern={tagNamePattern}
-				description="Lowercase letters, numbers, and hyphens only. Between 2 and 50 characters."
+				description="Lowercase letters, numbers and hyphens only. 2 to 50 characters."
 			/>
 			<Form.Submit text="Save changes" textLoading="Saving..." />
 		</Form>

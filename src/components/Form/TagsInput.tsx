@@ -105,7 +105,7 @@ function TagsInput({
 
 		if (!tagNamePattern.test(tag)) {
 			setError(
-				"Use letters a–z, numbers, and single hyphens between words. Start and end with a letter or number.",
+				"Use letters a–z, numbers and single hyphens between words. Start and end with a letter or number.",
 			);
 			return;
 		}
