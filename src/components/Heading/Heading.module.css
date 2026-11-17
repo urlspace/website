@@ -1,17 +1,6 @@
 .heading {
-	--bg-color: transparent;
 	--bg-s-size: 2px;
-	--bg-s-color-light: color-mix(
-		in oklab,
-		var(--color-bg-fade) 90%,
-		var(--color-fg)
-	);
-	--bg-s-color-dark: color-mix(
-		in oklab,
-		var(--color-bg-fade) 90%,
-		var(--color-fg)
-	);
-	--bg-s-color: light-dark(var(--bg-s-color-light), var(--bg-s-color-dark));
+	--bg-s-color: color-mix(in oklab, var(--color-bg-fade) 90%, var(--color-fg));
 	--bg-size: 0.5lh;
 
 	background-image: conic-gradient(
