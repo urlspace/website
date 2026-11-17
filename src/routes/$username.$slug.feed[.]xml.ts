@@ -39,11 +39,7 @@ export const Route = createFileRoute("/$username/$slug/feed.xml")({
 				});
 				// Password protected collections have no feed, even for a browser
 				// that unlocked one.
-				if (
-					collection === null ||
-					"passwordProtected" in collection ||
-					collection.password !== null
-				) {
+				if (collection === null || collection.passwordProtected) {
 					return new Response("Collection not found", {
 						status: 404,
 						headers: { "Cache-Control": "no-store" },

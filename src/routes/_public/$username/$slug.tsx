@@ -62,7 +62,7 @@ export const Route = createFileRoute("/_public/$username/$slug")({
 
 		// Nothing about a password protected collection goes into the page
 		// metadata, so link previews and search engines don't reveal it.
-		if ("passwordProtected" in loaderData) {
+		if (loaderData.passwordProtected) {
 			return {
 				meta: [
 					{ title: "Password protected collection | url.space" },
@@ -107,7 +107,7 @@ function normalizeName(name: string) {
 function PagePublicCollection() {
 	const data = Route.useLoaderData();
 
-	if ("passwordProtected" in data) {
+	if ("locked" in data) {
 		return <PublicCollectionLocked />;
 	}
 	return <PublicCollectionView collection={data} password={data.password} />;
@@ -241,18 +241,6 @@ function PublicCollectionView({
 				},
 			);
 
-			// The owner changed the password since this page was unlocked.
-			if (
-				res.status === 401 &&
-				((await res.clone().json()) as { data: string }).data ===
-					"invalid password"
-			) {
-				setError(
-					"The password for this collection has changed. Reload the page and enter the new one.",
-				);
-				return;
-			}
-
 			if (res.status === 401) {
 				setIsCloneOpen(false);
 				setSessionExpired(true);
@@ -295,7 +283,11 @@ function PublicCollectionView({
 						break;
 					}
 					case 404:
-						setError("This collection is no longer available to clone.");
+						setError(
+							collection.passwordProtected
+								? "This collection is no longer available to clone, or its password has changed. Reload the page and try again."
+								: "This collection is no longer available to clone.",
+						);
 						break;
 					case 409:
 						setError("You already have a collection with that name.");
@@ -405,7 +397,7 @@ function PublicCollectionView({
 							ariaPressed={layout === "masonry"}
 						/>
 					</Public.Option>
-					{password === null ? (
+					{!collection.passwordProtected ? (
 						<Public.Option>
 							<DashboardButtonLink
 								text="Feed"

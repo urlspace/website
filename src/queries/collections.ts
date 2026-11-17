@@ -52,6 +52,7 @@ export const collectionsQueryOptions = queryOptions({
 });
 
 export type PublicCollection = {
+	passwordProtected: boolean;
 	id: string;
 	name: string;
 	slug: string;
@@ -71,7 +72,10 @@ export type PublicCollection = {
 	}>;
 };
 
-export type PasswordProtectedCollection = { passwordProtected: true };
+export type LockedCollection = {
+	locked: true;
+	passwordProtected: true;
+};
 
 const usernamePattern = /^[a-z0-9_-]{3,32}$/;
 const slugPattern = /^(?=.{2,128}$)[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -105,69 +109,65 @@ export const getPublicCollection = createServerFn()
 			return null;
 		}
 
-		// Unlocked earlier in this browser session: ask with the password, so
-		// the page renders unlocked straight away.
-		const cookieName = collectionPasswordCookie(username, slug);
-		const password = getCookie(cookieName);
-		if (password !== undefined) {
-			// The response holds an unlocked collection, so nothing may cache it.
-			setResponseHeader("Cache-Control", "private, no-store");
-			const unlocked = await fetchUnlockedCollection(username, slug, password);
-			if (unlocked === "invalid-password") {
-				// The owner changed the password since this browser unlocked it.
-				deleteCookie(cookieName, { path: "/" });
-				return { passwordProtected: true } as PasswordProtectedCollection;
-			}
-			return unlocked && { ...unlocked, password };
-		}
-
-		const res = await fetch(
-			`${import.meta.env.VITE_API_URL}/public/${encodeURIComponent(username)}/${encodeURIComponent(slug)}`,
-			{
-				headers: getOriginAuthHeaders(),
-				// Anonymous request, so Cloudflare can share the response between
-				// visitors: one API call per location every 3 minutes per page.
-				cf: {
-					cacheEverything: true,
-					cacheTtlByStatus: { "200-299": 180, "404": 30, "500-599": 0 },
-				},
-			},
+		return fetchPublicCollection(
+			username,
+			slug,
+			getCookie(collectionPasswordCookie(username, slug)),
 		);
-		if (res.status === 404) return null;
-		// Password protected. The response carries nothing about the collection.
-		if (res.status === 401)
-			return { passwordProtected: true } as PasswordProtectedCollection;
-		if (!res.ok) {
-			throw new Error(`/public collection failed: ${res.status}`);
-		}
-		const json = (await res.json()) as { data: PublicCollection };
-		return { ...json.data, password: null };
 	});
 
-// Headers only carry Latin-1, so the password is percent-encoded and the API
-// decodes it. No Cloudflare caching: this response must never be shared with
-// another visitor.
-async function fetchUnlockedCollection(
+async function fetchPublicCollection(
 	username: string,
 	slug: string,
-	password: string,
+	password?: string,
 ) {
+	const cookieName = collectionPasswordCookie(username, slug);
+	const headers = getOriginAuthHeaders();
+	if (password !== undefined) {
+		setResponseHeader("Cache-Control", "private, no-store");
+		headers["x-collection-password"] = encodeURIComponent(password);
+	}
+
 	const res = await fetch(
 		`${import.meta.env.VITE_API_URL}/public/${encodeURIComponent(username)}/${encodeURIComponent(slug)}`,
 		{
-			headers: {
-				...getOriginAuthHeaders(),
-				"x-collection-password": encodeURIComponent(password),
-			},
+			headers,
+			...(password !== undefined
+				? { cache: "no-store" as const }
+				: {
+						cf: {
+							cacheEverything: true,
+							cacheTtlByStatus: {
+								"200-299": 180,
+								"404": 30,
+								"500-599": 0,
+							},
+						},
+					}),
 		},
 	);
+	if (
+		(res.status === 401 || res.status === 404) &&
+		getCookie(cookieName) !== undefined
+	) {
+		deleteCookie(cookieName, { path: "/" });
+	}
 	if (res.status === 404) return null;
-	if (res.status === 401) return "invalid-password" as const;
+	if (res.status === 401) {
+		return { locked: true, passwordProtected: true } as LockedCollection;
+	}
 	if (!res.ok) {
-		throw new Error(`/public collection unlock failed: ${res.status}`);
+		throw new Error(`/public collection failed: ${res.status}`);
 	}
 	const json = (await res.json()) as { data: PublicCollection };
-	return json.data;
+	const collection = json.data;
+	if (!collection.passwordProtected && getCookie(cookieName) !== undefined) {
+		deleteCookie(cookieName, { path: "/" });
+	}
+	return {
+		...collection,
+		password: collection.passwordProtected ? (password ?? null) : null,
+	};
 }
 
 export const unlockPublicCollection = createServerFn({ method: "POST" })
@@ -186,20 +186,20 @@ export const unlockPublicCollection = createServerFn({ method: "POST" })
 		if (!usernamePattern.test(username) || !slugPattern.test(slug)) {
 			return null;
 		}
-		const unlocked = await fetchUnlockedCollection(username, slug, password);
-		if (unlocked === "invalid-password") {
+		const collection = await fetchPublicCollection(username, slug, password);
+		if (collection === null) return null;
+		if ("locked" in collection) {
 			return { invalidPassword: true } as const;
-		}
-		if (unlocked === null) {
-			return null;
 		}
 		// No Expires or Max-Age: a session cookie the browser drops when it
 		// quits, so the password is asked for once per browser session.
-		setCookie(collectionPasswordCookie(username, slug), password, {
-			path: "/",
-			httpOnly: true,
-			secure: true,
-			sameSite: "lax",
-		});
+		if (collection.passwordProtected) {
+			setCookie(collectionPasswordCookie(username, slug), password, {
+				path: "/",
+				httpOnly: true,
+				secure: true,
+				sameSite: "lax",
+			});
+		}
 		return { unlocked: true } as const;
 	});
