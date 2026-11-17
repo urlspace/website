@@ -6,9 +6,7 @@ function Manual({ steps }: { steps: Array<ReactNode> }) {
 	return (
 		<ol className={styles.manual}>
 			{steps.map((step, index) => (
-				<li key={index} className={styles.step}>
-					{step}
-				</li>
+				<li key={index}>{step}</li>
 			))}
 		</ol>
 	);

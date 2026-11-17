@@ -1,6 +1,4 @@
 .wrapper {
-	/* position: relative; */
-	/* overflow: clip; */
 	box-shadow: 0 -1px 0 0 var(--color-border);
 	background-color: var(--color-bg-fade);
 	padding-block: 3rlh;

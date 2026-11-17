@@ -209,7 +209,7 @@ function TagsInput({
 					}))}
 				/>
 			</div>
-			<div className={styles.visuallyHidden} role="status" aria-atomic="true">
+			<div className="visually-hidden" role="status" aria-atomic="true">
 				{status}
 			</div>
 

@@ -134,7 +134,7 @@ function SearchInput({
 
 	return (
 		<search className={styles.field} style={{ marginInline: "-2px" }}>
-			<label htmlFor={inputId} className={styles.visuallyHidden}>
+			<label htmlFor={inputId} className="visually-hidden">
 				{label}
 			</label>
 			<div className={styles.comboboxWrapper}>

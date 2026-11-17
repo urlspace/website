@@ -32,10 +32,7 @@
 		oklch(50.5% 0.213 27.518deg),
 		oklch(71.2% 0.194 13.428deg)
 	);
-	--color-warning: light-dark(
-		oklch(79.5% 0.184 86.047deg),
-		oklch(79.5% 0.184 86.047deg)
-	);
+	--color-warning: oklch(79.5% 0.184 86.047deg);
 	--size-container-max: min(100% - 2lh, 56lh);
 	--transition-duration: 220ms;
 	--radius: 4px;
@@ -88,8 +85,6 @@ body {
 	color: var(--color-fg);
 	background-color: var(--color-bg-fade);
 	font-family: "Noto Sans", sans-serif;
-	font-weight: 400;
-	font-style: normal;
 
 	/* disable the gray highlight on iOS on tap of interactive element (button, link, etc) */
 	-webkit-tap-highlight-color: transparent;
