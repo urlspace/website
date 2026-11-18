@@ -108,7 +108,9 @@ a {
 	text-underline-offset: 4px;
 
 	&:hover {
-		color: var(--color-fg);
+		@media (hover: hover) and (pointer: fine) {
+			color: var(--color-fg);
+		}
 	}
 }
 
