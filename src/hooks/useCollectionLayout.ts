@@ -38,9 +38,15 @@ function subscribe(listener: () => void) {
 
 // Written in the browser, so switching needs no request. Not HttpOnly, since
 // a layout preference has nothing to protect.
+// Choosing "list" (the default) deletes the cookie. That's the simple way to
+// object which, with the privacy policy disclosure, lets a preference cookie
+// skip consent under UK PECR Schedule A1 para 6.
 function setLayout(layout: Layout) {
 	memoryLayout = layout;
-	document.cookie = `${cookieName}=${layout}; Path=/; Max-Age=31536000; SameSite=Lax; Secure`;
+	document.cookie =
+		layout === "list"
+			? `${cookieName}=; Path=/; Max-Age=0; SameSite=Lax; Secure`
+			: `${cookieName}=${layout}; Path=/; Max-Age=31536000; SameSite=Lax; Secure`;
 	for (const listener of listeners) {
 		listener();
 	}

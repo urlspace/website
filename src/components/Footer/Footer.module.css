@@ -1,0 +1,12 @@
+.navList {
+	display: flex;
+	gap: 0.5rlh;
+	list-style: none;
+	font-size: 0.875rem;
+
+	& a {
+		font-weight: 400;
+		text-decoration: none;
+		color: inherit;
+	}
+}

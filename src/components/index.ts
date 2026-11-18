@@ -46,6 +46,7 @@ import Page from "./Page/Page.tsx";
 import Pagination from "./Pagination/Pagination.tsx";
 import Pills from "./Pills/Pills.tsx";
 import Pricing from "./Pricing/Pricing.tsx";
+import Prose from "./Prose/Prose.tsx";
 import Public from "./Public/Public.tsx";
 import PublicHeader from "./PublicHeader/PublicHeader.tsx";
 import SettingsListAccount from "./SettingsList/SettingsListAccount.tsx";
@@ -101,6 +102,7 @@ export {
 	Pagination,
 	Pills,
 	Pricing,
+	Prose,
 	Public,
 	PublicHeader,
 	SettingsListAccount,

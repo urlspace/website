@@ -1,0 +1,13 @@
+.prose {
+	display: flex;
+	flex-direction: column;
+	gap: 1rlh;
+
+	& ul {
+		padding-inline-start: 1rlh;
+	}
+
+	& [id] {
+		scroll-margin-block-start: 3rlh;
+	}
+}
