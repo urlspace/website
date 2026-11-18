@@ -1,6 +1,7 @@
 .wrapper {
 	background-color: var(--color-bg);
 	scroll-margin-block-start: 2.5rlh;
+	box-shadow: inset 0 -1px 0 0 var(--color-border);
 }
 
 .list {
@@ -9,9 +10,9 @@
 	width: 100%;
 	gap: 1px;
 	background: var(--color-border);
-	padding: 1px;
 
 	@media (width >= 900px) {
+		padding: 1px;
 		width: calc(100% - 2rlh);
 		grid-template-columns: repeat(6, minmax(0, 1fr));
 	}
@@ -27,6 +28,14 @@
 	gap: 1rlh;
 	align-content: start;
 	padding: 2rlh 1rlh;
+
+	&:last-child {
+		box-shadow: inset 0 -1px 0 0 var(--color-border);
+
+		@media (width >= 900px) {
+			box-shadow: none;
+		}
+	}
 
 	@media (width >= 900px) {
 		&:nth-child(1),
