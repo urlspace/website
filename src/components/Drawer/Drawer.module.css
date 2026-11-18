@@ -76,6 +76,11 @@
 }
 
 .content {
+	/* TODO: Fills the rest of the drawer, so a click on its empty area lands
+	   here, not on the dialog itself, which the click handler treats as a
+	   backdrop click and closes the drawer. Not needed once closedby="any"
+	   replaces that handler. https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog#closedby */
+	flex: 1;
 	overflow-y: scroll;
 	scrollbar-width: none;
 	overscroll-behavior-y: contain;
