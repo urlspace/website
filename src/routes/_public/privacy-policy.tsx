@@ -53,8 +53,9 @@ function PrivacyPolicyPage() {
 				<ul>
 					<li>
 						<b>Your account:</b> your email address, username, display name and
-						password. All four are required to create an account, and you need
-						to be 16 or over.
+						password. To create an account, you need to be 16 or over and
+						provide an email address, username and password. Your display name
+						defaults to your username.
 					</li>
 					<li>
 						<b>What you save:</b> links, their titles and descriptions, tags,
@@ -77,12 +78,10 @@ function PrivacyPolicyPage() {
 				</ul>
 				<p>
 					No analytics, tracking, fingerprinting or ads. I never sell your data
-					or use it for AI training.
-				</p>
-				<p>
-					Connections use HTTPS. Account passwords, session credentials and API
-					tokens are stored hashed. Collection passwords are stored as plain
-					text so you can view and change them. Only I can access the database.
+					or use it for AI training. Connections use HTTPS. Account passwords,
+					session credentials and API tokens are stored hashed. Collection
+					passwords are stored as plain text so you can view and change them.
+					Only I can access the database.
 				</p>
 
 				<Heading level={2} text="Why I use it" id="why-i-use-it" />
@@ -155,7 +154,7 @@ function PrivacyPolicyPage() {
 						use url.space.
 					</li>
 					<li>
-						<b>collection-password.…</b> remembers a protected collection you've
+						<b>collection-password</b> remembers a protected collection you've
 						unlocked, until you close your browser.
 					</li>
 					<li>
@@ -228,8 +227,8 @@ function PrivacyPolicyPage() {
 					Some rights depend on the situation. If one doesn't apply, I'll tell
 					you why. For any of these, or if you're unhappy with how I handle your
 					data, email <a href="mailto:mail@url.space">mail@url.space</a>. I'll
-					confirm I've received a complaint within 30 days and tell you what
-					I've done about it. You can also complain to the{" "}
+					confirm I've received a complaint within 7 days (usually a lot faster)
+					and tell you what I've done about it. You can also complain to the{" "}
 					<a href="https://ico.org.uk">ICO</a> in the UK or to your local data
 					protection authority in the EU.
 				</p>
