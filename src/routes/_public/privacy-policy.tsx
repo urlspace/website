@@ -19,7 +19,7 @@ function PrivacyPolicyPage() {
 			<Prose>
 				<Heading level={1} text="Privacy policy" />
 				<p>
-					<small>Last updated: 18 November 2026.</small>
+					<small>Last updated: 1 December 2026.</small>
 				</p>
 				<p>
 					I'm Pawel Grzybek, the UK-based operator of url.space and controller

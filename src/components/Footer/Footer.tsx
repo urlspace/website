@@ -11,6 +11,11 @@ function Footer() {
 						Privacy Policy
 					</Link>
 				</li>
+				<li>
+					<Link className={styles.link} to="/terms-of-service">
+						Terms of service
+					</Link>
+				</li>
 			</ul>
 		</nav>
 	);

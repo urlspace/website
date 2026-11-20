@@ -197,10 +197,9 @@ function Pricing({
 							<Icon.ChevronDown />
 						</summary>
 						<p>
-							No, there are no refunds. The free plan is generous, so give it a
-							proper try first. If you're still unsure, start with a single
-							month of Unlimited and switch to yearly once you're sure you love
-							it.
+						I offer no extra refunds for a change of mind. Polar handles
+						refund requests, and your legal rights still apply. If you're
+						unsure, try the monthly plan before paying for a year.
 						</p>
 					</details>
 					<details className={styles.question}>
