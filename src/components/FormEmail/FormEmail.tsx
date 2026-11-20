@@ -109,10 +109,6 @@ function FormEmail({ onClose }: { onClose: () => void }) {
 			await queryClient.invalidateQueries({
 				queryKey: meQueryOptions.queryKey,
 			});
-			setEmail("");
-			setPassword("");
-			setCode("");
-			setStep("request");
 			onClose();
 		} catch {
 			setError("Something went wrong. Try again in a moment.");

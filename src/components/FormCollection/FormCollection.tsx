@@ -277,15 +277,6 @@ function FormCollection({
 						}),
 			]);
 
-			if (!isEdit) {
-				setName("");
-				setDescription("");
-				setVisibility("private");
-				setPassword("");
-				setSlug("");
-				setIsSlugEdited(false);
-			}
-
 			// Public collections stay in the dialog to show the saved address, and
 			// the password for protected ones.
 			if (savedCollection.public) {

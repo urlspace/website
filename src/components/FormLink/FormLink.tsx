@@ -148,6 +148,11 @@ function FormLink({
 	const [previewStatus, setPreviewStatus] = useState("");
 	const previewAbortRef = useRef<AbortController | null>(null);
 	const previewRef = useRef<LinkMetadata | null>(null);
+	// The collection created by a submit whose link save then failed, so a
+	// retry with the same name reuses it instead of creating it again.
+	const createdCollectionRef = useRef<{ name: string; id: string } | null>(
+		null,
+	);
 
 	useEffect(() => {
 		return () => {
@@ -265,7 +270,13 @@ function FormLink({
 		}
 
 		const trimmedCollectionName = newCollectionName.trim();
-		if (collection === newCollectionValue) {
+		const createdCollection =
+			createdCollectionRef.current &&
+			normalizeName(createdCollectionRef.current.name) ===
+				normalizeName(trimmedCollectionName)
+				? createdCollectionRef.current
+				: null;
+		if (collection === newCollectionValue && !createdCollection) {
 			if (trimmedCollectionName.length < 2) {
 				setError("Collection name must be at least 2 characters.");
 				return;
@@ -284,7 +295,9 @@ function FormLink({
 
 		try {
 			let collectionId = collection;
-			if (collection === newCollectionValue) {
+			if (collection === newCollectionValue && createdCollection) {
+				collectionId = createdCollection.id;
+			} else if (collection === newCollectionValue) {
 				const res = await fetch(`${import.meta.env.VITE_API_URL}/collections`, {
 					method: "POST",
 					credentials: "include",
@@ -332,17 +345,11 @@ function FormLink({
 					return;
 				}
 
-				// Select the new collection, so a retry after a failed link save
-				// doesn't create it again.
 				collectionId = ((await res.json()) as { data: { id: string } }).data.id;
-				setCollection(collectionId);
-				setNewCollectionName("");
-				await Promise.all([
-					queryClient.invalidateQueries({
-						queryKey: collectionsQueryOptions.queryKey,
-					}),
-					queryClient.invalidateQueries({ queryKey: meQueryOptions.queryKey }),
-				]);
+				createdCollectionRef.current = {
+					name: trimmedCollectionName,
+					id: collectionId,
+				};
 			}
 
 			const res = await fetch(
@@ -417,23 +424,13 @@ function FormLink({
 							queryKey: collectionsQueryOptions.queryKey,
 						})
 					: null,
-				isEdit && newTagsCount === 0
+				isEdit && newTagsCount === 0 && collection !== newCollectionValue
 					? null
 					: queryClient.invalidateQueries({
 							queryKey: meQueryOptions.queryKey,
 						}),
 			]);
 
-			if (!isEdit) {
-				setTitle("");
-				setUrl("");
-				setDescription("");
-				setCollection("");
-				setNewCollectionName("");
-				setSelectedTags([]);
-				setFavourite(false);
-				setForLater(false);
-			}
 			onClose();
 		} catch {
 			setError("Something went wrong. Try again in a moment.");

@@ -65,7 +65,6 @@ function FormUsername({
 
 			await queryClient.invalidateQueries({ queryKey: ["me"] });
 
-			setPassword("");
 			onClose();
 		} catch {
 			setError("Something went wrong. Try again in a moment.");
