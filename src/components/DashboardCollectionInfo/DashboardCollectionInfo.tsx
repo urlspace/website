@@ -8,11 +8,13 @@ import styles from "./DashboardCollectionInfo.module.css";
 function DashboardCollectionInfo({
 	collection,
 	username,
+	onAddLink,
 	onEdit,
 	onDelete,
 }: {
 	collection: CollectionRow;
 	username: string;
+	onAddLink: () => void;
 	onEdit: () => void;
 	onDelete: () => void;
 }) {
@@ -50,6 +52,12 @@ function DashboardCollectionInfo({
 					) : null}
 				</dl>
 				<div className={styles.buttons}>
+					<DashboardButton
+						icon={<Icon.Plus />}
+						onClick={onAddLink}
+						text="Add link"
+					/>
+
 					<DashboardButton icon={<Icon.Edit />} onClick={onEdit} text="Edit" />
 
 					<DashboardButton

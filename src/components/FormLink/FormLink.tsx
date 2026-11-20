@@ -102,6 +102,7 @@ function FormLink({
 	collections,
 	tags,
 	link,
+	collectionId,
 }: {
 	onClose: () => void;
 	collections: Array<{
@@ -115,6 +116,7 @@ function FormLink({
 		name: string;
 	}>;
 	link?: LinkRow;
+	collectionId?: string;
 }) {
 	const queryClient = useQueryClient();
 	const {
@@ -137,7 +139,9 @@ function FormLink({
 	const [title, setTitle] = useState(link?.title ?? "");
 	const [url, setUrl] = useState(link?.url ?? "");
 	const [description, setDescription] = useState(link?.description ?? "");
-	const [collection, setCollection] = useState(link?.collection?.id ?? "");
+	const [collection, setCollection] = useState(
+		link?.collection?.id ?? collectionId ?? "",
+	);
 	const [newCollectionName, setNewCollectionName] = useState("");
 	const [selectedTags, setSelectedTags] = useState<string[]>(
 		link?.tags.map((t) => t.name) ?? [],

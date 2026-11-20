@@ -172,6 +172,9 @@ function PageDashboard() {
 	const [editingTag, setEditingTag] = useState<TagRow | null>(null);
 	const [isEditTagOpen, setIsEditTagOpen] = useState(false);
 	const [formKey, setFormKey] = useState(0);
+	const [addLinkCollectionId, setAddLinkCollectionId] = useState<
+		string | undefined
+	>(undefined);
 
 	// additional global state
 	const signingOut = useRef(false);
@@ -412,6 +415,13 @@ function PageDashboard() {
 	}
 
 	function openAddLink() {
+		setAddLinkCollectionId(undefined);
+		setFormKey((key) => key + 1);
+		setIsAddLinkOpen(true);
+	}
+
+	function openAddLinkToCollection(collectionId: string) {
+		setAddLinkCollectionId(collectionId);
 		setFormKey((key) => key + 1);
 		setIsAddLinkOpen(true);
 	}
@@ -659,6 +669,7 @@ function PageDashboard() {
 					<DashboardCollectionInfo
 						collection={selectedCollectionObj}
 						username={user.username}
+						onAddLink={() => openAddLinkToCollection(selectedCollectionObj.id)}
 						onEdit={() => openEditCollection(selectedCollectionObj)}
 						onDelete={() => handleDeleteCollection(selectedCollectionObj)}
 					/>
@@ -740,6 +751,7 @@ function PageDashboard() {
 					onClose={() => setIsAddLinkOpen(false)}
 					collections={collections}
 					tags={tags}
+					collectionId={addLinkCollectionId}
 				/>
 			</Dialog>
 
