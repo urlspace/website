@@ -19,6 +19,7 @@
 		@media (hover: hover) and (pointer: fine) {
 			color: var(--color-link);
 			text-decoration-line: underline;
+			cursor: pointer;
 		}
 	}
 
