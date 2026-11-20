@@ -59,7 +59,7 @@ function Pricing({
 			window.location.assign(url);
 		},
 		onError: () => {
-			setErrorMessage("We couldn't start the upgrade. Please try again.");
+			setErrorMessage("The upgrade couldn't start. Please try again.");
 		},
 	});
 
@@ -164,9 +164,9 @@ function Pricing({
 							<Icon.ChevronDown />
 						</summary>
 						<p>
-							We never remove your links. Everything you've saved stays in your
-							account. If you're over the free plan's limit, adding new links is
-							paused until you delete some or upgrade again.
+							Your links are never removed. Everything you've saved stays in
+							your account. If you're over the free plan's limit, adding new
+							links is paused until you delete some or upgrade again.
 						</p>
 					</details>
 					<details className={styles.question}>
@@ -176,7 +176,7 @@ function Pricing({
 						</summary>
 						<p>
 							Sharing is part of Unlimited, so after a downgrade those pages go
-							offline and show "not found". We keep everything, including
+							offline and show "not found". Everything is kept, including
 							addresses and passwords, so upgrading again restores them without
 							you changing anything.
 						</p>
@@ -187,8 +187,8 @@ function Pricing({
 							<Icon.ChevronDown />
 						</summary>
 						<p>
-							Yes, in Settings: choose Manage next to your account type. You keep
-							Unlimited until the end of the period you've paid for.
+							Yes, in Settings: choose Manage next to your account type. You
+							keep Unlimited until the end of the period you've paid for.
 						</p>
 					</details>
 					<details className={styles.question}>
@@ -197,9 +197,10 @@ function Pricing({
 							<Icon.ChevronDown />
 						</summary>
 						<p>
-							No, we don't offer refunds. The free plan is generous, so give it a
-							proper try first. If you're still unsure, start with a single month
-							of Unlimited and switch to yearly once you're sure you love it.
+							No, there are no refunds. The free plan is generous, so give it a
+							proper try first. If you're still unsure, start with a single
+							month of Unlimited and switch to yearly once you're sure you love
+							it.
 						</p>
 					</details>
 					<details className={styles.question}>
@@ -220,8 +221,8 @@ function Pricing({
 							<Icon.ChevronDown />
 						</summary>
 						<p>
-							Deleting your account takes only a moment. We don't just hide
-							deleted accounts: everything associated with yours is permanently
+							Deleting your account takes only a moment. Deleted accounts aren't
+							just hidden: everything associated with yours is permanently
 							removed, and any active subscription is cancelled straight away.
 						</p>
 					</details>
