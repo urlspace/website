@@ -2,31 +2,36 @@
 	position: relative;
 	overflow: clip;
 	box-shadow: 0 1px 0 0 var(--color-border);
+	view-timeline: --intro block;
+	view-timeline-inset: 2.5rlh 0;
 
-	@media (width >= 900px) {
-		&::before {
-			/* mask gradient from left to right */
-			mask-image: linear-gradient(to left, #000 0%, #000 50%, #0000 100%);
-			content: "";
-			position: absolute;
+	&::before {
+		/* mask gradient from left to right */
+		mask-image: linear-gradient(to top, #000 0%, #000 50%, #0000 100%);
+		content: "";
+		position: absolute;
+		inset: 8rlh 0 0 0;
+
+		--bg-s-size: 2px;
+		--bg-s-color: color-mix(
+			in oklab,
+			var(--color-bg-fade) 90%,
+			var(--color-fg)
+		);
+		--bg-size: 0.5lh;
+
+		background-image: conic-gradient(
+			at var(--bg-s-size) var(--bg-s-size),
+			#0000 75%,
+			var(--bg-s-color) 0
+		);
+		background-size: var(--bg-size) var(--bg-size);
+		background-position: center
+			calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
+
+		@media (width >= 900px) {
 			inset: 0 0 0 50%;
-
-			--bg-s-size: 2px;
-			--bg-s-color: color-mix(
-				in oklab,
-				var(--color-bg-fade) 90%,
-				var(--color-fg)
-			);
-			--bg-size: 0.5lh;
-
-			background-image: conic-gradient(
-				at var(--bg-s-size) var(--bg-s-size),
-				#0000 75%,
-				var(--bg-s-color) 0
-			);
-			background-size: var(--bg-size) var(--bg-size);
-			background-position: center
-				calc(var(--bg-size) / 2 - (var(--bg-s-size) / 2));
+			mask-image: linear-gradient(to left, #000 0%, #000 50%, #0000 100%);
 		}
 	}
 }
@@ -35,6 +40,7 @@
 	margin-inline: auto;
 	width: min(100% - 2rlh, 1300px);
 	display: grid;
+	position: relative;
 
 	@media (width >= 900px) {
 		grid-template-columns: minmax(0, 3fr) minmax(0, 5fr);
@@ -54,6 +60,15 @@
 	display: block;
 	width: min(100%, 600px);
 	margin-inline: auto;
+	position: relative;
+
+	@supports ((animation-timeline: scroll()) and (animation-range: 0% 100%)) {
+		@media (prefers-reduced-motion: no-preference) {
+			animation: intro-image linear both;
+			animation-timeline: --intro;
+			animation-range: cover 0% cover 100%;
+		}
+	}
 
 	@media (width >= 600px) {
 		width: min(80%, 600px);
@@ -67,5 +82,15 @@
 		display: block;
 		max-width: 100%;
 		height: auto;
+	}
+}
+
+@keyframes intro-image {
+	from {
+		transform: translateY(3rlh);
+	}
+
+	to {
+		transform: translateY(0);
 	}
 }
