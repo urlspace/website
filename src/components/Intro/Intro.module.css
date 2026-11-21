@@ -49,7 +49,8 @@
 }
 
 .content {
-	padding-block: 2rlh;
+	padding-block-start: 3rlh;
+	padding-block-end: 1rlh;
 
 	@media (width >= 900px) {
 		padding-block: 5rlh;
