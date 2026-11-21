@@ -28,7 +28,6 @@ import {
 	Stats,
 	LinkCard,
 	MenuTheme,
-	Stack,
 } from "#/components/index.ts";
 import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
 import useKeyboardShortcuts from "#/hooks/useKeyboardShortcuts.ts";
@@ -750,7 +749,7 @@ function PageDashboard() {
 				onClose={() => setIsThemesOpen(false)}
 				title="Theme"
 			>
-				<MenuTheme />
+				<MenuTheme hideTitle />
 			</Dialog>
 
 			<Dialog
