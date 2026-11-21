@@ -1,3 +1,9 @@
+import appDarkAvif from "#/assets/images/app-dark.avif";
+import appDarkPng from "#/assets/images/app-dark.png";
+import appDarkWebp from "#/assets/images/app-dark.webp";
+import appLightAvif from "#/assets/images/app-light.avif";
+import appLightPng from "#/assets/images/app-light.png";
+import appLightWebp from "#/assets/images/app-light.webp";
 import { ButtonLink, Graph, Heading, Stack } from "#/components";
 
 import styles from "./Intro.module.css";
@@ -23,6 +29,28 @@ function Intro({ hasSession }: { hasSession: boolean }) {
 				</div>
 
 				<Graph />
+
+				<picture className={styles.image}>
+					<source
+						srcSet={appDarkAvif}
+						type="image/avif"
+						media="(prefers-color-scheme: dark)"
+					/>
+					<source
+						srcSet={appDarkWebp}
+						type="image/webp"
+						media="(prefers-color-scheme: dark)"
+					/>
+					<source srcSet={appDarkPng} media="(prefers-color-scheme: dark)" />
+					<source srcSet={appLightAvif} type="image/avif" />
+					<source srcSet={appLightWebp} type="image/webp" />
+					<img
+						src={appLightPng}
+						width={1403}
+						height={1273}
+						alt="url.space dashboard and filters view on a mobile device"
+					/>
+				</picture>
 			</div>
 		</div>
 	);

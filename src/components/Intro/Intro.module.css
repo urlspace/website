@@ -43,9 +43,29 @@
 }
 
 .content {
-	padding-block: 3rlh;
+	padding-block: 2rlh;
 
 	@media (width >= 900px) {
 		padding-block: 5rlh;
+	}
+}
+
+.image {
+	display: block;
+	width: min(100%, 600px);
+	margin-inline: auto;
+
+	@media (width >= 600px) {
+		width: min(80%, 600px);
+	}
+
+	@media (width >= 900px) {
+		display: none;
+	}
+
+	& img {
+		display: block;
+		max-width: 100%;
+		height: auto;
 	}
 }
