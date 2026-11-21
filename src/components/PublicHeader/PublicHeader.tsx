@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-import { DashboardButton, Drawer, Icon, Logo } from "../";
-import { DashboardButtonLink } from "../";
+import { DashboardButton, DashboardButtonLink, Drawer, Icon, Logo } from "../";
 
 import styles from "./PublicHeader.module.css";
 
@@ -64,13 +63,42 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 		);
 	}
 
+	function socials() {
+		return (
+			<>
+				<li>
+					<DashboardButtonLink to="https://github.com/urlspace" text="GitHub" />
+				</li>
+				<li>
+					<DashboardButtonLink
+						to="https://mastodon.social/@urlspace"
+						text="Mastodon"
+					/>
+				</li>
+				<li>
+					<DashboardButtonLink
+						to="https://bsky.app/profile/url.space"
+						text="Bluesky"
+					/>
+				</li>
+			</>
+		);
+	}
+
 	return (
 		<header className={styles.header}>
 			<Logo to="/" />
 			<nav aria-label="Main navigation" className={styles.nav}>
 				<ul className={styles.navList}>{links()}</ul>
 			</nav>
-			<div className={styles.trigger}>
+			<div className={styles.buttons}>
+				{hasSession ? (
+					<DashboardButtonLink
+						to="/dashboard"
+						icon={<Icon.Dashboard />}
+						text="Dashboard"
+					/>
+				) : null}
 				<DashboardButton
 					icon={<Icon.List />}
 					onClick={() => setIsNavOpen(true)}
@@ -82,6 +110,7 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 					<ul className={styles.drawerList}>
 						{links(() => setIsNavOpen(false))}
 					</ul>
+					<ul className={styles.drawerList}>{socials()}</ul>
 				</nav>
 			</Drawer>
 		</header>

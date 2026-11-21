@@ -18,7 +18,10 @@
 	list-style: none;
 }
 
-.trigger {
+.buttons {
+	display: flex;
+	gap: 0.5lh;
+
 	@media (width >= 900px) {
 		display: none;
 	}
@@ -26,6 +29,10 @@
 
 .drawerNav {
 	padding: 1rlh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	min-height: 100%;
 }
 
 .drawerList {
