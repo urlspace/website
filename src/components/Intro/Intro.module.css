@@ -50,7 +50,7 @@
 
 .content {
 	padding-block-start: 3rlh;
-	padding-block-end: 1rlh;
+	padding-block-end: 2rlh;
 
 	@media (width >= 900px) {
 		padding-block: 5rlh;
@@ -88,7 +88,7 @@
 
 @keyframes intro-image {
 	from {
-		transform: translateY(3rlh);
+		transform: translateY(2rlh);
 	}
 
 	to {
