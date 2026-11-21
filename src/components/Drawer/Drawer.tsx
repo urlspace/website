@@ -64,12 +64,14 @@ function Dialog({
 				e.preventDefault();
 				onClose();
 			}}
-			// TODO: Clicks on the ::backdrop target the dialog itself, so this
-			// closes the dialog on a click outside it. Replace with closedby="any"
+			// TODO: Presses on the ::backdrop target the dialog itself, so this
+			// closes the dialog on a press outside it. Replace with closedby="any"
 			// once Safari supports it (27.3); it fires cancel, which onCancel
 			// handles. https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog#closedby
-			onClick={(e) => {
-				if (e.target === ref.current) onClose();
+			onPointerDown={(e) => {
+				if (e.target === ref.current) {
+					onClose();
+				}
 			}}
 			onTouchStart={(e) => {
 				if ((e.target as Element).closest("dialog") !== ref.current) {
