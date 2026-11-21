@@ -76,6 +76,14 @@ html {
 		overflow: hidden;
 	}
 
+	&:has(> head > meta[name="color-scheme"][content="light"]) {
+		color-scheme: light;
+	}
+
+	&:has(> head > meta[name="color-scheme"][content="dark"]) {
+		color-scheme: dark;
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		scroll-behavior: auto;
 	}

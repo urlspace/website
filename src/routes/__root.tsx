@@ -11,6 +11,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getCookie, getRequest } from "@tanstack/react-start/server";
 import { useEffect } from "react";
 
+import useTheme from "#/hooks/useTheme.ts";
 import { reloadOnPreloadError } from "#/utils/reloadOnPreloadError.ts";
 import { toPublicUrl } from "#/utils/toPublicUrl.ts";
 import { hasSeparateDashboard } from "#/utils/urls.ts";
@@ -58,20 +59,6 @@ export const Route = createRootRouteWithContext<{
 			{
 				name: "author",
 				content: "Pawel Grzybek - https://pawelgrzybek.com/",
-			},
-			{
-				name: "color-scheme",
-				content: "light dark",
-			},
-			{
-				name: "theme-color",
-				content: "#fefbf8",
-				media: "(prefers-color-scheme: light)",
-			},
-			{
-				name: "theme-color",
-				content: "#0f0f13",
-				media: "(prefers-color-scheme: dark)",
 			},
 			{
 				property: "og:title",
@@ -164,6 +151,8 @@ function GenericError() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+	const [theme] = useTheme();
+
 	useEffect(() => {
 		window.addEventListener("vite:preloadError", reloadOnPreloadError);
 		return () => {
@@ -174,6 +163,29 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<head>
+				<meta
+					name="color-scheme"
+					content={theme === "system" ? "light dark" : theme}
+				/>
+				{theme === "system" ? (
+					<>
+						<meta
+							name="theme-color"
+							content="#fefbf8"
+							media="(prefers-color-scheme: light)"
+						/>
+						<meta
+							name="theme-color"
+							content="#0f0f13"
+							media="(prefers-color-scheme: dark)"
+						/>
+					</>
+				) : (
+					<meta
+						name="theme-color"
+						content={theme === "dark" ? "#0f0f13" : "#fefbf8"}
+					/>
+				)}
 				<HeadContent />
 			</head>
 			<body>

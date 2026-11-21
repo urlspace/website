@@ -161,6 +161,10 @@ function PrivacyPolicyPage() {
 						<b>collection-layout</b> remembers that you chose masonry view, for
 						a year. Switch back to list and it's deleted.
 					</li>
+					<li>
+						<b>theme</b> remembers that you chose light or dark, for a year.
+						Switch back to system and it's deleted.
+					</li>
 				</ul>
 				<p>
 					Cloudflare may set security cookies to check for bots. A timestamp in

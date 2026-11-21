@@ -5,10 +5,15 @@ import appLightAvif from "#/assets/images/app-light.avif";
 import appLightPng from "#/assets/images/app-light.png";
 import appLightWebp from "#/assets/images/app-light.webp";
 import { ButtonLink, Graph, Heading, Stack } from "#/components";
+import useTheme from "#/hooks/useTheme.ts";
 
 import styles from "./Intro.module.css";
 
 function Intro({ hasSession }: { hasSession: boolean }) {
+	const [theme] = useTheme();
+	const darkMedia =
+		theme === "system" ? "(prefers-color-scheme: dark)" : undefined;
+
 	return (
 		<div className={styles.intro}>
 			<div className={styles.container}>
@@ -31,17 +36,21 @@ function Intro({ hasSession }: { hasSession: boolean }) {
 				<Graph />
 
 				<picture className={styles.image}>
-					<source
-						srcSet={appDarkAvif}
-						type="image/avif"
-						media="(prefers-color-scheme: dark)"
-					/>
-					<source
-						srcSet={appDarkWebp}
-						type="image/webp"
-						media="(prefers-color-scheme: dark)"
-					/>
-					<source srcSet={appDarkPng} media="(prefers-color-scheme: dark)" />
+					{theme !== "light" ? (
+						<>
+							<source
+								srcSet={appDarkAvif}
+								type="image/avif"
+								media={darkMedia}
+							/>
+							<source
+								srcSet={appDarkWebp}
+								type="image/webp"
+								media={darkMedia}
+							/>
+							<source srcSet={appDarkPng} media={darkMedia} />
+						</>
+					) : null}
 					<source srcSet={appLightAvif} type="image/avif" />
 					<source srcSet={appLightWebp} type="image/webp" />
 					<img

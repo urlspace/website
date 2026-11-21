@@ -197,9 +197,9 @@ function Pricing({
 							<Icon.ChevronDown />
 						</summary>
 						<p>
-						I offer no extra refunds for a change of mind. Polar handles
-						refund requests, and your legal rights still apply. If you're
-						unsure, try the monthly plan before paying for a year.
+							I offer no extra refunds for a change of mind. Polar handles
+							refund requests, and your legal rights still apply. If you're
+							unsure, try the monthly plan before paying for a year.
 						</p>
 					</details>
 					<details className={styles.question}>

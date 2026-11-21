@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+
 import { Icon } from "#/components";
 
 import styles from "./Graph.module.css";
@@ -14,7 +15,12 @@ const initialCounts = {
 	conferenceTalks: 31,
 };
 
-const flagsAndTags = ["favourite", "forLater", "golang", "productivity"] as const;
+const flagsAndTags = [
+	"favourite",
+	"forLater",
+	"golang",
+	"productivity",
+] as const;
 const collections = ["garden", "courses", "conferenceTalks"] as const;
 
 function Graph() {
@@ -106,10 +112,10 @@ function Label({
 	useEffect(() => {
 		if (prevCounter.current === counter) return;
 		prevCounter.current = counter;
-		labelRef.current?.animate(
-			[{ scale: 1 }, { scale: 1.03 }, { scale: 1 }],
-			{ duration: 220, easing: "ease-in-out" },
-		);
+		labelRef.current?.animate([{ scale: 1 }, { scale: 1.03 }, { scale: 1 }], {
+			duration: 220,
+			easing: "ease-in-out",
+		});
 	}, [counter]);
 
 	return (

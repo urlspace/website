@@ -74,8 +74,8 @@ function FormDeleteAccount({
 			{isUnlimited ? (
 				<p>
 					You’ll lose access to Unlimited immediately, and any active
-					subscription will end. Polar handles refund requests, and your
-					legal rights still apply.
+					subscription will end. Polar handles refund requests, and your legal
+					rights still apply.
 				</p>
 			) : null}
 
