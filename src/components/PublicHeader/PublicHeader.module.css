@@ -37,4 +37,11 @@
 
 .drawerList {
 	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rlh;
+
+	& > li {
+		width: min-content;
+	}
 }
