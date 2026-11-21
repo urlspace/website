@@ -52,6 +52,7 @@ function DashboardNav({
 	onAddLink,
 	onClearFiltersAndSearchQuery,
 	setIsShortcutsOpen,
+	setIsThemesOpen,
 	setSelectedCollection,
 	setSelectedTags,
 	tags,
@@ -74,6 +75,7 @@ function DashboardNav({
 	onAddLink: () => void;
 	onClearFiltersAndSearchQuery: () => void;
 	setIsShortcutsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	setIsThemesOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	setSelectedCollection: (value: string | null) => void;
 	setSelectedTags: (value: string[]) => void;
 	tags: TagRow[];
@@ -399,6 +401,13 @@ function DashboardNav({
 							icon={<Icon.Keyboard />}
 							onClick={() => setIsShortcutsOpen(true)}
 							text="Keyboard shortcuts"
+						/>
+					</DashboardList.Li>
+					<DashboardList.Li>
+						<DashboardButton
+							icon={<Icon.Contrast />}
+							onClick={() => setIsThemesOpen(true)}
+							text="Theme"
 						/>
 					</DashboardList.Li>
 					<DashboardList.Li>

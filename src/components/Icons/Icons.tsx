@@ -288,6 +288,15 @@ function IconsDashboard() {
 	);
 }
 
+function IconsContrast() {
+	return (
+		<IconBase>
+			<circle cx="12" cy="12" r="10" />
+			<path d="M12 18a6 6 0 0 0 0-12v12z" />
+		</IconBase>
+	);
+}
+
 Icon.Filter = IconsFilter;
 Icon.Plus = IconsPlus;
 Icon.Edit = IconsEdit;
@@ -316,5 +325,6 @@ Icon.Tools = IconsTools;
 Icon.Refresh = IconsRefresh;
 Icon.Trash = IconsTrash;
 Icon.Dashboard = IconsDashboard;
+Icon.Contrast = IconsContrast;
 
 export default Icon;

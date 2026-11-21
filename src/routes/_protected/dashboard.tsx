@@ -27,6 +27,8 @@ import {
 	Pagination,
 	Stats,
 	LinkCard,
+	MenuTheme,
+	Stack,
 } from "#/components/index.ts";
 import useDebouncedValue from "#/hooks/useDebouncedValue.ts";
 import useKeyboardShortcuts from "#/hooks/useKeyboardShortcuts.ts";
@@ -160,8 +162,9 @@ function PageDashboard() {
 
 	// new link/collection dialogs
 	const [isAddLinkOpen, setIsAddLinkOpen] = useState(false);
-	const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
 	const [isAddCollectionOpen, setIsAddCollectionOpen] = useState(false);
+	const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
+	const [isThemesOpen, setIsThemesOpen] = useState(false);
 
 	// editing link/collection/tag dialogs
 	const [editingLink, setEditingLink] = useState<LinkRow | null>(null);
@@ -595,6 +598,7 @@ function PageDashboard() {
 			onAddLink={openAddLink}
 			onClearFiltersAndSearchQuery={clearFiltersAndSearchQuery}
 			setIsShortcutsOpen={setIsShortcutsOpen}
+			setIsThemesOpen={setIsThemesOpen}
 			setSelectedCollection={setSelectedCollection}
 			setSelectedTags={setSelectedTags}
 			tags={tags}
@@ -739,6 +743,14 @@ function PageDashboard() {
 				title="Keyboard shortcuts"
 			>
 				<KeyboardShortcuts />
+			</Dialog>
+
+			<Dialog
+				open={isThemesOpen}
+				onClose={() => setIsThemesOpen(false)}
+				title="Theme"
+			>
+				<MenuTheme />
 			</Dialog>
 
 			<Dialog
