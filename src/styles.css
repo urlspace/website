@@ -81,6 +81,11 @@ html {
 	}
 }
 
+input,
+textarea {
+	hanging-punctuation: none;
+}
+
 body {
 	color: var(--color-fg);
 	background-color: var(--color-bg-fade);
