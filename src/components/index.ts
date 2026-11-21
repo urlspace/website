@@ -42,6 +42,8 @@ import LinkCard from "./LinkCard/LinkCard.tsx";
 import LinkCardSlim from "./LinkCard/LinkCardSlim.tsx";
 import Logo from "./Logo/Logo.tsx";
 import Manual from "./Manual/Manual.tsx";
+import MenuElsewhere from "./MenuElsewhere/MenuElsewhere.tsx";
+import MenuTheme from "./MenuTheme/MenuTheme.tsx";
 import Page from "./Page/Page.tsx";
 import Pagination from "./Pagination/Pagination.tsx";
 import Pills from "./Pills/Pills.tsx";
@@ -110,4 +112,6 @@ export {
 	SettingsListTokens,
 	Stack,
 	Stats,
+	MenuElsewhere,
+	MenuTheme,
 };

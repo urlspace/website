@@ -1,6 +1,14 @@
 import { useState } from "react";
 
-import { DashboardButton, DashboardButtonLink, Drawer, Icon, Logo } from "../";
+import {
+	DashboardButton,
+	DashboardButtonLink,
+	Drawer,
+	Icon,
+	Logo,
+	MenuElsewhere,
+	MenuTheme,
+} from "../";
 
 import styles from "./PublicHeader.module.css";
 
@@ -63,28 +71,6 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 		);
 	}
 
-	function socials() {
-		return (
-			<>
-				<li>
-					<DashboardButtonLink to="https://github.com/urlspace" text="GitHub" />
-				</li>
-				<li>
-					<DashboardButtonLink
-						to="https://mastodon.social/@urlspace"
-						text="Mastodon"
-					/>
-				</li>
-				<li>
-					<DashboardButtonLink
-						to="https://bsky.app/profile/url.space"
-						text="Bluesky"
-					/>
-				</li>
-			</>
-		);
-	}
-
 	return (
 		<header className={styles.header}>
 			<Logo to="/" />
@@ -110,7 +96,8 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 					<ul className={styles.drawerList}>
 						{links(() => setIsNavOpen(false))}
 					</ul>
-					<ul className={styles.drawerList}>{socials()}</ul>
+					<MenuElsewhere />
+					<MenuTheme />
 				</nav>
 			</Drawer>
 		</header>

@@ -1,0 +1,28 @@
+.wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.title {
+	font-weight: 600;
+}
+
+.list {
+	display: flex;
+	list-style: none;
+}
+
+.item {
+	display: flex;
+	align-items: center;
+
+	&::after {
+		content: "·" / "";
+		margin-inline: 0.5rem;
+		opacity: 0.5;
+	}
+
+	&:last-child::after {
+		display: none;
+	}
+}
