@@ -1,6 +1,6 @@
 import { DashboardButtonLink } from "..";
 
-import styles from "./menuElsewhere.module.css";
+import styles from "./MenuElsewhere.module.css";
 
 function MenuElsewhere() {
 	return (
