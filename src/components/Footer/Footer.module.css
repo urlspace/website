@@ -1,8 +1,50 @@
+.footer {
+	width: min(100%, 1600px);
+	margin-inline: auto;
+}
+.top {
+	padding-block: 2rlh;
+	display: flex;
+	flex-direction: column;
+	gap: 1rlh;
+
+	@media (width >= 900px) {
+		flex-direction: row;
+		justify-content: space-between;
+	}
+}
+
+.intro {
+	width: min(100%, 500px);
+	display: flex;
+	flex-direction: column;
+	gap: 1rlh;
+}
+
+.menus {
+	display: flex;
+	flex-direction: column;
+	gap: 1rlh;
+
+	@media (width >= 900px) {
+		margin-block-start: 2rlh;
+	}
+
+	@media (width >= 1100px) {
+		gap: 4rlh;
+		flex-direction: row;
+	}
+}
+
 .navList {
 	display: flex;
 	gap: 0.5rlh;
 	list-style: none;
-	font-size: 0.875rem;
+	font-size: 0.8125rem;
+
+	@media (width >= 500px) {
+		font-size: 1rem;
+	}
 
 	& a {
 		font-weight: 400;
