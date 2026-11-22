@@ -7,7 +7,7 @@
 .nav {
 	display: none;
 
-	@media (width >= 900px) {
+	@media (width >= 600px) {
 		display: block;
 	}
 }
@@ -22,7 +22,7 @@
 	display: flex;
 	gap: 0.5lh;
 
-	@media (width >= 900px) {
+	@media (width >= 600px) {
 		display: none;
 	}
 }
