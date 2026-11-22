@@ -165,7 +165,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<meta
 					name="color-scheme"
-					content={theme === "system" ? "light dark" : `${theme} only`}
+					content={theme === "system" ? "light dark" : theme}
 				/>
 				{theme === "system" ? (
 					<>
