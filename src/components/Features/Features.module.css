@@ -1,6 +1,6 @@
 .wrapper {
 	background-color: var(--color-bg);
-	scroll-margin-block-start: 2.5rlh;
+	scroll-margin-block-start: calc(2.5rlh - 1px);
 	box-shadow: inset 0 -1px 0 0 var(--color-border);
 }
 

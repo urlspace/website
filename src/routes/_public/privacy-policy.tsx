@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Heading, Page, Prose } from "#/components/index.ts";
+import { Heading, Page, Prose, Toc } from "#/components/index.ts";
 
 export const Route = createFileRoute("/_public/privacy-policy")({
 	component: PrivacyPolicyPage,
@@ -26,26 +26,28 @@ function PrivacyPolicyPage() {
 					of your personal data. Contact me at{" "}
 					<a href="mailto:mail@url.space">mail@url.space</a>.
 				</p>
-				<ul>
-					<li>
-						<a href="#what-i-collect">What I collect</a>
-					</li>
-					<li>
-						<a href="#why-i-use-it">Why I use it</a>
-					</li>
-					<li>
-						<a href="#who-can-see-it">Who can see it</a>
-					</li>
-					<li>
-						<a href="#cookies">Cookies</a>
-					</li>
-					<li>
-						<a href="#how-long-i-keep-it">How long I keep it</a>
-					</li>
-					<li>
-						<a href="#your-rights">Your rights</a>
-					</li>
-				</ul>
+				<Toc>
+					<ul>
+						<li>
+							<a href="#what-i-collect">What I collect</a>
+						</li>
+						<li>
+							<a href="#why-i-use-it">Why I use it</a>
+						</li>
+						<li>
+							<a href="#who-can-see-it">Who can see it</a>
+						</li>
+						<li>
+							<a href="#cookies">Cookies</a>
+						</li>
+						<li>
+							<a href="#how-long-i-keep-it">How long I keep it</a>
+						</li>
+						<li>
+							<a href="#your-rights">Your rights</a>
+						</li>
+					</ul>
+				</Toc>
 
 				<hr />
 

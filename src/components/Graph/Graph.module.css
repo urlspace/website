@@ -1,5 +1,6 @@
 .graph {
 	display: none;
+	mask-image: linear-gradient(to bottom, #0000, #000 6rlh);
 
 	@media (width >= 900px) {
 		display: flex;

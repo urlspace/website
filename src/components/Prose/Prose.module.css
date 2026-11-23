@@ -3,7 +3,8 @@
 	flex-direction: column;
 	gap: 1rlh;
 
-	& ul {
+	/* :where() keeps this weaker than component styles, such as Toc's */
+	& :where(ul) {
 		padding-inline-start: 1rlh;
 	}
 

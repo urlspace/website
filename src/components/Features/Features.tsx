@@ -11,41 +11,46 @@ function Features() {
 				<div className={styles.item}>
 					<Heading level={2} text="Save, organise and browse" />
 					<p>
-						Saving links is simple on its own, and browser extensions and
-						integrations with the tools you already use make it even easier.
-						Group links into collections, add tags, mark favourites and keep a
-						list for later.
+						Saving links is instant. Organise them however you like, mark
+						favourites, keep some for later, then find any of them with powerful
+						filters. No clutter, no features you'll never use, just what a good
+						bookmarking service needs.
 					</p>
-					<Link to="/docs">Learn more about links</Link>
+					<Link to="/documentation/core-concepts">Explore core concepts</Link>
 				</div>
 				<div className={styles.item}>
 					<Heading level={2} text="Private and public collections" />
 					<p>
 						Collections are private by default, but some lists are meant to be
-						shared, like a wedding wishlist, a course reading list or your
-						favourite conference talks. Make a collection public to give it its
-						own page and RSS feed, and let anyone clone it into their own
-						account. Available on Unlimited.
+						shared, like a wishlist or your favourite conference talks. A public
+						collection gets its own page and RSS feed, and anyone can clone it
+						into their own account. Add a password to keep it to the people you
+						choose.
 					</p>
-					<Link to="/docs">Learn more about collections</Link>
+					<Link to="/documentation/core-concepts/collections">
+						Learn more about collections
+					</Link>
 				</div>
 				<div className={styles.item}>
 					<Heading level={2} text="No AI features" />
 					<p>
 						In an age when AI assistants are built into washing machines and
 						toasters, you don't need another one telling you how to save a link.
-						No intelligent suggestions, just you and your curated list of links.
+						No intelligent suggestions, no auto categorisation, just you and
+						your curated list of links.
 					</p>
-					<Link to="/docs">Learn more about the no-AI approach</Link>
+					<Link to="/" hash="about">
+						Thinking behind url.space
+					</Link>
 				</div>
 				<div className={styles.item}>
 					<Heading level={2} text="Open source" />
 					<p>
 						Built in public, with privacy and transparency at its core. Only the
 						data needed to run the service is collected. Every line of code is
-						open source on <a href="https://github.com/urlspace">GitHub</a>.
+						open source.
 					</p>
-					<Link to="/docs">Learn more about the project</Link>
+					<a href="https://github.com/urlspace">Check the project on GitHub</a>
 				</div>
 				<div className={styles.item}>
 					<Heading level={2} text="API for developers" />
@@ -54,7 +59,7 @@ function Features() {
 						collections without opening the website. Automate your workflow,
 						connect your apps, and share what you've built.
 					</p>
-					<Link to="/docs">Learn more about the API</Link>
+					<Link to="/documentation/api">Go to the API documentation</Link>
 				</div>
 			</div>
 		</section>

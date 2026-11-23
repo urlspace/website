@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Intro, Features, Pricing } from "#/components";
+import { Intro, Features, Pricing, About } from "#/components";
 import { getCountry } from "#/queries/country.ts";
 
 export const Route = createFileRoute("/_public/")({
@@ -16,6 +16,7 @@ function App() {
 		<div>
 			<Intro hasSession={hasSession} />
 			<Features />
+			<About />
 			<Pricing hasSession={hasSession} country={country} />
 		</div>
 	);

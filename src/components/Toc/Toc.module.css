@@ -1,0 +1,10 @@
+.toc {
+	& ul {
+		list-style: none;
+		padding-inline-start: 0;
+	}
+
+	& ul ul {
+		margin-inline-start: 1rlh;
+	}
+}

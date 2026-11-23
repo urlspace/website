@@ -17,7 +17,6 @@ import { Route as ProtectedSettingsRouteImport } from './routes/_protected/setti
 import { Route as ProtectedToolsRouteImport } from './routes/_protected/tools'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicAuthRouteRouteImport } from './routes/_public/auth/route'
-import { Route as PublicDocsRouteImport } from './routes/_public/docs'
 import { Route as PublicPrivacyPolicyRouteImport } from './routes/_public/privacy-policy'
 import { Route as PublicTermsOfServiceRouteImport } from './routes/_public/terms-of-service'
 import { Route as ToolsBookmarksDothtmlRouteImport } from './routes/tools.bookmarks[.]html'
@@ -26,10 +25,20 @@ import { Route as PublicUsernameIndexRouteImport } from './routes/_public/$usern
 import { Route as PublicUsernameSlugRouteImport } from './routes/_public/$username/$slug'
 import { Route as PublicAuthResendVerificationRouteImport } from './routes/_public/auth/resend-verification'
 import { Route as PublicAuthSigninRouteImport } from './routes/_public/auth/signin'
+import { Route as PublicDocumentationIndexRouteImport } from './routes/_public/documentation/index'
+import { Route as PublicDocumentationApiRouteImport } from './routes/_public/documentation/api'
+import { Route as PublicDocumentationBrowserExtensionsRouteImport } from './routes/_public/documentation/browser-extensions'
+import { Route as PublicDocumentationDesktopAndMobileAppsRouteImport } from './routes/_public/documentation/desktop-and-mobile-apps'
 import { Route as PublicAuthResetPasswordIndexRouteImport } from './routes/_public/auth/reset-password/index'
 import { Route as PublicAuthResetPasswordTokenRouteImport } from './routes/_public/auth/reset-password/$token'
 import { Route as PublicAuthSignupIndexRouteImport } from './routes/_public/auth/signup/index'
 import { Route as PublicAuthSignupTokenRouteImport } from './routes/_public/auth/signup/$token'
+import { Route as PublicDocumentationCoreConceptsIndexRouteImport } from './routes/_public/documentation/core-concepts/index'
+import { Route as PublicDocumentationCoreConceptsCollectionsRouteImport } from './routes/_public/documentation/core-concepts/collections'
+import { Route as PublicDocumentationCoreConceptsLinksRouteImport } from './routes/_public/documentation/core-concepts/links'
+import { Route as PublicDocumentationCoreConceptsTagsRouteImport } from './routes/_public/documentation/core-concepts/tags'
+import { Route as PublicDocumentationIntegrationsIndexRouteImport } from './routes/_public/documentation/integrations/index'
+import { Route as PublicDocumentationIntegrationsAppleShortcutsRouteImport } from './routes/_public/documentation/integrations/apple-shortcuts'
 
 const ProtectedRoute = ProtectedRouteImport.update({
   id: '/_protected',
@@ -68,11 +77,6 @@ const PublicIndexRoute = PublicIndexRouteImport.update({
 const PublicAuthRouteRoute = PublicAuthRouteRouteImport.update({
   id: '/auth',
   path: '/auth',
-  getParentRoute: () => PublicRoute,
-} as any)
-const PublicDocsRoute = PublicDocsRouteImport.update({
-  id: '/docs',
-  path: '/docs',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicPrivacyPolicyRoute = PublicPrivacyPolicyRouteImport.update({
@@ -116,6 +120,29 @@ const PublicAuthSigninRoute = PublicAuthSigninRouteImport.update({
   path: '/signin',
   getParentRoute: () => PublicAuthRouteRoute,
 } as any)
+const PublicDocumentationIndexRoute =
+  PublicDocumentationIndexRouteImport.update({
+    id: '/documentation/',
+    path: '/documentation/',
+    getParentRoute: () => PublicRoute,
+  } as any)
+const PublicDocumentationApiRoute = PublicDocumentationApiRouteImport.update({
+  id: '/documentation/api',
+  path: '/documentation/api',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicDocumentationBrowserExtensionsRoute =
+  PublicDocumentationBrowserExtensionsRouteImport.update({
+    id: '/documentation/browser-extensions',
+    path: '/documentation/browser-extensions',
+    getParentRoute: () => PublicRoute,
+  } as any)
+const PublicDocumentationDesktopAndMobileAppsRoute =
+  PublicDocumentationDesktopAndMobileAppsRouteImport.update({
+    id: '/documentation/desktop-and-mobile-apps',
+    path: '/documentation/desktop-and-mobile-apps',
+    getParentRoute: () => PublicRoute,
+  } as any)
 const PublicAuthResetPasswordIndexRoute =
   PublicAuthResetPasswordIndexRouteImport.update({
     id: '/reset-password/',
@@ -138,6 +165,42 @@ const PublicAuthSignupTokenRoute = PublicAuthSignupTokenRouteImport.update({
   path: '/signup/$token',
   getParentRoute: () => PublicAuthRouteRoute,
 } as any)
+const PublicDocumentationCoreConceptsIndexRoute =
+  PublicDocumentationCoreConceptsIndexRouteImport.update({
+    id: '/documentation/core-concepts/',
+    path: '/documentation/core-concepts/',
+    getParentRoute: () => PublicRoute,
+  } as any)
+const PublicDocumentationCoreConceptsCollectionsRoute =
+  PublicDocumentationCoreConceptsCollectionsRouteImport.update({
+    id: '/documentation/core-concepts/collections',
+    path: '/documentation/core-concepts/collections',
+    getParentRoute: () => PublicRoute,
+  } as any)
+const PublicDocumentationCoreConceptsLinksRoute =
+  PublicDocumentationCoreConceptsLinksRouteImport.update({
+    id: '/documentation/core-concepts/links',
+    path: '/documentation/core-concepts/links',
+    getParentRoute: () => PublicRoute,
+  } as any)
+const PublicDocumentationCoreConceptsTagsRoute =
+  PublicDocumentationCoreConceptsTagsRouteImport.update({
+    id: '/documentation/core-concepts/tags',
+    path: '/documentation/core-concepts/tags',
+    getParentRoute: () => PublicRoute,
+  } as any)
+const PublicDocumentationIntegrationsIndexRoute =
+  PublicDocumentationIntegrationsIndexRouteImport.update({
+    id: '/documentation/integrations/',
+    path: '/documentation/integrations/',
+    getParentRoute: () => PublicRoute,
+  } as any)
+const PublicDocumentationIntegrationsAppleShortcutsRoute =
+  PublicDocumentationIntegrationsAppleShortcutsRouteImport.update({
+    id: '/documentation/integrations/apple-shortcuts',
+    path: '/documentation/integrations/apple-shortcuts',
+    getParentRoute: () => PublicRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
@@ -146,7 +209,6 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof ProtectedDashboardRoute
   '/settings': typeof ProtectedSettingsRoute
   '/tools': typeof ProtectedToolsRoute
-  '/docs': typeof PublicDocsRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/tools/bookmarks.html': typeof ToolsBookmarksDothtmlRoute
@@ -154,11 +216,21 @@ export interface FileRoutesByFullPath {
   '/$username/$slug': typeof PublicUsernameSlugRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/auth/signin': typeof PublicAuthSigninRoute
+  '/documentation/api': typeof PublicDocumentationApiRoute
+  '/documentation/browser-extensions': typeof PublicDocumentationBrowserExtensionsRoute
+  '/documentation/desktop-and-mobile-apps': typeof PublicDocumentationDesktopAndMobileAppsRoute
   '/$username/': typeof PublicUsernameIndexRoute
+  '/documentation/': typeof PublicDocumentationIndexRoute
   '/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/auth/signup/$token': typeof PublicAuthSignupTokenRoute
+  '/documentation/core-concepts/collections': typeof PublicDocumentationCoreConceptsCollectionsRoute
+  '/documentation/core-concepts/links': typeof PublicDocumentationCoreConceptsLinksRoute
+  '/documentation/core-concepts/tags': typeof PublicDocumentationCoreConceptsTagsRoute
+  '/documentation/integrations/apple-shortcuts': typeof PublicDocumentationIntegrationsAppleShortcutsRoute
   '/auth/reset-password/': typeof PublicAuthResetPasswordIndexRoute
   '/auth/signup/': typeof PublicAuthSignupIndexRoute
+  '/documentation/core-concepts/': typeof PublicDocumentationCoreConceptsIndexRoute
+  '/documentation/integrations/': typeof PublicDocumentationIntegrationsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
@@ -167,7 +239,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof ProtectedDashboardRoute
   '/settings': typeof ProtectedSettingsRoute
   '/tools': typeof ProtectedToolsRoute
-  '/docs': typeof PublicDocsRoute
   '/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/tools/bookmarks.html': typeof ToolsBookmarksDothtmlRoute
@@ -175,11 +246,21 @@ export interface FileRoutesByTo {
   '/$username/$slug': typeof PublicUsernameSlugRoute
   '/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/auth/signin': typeof PublicAuthSigninRoute
+  '/documentation/api': typeof PublicDocumentationApiRoute
+  '/documentation/browser-extensions': typeof PublicDocumentationBrowserExtensionsRoute
+  '/documentation/desktop-and-mobile-apps': typeof PublicDocumentationDesktopAndMobileAppsRoute
   '/$username': typeof PublicUsernameIndexRoute
+  '/documentation': typeof PublicDocumentationIndexRoute
   '/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/auth/signup/$token': typeof PublicAuthSignupTokenRoute
+  '/documentation/core-concepts/collections': typeof PublicDocumentationCoreConceptsCollectionsRoute
+  '/documentation/core-concepts/links': typeof PublicDocumentationCoreConceptsLinksRoute
+  '/documentation/core-concepts/tags': typeof PublicDocumentationCoreConceptsTagsRoute
+  '/documentation/integrations/apple-shortcuts': typeof PublicDocumentationIntegrationsAppleShortcutsRoute
   '/auth/reset-password': typeof PublicAuthResetPasswordIndexRoute
   '/auth/signup': typeof PublicAuthSignupIndexRoute
+  '/documentation/core-concepts': typeof PublicDocumentationCoreConceptsIndexRoute
+  '/documentation/integrations': typeof PublicDocumentationIntegrationsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -190,7 +271,6 @@ export interface FileRoutesById {
   '/_protected/dashboard': typeof ProtectedDashboardRoute
   '/_protected/settings': typeof ProtectedSettingsRoute
   '/_protected/tools': typeof ProtectedToolsRoute
-  '/_public/docs': typeof PublicDocsRoute
   '/_public/privacy-policy': typeof PublicPrivacyPolicyRoute
   '/_public/terms-of-service': typeof PublicTermsOfServiceRoute
   '/tools/bookmarks.html': typeof ToolsBookmarksDothtmlRoute
@@ -199,11 +279,21 @@ export interface FileRoutesById {
   '/_public/$username/$slug': typeof PublicUsernameSlugRoute
   '/_public/auth/resend-verification': typeof PublicAuthResendVerificationRoute
   '/_public/auth/signin': typeof PublicAuthSigninRoute
+  '/_public/documentation/api': typeof PublicDocumentationApiRoute
+  '/_public/documentation/browser-extensions': typeof PublicDocumentationBrowserExtensionsRoute
+  '/_public/documentation/desktop-and-mobile-apps': typeof PublicDocumentationDesktopAndMobileAppsRoute
   '/_public/$username/': typeof PublicUsernameIndexRoute
+  '/_public/documentation/': typeof PublicDocumentationIndexRoute
   '/_public/auth/reset-password/$token': typeof PublicAuthResetPasswordTokenRoute
   '/_public/auth/signup/$token': typeof PublicAuthSignupTokenRoute
+  '/_public/documentation/core-concepts/collections': typeof PublicDocumentationCoreConceptsCollectionsRoute
+  '/_public/documentation/core-concepts/links': typeof PublicDocumentationCoreConceptsLinksRoute
+  '/_public/documentation/core-concepts/tags': typeof PublicDocumentationCoreConceptsTagsRoute
+  '/_public/documentation/integrations/apple-shortcuts': typeof PublicDocumentationIntegrationsAppleShortcutsRoute
   '/_public/auth/reset-password/': typeof PublicAuthResetPasswordIndexRoute
   '/_public/auth/signup/': typeof PublicAuthSignupIndexRoute
+  '/_public/documentation/core-concepts/': typeof PublicDocumentationCoreConceptsIndexRoute
+  '/_public/documentation/integrations/': typeof PublicDocumentationIntegrationsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -214,7 +304,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/settings'
     | '/tools'
-    | '/docs'
     | '/privacy-policy'
     | '/terms-of-service'
     | '/tools/bookmarks.html'
@@ -222,11 +311,21 @@ export interface FileRouteTypes {
     | '/$username/$slug'
     | '/auth/resend-verification'
     | '/auth/signin'
+    | '/documentation/api'
+    | '/documentation/browser-extensions'
+    | '/documentation/desktop-and-mobile-apps'
     | '/$username/'
+    | '/documentation/'
     | '/auth/reset-password/$token'
     | '/auth/signup/$token'
+    | '/documentation/core-concepts/collections'
+    | '/documentation/core-concepts/links'
+    | '/documentation/core-concepts/tags'
+    | '/documentation/integrations/apple-shortcuts'
     | '/auth/reset-password/'
     | '/auth/signup/'
+    | '/documentation/core-concepts/'
+    | '/documentation/integrations/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -235,7 +334,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/settings'
     | '/tools'
-    | '/docs'
     | '/privacy-policy'
     | '/terms-of-service'
     | '/tools/bookmarks.html'
@@ -243,11 +341,21 @@ export interface FileRouteTypes {
     | '/$username/$slug'
     | '/auth/resend-verification'
     | '/auth/signin'
+    | '/documentation/api'
+    | '/documentation/browser-extensions'
+    | '/documentation/desktop-and-mobile-apps'
     | '/$username'
+    | '/documentation'
     | '/auth/reset-password/$token'
     | '/auth/signup/$token'
+    | '/documentation/core-concepts/collections'
+    | '/documentation/core-concepts/links'
+    | '/documentation/core-concepts/tags'
+    | '/documentation/integrations/apple-shortcuts'
     | '/auth/reset-password'
     | '/auth/signup'
+    | '/documentation/core-concepts'
+    | '/documentation/integrations'
   id:
     | '__root__'
     | '/_protected'
@@ -257,7 +365,6 @@ export interface FileRouteTypes {
     | '/_protected/dashboard'
     | '/_protected/settings'
     | '/_protected/tools'
-    | '/_public/docs'
     | '/_public/privacy-policy'
     | '/_public/terms-of-service'
     | '/tools/bookmarks.html'
@@ -266,11 +373,21 @@ export interface FileRouteTypes {
     | '/_public/$username/$slug'
     | '/_public/auth/resend-verification'
     | '/_public/auth/signin'
+    | '/_public/documentation/api'
+    | '/_public/documentation/browser-extensions'
+    | '/_public/documentation/desktop-and-mobile-apps'
     | '/_public/$username/'
+    | '/_public/documentation/'
     | '/_public/auth/reset-password/$token'
     | '/_public/auth/signup/$token'
+    | '/_public/documentation/core-concepts/collections'
+    | '/_public/documentation/core-concepts/links'
+    | '/_public/documentation/core-concepts/tags'
+    | '/_public/documentation/integrations/apple-shortcuts'
     | '/_public/auth/reset-password/'
     | '/_public/auth/signup/'
+    | '/_public/documentation/core-concepts/'
+    | '/_public/documentation/integrations/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -339,13 +456,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAuthRouteRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_public/docs': {
-      id: '/_public/docs'
-      path: '/docs'
-      fullPath: '/docs'
-      preLoaderRoute: typeof PublicDocsRouteImport
-      parentRoute: typeof PublicRoute
-    }
     '/_public/privacy-policy': {
       id: '/_public/privacy-policy'
       path: '/privacy-policy'
@@ -402,6 +512,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAuthSigninRouteImport
       parentRoute: typeof PublicAuthRouteRoute
     }
+    '/_public/documentation/': {
+      id: '/_public/documentation/'
+      path: '/documentation'
+      fullPath: '/documentation/'
+      preLoaderRoute: typeof PublicDocumentationIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/documentation/api': {
+      id: '/_public/documentation/api'
+      path: '/documentation/api'
+      fullPath: '/documentation/api'
+      preLoaderRoute: typeof PublicDocumentationApiRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/documentation/browser-extensions': {
+      id: '/_public/documentation/browser-extensions'
+      path: '/documentation/browser-extensions'
+      fullPath: '/documentation/browser-extensions'
+      preLoaderRoute: typeof PublicDocumentationBrowserExtensionsRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/documentation/desktop-and-mobile-apps': {
+      id: '/_public/documentation/desktop-and-mobile-apps'
+      path: '/documentation/desktop-and-mobile-apps'
+      fullPath: '/documentation/desktop-and-mobile-apps'
+      preLoaderRoute: typeof PublicDocumentationDesktopAndMobileAppsRouteImport
+      parentRoute: typeof PublicRoute
+    }
     '/_public/auth/reset-password/': {
       id: '/_public/auth/reset-password/'
       path: '/reset-password'
@@ -429,6 +567,48 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/signup/$token'
       preLoaderRoute: typeof PublicAuthSignupTokenRouteImport
       parentRoute: typeof PublicAuthRouteRoute
+    }
+    '/_public/documentation/core-concepts/': {
+      id: '/_public/documentation/core-concepts/'
+      path: '/documentation/core-concepts'
+      fullPath: '/documentation/core-concepts/'
+      preLoaderRoute: typeof PublicDocumentationCoreConceptsIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/documentation/core-concepts/collections': {
+      id: '/_public/documentation/core-concepts/collections'
+      path: '/documentation/core-concepts/collections'
+      fullPath: '/documentation/core-concepts/collections'
+      preLoaderRoute: typeof PublicDocumentationCoreConceptsCollectionsRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/documentation/core-concepts/links': {
+      id: '/_public/documentation/core-concepts/links'
+      path: '/documentation/core-concepts/links'
+      fullPath: '/documentation/core-concepts/links'
+      preLoaderRoute: typeof PublicDocumentationCoreConceptsLinksRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/documentation/core-concepts/tags': {
+      id: '/_public/documentation/core-concepts/tags'
+      path: '/documentation/core-concepts/tags'
+      fullPath: '/documentation/core-concepts/tags'
+      preLoaderRoute: typeof PublicDocumentationCoreConceptsTagsRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/documentation/integrations/': {
+      id: '/_public/documentation/integrations/'
+      path: '/documentation/integrations'
+      fullPath: '/documentation/integrations/'
+      preLoaderRoute: typeof PublicDocumentationIntegrationsIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/documentation/integrations/apple-shortcuts': {
+      id: '/_public/documentation/integrations/apple-shortcuts'
+      path: '/documentation/integrations/apple-shortcuts'
+      fullPath: '/documentation/integrations/apple-shortcuts'
+      preLoaderRoute: typeof PublicDocumentationIntegrationsAppleShortcutsRouteImport
+      parentRoute: typeof PublicRoute
     }
   }
 }
@@ -473,22 +653,48 @@ const PublicAuthRouteRouteWithChildren = PublicAuthRouteRoute._addFileChildren(
 
 interface PublicRouteChildren {
   PublicAuthRouteRoute: typeof PublicAuthRouteRouteWithChildren
-  PublicDocsRoute: typeof PublicDocsRoute
   PublicPrivacyPolicyRoute: typeof PublicPrivacyPolicyRoute
   PublicTermsOfServiceRoute: typeof PublicTermsOfServiceRoute
   PublicIndexRoute: typeof PublicIndexRoute
   PublicUsernameSlugRoute: typeof PublicUsernameSlugRoute
+  PublicDocumentationApiRoute: typeof PublicDocumentationApiRoute
+  PublicDocumentationBrowserExtensionsRoute: typeof PublicDocumentationBrowserExtensionsRoute
+  PublicDocumentationDesktopAndMobileAppsRoute: typeof PublicDocumentationDesktopAndMobileAppsRoute
   PublicUsernameIndexRoute: typeof PublicUsernameIndexRoute
+  PublicDocumentationIndexRoute: typeof PublicDocumentationIndexRoute
+  PublicDocumentationCoreConceptsCollectionsRoute: typeof PublicDocumentationCoreConceptsCollectionsRoute
+  PublicDocumentationCoreConceptsLinksRoute: typeof PublicDocumentationCoreConceptsLinksRoute
+  PublicDocumentationCoreConceptsTagsRoute: typeof PublicDocumentationCoreConceptsTagsRoute
+  PublicDocumentationIntegrationsAppleShortcutsRoute: typeof PublicDocumentationIntegrationsAppleShortcutsRoute
+  PublicDocumentationCoreConceptsIndexRoute: typeof PublicDocumentationCoreConceptsIndexRoute
+  PublicDocumentationIntegrationsIndexRoute: typeof PublicDocumentationIntegrationsIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicAuthRouteRoute: PublicAuthRouteRouteWithChildren,
-  PublicDocsRoute: PublicDocsRoute,
   PublicPrivacyPolicyRoute: PublicPrivacyPolicyRoute,
   PublicTermsOfServiceRoute: PublicTermsOfServiceRoute,
   PublicIndexRoute: PublicIndexRoute,
   PublicUsernameSlugRoute: PublicUsernameSlugRoute,
+  PublicDocumentationApiRoute: PublicDocumentationApiRoute,
+  PublicDocumentationBrowserExtensionsRoute:
+    PublicDocumentationBrowserExtensionsRoute,
+  PublicDocumentationDesktopAndMobileAppsRoute:
+    PublicDocumentationDesktopAndMobileAppsRoute,
   PublicUsernameIndexRoute: PublicUsernameIndexRoute,
+  PublicDocumentationIndexRoute: PublicDocumentationIndexRoute,
+  PublicDocumentationCoreConceptsCollectionsRoute:
+    PublicDocumentationCoreConceptsCollectionsRoute,
+  PublicDocumentationCoreConceptsLinksRoute:
+    PublicDocumentationCoreConceptsLinksRoute,
+  PublicDocumentationCoreConceptsTagsRoute:
+    PublicDocumentationCoreConceptsTagsRoute,
+  PublicDocumentationIntegrationsAppleShortcutsRoute:
+    PublicDocumentationIntegrationsAppleShortcutsRoute,
+  PublicDocumentationCoreConceptsIndexRoute:
+    PublicDocumentationCoreConceptsIndexRoute,
+  PublicDocumentationIntegrationsIndexRoute:
+    PublicDocumentationIntegrationsIndexRoute,
 }
 
 const PublicRouteWithChildren =

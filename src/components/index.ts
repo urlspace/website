@@ -1,3 +1,4 @@
+import About from "./About/About.tsx";
 import {
 	Button,
 	ButtonDownload,
@@ -56,6 +57,7 @@ import SettingsListSessions from "./SettingsList/SettingsListSessions.tsx";
 import SettingsListTokens from "./SettingsList/SettingsListTokens.tsx";
 import Stack from "./Stack/Stack.tsx";
 import Stats from "./Stats/Stats.tsx";
+import Toc from "./Toc/Toc.tsx";
 
 export {
 	Button,
@@ -112,6 +114,8 @@ export {
 	SettingsListTokens,
 	Stack,
 	Stats,
+	Toc,
 	MenuElsewhere,
 	MenuTheme,
+	About,
 };

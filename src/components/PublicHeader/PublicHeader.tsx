@@ -29,6 +29,14 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 				<li>
 					<DashboardButtonLink
 						to="/"
+						hash="about"
+						onClick={onNavigate}
+						text="About"
+					/>
+				</li>
+				<li>
+					<DashboardButtonLink
+						to="/"
 						hash="pricing"
 						onClick={onNavigate}
 						text="Pricing"
@@ -36,7 +44,7 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 				</li>
 				<li>
 					<DashboardButtonLink
-						to="/docs"
+						to="/documentation"
 						onClick={onNavigate}
 						text="Documentation"
 					/>
