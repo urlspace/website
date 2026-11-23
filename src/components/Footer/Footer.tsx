@@ -8,15 +8,10 @@ import styles from "./Footer.module.css";
 
 function Footer() {
 	return (
-		<footer className={styles.footer}>
+		<div className={styles.footer}>
 			<div className={styles.top}>
 				<div className={styles.intro}>
 					<Logo to="/dashboard" />
-					<p>
-						A bookmarking service for people who love the web. Save, organise
-						and share links. Open source, no ads, no tracking, no AI. Free for
-						everyday use, unlimited for a small fee.
-					</p>
 					<ul className={styles.navList}>
 						<li>© 2026 url.space</li>
 						<li>
@@ -36,7 +31,7 @@ function Footer() {
 					<MenuTheme />
 				</div>
 			</div>
-		</footer>
+		</div>
 	);
 }
 
