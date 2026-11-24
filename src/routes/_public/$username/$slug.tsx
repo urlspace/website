@@ -10,8 +10,8 @@ import React from "react";
 
 import type { SubmitHelpers } from "#/components/Form/Form";
 import {
-	Button,
-	ButtonLink,
+	ButtonBiggie,
+	ButtonBiggieLink,
 	DashboardButton,
 	DashboardButtonLink,
 	Dialog,
@@ -349,15 +349,18 @@ function PublicCollectionView({
 					is private.
 				</p>
 			) : sessionExpired ? (
-				<ButtonLink text="Sign in" to="/auth/signin" />
+				<ButtonBiggieLink text="Sign in" to="/auth/signin" />
 			) : isOwnCollection ? null : hasSession ? (
-				<Button
+				<ButtonBiggie
 					text="Clone collection"
 					type="button"
 					onClick={openCloneDialog}
 				/>
 			) : (
-				<ButtonLink text="Sign up and clone collection" to="/auth/signup" />
+				<ButtonBiggieLink
+					text="Sign up and clone collection"
+					to="/auth/signup"
+				/>
 			)}
 		</>
 	);

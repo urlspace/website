@@ -1,7 +1,7 @@
 import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
 
 import {
-	ButtonLink,
+	ButtonBiggieLink,
 	DashboardButton,
 	Heading,
 	Icon,
@@ -92,7 +92,7 @@ function PagePublicUser() {
 					? "Bring your favourite links together and share your collections with the world."
 					: "Create a free account to save your favourite links and organise them your way."}
 			</p>
-			<ButtonLink
+			<ButtonBiggieLink
 				text={hasSession ? "Go to dashboard" : "Create an account"}
 				to={hasSession ? "/dashboard" : "/auth/signup"}
 			/>

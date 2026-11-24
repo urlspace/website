@@ -9,7 +9,7 @@ import { useState } from "react";
 import { sessionsQueryKey, sessionsQueryOptions } from "#/queries/sessions.ts";
 import { formatDate } from "#/utils/formatDate.ts";
 
-import { Button, DashboardButtonAction, Dialog, Stack } from "..";
+import { ButtonBiggie, DashboardButtonAction, Dialog, Stack } from "..";
 
 import styles from "./SettingsList.module.css";
 
@@ -158,7 +158,7 @@ function SettingsListSessions() {
 				))}
 			</ul>
 
-			<Button
+			<ButtonBiggie
 				disabled={isDeleting}
 				onClick={() => {
 					setErrorMessage(null);
@@ -174,7 +174,7 @@ function SettingsListSessions() {
 			>
 				<Stack>
 					<p>This will sign you out on this device immediately.</p>
-					<Button
+					<ButtonBiggie
 						disabled={isDeleting}
 						text={deleteSession.isPending ? "Signing out..." : "Sign out"}
 						onClick={() => {
@@ -196,7 +196,7 @@ function SettingsListSessions() {
 			>
 				<Stack>
 					<p>This will sign you out of every device, including this one.</p>
-					<Button
+					<ButtonBiggie
 						disabled={isDeleting}
 						text={
 							deleteAllSessions.isPending

@@ -1,4 +1,4 @@
-import { Button } from "..";
+import { ButtonBiggie } from "..";
 
 import styles from "./Pagination.module.css";
 
@@ -14,7 +14,7 @@ function Pagination({
 	return (
 		<div className={styles.pagination}>
 			<div className={styles.previous}>
-				<Button
+				<ButtonBiggie
 					text="Previous"
 					ariaDisabled={page <= 1}
 					onClick={() => {
@@ -28,7 +28,7 @@ function Pagination({
 				Page {page} of {totalPages}
 			</span>
 			<div className={styles.next}>
-				<Button
+				<ButtonBiggie
 					text="Next"
 					ariaDisabled={page >= totalPages}
 					onClick={() => {

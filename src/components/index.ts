@@ -1,8 +1,8 @@
 import About from "./About/About.tsx";
 import {
-	Button,
+	ButtonBiggie,
 	ButtonDownload,
-	ButtonLink,
+	ButtonBiggieLink,
 	ButtonLinkLike,
 } from "./Button/Button.tsx";
 import CopyBox from "./CopyBox/CopyBox.tsx";
@@ -60,9 +60,9 @@ import Stats from "./Stats/Stats.tsx";
 import Toc from "./Toc/Toc.tsx";
 
 export {
-	Button,
+	ButtonBiggie,
 	ButtonDownload,
-	ButtonLink,
+	ButtonBiggieLink,
 	ButtonLinkLike,
 	CopyBox,
 	Dashboard,

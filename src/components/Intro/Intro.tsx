@@ -4,7 +4,7 @@ import appDarkWebp from "#/assets/images/app-dark.webp";
 import appLightAvif from "#/assets/images/app-light.avif";
 import appLightPng from "#/assets/images/app-light.png";
 import appLightWebp from "#/assets/images/app-light.webp";
-import { ButtonLink, Graph, Heading, Stack } from "#/components";
+import { ButtonBiggieLink, Graph, Heading, Stack } from "#/components";
 import useTheme from "#/hooks/useTheme.ts";
 
 import styles from "./Intro.module.css";
@@ -26,9 +26,9 @@ function Intro({ hasSession }: { hasSession: boolean }) {
 							everyday use, unlimited for a small fee.
 						</p>
 						{hasSession ? (
-							<ButtonLink to="/dashboard" text="Go to your dashboard" />
+							<ButtonBiggieLink to="/dashboard" text="Go to your dashboard" />
 						) : (
-							<ButtonLink to="/auth/signup" text="Sign up for free" />
+							<ButtonBiggieLink to="/auth/signup" text="Sign up for free" />
 						)}
 					</Stack>
 				</div>

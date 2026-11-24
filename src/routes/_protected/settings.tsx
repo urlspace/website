@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 import {
-	Button,
+	ButtonBiggie,
 	Dialog,
 	FormDeleteAccount,
 	FormToken,
@@ -109,7 +109,7 @@ function PageProfile() {
 						</p>
 						<SettingsListTokens />
 						{tokens.length < TOKENS_LIMIT ? (
-							<Button
+							<ButtonBiggie
 								onClick={() => {
 									setFormKey((key) => key + 1);
 									setIsCreateTokenOpen(true);
@@ -140,7 +140,7 @@ function PageProfile() {
 							<a href="mailto:mail@url.space">mail@url.space</a>. Sharing
 							feedback is optional.
 						</p>
-						<Button
+						<ButtonBiggie
 							onClick={() => {
 								setFormKey((key) => key + 1);
 								setIsDeleteAccountOpen(true);

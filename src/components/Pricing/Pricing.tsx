@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { Button, ButtonLink, Heading, Icon } from "#/components";
+import { ButtonBiggie, ButtonBiggieLink, Heading, Icon } from "#/components";
 import type { User } from "#/queries/me.ts";
 import { getLocalPrice } from "#/utils/getLocalPrice.ts";
 
@@ -66,10 +66,10 @@ function Pricing({
 	const isRedirecting = createCheckout.isPending || createCheckout.isSuccess;
 	let action: React.ReactNode = null;
 	if (!hasSession || user === null) {
-		action = <ButtonLink to="/auth/signup" text="Sign up for free" />;
+		action = <ButtonBiggieLink to="/auth/signup" text="Sign up for free" />;
 	} else if (user && !user.isUnlimited && !user.isAdmin) {
 		action = (
-			<Button
+			<ButtonBiggie
 				type="button"
 				disabled={isRedirecting}
 				onClick={() => {

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { tokensQueryKey, tokensQueryOptions } from "#/queries/tokens.ts";
 import { formatDate } from "#/utils/formatDate.ts";
 
-import { Button, DashboardButtonAction, Dialog, Stack } from "..";
+import { ButtonBiggie, DashboardButtonAction, Dialog, Stack } from "..";
 
 import styles from "./SettingsList.module.css";
 
@@ -133,7 +133,7 @@ function SettingsListTokens() {
 							immediately prevent apps and scripts using it from accessing your
 							account. This cannot be undone.
 						</p>
-						<Button
+						<ButtonBiggie
 							disabled={revokeToken.isPending}
 							onClick={() => revokeToken.mutate(tokenToRevoke.id)}
 							text={revokeToken.isPending ? "Removing..." : "Remove token"}

@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 import styles from "./Button.module.css";
 
-function Button({
+function ButtonBiggie({
 	text,
 	onClick,
 	type,
@@ -58,7 +58,7 @@ function ButtonLinkLike({
 	);
 }
 
-function ButtonLink({
+function ButtonBiggieLink({
 	text,
 	to,
 	fullWidth,
@@ -87,4 +87,4 @@ function ButtonDownload({ text, href }: { text: string; href: string }) {
 	);
 }
 
-export { Button, ButtonDownload, ButtonLink, ButtonLinkLike };
+export { ButtonBiggie, ButtonDownload, ButtonBiggieLink, ButtonLinkLike };
