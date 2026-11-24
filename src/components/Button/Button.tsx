@@ -5,7 +5,7 @@ import styles from "./Button.module.css";
 function ButtonBiggie({
 	text,
 	onClick,
-	type,
+	type = "button",
 	disabled,
 	ariaDisabled,
 	fullWidth,
@@ -35,7 +35,7 @@ function ButtonBiggie({
 function ButtonLinkLike({
 	text,
 	onClick,
-	type,
+	type = "button",
 	disabled,
 	ariaDisabled,
 }: {

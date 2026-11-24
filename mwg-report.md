@@ -1,6 +1,11 @@
+## About
+
+- [x] Lazy-load the below-the-fold author portrait. Use responsive image candidates sized for its rendered slot and check that narrow viewports do not fetch an image hidden by CSS.
+- [x] Give the portrait concise alternative text that makes sense alongside the nearby author name and bio.
+
 ## Button
 
-- [ ] Default `ButtonBiggie` and `ButtonLinkLike` to `type="button"`. Keep submit behavior explicit at callers that need it.
+- [x] Default `ButtonBiggie` and `ButtonLinkLike` to `type="button"`. Keep submit behavior explicit at callers that need it.
 - [ ] Make both button variants suppress activation when `ariaDisabled` is true. Check click, Enter, and Space, including callers that retain focus at a disabled boundary.
 - [ ] Verify that `ButtonBiggieLink` and `ButtonDownload` retain normal link behavior and visible focus. Check that each download label identifies the file and that the response triggers a download.
 
