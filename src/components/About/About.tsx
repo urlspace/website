@@ -43,7 +43,8 @@ function About() {
 								src={meJpg}
 								width={1000}
 								height={1000}
-								alt="Me, smiling, wearing NN1 Dev Club tshirt, proudly representing a meetup I organise."
+								loading="lazy"
+								alt="Paweł Grzybek, smiling, wearing NN1 Dev Club tshirt at the beach."
 							/>
 						</picture>
 
