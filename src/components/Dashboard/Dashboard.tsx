@@ -73,7 +73,14 @@ function Filters({ children }: { children: React.ReactNode }) {
 
 // main
 function DashboardMain({ children }: { children: React.ReactNode }) {
-	return <main className={styles.main}>{children}</main>;
+	return (
+		<main className={styles.main}>
+			<h1 className="visually-hidden" id="saved-links">
+				Saved links
+			</h1>
+			{children}
+		</main>
+	);
 }
 
 function DashboardMainStats({ children }: { children: React.ReactNode }) {
@@ -103,9 +110,6 @@ function DashboardMainLinks({
 			className={styles.links}
 			aria-labelledby="saved-links"
 		>
-			<h1 className="visually-hidden" id="saved-links">
-				Saved links
-			</h1>
 			{children}
 		</section>
 	);

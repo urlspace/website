@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 import type { CollectionRow } from "#/queries/collections.ts";
 import { siteUrl } from "#/utils/urls.ts";
 
@@ -18,17 +20,21 @@ function DashboardCollectionInfo({
 	onEdit: () => void;
 	onDelete: () => void;
 }) {
+	const headingId = useId();
 	const url = `${siteUrl}/${username}/${collection.slug}`;
 
 	return (
-		<section className={styles.wrapper}>
+		<section className={styles.wrapper} aria-labelledby={headingId}>
 			<div className={styles.content}>
+				<h2 id={headingId} className="visually-hidden">
+					Collection details
+				</h2>
 				<dl className={styles.list}>
 					<div className={styles.item}>
 						<dt className={styles.term}>Collection</dt>
 						<dd className={styles.name}>{collection.name}</dd>
 					</div>
-					{collection.description !== "" ? (
+					{collection.description.trim() !== "" ? (
 						<div className={styles.item}>
 							<dt className={styles.term}>Description</dt>
 							<dd>{collection.description}</dd>
