@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect, useRef, useState } from "react";
 
-import { DashboardButton, Icon, Pills } from "..";
+import { Button, Icon, Pills } from "..";
 import { useFieldIds } from "./context";
 
 import styles from "./Form.module.css";
@@ -180,7 +180,7 @@ function TagsInput({
 					))}
 				</datalist>
 				<div>
-					<DashboardButton
+					<Button
 						onClick={() => {
 							addTag(inputValue);
 							inputRef.current?.focus();

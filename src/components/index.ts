@@ -8,9 +8,9 @@ import {
 import CopyBox from "./CopyBox/CopyBox.tsx";
 import Dashboard from "./Dashboard/Dashboard.tsx";
 import DashboardAccordion from "./DashboardAccordion/DashboardAccordion.tsx";
-import DashboardButton from "./DashboardButton/DashboardButton.tsx";
-import DashboardButtonLink from "./DashboardButton/DashboardButtonLink.tsx";
-import DashboardButtonAction from "./DashboardButtonAction/DashboardButtonAction.tsx";
+import Button from "./DashboardButton/DashboardButton.tsx";
+import ButtonLink from "./DashboardButton/DashboardButtonLink.tsx";
+import ButtonAction from "./DashboardButtonAction/DashboardButtonAction.tsx";
 import DashboardCollectionInfo from "./DashboardCollectionInfo/DashboardCollectionInfo.tsx";
 import DashboardEmpty from "./DashboardEmpty/DashboardEmpty.tsx";
 import DashboardList from "./DashboardList/DashboardList.tsx";
@@ -67,9 +67,9 @@ export {
 	CopyBox,
 	Dashboard,
 	DashboardAccordion,
-	DashboardButton,
-	DashboardButtonAction,
-	DashboardButtonLink,
+	Button,
+	ButtonAction,
+	ButtonLink,
 	DashboardCollectionInfo,
 	DashboardEmpty,
 	DashboardList,

@@ -12,8 +12,8 @@ import type { SubmitHelpers } from "#/components/Form/Form";
 import {
 	ButtonBiggie,
 	ButtonBiggieLink,
-	DashboardButton,
-	DashboardButtonLink,
+	Button,
+	ButtonLink,
 	Dialog,
 	Form,
 	Heading,
@@ -385,7 +385,7 @@ function PublicCollectionView({
 				</Public.Author>
 				<Public.Options>
 					<Public.Option layout>
-						<DashboardButton
+						<Button
 							text="List"
 							onClick={() => setLayout("list")}
 							icon={<Icon.List />}
@@ -393,7 +393,7 @@ function PublicCollectionView({
 						/>
 					</Public.Option>
 					<Public.Option layout>
-						<DashboardButton
+						<Button
 							text="Waterfall"
 							onClick={() => setLayout("masonry")}
 							icon={<Icon.Masonry />}
@@ -402,7 +402,7 @@ function PublicCollectionView({
 					</Public.Option>
 					{!collection.passwordProtected ? (
 						<Public.Option>
-							<DashboardButtonLink
+							<ButtonLink
 								text="Feed"
 								to={`/${encodeURIComponent(username)}/${encodeURIComponent(slug)}/feed.xml`}
 								icon={<Icon.Rss />}
@@ -411,11 +411,7 @@ function PublicCollectionView({
 						</Public.Option>
 					) : null}
 					<Public.Option>
-						<DashboardButton
-							text="Share"
-							onClick={handleShare}
-							icon={<Icon.Share />}
-						/>
+						<Button text="Share" onClick={handleShare} icon={<Icon.Share />} />
 					</Public.Option>
 				</Public.Options>
 			</Public.Header>

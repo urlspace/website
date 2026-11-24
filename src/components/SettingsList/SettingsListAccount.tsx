@@ -13,7 +13,7 @@ import {
 import { formatDate } from "#/utils/formatDate.ts";
 
 import {
-	DashboardButtonAction,
+	ButtonAction,
 	Dialog,
 	FormDisplayName,
 	FormEmail,
@@ -153,7 +153,7 @@ function SettingsListAccount({
 					<dd className={styles.row}>
 						<span className={styles.value}>{user.displayName}</span>
 						<span className={styles.action}>
-							<DashboardButtonAction
+							<ButtonAction
 								onClick={() => {
 									setFormKey((key) => key + 1);
 									setIsChangeDisplayNameOpen(true);
@@ -169,7 +169,7 @@ function SettingsListAccount({
 					<dd className={styles.row}>
 						<span className={styles.value}>{user.username}</span>
 						<span className={styles.action}>
-							<DashboardButtonAction
+							<ButtonAction
 								onClick={() => {
 									setFormKey((key) => key + 1);
 									setIsChangeUsernameOpen(true);
@@ -185,7 +185,7 @@ function SettingsListAccount({
 					<dd className={styles.row}>
 						<span className={styles.value}>{user.email}</span>
 						<span className={styles.action}>
-							<DashboardButtonAction
+							<ButtonAction
 								onClick={() => {
 									setFormKey((key) => key + 1);
 									setIsChangeEmailOpen(true);
@@ -204,7 +204,7 @@ function SettingsListAccount({
 							<span className="visually-hidden">Password is set</span>
 						</span>
 						<span className={styles.action}>
-							<DashboardButtonAction
+							<ButtonAction
 								onClick={() => {
 									setFormKey((key) => key + 1);
 									setIsChangePasswordOpen(true);
@@ -230,7 +230,7 @@ function SettingsListAccount({
 						{user.isAdmin || isPaymentProcessing ? null : user.isUnlimited ? (
 							activeSubscription ? (
 								<span className={styles.action}>
-									<DashboardButtonAction
+									<ButtonAction
 										ariaLabel="Manage subscription"
 										disabled={createPortal.isPending || createPortal.isSuccess}
 										onClick={() => {
@@ -247,7 +247,7 @@ function SettingsListAccount({
 							) : null
 						) : (
 							<span className={styles.action}>
-								<DashboardButtonAction
+								<ButtonAction
 									disabled={
 										createCheckout.isPending || createCheckout.isSuccess
 									}

@@ -1,6 +1,6 @@
 import styles from "./DashboardButton.module.css";
 
-function DashbrardButton({
+function Button({
 	ariaKeyShortcuts,
 	ariaPressed,
 	counter,
@@ -55,4 +55,4 @@ function DashbrardButton({
 	);
 }
 
-export default DashbrardButton;
+export default Button;

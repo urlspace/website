@@ -2,9 +2,9 @@ import { useState } from "react";
 
 import {
 	DashboardAccordion,
-	DashboardButton,
-	DashboardButtonAction,
-	DashboardButtonLink,
+	Button,
+	ButtonAction,
+	ButtonLink,
 	DashboardList,
 	DashboardMenu,
 } from "..";
@@ -89,7 +89,7 @@ function DashboardNav({
 				<Stack gap={0.5}>
 					<DashboardList ariaLabel="Quick filters">
 						<DashboardList.Li>
-							<DashboardButton
+							<Button
 								ariaKeyShortcuts="x"
 								icon={<Icon.List />}
 								onClick={onClearFiltersAndSearchQuery}
@@ -97,7 +97,7 @@ function DashboardNav({
 							/>
 						</DashboardList.Li>
 						<DashboardList.Li>
-							<DashboardButton
+							<Button
 								ariaPressed={favourite}
 								icon={<Icon.Heart />}
 								onClick={() => setFavourite(!favourite)}
@@ -105,7 +105,7 @@ function DashboardNav({
 							/>
 						</DashboardList.Li>
 						<DashboardList.Li>
-							<DashboardButton
+							<Button
 								ariaPressed={forLater}
 								icon={<Icon.Coffee />}
 								onClick={() => setForLater(!forLater)}
@@ -114,11 +114,7 @@ function DashboardNav({
 						</DashboardList.Li>
 					</DashboardList>
 
-					<DashboardButton
-						icon={<Icon.Plus />}
-						onClick={onAddLink}
-						text="Add link"
-					/>
+					<Button icon={<Icon.Plus />} onClick={onAddLink} text="Add link" />
 				</Stack>
 				<DashboardAccordion summary="Collections">
 					<Stack gap={0.5}>
@@ -135,7 +131,7 @@ function DashboardNav({
 														minWidth: 0,
 													}}
 												>
-													<DashboardButton
+													<Button
 														icon={<Icon.Folder />}
 														onClick={() =>
 															setSelectedCollection(
@@ -151,7 +147,7 @@ function DashboardNav({
 												{editModeCollections ? (
 													<DashboardMenu fadeIn order={arr.length - index}>
 														<DashboardMenu.Li>
-															<DashboardButtonAction
+															<ButtonAction
 																text="Edit"
 																ariaLabel={`Edit collection "${c.name}"`}
 																disabled={isDeleting}
@@ -159,7 +155,7 @@ function DashboardNav({
 															/>
 														</DashboardMenu.Li>
 														<DashboardMenu.Li>
-															<DashboardButtonAction
+															<ButtonAction
 																text="Delete"
 																ariaLabel={`Delete collection "${c.name}"`}
 																disabled={isDeleting}
@@ -190,7 +186,7 @@ function DashboardNav({
 														minWidth: 0,
 													}}
 												>
-													<DashboardButton
+													<Button
 														icon={<Icon.FolderPublic />}
 														onClick={() =>
 															setSelectedCollection(
@@ -206,7 +202,7 @@ function DashboardNav({
 												{editModeCollections ? (
 													<DashboardMenu fadeIn order={arr.length - index}>
 														<DashboardMenu.Li>
-															<DashboardButtonAction
+															<ButtonAction
 																text="Edit"
 																ariaLabel={`Edit collection "${c.name}"`}
 																disabled={isDeleting}
@@ -214,7 +210,7 @@ function DashboardNav({
 															/>
 														</DashboardMenu.Li>
 														<DashboardMenu.Li>
-															<DashboardButtonAction
+															<ButtonAction
 																text="Delete"
 																ariaLabel={`Delete collection "${c.name}"`}
 																disabled={isDeleting}
@@ -245,7 +241,7 @@ function DashboardNav({
 														minWidth: 0,
 													}}
 												>
-													<DashboardButton
+													<Button
 														icon={<Icon.Lock />}
 														onClick={() =>
 															setSelectedCollection(
@@ -261,7 +257,7 @@ function DashboardNav({
 												{editModeCollections ? (
 													<DashboardMenu fadeIn order={arr.length - index}>
 														<DashboardMenu.Li>
-															<DashboardButtonAction
+															<ButtonAction
 																text="Edit"
 																ariaLabel={`Edit collection "${c.name}"`}
 																disabled={isDeleting}
@@ -269,7 +265,7 @@ function DashboardNav({
 															/>
 														</DashboardMenu.Li>
 														<DashboardMenu.Li>
-															<DashboardButtonAction
+															<ButtonAction
 																text="Delete"
 																ariaLabel={`Delete collection "${c.name}"`}
 																disabled={isDeleting}
@@ -288,13 +284,13 @@ function DashboardNav({
 						) : null}
 
 						<div>
-							<DashboardButton
+							<Button
 								icon={<Icon.Plus />}
 								onClick={onAddCollection}
 								text="Add collection"
 							/>
 							{collections.length ? (
-								<DashboardButton
+								<Button
 									ariaPressed={editModeCollections}
 									icon={<Icon.Edit />}
 									onClick={() => setEditModeCollections((prev) => !prev)}
@@ -317,7 +313,7 @@ function DashboardNav({
 													minWidth: 0,
 												}}
 											>
-												<DashboardButton
+												<Button
 													icon={<Icon.Tag />}
 													onClick={() =>
 														setSelectedTags(
@@ -336,7 +332,7 @@ function DashboardNav({
 											{editModeTags ? (
 												<DashboardMenu fadeIn order={arr.length - index}>
 													<DashboardMenu.Li>
-														<DashboardButtonAction
+														<ButtonAction
 															text="Rename"
 															ariaLabel={`Rename tag "${t.name}"`}
 															disabled={isDeleting}
@@ -344,7 +340,7 @@ function DashboardNav({
 														/>
 													</DashboardMenu.Li>
 													<DashboardMenu.Li>
-														<DashboardButtonAction
+														<ButtonAction
 															text="Delete"
 															ariaLabel={`Delete tag "${t.name}"`}
 															disabled={isDeleting}
@@ -360,7 +356,7 @@ function DashboardNav({
 							</DashboardList>
 
 							<div>
-								<DashboardButton
+								<Button
 									ariaPressed={editModeTags}
 									icon={<Icon.Edit />}
 									text="Edit tags"
@@ -372,7 +368,7 @@ function DashboardNav({
 				) : null}
 				<DashboardList ariaLabel="Account">
 					<DashboardList.Li>
-						<DashboardButtonLink
+						<ButtonLink
 							icon={<Icon.User />}
 							to="/settings"
 							text="Account settings"
@@ -380,7 +376,7 @@ function DashboardNav({
 						/>
 					</DashboardList.Li>
 					<DashboardList.Li>
-						<DashboardButtonLink
+						<ButtonLink
 							icon={<Icon.Tools />}
 							to="/tools"
 							text="Tools"
@@ -389,7 +385,7 @@ function DashboardNav({
 					</DashboardList.Li>
 					{
 						// <DashboardList.Li>
-						//   <DashboardButton
+						//   <Button
 						//     icon={<Icon.Extension />}
 						//     onClick={() => alert("Browsers extensions")}
 						//     text="Browsers extensions"
@@ -397,21 +393,21 @@ function DashboardNav({
 						// </DashboardList.Li>
 					}
 					<DashboardList.Li hideOnTouchDevice>
-						<DashboardButton
+						<Button
 							icon={<Icon.Keyboard />}
 							onClick={() => setIsShortcutsOpen(true)}
 							text="Keyboard shortcuts"
 						/>
 					</DashboardList.Li>
 					<DashboardList.Li>
-						<DashboardButton
+						<Button
 							icon={<Icon.Contrast />}
 							onClick={() => setIsThemesOpen(true)}
 							text="Theme"
 						/>
 					</DashboardList.Li>
 					<DashboardList.Li>
-						<DashboardButton
+						<Button
 							icon={<Icon.SignOut />}
 							onClick={handleSignOut}
 							text="Sign out"

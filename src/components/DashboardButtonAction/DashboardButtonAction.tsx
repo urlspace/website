@@ -1,6 +1,6 @@
 import styles from "./DashboardButtonAction.module.css";
 
-function DashboardButtonAction({
+function ButtonAction({
 	ariaPressed,
 	ariaLabel,
 	ariaKeyShortcuts,
@@ -40,4 +40,4 @@ function DashboardButtonAction({
 	);
 }
 
-export default DashboardButtonAction;
+export default ButtonAction;

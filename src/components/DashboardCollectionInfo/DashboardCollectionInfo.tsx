@@ -1,7 +1,7 @@
 import type { CollectionRow } from "#/queries/collections.ts";
 import { siteUrl } from "#/utils/urls.ts";
 
-import { CopyBox, DashboardButton, Icon } from "..";
+import { CopyBox, Button, Icon } from "..";
 
 import styles from "./DashboardCollectionInfo.module.css";
 
@@ -52,15 +52,11 @@ function DashboardCollectionInfo({
 					) : null}
 				</dl>
 				<div className={styles.buttons}>
-					<DashboardButton
-						icon={<Icon.Plus />}
-						onClick={onAddLink}
-						text="Add link"
-					/>
+					<Button icon={<Icon.Plus />} onClick={onAddLink} text="Add link" />
 
-					<DashboardButton icon={<Icon.Edit />} onClick={onEdit} text="Edit" />
+					<Button icon={<Icon.Edit />} onClick={onEdit} text="Edit" />
 
-					<DashboardButton
+					<Button
 						icon={<Icon.Trash />}
 						onClick={onDelete}
 						text="Delete"

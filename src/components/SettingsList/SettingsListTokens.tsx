@@ -8,7 +8,7 @@ import { useState } from "react";
 import { tokensQueryKey, tokensQueryOptions } from "#/queries/tokens.ts";
 import { formatDate } from "#/utils/formatDate.ts";
 
-import { ButtonBiggie, DashboardButtonAction, Dialog, Stack } from "..";
+import { ButtonBiggie, ButtonAction, Dialog, Stack } from "..";
 
 import styles from "./SettingsList.module.css";
 
@@ -76,7 +76,7 @@ function SettingsListTokens() {
 								</span>
 							</span>
 							<span className={styles.action}>
-								<DashboardButtonAction
+								<ButtonAction
 									ariaLabel={`Remove token: ${token.description}`}
 									onClick={() => {
 										setErrorMessage(null);

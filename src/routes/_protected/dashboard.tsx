@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 
 import {
 	Dashboard,
-	DashboardButton,
+	Button,
 	DashboardCollectionInfo,
 	DashboardEmpty,
 	Logo,
@@ -619,7 +619,7 @@ function PageDashboard() {
 						collections={collections}
 					/>
 					<Dashboard.HeaderTrigger>
-						<DashboardButton
+						<Button
 							icon={<Icon.Filter />}
 							onClick={() => setIsNavOpen(true)}
 							text="Menu"
@@ -628,19 +628,19 @@ function PageDashboard() {
 				</Dashboard.HeaderSearch>
 				<Dashboard.HeaderActions>
 					<Dashboard.StandaloneOnly>
-						<DashboardButton
+						<Button
 							ariaKeyShortcuts="r"
 							icon={<Icon.Refresh />}
 							onClick={() => void refresh()}
 							text="Refresh"
 						/>
 					</Dashboard.StandaloneOnly>
-					<DashboardButton
+					<Button
 						icon={<Icon.Plus />}
 						onClick={openAddCollection}
 						text="Add collection"
 					/>
-					<DashboardButton
+					<Button
 						ariaKeyShortcuts="n"
 						icon={<Icon.Plus />}
 						onClick={openAddLink}

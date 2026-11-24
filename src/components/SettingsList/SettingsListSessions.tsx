@@ -9,7 +9,7 @@ import { useState } from "react";
 import { sessionsQueryKey, sessionsQueryOptions } from "#/queries/sessions.ts";
 import { formatDate } from "#/utils/formatDate.ts";
 
-import { ButtonBiggie, DashboardButtonAction, Dialog, Stack } from "..";
+import { ButtonBiggie, ButtonAction, Dialog, Stack } from "..";
 
 import styles from "./SettingsList.module.css";
 
@@ -120,7 +120,7 @@ function SettingsListSessions() {
 								{session.current ? ", current device" : ""}
 							</span>
 							<span className={styles.action}>
-								<DashboardButtonAction
+								<ButtonAction
 									disabled={isDeleting}
 									ariaLabel={`Sign out: ${session.description}${session.current ? ", this device" : ""}`}
 									onClick={() => {

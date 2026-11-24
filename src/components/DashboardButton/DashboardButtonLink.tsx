@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 import styles from "./DashboardButton.module.css";
 
-function DashbrardButtonLink({
+function ButtonLink({
 	text,
 	icon,
 	to,
@@ -50,4 +50,4 @@ function DashbrardButtonLink({
 	);
 }
 
-export default DashbrardButtonLink;
+export default ButtonLink;

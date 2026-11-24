@@ -1,6 +1,6 @@
 import useTheme from "#/hooks/useTheme.ts";
 
-import { DashboardButton } from "..";
+import { Button } from "..";
 
 import styles from "./MenuTheme.module.css";
 
@@ -12,21 +12,21 @@ function MenuTheme({ hideTitle }: { hideTitle?: boolean }) {
 			{hideTitle ? null : <p className={styles.title}>Theme:</p>}
 			<ul className={styles.list}>
 				<li className={styles.item}>
-					<DashboardButton
+					<Button
 						ariaPressed={theme === "system"}
 						onClick={() => setTheme("system")}
 						text="System"
 					/>
 				</li>
 				<li className={styles.item}>
-					<DashboardButton
+					<Button
 						ariaPressed={theme === "light"}
 						onClick={() => setTheme("light")}
 						text="Light"
 					/>
 				</li>
 				<li className={styles.item}>
-					<DashboardButton
+					<Button
 						ariaPressed={theme === "dark"}
 						onClick={() => setTheme("dark")}
 						text="Dark"

@@ -12,7 +12,7 @@ import { meQueryOptions } from "#/queries/me.ts";
 import { tagsQueryOptions } from "#/queries/tags.ts";
 import { formatDate } from "#/utils/formatDate.ts";
 
-import { DashboardButtonAction, DashboardMenu } from "..";
+import { ButtonAction, DashboardMenu } from "..";
 
 import styles from "./LinkCard.module.css";
 
@@ -335,7 +335,7 @@ function LinkCard({
 
 				<DashboardMenu>
 					<DashboardMenu.Li>
-						<DashboardButtonAction
+						<ButtonAction
 							ariaPressed={favourite}
 							ariaLabel={`Favourite "${title}"`}
 							ariaKeyShortcuts="f"
@@ -345,7 +345,7 @@ function LinkCard({
 						/>
 					</DashboardMenu.Li>
 					<DashboardMenu.Li>
-						<DashboardButtonAction
+						<ButtonAction
 							ariaPressed={forLater}
 							ariaLabel={`For later "${title}"`}
 							ariaKeyShortcuts="l"
@@ -355,7 +355,7 @@ function LinkCard({
 						/>
 					</DashboardMenu.Li>
 					<DashboardMenu.Li>
-						<DashboardButtonAction
+						<ButtonAction
 							text="Edit"
 							ariaLabel={`Edit "${title}"`}
 							ariaKeyShortcuts="e"
@@ -364,7 +364,7 @@ function LinkCard({
 						/>
 					</DashboardMenu.Li>
 					<DashboardMenu.Li>
-						<DashboardButtonAction
+						<ButtonAction
 							text="Delete"
 							ariaLabel={`Delete "${title}"`}
 							ariaKeyShortcuts="d"

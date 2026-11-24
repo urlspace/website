@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import {
-	DashboardButton,
-	DashboardButtonLink,
+	Button,
+	ButtonLink,
 	Drawer,
 	Icon,
 	Logo,
@@ -19,7 +19,7 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 		return (
 			<>
 				<li>
-					<DashboardButtonLink
+					<ButtonLink
 						to="/"
 						hash="features"
 						onClick={onNavigate}
@@ -27,15 +27,10 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 					/>
 				</li>
 				<li>
-					<DashboardButtonLink
-						to="/"
-						hash="about"
-						onClick={onNavigate}
-						text="About"
-					/>
+					<ButtonLink to="/" hash="about" onClick={onNavigate} text="About" />
 				</li>
 				<li>
-					<DashboardButtonLink
+					<ButtonLink
 						to="/"
 						hash="pricing"
 						onClick={onNavigate}
@@ -43,7 +38,7 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 					/>
 				</li>
 				<li>
-					<DashboardButtonLink
+					<ButtonLink
 						to="/documentation"
 						onClick={onNavigate}
 						text="Documentation"
@@ -51,23 +46,19 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 				</li>
 				{hasSession ? (
 					<li>
-						<DashboardButtonLink
-							to="/dashboard"
-							onClick={onNavigate}
-							text="Dashboard"
-						/>
+						<ButtonLink to="/dashboard" onClick={onNavigate} text="Dashboard" />
 					</li>
 				) : (
 					<>
 						<li>
-							<DashboardButtonLink
+							<ButtonLink
 								to="/auth/signin"
 								onClick={onNavigate}
 								text="Sign in"
 							/>
 						</li>
 						<li>
-							<DashboardButtonLink
+							<ButtonLink
 								to="/auth/signup"
 								onClick={onNavigate}
 								text="Sign up"
@@ -87,13 +78,13 @@ function PublicHeader({ hasSession }: { hasSession: boolean }) {
 			</nav>
 			<div className={styles.buttons}>
 				{hasSession ? (
-					<DashboardButtonLink
+					<ButtonLink
 						to="/dashboard"
 						icon={<Icon.Dashboard />}
 						text="Dashboard"
 					/>
 				) : null}
-				<DashboardButton
+				<Button
 					icon={<Icon.List />}
 					onClick={() => setIsNavOpen(true)}
 					text="Menu"

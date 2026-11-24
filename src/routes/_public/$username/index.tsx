@@ -2,7 +2,7 @@ import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
 
 import {
 	ButtonBiggieLink,
-	DashboardButton,
+	Button,
 	Heading,
 	Icon,
 	LinkCardSlim,
@@ -130,7 +130,7 @@ function PagePublicUser() {
 				<Heading level={1} text={user.displayName} />
 				<Public.Options>
 					<Public.Option layout>
-						<DashboardButton
+						<Button
 							text="List"
 							onClick={() => setLayout("list")}
 							icon={<Icon.List />}
@@ -138,7 +138,7 @@ function PagePublicUser() {
 						/>
 					</Public.Option>
 					<Public.Option layout>
-						<DashboardButton
+						<Button
 							text="Waterfall"
 							onClick={() => setLayout("masonry")}
 							icon={<Icon.Masonry />}
@@ -146,11 +146,7 @@ function PagePublicUser() {
 						/>
 					</Public.Option>
 					<Public.Option>
-						<DashboardButton
-							text="Share"
-							onClick={handleShare}
-							icon={<Icon.Share />}
-						/>
+						<Button text="Share" onClick={handleShare} icon={<Icon.Share />} />
 					</Public.Option>
 				</Public.Options>
 			</Public.Header>

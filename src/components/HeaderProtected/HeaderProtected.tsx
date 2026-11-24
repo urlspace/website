@@ -1,5 +1,5 @@
 import { Icon, Logo } from "..";
-import { DashboardButtonLink } from "..";
+import { ButtonLink } from "..";
 
 import styles from "./HeaderProtected.module.css";
 
@@ -7,7 +7,7 @@ function HeaderProtected() {
 	return (
 		<div className={styles.header}>
 			<Logo to="/dashboard" />
-			<DashboardButtonLink
+			<ButtonLink
 				icon={<Icon.Back />}
 				to="/dashboard"
 				text="Back to dashboard"
