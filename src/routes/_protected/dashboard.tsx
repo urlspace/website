@@ -456,6 +456,7 @@ function PageDashboard() {
 		isPending,
 		isError,
 	} = useQuery(linksQueryOptions(toLinkFilters(parsedQuery, page)));
+	const totalResults = linksResponse?.pagination.totalCount;
 	const links = linksResponse?.data ?? [];
 	const displayedError =
 		criticalError ??
@@ -657,11 +658,18 @@ function PageDashboard() {
 			<Dashboard.Main>
 				<Dashboard.MainStats>
 					<Stats
-						totalResults={linksResponse?.pagination.totalCount}
+						totalResults={totalResults}
 						totalPages={totalPages}
 						currentPage={linksResponse?.pagination.currentPage}
 						linksResponse={linksResponse?.meta.durationMs}
 					/>
+					<output className="visually-hidden" aria-atomic="true">
+						{!isPending && !isError && totalResults !== undefined ? (
+							<span key={query}>
+								{totalResults === 0 ? "No links found." : `Results: ${totalResults}.`}
+							</span>
+						) : null}
+					</output>
 				</Dashboard.MainStats>
 
 				{displayedError ? (
