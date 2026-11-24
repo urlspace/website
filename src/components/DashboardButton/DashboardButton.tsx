@@ -2,6 +2,7 @@ import styles from "./DashboardButton.module.css";
 
 function Button({
 	ariaKeyShortcuts,
+	ariaLabel,
 	ariaPressed,
 	counter,
 	destructive,
@@ -11,6 +12,7 @@ function Button({
 	text,
 }: {
 	ariaKeyShortcuts?: string;
+	ariaLabel?: string;
 	ariaPressed?: boolean;
 	counter?: number;
 	destructive?: boolean;
@@ -28,6 +30,7 @@ function Button({
 			].join(" ")}
 			onClick={disabled ? undefined : onClick}
 			aria-disabled={disabled || undefined}
+			aria-label={ariaLabel}
 			aria-pressed={ariaPressed}
 			aria-keyshortcuts={ariaKeyShortcuts}
 		>
