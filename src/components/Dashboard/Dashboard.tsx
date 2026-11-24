@@ -73,7 +73,7 @@ function Filters({ children }: { children: React.ReactNode }) {
 
 // main
 function DashboardMain({ children }: { children: React.ReactNode }) {
-	return <div className={styles.main}>{children}</div>;
+	return <main className={styles.main}>{children}</main>;
 }
 
 function DashboardMainStats({ children }: { children: React.ReactNode }) {
@@ -96,7 +96,7 @@ function DashboardMainLinks({
 	ref?: React.Ref<HTMLElement>;
 }) {
 	return (
-		<main
+		<section
 			id="main"
 			tabIndex={-1}
 			ref={ref}
@@ -107,7 +107,7 @@ function DashboardMainLinks({
 				Saved links
 			</h1>
 			{children}
-		</main>
+		</section>
 	);
 }
 

@@ -1,20 +1,3 @@
-## About
-
-- [x] Lazy-load the below-the-fold author portrait. Use responsive image candidates sized for its rendered slot and check that narrow viewports do not fetch an image hidden by CSS.
-- [x] Give the portrait concise alternative text that makes sense alongside the nearby author name and bio.
-
-## Button
-
-- [x] Default `ButtonBiggie` and `ButtonLinkLike` to `type="button"`. Keep submit behavior explicit at callers that need it.
-- [x] Make both button variants suppress activation when `ariaDisabled` is true. Check click, Enter, and Space, including callers that retain focus at a disabled boundary.
-- [ ] Verify that `ButtonBiggieLink` and `ButtonBiggieDownload` retain normal link behavior and visible focus. Check that each download label identifies the file and that the response triggers a download.
-
-## CopyBox
-
-- [ ] Make the full value readable and selectable by keyboard if clipboard access fails. The horizontal scroller hides its scrollbar and permanently fades the end of the value.
-- [ ] Verify whether repeated copies of the same value are announced. Keep feedback in the mounted status region and prevent a late clipboard result from announcing a value the component no longer displays.
-- [ ] Use the existing button name as the basis for a single tooltip experience. Check that the `interestfor` enhancement does not produce two tooltips with `title`.
-
 ## Dashboard
 
 - [ ] Put skip links before the repeated header controls. Use fragment links to focusable targets and make sure the destinations scroll into view below the sticky header. Offer “Skip to links” on narrow screens and “Skip to filters” wherever the inline filters are visible.
