@@ -6,8 +6,8 @@
 ## Button
 
 - [x] Default `ButtonBiggie` and `ButtonLinkLike` to `type="button"`. Keep submit behavior explicit at callers that need it.
-- [ ] Make both button variants suppress activation when `ariaDisabled` is true. Check click, Enter, and Space, including callers that retain focus at a disabled boundary.
-- [ ] Verify that `ButtonBiggieLink` and `ButtonDownload` retain normal link behavior and visible focus. Check that each download label identifies the file and that the response triggers a download.
+- [x] Make both button variants suppress activation when `ariaDisabled` is true. Check click, Enter, and Space, including callers that retain focus at a disabled boundary.
+- [ ] Verify that `ButtonBiggieLink` and `ButtonBiggieDownload` retain normal link behavior and visible focus. Check that each download label identifies the file and that the response triggers a download.
 
 ## CopyBox
 

@@ -22,33 +22,7 @@ function ButtonBiggie({
 			className={[styles.button, fullWidth && styles.fullWidth]
 				.filter(Boolean)
 				.join(" ")}
-			onClick={onClick}
-			type={type}
-			disabled={disabled}
-			aria-disabled={ariaDisabled}
-		>
-			{text}
-		</button>
-	);
-}
-
-function ButtonLinkLike({
-	text,
-	onClick,
-	type = "button",
-	disabled,
-	ariaDisabled,
-}: {
-	text: string;
-	onClick?: () => void;
-	type?: "button" | "submit";
-	disabled?: boolean;
-	ariaDisabled?: boolean;
-}) {
-	return (
-		<button
-			className={styles.buttonLinkLike}
-			onClick={onClick}
+			onClick={ariaDisabled ? (event) => event.preventDefault() : onClick}
 			type={type}
 			disabled={disabled}
 			aria-disabled={ariaDisabled}
@@ -79,7 +53,7 @@ function ButtonBiggieLink({
 	);
 }
 
-function ButtonDownload({ text, href }: { text: string; href: string }) {
+function ButtonBiggieDownload({ text, href }: { text: string; href: string }) {
 	return (
 		<a className={styles.button} href={href} download>
 			{text}
@@ -87,4 +61,4 @@ function ButtonDownload({ text, href }: { text: string; href: string }) {
 	);
 }
 
-export { ButtonBiggie, ButtonDownload, ButtonBiggieLink, ButtonLinkLike };
+export { ButtonBiggie, ButtonBiggieDownload, ButtonBiggieLink };

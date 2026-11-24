@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import {
-	ButtonDownload,
+	ButtonBiggieDownload,
 	FormImport,
 	Heading,
 	Stack,
@@ -72,7 +72,7 @@ function PageTools() {
 							HTML file that you can import into any browser, or back into
 							url.space.
 						</p>
-						<ButtonDownload
+						<ButtonBiggieDownload
 							text="Export bookmarks"
 							href="/tools/bookmarks.html"
 						/>

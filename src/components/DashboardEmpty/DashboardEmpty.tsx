@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 
-import { ButtonLinkLike } from "../Button/Button";
+import ButtonLinkLike from "../ButtonLinkLike/ButtonLinkLike";
 
 function DashbrardEmpty({
 	newAccount,

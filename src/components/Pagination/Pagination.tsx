@@ -13,15 +13,12 @@ function Pagination({
 }) {
 	return (
 		<div className={styles.pagination}>
+			{/* Keep focus on Previous or Next when it reaches a page boundary. */}
 			<div className={styles.previous}>
 				<ButtonBiggie
 					text="Previous"
 					ariaDisabled={page <= 1}
-					onClick={() => {
-						if (page > 1) {
-							onPageChange(page - 1);
-						}
-					}}
+					onClick={() => onPageChange(page - 1)}
 				/>
 			</div>
 			<span aria-live="polite">
@@ -31,11 +28,7 @@ function Pagination({
 				<ButtonBiggie
 					text="Next"
 					ariaDisabled={page >= totalPages}
-					onClick={() => {
-						if (page < totalPages) {
-							onPageChange(page + 1);
-						}
-					}}
+					onClick={() => onPageChange(page + 1)}
 				/>
 			</div>
 		</div>

@@ -38,37 +38,6 @@
 	}
 }
 
-.buttonLinkLike {
-	background-color: transparent;
-	color: var(--color-link);
-	font: inherit;
-	border: none;
-	font-weight: 500;
-	text-decoration-line: underline;
-	text-decoration-thickness: 2px;
-	text-underline-offset: 4px;
-
-	&:hover,
-	&:active {
-		color: var(--color-fg);
-	}
-
-	&:focus-visible {
-		outline: 4px dotted var(--color-link);
-		outline-offset: 4px;
-	}
-
-	&:disabled,
-	&[aria-disabled="true"] {
-		opacity: 0.75;
-		cursor: not-allowed;
-
-		&:hover {
-			text-decoration: none;
-		}
-	}
-}
-
 .fullWidth {
 	align-self: stretch;
 }

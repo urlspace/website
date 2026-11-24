@@ -14,7 +14,8 @@ import { meQueryOptions } from "#/queries/me.ts";
 import { slugify } from "#/utils/slugify.ts";
 import { siteUrl } from "#/utils/urls.ts";
 
-import { ButtonBiggie, ButtonLinkLike } from "../Button/Button.tsx";
+import { ButtonBiggie } from "../Button/Button.tsx";
+import ButtonLinkLike from "../ButtonLinkLike/ButtonLinkLike.tsx";
 import CopyBox from "../CopyBox/CopyBox.tsx";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 import Stack from "../Stack/Stack.tsx";

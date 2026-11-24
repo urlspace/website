@@ -32,8 +32,6 @@ function Verify() {
 	const [errorStatus, setErrorStatus] = useState<number | null>(null);
 
 	async function handleActivate() {
-		if (isLoading) return;
-
 		setErrorStatus(null);
 		setIsLoading(true);
 
@@ -99,6 +97,7 @@ function Verify() {
 		<Stack gap={2}>
 			<Heading level={1} text="Welcome to url.space" />
 			<p>Activate your account and sign in.</p>
+			{/* Keep focus on the activation button while the request is pending. */}
 			<ButtonBiggie
 				type="button"
 				text={
