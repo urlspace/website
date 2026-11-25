@@ -68,6 +68,7 @@ function Input({
 	maxLength,
 	minLength,
 	name,
+	onBlur,
 	onChange,
 	onDrop,
 	onPaste,
@@ -88,6 +89,7 @@ function Input({
 	maxLength?: number;
 	minLength?: number;
 	name: string;
+	onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 	onChange: (value: string) => void;
 	onDrop?: (e: React.DragEvent<HTMLInputElement>) => void;
 	onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
@@ -126,6 +128,7 @@ function Input({
 				maxLength={maxLength}
 				minLength={minLength}
 				name={name}
+				onBlur={onBlur}
 				onChange={(e) => onChange(e.target.value)}
 				onDrop={onDrop}
 				onPaste={onPaste}

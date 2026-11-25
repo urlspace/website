@@ -152,6 +152,12 @@ function FormLink({
 	const [previewStatus, setPreviewStatus] = useState("");
 	const previewAbortRef = useRef<AbortController | null>(null);
 	const previewRef = useRef<LinkMetadata | null>(null);
+	// The URL of the last preview, so leaving the field again doesn't refetch
+	// it. Starts at the saved URL, so editing a link only fetches a new one.
+	const lastPreviewedUrlRef = useRef<string | null>(link?.url ?? null);
+	// Whether a field holds the user's own text, which the preview leaves
+	// alone. Only user typing goes through the inputs' onChange.
+	const editedRef = useRef({ title: false, description: false });
 	// The collection created by a submit whose link save then failed, so a
 	// retry with the same name reuses it instead of creating it again.
 	const createdCollectionRef = useRef<{ name: string; id: string } | null>(
@@ -165,13 +171,16 @@ function FormLink({
 	}, []);
 
 	function previewUrl(text: string) {
-		const pasted = text.trim();
-		if (!isValidLinkUrl(pasted) || (title.trim() && description.trim())) {
+		const target = text.trim();
+		if (!isValidLinkUrl(target) || (title.trim() && description.trim())) {
 			return;
 		}
-		const titleWasEmpty = !title.trim();
-		const descriptionWasEmpty = !description.trim();
 
+		lastPreviewedUrlRef.current = target;
+		editedRef.current = {
+			title: !!title.trim(),
+			description: !!description.trim(),
+		};
 		previewAbortRef.current?.abort();
 		const controller = new AbortController();
 		previewAbortRef.current = controller;
@@ -183,12 +192,16 @@ function FormLink({
 			method: "POST",
 			credentials: "include",
 			headers: { "content-type": "application/json" },
-			body: JSON.stringify({ url: pasted }),
+			body: JSON.stringify({ url: target }),
 			signal: controller.signal,
 		})
 			.then(async (res) => {
-				// Any failure leaves the fields for the user to fill in.
+				// Any failure leaves the fields for the user to fill in, and lets
+				// leaving the URL field try again.
 				if (!res.ok) {
+					if (previewAbortRef.current === controller) {
+						lastPreviewedUrlRef.current = null;
+					}
 					return;
 				}
 				const preview = ((await res.json()) as { data: LinkMetadata }).data;
@@ -199,8 +212,9 @@ function FormLink({
 				await typeInto(setTitle, preview.title, controller.signal);
 				await typeInto(setDescription, preview.description, controller.signal);
 				if (!controller.signal.aborted) {
-					const titleFilled = titleWasEmpty && preview.title;
-					const descriptionFilled = descriptionWasEmpty && preview.description;
+					const titleFilled = preview.title && !editedRef.current.title;
+					const descriptionFilled =
+						preview.description && !editedRef.current.description;
 					if (titleFilled && descriptionFilled) {
 						setPreviewStatus("Title and description filled in.");
 					} else if (titleFilled) {
@@ -210,7 +224,14 @@ function FormLink({
 					}
 				}
 			})
-			.catch(() => {})
+			.catch(() => {
+				if (
+					!controller.signal.aborted &&
+					previewAbortRef.current === controller
+				) {
+					lastPreviewedUrlRef.current = null;
+				}
+			})
 			.finally(() => {
 				if (previewAbortRef.current === controller) {
 					previewRef.current = null;
@@ -449,6 +470,16 @@ function FormLink({
 			<Form.Input
 				label="URL"
 				name="url"
+				onBlur={() => {
+					// Switching tab or app also blurs the field, often mid-typing.
+					if (
+						!document.hasFocus() ||
+						url.trim() === lastPreviewedUrlRef.current
+					) {
+						return;
+					}
+					previewUrl(url);
+				}}
 				onChange={setUrl}
 				onDrop={(e) => {
 					previewUrl(e.dataTransfer.getData("text"));
@@ -465,7 +496,10 @@ function FormLink({
 			<Form.Input
 				label="Title"
 				name="title"
-				onChange={setTitle}
+				onChange={(value) => {
+					editedRef.current.title = true;
+					setTitle(value);
+				}}
 				placeholder={isFetching ? "Fetching title…" : "Responsive Web Design"}
 				required
 				type="text"
@@ -477,7 +511,10 @@ function FormLink({
 			<Form.Input
 				label="Description"
 				name="description-link"
-				onChange={setDescription}
+				onChange={(value) => {
+					editedRef.current.description = true;
+					setDescription(value);
+				}}
 				placeholder={
 					isFetching
 						? "Fetching description…"
