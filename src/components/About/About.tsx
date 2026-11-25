@@ -14,25 +14,24 @@ function About() {
 					<div className={styles.content}>
 						<Heading level={2} text="Why another bookmarking service?" />
 						<p>
-							The web is filling up with junk. AI-written articles have
-							outnumbered human ones, and bots now generate more traffic than we
-							do. Search engines have stopped sending us to websites. Instead,
-							they serve up a mediocre mashup of someone else's work without
-							crediting the original creators, while tracking us and selling
-							everything they learn. I don't care about that internet. I care
-							about the one built by people, for people.
+							The web is filling up with junk, and{" "}
+							<a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/bots-have-now-passed-human-traffic-online-cloudflare-boss-laments-says-agentic-traffic-wasnt-expected-to-eclipse-real-people-until-next-year">
+								bots now generate more traffic than we do
+							</a>
+							. Search engines no longer search. They track us, sell our data
+							and serve up a mediocre mashup of other people's work with no
+							credit given. I don't care about that internet. I care about the
+							one built by people, for people.
 						</p>
 
 						<p>
-							Browser bookmarks suck. I've tried pretty much{" "}
-							<a href="https://url.space/pawelgrzybek/bookmarking-tools">
-								every bookmarking service out there
-							</a>
-							. Plenty of them are good, but most have drifted into adding
-							features a bookmarking tool simply doesn't need. So I
+							Save the links you care about before they get lost in the slop.
+							Browser bookmarks suck, and I've tried pretty much every
+							bookmarking service out there. Plenty are good, but most have
+							drifted into features a bookmarking tool doesn't need. So I
 							cherry-picked what matters and built url.space. Accessibility,
-							performance and user experience come first, and everything else
-							has to earn its place.
+							performance and user experience come first. Everything else has to
+							earn its place.
 						</p>
 					</div>
 					<aside className={styles.author} aria-label="About the author">
@@ -57,6 +56,7 @@ function About() {
 								I'm a software developer from Poland living in Northampton, UK.
 								I'm a web standards enthusiast, accessibility advocate, and
 								simplicity guardian. The guy behind the{" "}
+								<a href="https://url.space">url.space</a> and{" "}
 								<a href="https://nn1.dev">NN1 Dev Club meetup</a>. After-hours
 								hip hop head, funky records collector, and photographer.
 							</p>
