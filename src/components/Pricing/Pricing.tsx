@@ -160,50 +160,6 @@ function Pricing({
 				<div>
 					<details className={styles.question}>
 						<summary className={styles.summary}>
-							What happens to my links if I downgrade to the free plan?
-							<Icon.ChevronDown />
-						</summary>
-						<p>
-							Your links are never removed. Everything you've saved stays in
-							your account. If you're over the free plan's limit, adding new
-							links is paused until you delete some or upgrade again.
-						</p>
-					</details>
-					<details className={styles.question}>
-						<summary className={styles.summary}>
-							Will my shared collections stay online if I cancel Unlimited?
-							<Icon.ChevronDown />
-						</summary>
-						<p>
-							Sharing is part of Unlimited, so after a downgrade those pages go
-							offline and show "not found". Everything is kept, including
-							addresses and passwords, so upgrading again restores them without
-							you changing anything.
-						</p>
-					</details>
-					<details className={styles.question}>
-						<summary className={styles.summary}>
-							Can I cancel any time?
-							<Icon.ChevronDown />
-						</summary>
-						<p>
-							Yes, in Settings: choose Manage next to your account type. You
-							keep Unlimited until the end of the period you've paid for.
-						</p>
-					</details>
-					<details className={styles.question}>
-						<summary className={styles.summary}>
-							Do you offer refunds?
-							<Icon.ChevronDown />
-						</summary>
-						<p>
-							I offer no extra refunds for a change of mind. Polar handles
-							refund requests, and your legal rights still apply. If you're
-							unsure, try the monthly plan before paying for a year.
-						</p>
-					</details>
-					<details className={styles.question}>
-						<summary className={styles.summary}>
 							Can I import and export my data?
 							<Icon.ChevronDown />
 						</summary>
@@ -216,6 +172,19 @@ function Pricing({
 					</details>
 					<details className={styles.question}>
 						<summary className={styles.summary}>
+							Can I cancel any time?
+							<Icon.ChevronDown />
+						</summary>
+						<p>
+							Yes, from Manage in Settings. Unlimited stays active until the end
+							of the period you've paid for. After that nothing is deleted: over
+							the free limit, adding links is paused, and shared collections go
+							offline but keep their addresses and passwords, so upgrading again
+							brings everything back.
+						</p>
+					</details>
+					<details className={styles.question}>
+						<summary className={styles.summary}>
 							What happens when I delete my account?
 							<Icon.ChevronDown />
 						</summary>
@@ -224,6 +193,13 @@ function Pricing({
 							just hidden: everything associated with yours is permanently
 							removed, and any active subscription is cancelled straight away.
 						</p>
+					</details>
+					<details className={styles.question}>
+						<summary className={styles.summary}>
+							Why pay when I could vibe code this in 20 minutes?
+							<Icon.ChevronDown />
+						</summary>
+						<p>Do it.</p>
 					</details>
 				</div>
 			</div>
