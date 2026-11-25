@@ -1,6 +1,5 @@
-import { Link } from "@tanstack/react-router";
-
-import ButtonLinkLike from "../ButtonLinkLike/ButtonLinkLike";
+import { ButtonBiggie, ButtonBiggieLink } from "../Button/Button";
+import Stack from "../Stack/Stack";
 
 function DashbrardEmpty({
 	newAccount,
@@ -19,16 +18,17 @@ function DashbrardEmpty({
 	}
 
 	return (
-		<p>
-			No links yet!{" "}
-			<ButtonLinkLike
-				type="button"
-				onClick={onAddLink}
-				text="Add your first link"
-			/>{" "}
-			or <Link to="/tools">import your bookmarks</Link>. Folders become
-			collections, and your tags come too.
-		</p>
+		<Stack>
+			<p>
+				Welcome to url.space! Add your first link, or import the bookmarks you
+				already have in your browser or another service.
+			</p>
+			<Stack direction="row" gap={0.5}>
+				<ButtonBiggie text="Add Link" onClick={onAddLink} />
+				<ButtonBiggieLink text="Import bookmarks" to="/tools" />
+			</Stack>
+			<p>Thank you for using url.space 🫶</p>
+		</Stack>
 	);
 }
 
