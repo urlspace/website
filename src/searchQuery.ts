@@ -234,3 +234,14 @@ export function setCollectionFilter(
 		collections.filter((c) => c.id === collectionId).map(collectionToken),
 	);
 }
+
+// Drops the free text and keeps the filters, as typed.
+export function clearFreeTextSearch(
+	raw: string,
+	tags: SearchItem[],
+	collections: SearchItem[],
+) {
+	return parseSearchQuery(raw, tags, collections)
+		.ranges.map(({ start, end }) => raw.slice(start, end))
+		.join(" ");
+}

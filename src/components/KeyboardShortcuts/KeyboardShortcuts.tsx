@@ -41,6 +41,38 @@ function KeyboardShortcuts() {
 				</dl>
 			</section>
 
+			<section className={styles.group} aria-labelledby="shortcuts-filters">
+				<h3 id="shortcuts-filters" className={styles.heading}>
+					Filters
+				</h3>
+				<dl className={styles.list}>
+					<div className={styles.item}>
+						<dt>All</dt>
+						<dd>
+							<kbd>g</kbd> <kbd>a</kbd>
+						</dd>
+					</div>
+					<div className={styles.item}>
+						<dt>Favourite</dt>
+						<dd>
+							<kbd>g</kbd> <kbd>f</kbd>
+						</dd>
+					</div>
+					<div className={styles.item}>
+						<dt>For later</dt>
+						<dd>
+							<kbd>g</kbd> <kbd>l</kbd>
+						</dd>
+					</div>
+					<div className={styles.item}>
+						<dt>Clear search text</dt>
+						<dd>
+							<kbd>x</kbd>
+						</dd>
+					</div>
+				</dl>
+			</section>
+
 			<section className={styles.group} aria-labelledby="shortcuts-link">
 				<h3 id="shortcuts-link" className={styles.heading}>
 					Focused link
@@ -88,12 +120,6 @@ function KeyboardShortcuts() {
 						<dt>Refresh</dt>
 						<dd>
 							<kbd>r</kbd>
-						</dd>
-					</div>
-					<div className={styles.item}>
-						<dt>Clear filters</dt>
-						<dd>
-							<kbd>x</kbd>
 						</dd>
 					</div>
 					<div className={styles.item}>

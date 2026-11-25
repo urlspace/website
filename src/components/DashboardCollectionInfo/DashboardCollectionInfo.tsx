@@ -58,22 +58,22 @@ function DashboardCollectionInfo({
 					) : null}
 				</dl>
 				<div className={styles.buttons}>
-						<Button
-							ariaLabel={`Add link to ${collection.name}`}
-							icon={<Icon.Plus />}
-							onClick={onAddLink}
-							text="Add link"
-						/>
-
-						<Button
-							ariaLabel={`Edit collection "${collection.name}"`}
-							icon={<Icon.Edit />}
-							onClick={onEdit}
-							text="Edit"
-						/>
+					<Button
+						ariaLabel={`Add link to ${collection.name}`}
+						icon={<Icon.Plus />}
+						onClick={onAddLink}
+						text="Add link"
+					/>
 
 					<Button
-							ariaLabel={`Delete collection "${collection.name}"`}
+						ariaLabel={`Edit collection "${collection.name}"`}
+						icon={<Icon.Edit />}
+						onClick={onEdit}
+						text="Edit"
+					/>
+
+					<Button
+						ariaLabel={`Delete collection "${collection.name}"`}
 						icon={<Icon.Trash />}
 						onClick={onDelete}
 						text="Delete"

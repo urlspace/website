@@ -1,6 +1,6 @@
 import { useEffect, useEffectEvent, useRef } from "react";
 
-const G_SEQUENCE_MS = 500;
+const SEQUENCE_MS = 500;
 
 type Options = {
 	// The focusable titles of the items j/k/g/G move between, in order.
@@ -8,24 +8,31 @@ type Options = {
 	onShowShortcuts: () => void;
 	onAddLink: () => void;
 	onRefresh: () => void;
-	onClearFilters: () => void;
+	onClearSearchText: () => void;
+	onGoToAll: () => void;
+	onToggleFavourite: () => void;
+	onToggleForLater: () => void;
 };
 
 // j/k move focus between link card titles (Gmail/GitHub style), G jumps to
-// the last one and gg to the first (Vim style), ? opens the shortcuts
-// dialog, n the add link form, r refreshes the data and x clears every
-// filter. Ignored while typing and when a modifier is held, so browser
-// shortcuts like Ctrl+K keep working.
+// the last one and gg to the first (Vim style), ga/gf/gl work like the All,
+// Favourite and For later buttons, ? opens the shortcuts dialog, n the add
+// link form, r refreshes the data and x clears the search text. Ignored while
+// typing and when a modifier is held, so browser shortcuts like Ctrl+K keep
+// working.
 function useKeyboardShortcuts(options: Options) {
 	const lastG = useRef(Number.NEGATIVE_INFINITY);
 
 	// Sees the latest options on every key press, while the listener below is
 	// added only once.
 	const handleKey = useEffectEvent((e: KeyboardEvent) => {
+		const isSequence = e.timeStamp - lastG.current <= SEQUENCE_MS;
 		if (e.key !== "g") {
 			lastG.current = Number.NEGATIVE_INFINITY;
 		}
-		if (!["j", "k", "g", "G", "?", "n", "r", "x"].includes(e.key)) {
+		if (
+			!["j", "k", "g", "G", "?", "n", "r", "x", "a", "f", "l"].includes(e.key)
+		) {
 			return;
 		}
 		// ignore modifiers so browser shortcuts like Ctrl+K keeps working
@@ -52,6 +59,32 @@ function useKeyboardShortcuts(options: Options) {
 			return;
 		}
 
+		// Recorded before the titles check, so ga/gf/gl work with no links.
+		if (e.key === "g") {
+			if (!isSequence) {
+				lastG.current = e.timeStamp;
+				return;
+			}
+			lastG.current = Number.NEGATIVE_INFINITY;
+		}
+
+		if (e.key === "a" || e.key === "f" || e.key === "l") {
+			if (!isSequence) {
+				return;
+			}
+			e.preventDefault();
+			// Stops a focused link card from also toggling its own flags.
+			e.stopPropagation();
+			if (e.key === "a") {
+				options.onGoToAll();
+			} else if (e.key === "f") {
+				options.onToggleFavourite();
+			} else {
+				options.onToggleForLater();
+			}
+			return;
+		}
+
 		if (e.key === "?") {
 			e.preventDefault();
 			options.onShowShortcuts();
@@ -72,7 +105,7 @@ function useKeyboardShortcuts(options: Options) {
 
 		if (e.key === "x") {
 			e.preventDefault();
-			options.onClearFilters();
+			options.onClearSearchText();
 			return;
 		}
 
@@ -85,11 +118,6 @@ function useKeyboardShortcuts(options: Options) {
 		if (e.key === "G") {
 			next = titles.length - 1;
 		} else if (e.key === "g") {
-			if (e.timeStamp - lastG.current > G_SEQUENCE_MS) {
-				lastG.current = e.timeStamp;
-				return;
-			}
-			lastG.current = Number.NEGATIVE_INFINITY;
 			next = 0;
 		} else {
 			const current = titles.findIndex((a) =>
@@ -106,8 +134,10 @@ function useKeyboardShortcuts(options: Options) {
 	});
 
 	useEffect(() => {
-		window.addEventListener("keydown", handleKey);
-		return () => window.removeEventListener("keydown", handleKey);
+		// Capture runs before the link cards' own f and l handlers.
+		window.addEventListener("keydown", handleKey, { capture: true });
+		return () =>
+			window.removeEventListener("keydown", handleKey, { capture: true });
 	}, []);
 }
 

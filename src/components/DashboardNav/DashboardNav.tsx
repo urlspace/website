@@ -90,7 +90,6 @@ function DashboardNav({
 					<DashboardList ariaLabel="Quick filters">
 						<DashboardList.Li>
 							<Button
-								ariaKeyShortcuts="x"
 								icon={<Icon.List />}
 								onClick={onClearFiltersAndSearchQuery}
 								text="All"

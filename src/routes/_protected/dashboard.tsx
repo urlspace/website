@@ -46,6 +46,7 @@ import { clearSession } from "#/queries/session.ts";
 import { type TagRow, tagsQueryOptions } from "#/queries/tags.ts";
 import {
 	type IsFilter,
+	clearFreeTextSearch,
 	isTypingFilter,
 	parseSearchQuery,
 	renameCollectionFilter,
@@ -243,11 +244,20 @@ function PageDashboard() {
 		applyQuery(next);
 	}
 
-	// "All" and x go back to the unfiltered dashboard. Pushes a history entry,
+	// "All" and ga go back to the unfiltered dashboard. Pushes a history entry,
 	// unlike other filter changes, so Back restores the view.
 	function clearFiltersAndSearchQuery() {
 		setValue("");
 		void navigate({ search: {} });
+	}
+
+	function clearSearchText() {
+		const next = clearFreeTextSearch(value, tags, collections);
+		if (next === value) {
+			return;
+		}
+		setValue(next);
+		applyQuery(next);
 	}
 
 	function setPage(value: number) {
@@ -480,7 +490,10 @@ function PageDashboard() {
 		onShowShortcuts: () => setIsShortcutsOpen(true),
 		onAddLink: openAddLink,
 		onRefresh: () => void refresh(),
-		onClearFilters: clearFiltersAndSearchQuery,
+		onClearSearchText: clearSearchText,
+		onGoToAll: clearFiltersAndSearchQuery,
+		onToggleFavourite: () => setFilter("favourite", !favourite),
+		onToggleForLater: () => setFilter("for-later", !forLater),
 	});
 
 	const totalPages = linksResponse?.pagination.totalPages;
@@ -666,7 +679,9 @@ function PageDashboard() {
 					<output className="visually-hidden" aria-atomic="true">
 						{!isPending && !isError && totalResults !== undefined ? (
 							<span key={query}>
-								{totalResults === 0 ? "No links found." : `Results: ${totalResults}.`}
+								{totalResults === 0
+									? "No links found."
+									: `Results: ${totalResults}.`}
 							</span>
 						) : null}
 					</output>
