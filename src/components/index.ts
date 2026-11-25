@@ -58,6 +58,7 @@ import SettingsListTokens from "./SettingsList/SettingsListTokens.tsx";
 import Stack from "./Stack/Stack.tsx";
 import Stats from "./Stats/Stats.tsx";
 import Toc from "./Toc/Toc.tsx";
+import Upgrade from "./Upgrade/Upgrade.tsx";
 
 export {
 	ButtonBiggie,
@@ -115,6 +116,7 @@ export {
 	Stack,
 	Stats,
 	Toc,
+	Upgrade,
 	MenuElsewhere,
 	MenuTheme,
 	About,

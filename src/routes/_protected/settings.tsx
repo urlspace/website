@@ -12,10 +12,12 @@ import {
 	SettingsListSessions,
 	SettingsListTokens,
 	Stack,
+	Upgrade,
 	HeaderProtected,
 	Page,
 	Footer,
 } from "#/components/index.ts";
+import { countryQueryOptions } from "#/queries/country.ts";
 import { meQueryOptions } from "#/queries/me.ts";
 import { sessionsQueryOptions } from "#/queries/sessions.ts";
 import {
@@ -44,6 +46,7 @@ export const Route = createFileRoute("/_protected/settings")({
 				staleTime: "static",
 			}),
 			context.queryClient.query({ ...tokensQueryOptions, staleTime: "static" }),
+			context.queryClient.query(countryQueryOptions),
 		]);
 	},
 	component: PageProfile,
@@ -94,6 +97,9 @@ function PageProfile() {
 							user={user}
 							isPaymentProcessing={isPaymentProcessing}
 						/>
+						{user.isUnlimited || user.isAdmin || isPaymentProcessing ? null : (
+							<Upgrade returnTo="settings" />
+						)}
 					</Stack>
 
 					<hr />

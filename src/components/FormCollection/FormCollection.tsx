@@ -1,8 +1,4 @@
-import {
-	useMutation,
-	useQueryClient,
-	useSuspenseQuery,
-} from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 import {
@@ -15,10 +11,10 @@ import { slugify } from "#/utils/slugify.ts";
 import { siteUrl } from "#/utils/urls.ts";
 
 import { ButtonBiggie } from "../Button/Button.tsx";
-import ButtonLinkLike from "../ButtonLinkLike/ButtonLinkLike.tsx";
 import CopyBox from "../CopyBox/CopyBox.tsx";
 import Form, { type SubmitHelpers } from "../Form/Form.tsx";
 import Stack from "../Stack/Stack.tsx";
+import Upgrade from "../Upgrade/Upgrade.tsx";
 
 function normalizeName(name: string) {
 	return name.normalize("NFC").trim().replace(/\s+/g, " ").toLowerCase();
@@ -89,48 +85,6 @@ function FormCollection({
 		url: string;
 		password: string | null;
 	} | null>(null);
-	const [upgradeError, setUpgradeError] = useState<string | null>(null);
-
-	const createCheckout = useMutation({
-		mutationFn: async () => {
-			const res = await fetch(
-				`${import.meta.env.VITE_API_URL}/subscriptions/checkout`,
-				{
-					method: "POST",
-					credentials: "include",
-					headers: { "content-type": "application/json" },
-					body: JSON.stringify({ returnTo: "dashboard" }),
-				},
-			);
-			// Reload so the route guard can clear the invalid session and cached data.
-			if (
-				res.status === 401 &&
-				((await res.clone().json()) as { data: string }).data === "unauthorized"
-			) {
-				window.location.reload();
-				throw new Error("Session expired.");
-			}
-
-			if (res.status === 409) {
-				return null;
-			}
-
-			if (!res.ok) throw new Error(`create checkout failed: ${res.status}`);
-
-			const json = (await res.json()) as { data: { url: string } };
-			return json.data.url;
-		},
-		onSuccess: (url) => {
-			if (url === null) {
-				return queryClient.invalidateQueries({ queryKey: ["me"] });
-			}
-			window.location.assign(url);
-		},
-		onError: () => {
-			setUpgradeError("We couldn't start the upgrade. Please try again.");
-		},
-	});
-	const isRedirecting = createCheckout.isPending || createCheckout.isSuccess;
 
 	async function handleSubmit({ setError }: SubmitHelpers) {
 		if (
@@ -360,7 +314,6 @@ function FormCollection({
 
 			<Form.RadioGroup
 				label="Visibility"
-				disabled={isRedirecting}
 				name="visibility"
 				onChange={setVisibility}
 				value={visibility}
@@ -380,30 +333,9 @@ function FormCollection({
 						disabled: !canPublish,
 					},
 				]}
-				// Unlimited users already know what the options do, so the
-				// explanation is only there to sell the upgrade.
-				description={
-					canPublish ? null : (
-						<>
-							Keep a collection private, make it public so anyone can see it and
-							follow it via RSS, or protect it with a password to share it with
-							a few people.{" "}
-							<ButtonLinkLike
-								type="button"
-								disabled={isRedirecting}
-								onClick={() => {
-									setUpgradeError(null);
-									createCheckout.mutate();
-								}}
-								text="Upgrade to Unlimited"
-							/>{" "}
-							to make collections public or password protected.
-						</>
-					)
-				}
 			/>
 
-			{upgradeError ? <p role="alert">{upgradeError}</p> : null}
+			{canPublish ? null : <Upgrade returnTo="dashboard" />}
 
 			{isPublic ? (
 				<Form.Input

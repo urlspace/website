@@ -35,6 +35,7 @@ import {
 	type CollectionRow,
 	collectionsQueryOptions,
 } from "#/queries/collections.ts";
+import { countryQueryOptions } from "#/queries/country.ts";
 import {
 	type LinkFilters,
 	type LinkRow,
@@ -108,6 +109,7 @@ export const Route = createFileRoute("/_protected/dashboard")({
 			}),
 			context.queryClient.query({ ...tagsQueryOptions, staleTime: "static" }),
 			context.queryClient.query({ ...meQueryOptions, staleTime: "static" }),
+			context.queryClient.query(countryQueryOptions),
 		]);
 
 		if (cause === "stay") {
