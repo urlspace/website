@@ -3,6 +3,7 @@ import meJpg from "#/assets/images/me.jpg";
 import meWebp from "#/assets/images/me.webp";
 
 import Heading from "../Heading/Heading";
+import Icon from "../Icons/Icons";
 
 import styles from "./About.module.css";
 
@@ -63,21 +64,34 @@ function About() {
 
 							<ul className={styles.social}>
 								<li>
-									<a href="https://pawelgrzybek.com">Website</a>
-								</li>
-								<li>
-									<a href="https://github.com/pawelgrzybek">GitHub</a>
-								</li>
-								<li>
-									<a href="https://mastodon.social/@pawelgrzybek">Mastodon</a>
-								</li>
-								<li>
-									<a href="https://bsky.app/profile/pawelgrzybek.com">
-										Bluesky
+									<a href="https://pawelgrzybek.com">
+										<Icon.Globe />
+										<span className="visually-hidden">Website</span>
 									</a>
 								</li>
 								<li>
-									<a href="https://www.linkedin.com/in/pgrzybek/">LinkedIn</a>
+									<a href="https://github.com/pawelgrzybek">
+										<Icon.GitHub />
+										<span className="visually-hidden">GitHub</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://mastodon.social/@pawelgrzybek">
+										<Icon.Mastodon />
+										<span className="visually-hidden">Mastodon</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://bsky.app/profile/pawelgrzybek.com">
+										<Icon.Bluesky />
+										<span className="visually-hidden">Bluesky</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://www.linkedin.com/in/pgrzybek/">
+										<Icon.LinkedIn />
+										<span className="visually-hidden">LinkedIn</span>
+									</a>
 								</li>
 							</ul>
 						</div>

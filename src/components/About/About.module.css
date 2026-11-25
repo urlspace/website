@@ -91,7 +91,7 @@
 .bio {
 	display: flex;
 	flex-direction: column;
-	gap: 0.5lh;
+	gap: 0.75lh;
 }
 
 .name {
@@ -106,15 +106,24 @@
 	list-style: none;
 	display: flex;
 	flex-wrap: wrap;
+	gap: 0.75rlh;
 
-	& > li {
-		&::after {
-			content: "·";
-			margin-inline: 0.25rem;
-		}
+	& a {
+		display: block;
+		color: inherit;
+		opacity: 0.75;
 
-		&:last-child::after {
-			display: none;
+		&:hover {
+			@media (hover: hover) and (pointer: fine) {
+				opacity: 1;
+				/* color: var(--color-link); */
+			}
 		}
+	}
+
+	& svg {
+		display: block;
+		width: 0.75rlh;
+		height: 0.75rlh;
 	}
 }
