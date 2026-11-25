@@ -133,8 +133,9 @@ function SignUp() {
 					</Form>
 
 					<p>
-						By signing up, you agree to our{" "}
-						<Link to="/terms-of-service">Terms of Service</Link> and{" "}
+						<Link to="/auth/signin">Sign in</Link> if you already have an
+						account. By signing up, you agree to the{" "}
+						<Link to="/terms-of-service">Terms of service</Link> and{" "}
 						<Link to="/privacy-policy">Privacy Policy</Link>.
 					</p>
 				</>

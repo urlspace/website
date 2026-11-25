@@ -112,6 +112,7 @@ function SignIn() {
 				<Form.Submit text="Sign in" textLoading="Signing in..." />
 			</Form>
 			<p>
+				<Link to="/auth/signup">Sign up</Link> if you don’t have an account yet.{" "}
 				If you forgot your password, go to the{" "}
 				<Link to="/auth/reset-password">password reset page</Link>.
 			</p>
