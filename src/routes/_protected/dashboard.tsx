@@ -774,7 +774,7 @@ function PageDashboard() {
 				onClose={() => setIsThemesOpen(false)}
 				title="Theme"
 			>
-				<MenuTheme hideTitle />
+				<MenuTheme />
 			</Dialog>
 
 			<Dialog

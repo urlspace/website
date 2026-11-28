@@ -3,26 +3,19 @@
 	flex-direction: column;
 }
 
-.title {
-	font-weight: 600;
-}
-
 .list {
 	display: flex;
 	list-style: none;
+	gap: 0.75rlh;
 }
 
 .item {
-	display: flex;
-	align-items: center;
-
-	&::after {
-		content: "·" / "";
-		margin-inline: 0.5rem;
-		opacity: 0.5;
+	a {
+		color: inherit;
 	}
 
-	&:last-child::after {
-		display: none;
+	svg {
+		width: 0.75rlh;
+		height: 0.75rlh;
 	}
 }

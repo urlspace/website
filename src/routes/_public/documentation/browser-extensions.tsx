@@ -19,6 +19,7 @@ function App() {
 	return (
 		<Page.Main>
 			<Heading level={1} text="Browser extensions" />
+			<p>Coming coon. Sorry!</p>
 		</Page.Main>
 	);
 }

@@ -1,28 +1,28 @@
-import { ButtonLink } from "..";
+import { Icon } from "..";
 
 import styles from "./MenuElsewhere.module.css";
 
 function MenuElsewhere() {
 	return (
 		<div className={styles.wrapper}>
-			<p className={styles.title}>Elsewhere:</p>
 			<ul className={styles.list}>
 				<li className={styles.item}>
-					<ButtonLink to="https://github.com/urlspace" rel="me" text="GitHub" />
+					<a href="https://github.com/urlspace">
+						<Icon.GitHub />
+						<span className="visually-hidden">GitHub</span>
+					</a>
 				</li>
 				<li className={styles.item}>
-					<ButtonLink
-						to="https://mastodon.social/@urlspace"
-						rel="me"
-						text="Mastodon"
-					/>
+					<a href="https://mastodon.social/@urlspace">
+						<Icon.Mastodon />
+						<span className="visually-hidden">Mastodon</span>
+					</a>
 				</li>
 				<li className={styles.item}>
-					<ButtonLink
-						to="https://bsky.app/profile/url.space"
-						rel="me"
-						text="Bluesky"
-					/>
+					<a href="https://bsky.app/profile/url.space">
+						<Icon.Bluesky />
+						<span className="visually-hidden">Bluesky</span>
+					</a>
 				</li>
 			</ul>
 		</div>

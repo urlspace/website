@@ -41,16 +41,16 @@ function App() {
 							</li>
 						</ul>
 					</li>
-					<li>
-						<Link to="/documentation/browser-extensions">
-							Browser extensions
-						</Link>
-					</li>
-					<li>
-						<Link to="/documentation/desktop-and-mobile-apps">
-							Desktop and mobile apps
-						</Link>
-					</li>
+					{/* <li> */}
+					{/* 	<Link to="/documentation/browser-extensions"> */}
+					{/* 		Browser extensions */}
+					{/* 	</Link> */}
+					{/* </li> */}
+					{/* <li> */}
+					{/* 	<Link to="/documentation/desktop-and-mobile-apps"> */}
+					{/* 		Desktop and mobile apps */}
+					{/* 	</Link> */}
+					{/* </li> */}
 					<li>
 						<Link to="/documentation/integrations">Integrations</Link>
 						<ul>

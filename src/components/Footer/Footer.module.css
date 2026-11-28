@@ -1,35 +1,9 @@
 .footer {
-	width: min(100%, 1600px);
-	margin-inline: auto;
-}
-.top {
-	padding-block: 2rlh;
+	padding-block: 1.5rlh;
 	display: flex;
 	flex-direction: column;
-	gap: 1rlh;
-
-	@media (width >= 900px) {
-		flex-direction: row;
-		justify-content: space-between;
-	}
-}
-
-.intro {
-	width: min(100%, 500px);
-	display: flex;
-	flex-direction: column;
-	gap: 1rlh;
-}
-
-.menus {
-	display: flex;
-	flex-direction: column;
-	gap: 1rlh;
-
-	@media (width >= 1100px) {
-		gap: 4rlh;
-		flex-direction: row;
-	}
+	align-items: center;
+	gap: 0.75rlh;
 }
 
 .navList {

@@ -4,12 +4,11 @@ import { Button } from "..";
 
 import styles from "./MenuTheme.module.css";
 
-function MenuTheme({ hideTitle }: { hideTitle?: boolean }) {
+function MenuTheme() {
 	const [theme, setTheme] = useTheme();
 
 	return (
 		<div className={styles.wrapper}>
-			{hideTitle ? null : <p className={styles.title}>Theme:</p>}
 			<ul className={styles.list}>
 				<li className={styles.item}>
 					<Button

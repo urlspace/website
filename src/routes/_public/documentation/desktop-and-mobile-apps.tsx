@@ -19,6 +19,7 @@ function App() {
 	return (
 		<Page.Main>
 			<Heading level={1} text="Desktop and mobile apps" />
+			<p>Coming coon. Sorry!</p>
 		</Page.Main>
 	);
 }
