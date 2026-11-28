@@ -355,39 +355,49 @@ function IconsLinkedIn() {
 	);
 }
 
-Icon.Filter = IconsFilter;
-Icon.Plus = IconsPlus;
-Icon.Edit = IconsEdit;
-Icon.List = IconsList;
-Icon.Heart = IconsHeart;
-Icon.Coffee = IconsCoffee;
+function IconsBook() {
+	return (
+		<IconBase>
+			<path d="M12 5v16" />
+			<path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" />
+		</IconBase>
+	);
+}
+
+Icon.Back = IconsBack;
+Icon.Bluesky = IconsBluesky;
+Icon.Book = IconsBook;
+Icon.Check = IconsCheck;
 Icon.ChevronDown = IconsChevronDown;
+Icon.Close = IconsClose;
+Icon.Coffee = IconsCoffee;
+Icon.Contrast = IconsContrast;
+Icon.Copy = IconsCopy;
+Icon.Dashboard = IconsDashboard;
+Icon.Edit = IconsEdit;
+Icon.Extension = IconsExtension;
+Icon.Filter = IconsFilter;
 Icon.Folder = IconsFolder;
 Icon.FolderPublic = IconsFolderPublic;
-Icon.Lock = IconsLock;
-Icon.Tag = IconsTag;
-Icon.Close = IconsClose;
-Icon.SignOut = IconsSignOut;
-Icon.User = IconsUser;
-Icon.Extension = IconsExtension;
-Icon.Search = IconsSearch;
-Icon.Back = IconsBack;
-Icon.Return = IconsReturn;
-Icon.Copy = IconsCopy;
-Icon.Check = IconsCheck;
-Icon.Masonry = IconsMasonry;
-Icon.Rss = IconsRss;
-Icon.Share = IconsShare;
-Icon.Keyboard = IconsKeyboard;
-Icon.Tools = IconsTools;
-Icon.Refresh = IconsRefresh;
-Icon.Trash = IconsTrash;
-Icon.Dashboard = IconsDashboard;
-Icon.Contrast = IconsContrast;
-Icon.Globe = IconsGlobe;
 Icon.GitHub = IconsGitHub;
-Icon.Mastodon = IconsMastodon;
-Icon.Bluesky = IconsBluesky;
+Icon.Globe = IconsGlobe;
+Icon.Heart = IconsHeart;
+Icon.Keyboard = IconsKeyboard;
 Icon.LinkedIn = IconsLinkedIn;
+Icon.List = IconsList;
+Icon.Lock = IconsLock;
+Icon.Masonry = IconsMasonry;
+Icon.Mastodon = IconsMastodon;
+Icon.Plus = IconsPlus;
+Icon.Refresh = IconsRefresh;
+Icon.Return = IconsReturn;
+Icon.Rss = IconsRss;
+Icon.Search = IconsSearch;
+Icon.Share = IconsShare;
+Icon.SignOut = IconsSignOut;
+Icon.Tag = IconsTag;
+Icon.Tools = IconsTools;
+Icon.Trash = IconsTrash;
+Icon.User = IconsUser;
 
 export default Icon;

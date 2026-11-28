@@ -382,6 +382,14 @@ function DashboardNav({
 							preload={false}
 						/>
 					</DashboardList.Li>
+					<DashboardList.Li>
+						<ButtonLink
+							icon={<Icon.Book />}
+							to="/documentation"
+							text="Documentation"
+							preload={false}
+						/>
+					</DashboardList.Li>
 					{
 						// <DashboardList.Li>
 						//   <Button
