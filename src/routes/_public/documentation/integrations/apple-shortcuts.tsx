@@ -35,7 +35,13 @@ function App() {
 				a link to your url.space account. They hook into the share sheet, so you
 				can save a link from anything that has a URL, on macOS, iPadOS, and iOS.
 				These shortcuts is compatible only with MacOS, iPadOS and iOS versoin
-				27+.{" "}
+				27+.
+			</p>
+			<p>
+				The first time you run a shortcut, it asks for an API token. The
+				shortcut uses the token to reach the url.space API without your
+				password. To create one, go to "Access tokens" in your settings and
+				click "Create token".
 			</p>
 			<Toc>
 				<ul>
