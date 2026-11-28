@@ -226,7 +226,32 @@ function ImportAction({
 	);
 
 	if (overLimit.length === 0) {
-		return <Form.Submit text={importText(parsed)} textLoading="Importing..." />;
+		const destinations = new Set(
+			parsed.links.map((link) => link.collection?.toLowerCase()),
+		);
+		const matchingCollections = existingCollections.filter((collection) =>
+			destinations.has(collection.name.toLowerCase()),
+		);
+		const hasPublicDestination = matchingCollections.some(
+			(collection) => collection.public && collection.password === null,
+		);
+		const matchingNames = matchingCollections.map(
+			(collection) => `“${collection.name}”`,
+		);
+
+		return (
+			<>
+				{hasPublicDestination ? (
+					<Form.Warning>
+						Your import includes folders with the same names as collections in
+						your account ({listFormat.format(matchingNames)}). The bookmarks
+						from those folders will be added to the matching collections. Anyone
+						can view bookmarks added to a public collection.
+					</Form.Warning>
+				) : null}
+				<Form.Submit text={importText(parsed)} textLoading="Importing..." />
+			</>
+		);
 	}
 
 	const limited = exceeded.filter(([, , , limit]) => limit !== null);
