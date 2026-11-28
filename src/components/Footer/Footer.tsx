@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 
-import Logo from "../Logo/Logo";
 import MenuElsewhere from "../MenuElsewhere/MenuElsewhere";
 import MenuTheme from "../MenuTheme/MenuTheme";
 
@@ -11,7 +10,6 @@ function Footer() {
 		<div className={styles.footer}>
 			<div className={styles.top}>
 				<div className={styles.intro}>
-					<Logo to="/dashboard" />
 					<ul className={styles.navList}>
 						<li>© 2026 url.space</li>
 						<li>

@@ -34,10 +34,9 @@ function Features() {
 				<div className={styles.item}>
 					<Heading level={2} text="No AI features" />
 					<p>
-						In an age when AI assistants are built into washing machines and
-						toasters, you don't need another one telling you how to save a link.
-						No intelligent suggestions, no auto categorisation, just you and
-						your curated list of links.
+						When even your washing machine has an AI assistant, you don't need
+						another one deciding how to save a link. No intelligent suggestions,
+						no auto-categorisation, just you and your curated list of links.
 					</p>
 					<Link to="/" hash="about">
 						Thinking behind url.space
@@ -50,7 +49,9 @@ function Features() {
 						data needed to run the service is collected. Every line of code is
 						open source.
 					</p>
-					<a href="https://github.com/urlspace">Check the project on GitHub</a>
+					<a href="https://github.com/urlspace">
+						Check out the project on GitHub
+					</a>
 				</div>
 				<div className={styles.item}>
 					<Heading level={2} text="API for developers" />

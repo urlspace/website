@@ -98,7 +98,7 @@ function Pricing({
 						</div>
 						<div className={styles.item}>
 							<dt className={styles.term}>
-								Public and password protected collections
+								Public and password-protected collections
 							</dt>
 							<dd className={styles.value}>Not included</dd>
 						</div>
@@ -133,7 +133,7 @@ function Pricing({
 						</div>
 						<div className={styles.item}>
 							<dt className={styles.term}>
-								Public and password protected collections
+								Public and password-protected collections
 							</dt>
 							<dd className={styles.value}>Included</dd>
 						</div>
@@ -164,9 +164,9 @@ function Pricing({
 							<Icon.ChevronDown />
 						</summary>
 						<p>
-							Yes. Bringing your existing bookmarks from popular browsers and
-							other bookmarking services takes just a few clicks. Getting it out
-							is just as easy: your data is yours, so you can export it at any
+							Yes. Bringing your existing bookmarks over from popular browsers
+							and other bookmarking services takes a few clicks. Getting your
+							data out is just as easy. It's yours, so you can export it at any
 							time.
 						</p>
 					</details>
@@ -177,10 +177,10 @@ function Pricing({
 						</summary>
 						<p>
 							Yes, from Manage in Settings. Unlimited stays active until the end
-							of the period you've paid for. After that nothing is deleted: over
-							the free limit, adding links is paused, and shared collections go
-							offline but keep their addresses and passwords, so upgrading again
-							brings everything back.
+							of the period you've paid for. After that, nothing is deleted. If
+							you're over the free limit, you can't add new links, and shared
+							collections go offline but keep their addresses and passwords.
+							Upgrade again and everything comes back.
 						</p>
 					</details>
 					<details className={styles.question}>

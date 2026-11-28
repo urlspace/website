@@ -17,6 +17,7 @@
 	background-color: var(--inner-bg);
 	display: inline-block;
 	box-shadow: 1rlh 0 0 0 var(--inner-bg);
+	scroll-margin-top: 3rlh;
 }
 
 .bg {

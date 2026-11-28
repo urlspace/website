@@ -18,17 +18,10 @@ function App() {
 		<Page.Main>
 			<Heading level={1} text="Documentation" />
 			<p>
-				Welcome to <strong>url.space</strong>. It is designed in such a way that
-				basic operations don't need complicated manuals. Save, organise, and
-				browse your links without ever looking at this documentation. If you
-				would like to explore more advanced features and read about the
-				implementation, feel free to dig deeper. Exploring the{" "}
-				<Link to="/documentation/core-concepts">core concepts</Link> is a good
-				starting point. Downloading a{" "}
-				<Link to="/documentation/browser-extensions">browser extension</Link>{" "}
-				can massively speed up your workflow. If that's still not enough, go
-				wild, explore the <Link to="/documentation/api">API section</Link> and
-				build your own integration.
+				Welcome to <strong>url.space</strong> You can save, organise and browse
+				your links without needing a manual. When you want to delve deeper into
+				a particular concept or explore more advanced features, this
+				documentation is here to help.
 			</p>
 			<Toc>
 				<ul>
