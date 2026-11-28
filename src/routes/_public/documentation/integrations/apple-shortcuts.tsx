@@ -34,7 +34,7 @@ function App() {
 				If you use Apple devices, Apple Shortcuts may be the quickest way to add
 				a link to your url.space account. They hook into the share sheet, so you
 				can save a link from anything that has a URL, on macOS, iPadOS, and iOS.
-				These shortcuts is compatible only with MacOS, iPadOS and iOS versoin
+				These shortcuts is compatible only with MacOS, iPadOS and iOS version
 				27+.
 			</p>
 			<p>
